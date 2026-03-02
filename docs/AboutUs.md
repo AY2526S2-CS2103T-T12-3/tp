@@ -64,5 +64,5 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 [[github](http://github.com/darrenlhs)]
 
-Role: Developer
-Responsibilities: TBC
+* Role: Developer
+* Responsibilities: TBC
