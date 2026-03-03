@@ -9,13 +9,13 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### John Doe
+### Tan Jun Shane
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/raylong268.png" width="200px">
 
 [[github](https://github.com/Raylong268)]
 
-* Role: Project Advisor
+* Role: TBC
 
 ### Jane Doe
 
@@ -55,3 +55,4 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Developer
 * Responsibilities: UI
+
