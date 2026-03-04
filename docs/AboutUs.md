@@ -9,32 +9,31 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### John Doe
+### Tan Jun Shane
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/raylong268.png" width="200px">
 
 [[github](https://github.com/Raylong268)]
 
-* Role: Project Advisor
+* Role: TBC
 
-### Jane Doe
+### Devon Sebastian Koswara
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/spiritsk8.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/spiritsk8)]
 
-* Role: Team Lead
+* Role: Programmer
 * Responsibilities: UI
 
-### Johnny Doe
+### Darren Lee
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/darrenlhs.png" width="200px">
 
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
+[[github](http://github.com/darrenlhs)]
 
 * Role: Developer
-* Responsibilities: Data
+* Responsibilities: TBC
 
 ### Jean Doe
 
@@ -46,11 +45,11 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer
 * Responsibilities: Dev Ops + Threading
 
-### James Doe
+### Yujia
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/yujiawang-0.png" width="200px">
 
-[[github](http://github.com/johndoe)]
+[[github](http://github.com/yujiawang-0)]
 [[portfolio](team/johndoe.md)]
 
 * Role: Developer
