@@ -556,18 +556,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Non-Functional Requirements
 
-1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 contacts without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4.  Search and filtering operations (including multi-tag filtering) should complete within 1 second for up to 100 contacts.
-5.  The system should load the application within 2 seconds with 1000 contacts.
+1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
+2. Should be able to hold up to 1000 contacts without a noticeable sluggishness in performance for typical usage.
+3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse. 
+4. Search and filtering operations (including multi-tag filtering) should complete within 1 second for up to 100 contacts.
+5. The system should load the application within 2 seconds with 1000 contacts.
 6. Each contact should be able to support up to 20 tags.
 7. The application should automatically save changes after every successful command.
 8. The application should prevent data corruption even if the program closes unexpectedly.
 9. The application should try to recover all non-corrupted lines in the event of a data corruption.
 10. All contacts and interaction logs should be persistently stored between sessions.
-
-*{More to be added}*
 
 ### Glossary
 
