@@ -40,7 +40,7 @@ We are a team based in the [School of Computing, National University of Singapor
 [[github](http://github.com/sarinake)]
 
 * Role: Developer
-* Responsibilities: Storage, Integration
+* Responsibilities: Documentation, Deliverables and Deadlines
 
 ### Yujia Wang
 
