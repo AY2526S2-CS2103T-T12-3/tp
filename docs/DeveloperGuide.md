@@ -353,7 +353,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
 
-    * 3a1. InternLink shows an error message.
+    * 3a1. InternLink notifies the user of the error.
 
       Use case resumes at step 2.
 
@@ -362,8 +362,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 
 1. User requests to list contacts.
-2. InternLink retrieves all contacts from the address book.
-3. InternLink displays the contacts sorted alphabetically or by most recently added.
+2. InternLink retrieves all contacts from the contacts list.
+3. InternLink displays the contacts sorted alphabetically.
 
    Use case ends.
 
@@ -371,7 +371,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 2a. Address book is empty.
 
-    * 2a1. InternLink displays an empty list message.
+    * 2a1. InternLink notifies the user of the error.
 
         Use case ends.
 
@@ -390,7 +390,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 1a. No contacts match the request.
 
-    * 1a1. InternLink displays an error message.
+    * 1a1. InternLink notifies the user of the error.
 
       Use case ends.
 
@@ -416,7 +416,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 1a. No contacts match the query.
 
-    * 1a1. InternLink shows a "no contacts found" message.
+    * 1a1. InternLink notifies the user of the error.
 
       Use case ends.
 
@@ -435,13 +435,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 2a. Tag already exists when creating a new tag.
 
-    * 2a1. InternLink shows an error message.
+    * 2a1. InternLink notifies the user of the error.
 
         Use case ends.
 
 * 2b. Tag does not exist when editing/deleting.
 
-    * 2b1. InternLink shows an error message.
+    * 2b1. InternLink notifies the user of the error.
 
     Use case ends.
 
@@ -450,40 +450,32 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 
 1. User requests to assign one or more tags to a contact or group of contacts.
-2. InternLink verifies that the specified contacts exist.
-3. InternLink verifies that the tags exist.
-4. InternLink adds the tags to the specified contacts.
-5. InternLink updates the contacts.
+2. InternLink adds the tags to the specified contacts.
+3. InternLink updates the contacts.
 
    Use case ends.
 
 **Extensions**
 
-* 1a. User specifies multiple contacts. 
+* 1a. At least one of the specified contacts exist, but some do not.
 
-    * 1a1. InternLink applies tags to all specified contacts.
+    * 1a1. InternLink skips the contacts that are not found.
 
-        Use case resumes at step 2.
+    * 1a2. InternLink notifies the user of the contacts that were not found.
 
-* 2a. At least one of the specified contacts exist, but some do not.
+      Use case resumes at step 2.
 
-    * 2a1. InternLink skips the contacts that are not found.
+* 1b. None of the specified contacts exist.
 
-    * 2a2. InternLink notifies the user about the contacts that were not found.
+    * 1b1. InternLink notifies the user of the error.
 
-        Use case resumes at step 3.
+      Use case ends.
 
-* 2b. None of the specified contacts exist.
+* 1c. One or more tags do not exist.
 
-    * 2b1. InternLink shows an error message.
+    * 1c1. InternLink creates the missing tags.
 
-        Use case ends.
-
-* 3a. One or more tags do not exist.
-
-    * 3a1. InternLink creates the missing tags.
-
-        Use case resumes at step 4.
+      Use case resumes at step 2.
 
 **Use case: UC8 - Star contacts**
 
@@ -500,7 +492,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 2a. The specified contact does not exist.
 
-    * 2a1. InternLink displays an error message.
+    * 2a1. InternLink notifies the user of the error.
 
       Use case ends.
 
@@ -525,7 +517,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 1a. No contacts match the request.
 
-    * 1a1. InternLink displays an error message.
+    * 1a1. InternLink notifies the user of the error.
 
       Use case ends.
 
@@ -544,13 +536,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 1a. No history exists. 
 
-    * 1a1. InternLink shows an empty history message.
+    * 1a1. InternLink notifies the user that no previous commands have been entered.
 
         Use case ends.
 
 * 3a. Selected history entry is invalid.
 
-    * 3a1. InternLink shows an error message.
+    * 3a1. InternLink notifies the user of the error.
 
         Use case resumes at step 2.
 
