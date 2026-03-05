@@ -353,6 +353,33 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
         Use case ends.
 
+**Use case: UC4 - Edit contact details**
+
+**MSS**
+
+1. User requests to edit a specific contact.
+2. User provides updated information (e.g. phone/email/company/role).
+3. InternLink checks if the new information is a potential duplicate of existing contact.
+4. InternLink updates the contact record.
+
+   Use case ends.
+
+**Extensions**
+
+* 1a. No contacts match the request.
+
+    * 1a1. InternLink displays an error message.
+
+      Use case ends.
+
+* 3a. Duplicate detected. User confirms.
+
+    Use case resumes at step 4.
+
+* 3b. Duplicate detected. User cancels.
+
+    Use case ends.
+
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
