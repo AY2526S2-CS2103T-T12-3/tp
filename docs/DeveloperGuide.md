@@ -461,6 +461,30 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
         Use case resumes at step 4.
 
+**Use case: UC8 - Star contacts**
+
+**MSS**
+
+1. User requests to star (favorite) a contact.
+2. InternLink verifies if the contact exists.
+3. InternLink stars the contact.
+4. InternLink will show starred contacts at the top of the contacts list.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The specified contact does not exist.
+
+    * 2a1. InternLink displays an error message.
+
+      Use case ends.
+
+* 2b. The specified contact is already starred.
+
+    * 2a1. InternLink notifies the user that the contact is already starred.
+
+      Use case ends.
 
 
 ### Non-Functional Requirements
