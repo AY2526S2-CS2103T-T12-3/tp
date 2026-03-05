@@ -505,7 +505,30 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case ends.
 
+**Use case: UC10 - Undo previous commands**
 
+**MSS**
+
+1. User requests to view change history.
+2. InternLink displays a list of changes made in the current session.
+3. User selects a past change to revert to.
+4. InternLink restores the contacts list state to that point.
+
+   Use case ends.
+
+**Extensions**
+
+* 1a. No history exists. 
+
+    * 1a1. InternLink shows an empty history message.
+
+        Use case ends.
+
+* 3a. Selected history entry is invalid.
+
+    * 3a1. InternLink shows an error message.
+
+        Use case resumes at step 2.
 
 ### Non-Functional Requirements
 
