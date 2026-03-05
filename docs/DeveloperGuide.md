@@ -281,22 +281,22 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                                       | add a new person               |                                                                        |
 | `* * *`  | user                                       | delete a person                | remove entries that I no longer need                                   |
 | `* * *`  | user                                       | find a person by name          | locate details of persons without having to go through the entire list |
-| `* * *`  | user                                       | list all the people          | browse my full directory |
-| `* * *`  | user                                       | edit a contact information easily          | keep my records accurate |
-| `* * *`  | user                                       | add a new tag to one or more people    | categorise contacts in different ways |
-| `* * *`  | user                                       | delete a new tag to one or more people    | keep tags up to date |
-| `* * *`  | user                                       | edit a new tag to one or more people    | keep tags up to date |
-| `* * *`  | user                                       | filter contacts by one or multiple tags    | find contacts that fall under specific categories |
+| `* * *`  | user                                       | list all the people            | browse my full directory                                               |
+| `* * *`  | user                                       | edit a contact information easily | keep my records accurate                                            |
+| `* * *`  | user                                       | add a new tag to one or more people | categorise contacts in different ways                             |
+| `* * *`  | user                                       | delete a new tag to one or more people | keep tags up to date                                           |
+| `* * *`  | user                                       | edit a new tag to one or more people | keep tags up to date                                             |
+| `* * *`  | user                                       | filter contacts by one or multiple tags | find contacts that fall under specific categories             |
 | `* *`    | user                                       | hide private contact details   | minimize chance of someone else seeing them by accident                |
-| `* *`    | user                                       | star/favourite contacts I access regularly   | find high-priority connections quickly |
-| `* *`    | student who cannot remember exact details  | search using flexible keyword matching   | still find the correct contact even with without remembering fully |
-| `* *`    | user                                       | delete contacts en masse   | remove irrelevant contacts quickly |
-| `* *`    | user who meets people regularly  | sort based on the last met date   | see how long it has been since they contacted this person |
-| `* *`    | student managing many applications  | see a list of contacts that have not had interaction in the past X days   | maintain active communication |
-| `*`      | user with many persons in the address book | sort persons lexicographically           | locate a person easily                                                 |
-| `*`      | user wants to keep track of my internship finding progress | see a timeline of my intership application           | know when to follow up, and what next that I need to do |
-| `*`      | user who makes many typos | go to my last command quickly | quickly edit the command |
-| `*`      | user  | undo multiple commands | easily reverse my actions |
+| `* *`    | user                                       | star/favourite contacts I access regularly | find high-priority connections quickly                     |
+| `* *`    | student who cannot remember exact details  | search using flexible keyword matching| still find the correct contact even with without remembering fully |
+| `* *`    | user                                       | delete contacts en masse       | remove irrelevant contacts quickly                                     |
+| `* *`    | user who meets people regularly            | sort based on the last met date| see how long it has been since they contacted this person              |
+| `* *`    | student managing many applications         | see a list of contacts that have not had interaction in the past X days   | maintain active communication |
+| `*`      | user with many persons in the address book | sort persons lexicographically | locate a person easily                                                 |
+| `*`      | user wants to keep track of my internship finding progress | see a timeline of my intership application | know when to follow up, and what next that I need to do |
+| `*`      | user who makes many typos                  | go to my last command quickly  | quickly edit the command                                               |
+| `*`      | user                                       | undo multiple commands         | easily reverse my actions                                              |
 
 *{More to be added}*
 
