@@ -312,7 +312,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
   Use case ends.
 
-**Use case: Delete a person**
+**Use case: UC2 - Delete a contact**
 
 **MSS**
 
