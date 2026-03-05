@@ -294,10 +294,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  User requests to list persons
-2.  InternLInk shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  InternLink deletes the person
+1.  User requests to list persons.
+2.  InternLInk shows a list of persons.
+3.  User requests to delete a specific person in the list.
+4.  InternLink deletes the person.
 
     Use case ends.
 
@@ -312,8 +312,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a1. InternLink shows an error message.
 
       Use case resumes at step 2.
-
-*{More to be added}*
 
 ### Non-Functional Requirements
 
