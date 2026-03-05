@@ -421,6 +421,46 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
+**Use case: UC7 - Assign tags to contacts**
+
+**MSS**
+
+1. User requests to assign one or more tags to a contact or group of contacts.
+2. InternLink verifies that the specified contacts exist.
+3. InternLink verifies that the tags exist.
+4. InternLink adds the tags to the specified contacts.
+5. InternLink updates the contacts.
+
+   Use case ends.
+
+**Extensions**
+
+* 1a. User specifies multiple contacts. 
+
+    * 1a1. InternLink applies tags to all specified contacts.
+
+        Use case resumes at step 2.
+
+* 2a. At least one of the specified contacts exist, but some do not.
+
+    * 2a1. InternLink skips the contacts that are not found.
+
+    * 2a2. InternLink notifies the user about the contacts that were not found.
+
+        Use case resumes at step 3.
+
+* 2b. None of the specified contacts exist.
+
+    * 2b1. InternLink shows an error message.
+
+        Use case ends.
+
+* 3a. One or more tags do not exist.
+
+    * 3a1. InternLink creates the missing tags.
+
+        Use case resumes at step 4.
+
 
 
 ### Non-Functional Requirements
