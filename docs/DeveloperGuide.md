@@ -396,6 +396,31 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case ends.
 
+**Use case: UC6 - Manage tags**
+
+**MSS**
+
+1. User requests to create, edit, or delete a tag.
+2. InternLink validates the tag name.
+3. InternLink updates the tag list.
+4. InternLink updates affected contacts if necessary.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. Tag already exists when creating a new tag.
+
+    * 2a1. InternLink shows an error message.
+
+        Use case ends.
+
+* 2b. Tag does not exist when editing/deleting.
+
+    * 2b1. InternLink shows an error message.
+
+    Use case ends.
+
 
 
 ### Non-Functional Requirements
