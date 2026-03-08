@@ -89,8 +89,14 @@ public class Person {
      */
     @Override
     public boolean equals(Object other) {
-        if (other == this) return true;
-        if (!(other instanceof Person)) return false;
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Person)) {
+            return false;
+        }
+
         Person otherPerson = (Person) other;
         return Objects.equals(name, otherPerson.name)
                 && Objects.equals(phone, otherPerson.phone)
