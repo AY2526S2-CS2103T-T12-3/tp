@@ -61,25 +61,28 @@ public class PersonBuilder {
     }
 
     /**
-     * Sets the {@code Address} of the {@code Person} that we are building.
-     */
-    public PersonBuilder withAddress(String address) {
-        return this;
-    }
-
-    /**
      * Sets the {@code Phone} of the {@code Person} that we are building.
+     * If {@code phone} is null, the Person will have no phone.
      */
     public PersonBuilder withPhone(String phone) {
-        this.phone = new Phone(phone);
+        if (phone == null) {
+            this.phone = null; // skip creating Phone object
+        } else {
+            this.phone = new Phone(phone);
+        }
         return this;
     }
 
     /**
      * Sets the {@code Email} of the {@code Person} that we are building.
+     * If {@code email} is null, the Person will have no email.
      */
     public PersonBuilder withEmail(String email) {
-        this.email = new Email(email);
+        if (email == null) {
+            this.email = null; // skip creating Email object
+        } else {
+            this.email = new Email(email);
+        }
         return this;
     }
 

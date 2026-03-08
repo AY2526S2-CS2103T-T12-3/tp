@@ -83,6 +83,35 @@ public class PersonTest {
         // different tags -> returns false
         editedAlice = new PersonBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(ALICE.equals(editedAlice));
+
+        // phone null, email same -> returns true
+        Person alicePhoneNull = new PersonBuilder(ALICE).withPhone(null).build();
+        Person alicePhoneNullCopy = new PersonBuilder(ALICE).withPhone(null).build();
+        assertTrue(alicePhoneNull.equals(alicePhoneNullCopy));
+
+        // email null, phone same -> returns true
+        Person aliceEmailNull = new PersonBuilder(ALICE).withEmail(null).build();
+        Person aliceEmailNullCopy = new PersonBuilder(ALICE).withEmail(null).build();
+        assertTrue(aliceEmailNull.equals(aliceEmailNullCopy));
+
+        // phone null, email different -> returns false
+        Person aliceEmailDiff = new PersonBuilder(ALICE).withPhone(null).withEmail(VALID_EMAIL_BOB).build();
+        assertFalse(aliceEmailDiff.equals(ALICE));
+
+        // email null, phone different -> returns false
+        Person alicePhoneDiff = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(null).build();
+        assertFalse(alicePhoneDiff.equals(ALICE));
+    }
+
+    @Test
+    public void testHashCode() {
+        // same values -> same hashCode
+        Person aliceCopy = new PersonBuilder(ALICE).build();
+        assertEquals(ALICE.hashCode(), aliceCopy.hashCode());
+
+        // different values -> different hashCode
+        Person editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).build();
+        assertFalse(ALICE.hashCode() == editedAlice.hashCode());
     }
 
     @Test

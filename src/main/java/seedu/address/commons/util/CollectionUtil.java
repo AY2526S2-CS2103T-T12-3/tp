@@ -31,6 +31,11 @@ public class CollectionUtil {
      */
     public static void requireAnyNonNull(Object... items) {
         requireNonNull(items);
+
+        if (items.length == 0) {
+            return;
+        }
+
         boolean allNull = Arrays.stream(items).allMatch(Objects::isNull);
 
         if (allNull) {
