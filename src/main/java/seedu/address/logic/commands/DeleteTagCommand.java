@@ -21,8 +21,8 @@ public class DeleteTagCommand extends Command {
     public static final String COMMAND_WORD = "deletetag";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the specified tag(s) from the person(s) " +
-            "identified by the index number(s) used in the displayed person list.\n";
+            + ": Deletes the specified tag(s) from the person(s) "
+            + "identified by the index number(s) used in the displayed person list.\n";
 
 
 
@@ -39,6 +39,12 @@ public class DeleteTagCommand extends Command {
     private final List<Index> targetIndices;
     private final Set<Tag> tags;
 
+    /**
+     * Acts as the constructor for DeleteTagCommand.
+     *
+     * @param targetIndices The target indices representing the persons to be edited.
+     * @param tags The tags to be removed from the specified persons.
+     */
     public DeleteTagCommand(List<Index> targetIndices, Set<Tag> tags) {
         this.targetIndices = targetIndices;
         this.tags = tags;

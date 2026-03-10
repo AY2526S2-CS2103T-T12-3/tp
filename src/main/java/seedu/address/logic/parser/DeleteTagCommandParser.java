@@ -37,22 +37,22 @@ public class DeleteTagCommandParser {
         }
 
         try {
-        // parse indices
-        List<Index> indices = new ArrayList<>();
+            // parse indices
+            List<Index> indices = new ArrayList<>();
 
-        for (String indexStr : indicesStrings) {
-            indices.add(ParserUtil.parseIndex(indexStr)); // trimming is handled inside parseIndex
-        }
+            for (String indexStr : indicesStrings) {
+                indices.add(ParserUtil.parseIndex(indexStr)); // trimming is handled inside parseIndex
+            }
 
-        // parse tags
-        List<String> tagStrings = new ArrayList<>();
-        for (int i = 1; i < indicesAndTags.length; i++) {
-            tagStrings.add(indicesAndTags[i].trim());
-        }
+            // parse tags
+            List<String> tagStrings = new ArrayList<>();
+            for (int i = 1; i < indicesAndTags.length; i++) {
+                tagStrings.add(indicesAndTags[i].trim());
+            }
 
-        Set<Tag> tags = ParserUtil.parseTags(tagStrings);
+            Set<Tag> tags = ParserUtil.parseTags(tagStrings);
 
-        return new DeleteTagCommand(indices, tags);
+            return new DeleteTagCommand(indices, tags);
 
         } catch (ParseException pe) {
             throw new ParseException("Error: Format is invalid.\n" + DeleteTagCommand.MESSAGE_FORMAT, pe);
