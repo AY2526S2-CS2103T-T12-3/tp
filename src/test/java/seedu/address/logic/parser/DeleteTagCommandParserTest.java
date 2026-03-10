@@ -25,12 +25,12 @@ public class DeleteTagCommandParserTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
-    public void parse_validArgs_returnsDeleteCommand() {
+    public void parse_validArgs_returnsDeleteTagCommand() {
         List<Index> targetIndices = new ArrayList<>();
         targetIndices.add(INDEX_FIRST_PERSON);
         Person personToDeleteFrom = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Set<Tag> tags = personToDeleteFrom.getTags();
-        String userInput = INDEX_FIRST_PERSON.toString();
+        String userInput = "1 ";
         for (Tag tag : tags) {
             userInput += " / " + tag;
         }
@@ -46,9 +46,9 @@ public class DeleteTagCommandParserTest {
             userInput += " / " + tag;
         }
 
-        userInput += INDEX_FIRST_PERSON.toString();
+        userInput += " 1 ";
         assertParseFailure(parser,
-                "deletetag ",
+                userInput,
                 "Error: Format is invalid.\n" + DeleteTagCommand.MESSAGE_FORMAT);
     }
 }
