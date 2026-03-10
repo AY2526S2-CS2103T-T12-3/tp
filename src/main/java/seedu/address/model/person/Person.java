@@ -1,6 +1,7 @@
 package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAnyNonNull;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -25,10 +26,11 @@ public class Person {
     private final Set<Tag> tags = new HashSet<>();
 
     /**
-     * Every field must be present and not null.
+     * Name and either phone or email must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, tags);
+        requireAllNonNull(name, tags);
+        requireAnyNonNull(phone, email);
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -64,8 +66,21 @@ public class Person {
             return true;
         }
 
-        return otherPerson != null
-                && otherPerson.getName().equals(getName());
+        if (otherPerson == null) {
+            return false;
+        }
+
+        boolean isPhoneBothNull = getPhone() == null && otherPerson.getPhone() == null;
+        boolean isPhoneBothNonNullAndEqual = getPhone() != null && getPhone().equals(otherPerson.getPhone());
+        boolean isPhoneEqual = isPhoneBothNull || isPhoneBothNonNullAndEqual;
+
+        boolean isEmailBothNull = getEmail() == null && otherPerson.getEmail() == null;
+        boolean isEmailBothNonNullAndEqual = getEmail() != null && getEmail().equals(otherPerson.getEmail());
+        boolean isEmailEqual = isEmailBothNull || isEmailBothNonNullAndEqual;
+
+        return otherPerson.getName().equals(getName())
+                && isPhoneEqual
+                && isEmailEqual;
     }
 
     /**
@@ -78,16 +93,15 @@ public class Person {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof Person)) {
             return false;
         }
 
         Person otherPerson = (Person) other;
-        return name.equals(otherPerson.name)
-                && phone.equals(otherPerson.phone)
-                && email.equals(otherPerson.email)
-                && tags.equals(otherPerson.tags);
+        return Objects.equals(name, otherPerson.name)
+                && Objects.equals(phone, otherPerson.phone)
+                && Objects.equals(email, otherPerson.email)
+                && Objects.equals(tags, otherPerson.tags);
     }
 
     @Override

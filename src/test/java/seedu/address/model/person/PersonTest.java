@@ -31,10 +31,10 @@ public class PersonTest {
         // null -> returns false
         assertFalse(ALICE.isSamePerson(null));
 
-        // same name, all other attributes different -> returns true
+        // same name, all other attributes different -> returns false
         Person editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
                 .withTags(VALID_TAG_HUSBAND).build();
-        assertTrue(ALICE.isSamePerson(editedAlice));
+        assertFalse(ALICE.isSamePerson(editedAlice));
 
         // different name, all other attributes same -> returns false
         editedAlice = new PersonBuilder(ALICE).withName(VALID_NAME_BOB).build();
@@ -43,6 +43,14 @@ public class PersonTest {
         // name differs in case, all other attributes same -> returns false
         Person editedBob = new PersonBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
         assertFalse(BOB.isSamePerson(editedBob));
+
+        // same name, phone null, email non-null -> returns false
+        editedAlice = new PersonBuilder(ALICE).withPhone(null).build();
+        assertFalse(editedAlice.equals(ALICE));
+
+        // same name, phone non-null, email null -> returns false
+        editedAlice = new PersonBuilder(ALICE).withEmail(null).build();
+        assertFalse(editedAlice.equals(ALICE));
 
         // name has trailing spaces, all other attributes same -> returns false
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
@@ -83,6 +91,35 @@ public class PersonTest {
         // different tags -> returns false
         editedAlice = new PersonBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(ALICE.equals(editedAlice));
+
+        // phone null, email same -> returns true
+        Person alicePhoneNull = new PersonBuilder(ALICE).withPhone(null).build();
+        Person alicePhoneNullCopy = new PersonBuilder(ALICE).withPhone(null).build();
+        assertTrue(alicePhoneNull.equals(alicePhoneNullCopy));
+
+        // email null, phone same -> returns true
+        Person aliceEmailNull = new PersonBuilder(ALICE).withEmail(null).build();
+        Person aliceEmailNullCopy = new PersonBuilder(ALICE).withEmail(null).build();
+        assertTrue(aliceEmailNull.equals(aliceEmailNullCopy));
+
+        // phone null, email different -> returns false
+        Person aliceEmailDiff = new PersonBuilder(ALICE).withPhone(null).withEmail(VALID_EMAIL_BOB).build();
+        assertFalse(aliceEmailDiff.equals(ALICE));
+
+        // email null, phone different -> returns false
+        Person alicePhoneDiff = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(null).build();
+        assertFalse(alicePhoneDiff.equals(ALICE));
+    }
+
+    @Test
+    public void testHashCode() {
+        // same values -> same hashCode
+        Person aliceCopy = new PersonBuilder(ALICE).build();
+        assertEquals(ALICE.hashCode(), aliceCopy.hashCode());
+
+        // different values -> different hashCode
+        Person editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).build();
+        assertFalse(ALICE.hashCode() == editedAlice.hashCode());
     }
 
     @Test

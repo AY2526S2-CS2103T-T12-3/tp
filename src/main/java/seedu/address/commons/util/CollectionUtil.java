@@ -27,6 +27,23 @@ public class CollectionUtil {
     }
 
     /**
+     * Throws NullPointerException if {@code items} or all elements of {@code items} is null.
+     */
+    public static void requireAnyNonNull(Object... items) {
+        requireNonNull(items);
+
+        if (items.length == 0) {
+            return;
+        }
+
+        boolean allNull = Arrays.stream(items).allMatch(Objects::isNull);
+
+        if (allNull) {
+            throw new NullPointerException();
+        }
+    }
+
+    /**
      * Returns true if {@code items} contain any elements that are non-null.
      */
     public static boolean isAnyNonNull(Object... items) {

@@ -113,10 +113,24 @@ public class AddCommandParserTest {
 
     @Test
     public void parse_optionalFieldsMissing_success() {
-        // zero tags
+        // zero tags, phone and email present
         Person expectedPerson = new PersonBuilder(AMY).withTags().build();
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY,
                 new AddCommand(expectedPerson));
+
+        // phone missing
+        expectedPerson = new PersonBuilder(AMY).withPhone(null).withTags().build();
+        assertParseSuccess(parser, NAME_DESC_AMY + EMAIL_DESC_AMY,
+                new AddCommand(expectedPerson));
+
+        // email missing
+        expectedPerson = new PersonBuilder(AMY).withEmail(null).withTags().build();
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY,
+                new AddCommand(expectedPerson));
+
+        // both phone and email missing
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
+        assertParseFailure(parser, NAME_DESC_AMY, expectedMessage);
     }
 
     @Test
@@ -127,13 +141,8 @@ public class AddCommandParserTest {
         assertParseFailure(parser, VALID_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB,
                 expectedMessage);
 
-        // missing phone prefix
-        assertParseFailure(parser, NAME_DESC_BOB + VALID_PHONE_BOB + EMAIL_DESC_BOB,
-                expectedMessage);
-
-        // missing email prefix
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + VALID_EMAIL_BOB,
-                expectedMessage);
+        // missing phone and email prefix
+        assertParseFailure(parser, NAME_DESC_BOB, expectedMessage);
 
         // all prefixes missing
         assertParseFailure(parser, VALID_NAME_BOB + VALID_PHONE_BOB + VALID_EMAIL_BOB,
