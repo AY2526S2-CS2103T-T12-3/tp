@@ -1,16 +1,13 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.DeleteCommand;
-import seedu.address.logic.commands.DeleteTagCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.tag.Tag;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import seedu.address.commons.core.index.Index;
+import seedu.address.logic.commands.DeleteTagCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new DeleteTagCommand object
@@ -30,10 +27,10 @@ public class DeleteTagCommandParser {
         arr1[0].split(',') -> arr2 = [ "1", " 2", " 3" ]
          */
 
-        String[] indices_and_tags = args.split(" / ");
-        String[] indices_strings = indices_and_tags[0].split(",");
+        String[] indicesAndTags = args.split(" / ");
+        String[] indicesStrings = indicesAndTags[0].split(",");
 
-        if (indices_and_tags.length < 2) {
+        if (indicesAndTags.length < 2) {
             // this means that either indices or tags are fully missing
             throw new ParseException("Error: Missing one or more required fields. \n"
                     + "Format: deletetag INDEX, ... / TAG [/ TAG]");
@@ -42,22 +39,23 @@ public class DeleteTagCommandParser {
         try {
         // parse indices
         List<Index> indices = new ArrayList<>();
-        for (String indexStr : indices_strings) {
+
+        for (String indexStr : indicesStrings) {
             indices.add(ParserUtil.parseIndex(indexStr)); // trimming is handled inside parseIndex
         }
 
         // parse tags
         List<String> tagStrings = new ArrayList<>();
-        for (int i = 1; i < indices_and_tags.length; i++) {
-            tagStrings.add(indices_and_tags[i].trim());
+        for (int i = 1; i < indicesAndTags.length; i++) {
+            tagStrings.add(indicesAndTags[i].trim());
         }
+
         Set<Tag> tags = ParserUtil.parseTags(tagStrings);
 
         return new DeleteTagCommand(indices, tags);
 
         } catch (ParseException pe) {
-            throw new ParseException(
-                    "Error: Format is invalid.\n" + DeleteTagCommand.MESSAGE_FORMAT, pe);
+            throw new ParseException("Error: Format is invalid.\n" + DeleteTagCommand.MESSAGE_FORMAT, pe);
         }
     }
 }

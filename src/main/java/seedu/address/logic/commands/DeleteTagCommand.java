@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +21,10 @@ public class DeleteTagCommand extends Command {
     public static final String COMMAND_WORD = "deletetag";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the specified tag(s) from the person(s) identified by the index number(s) used in the displayed person list.\n";
+            + ": Deletes the specified tag(s) from the person(s) " +
+            "identified by the index number(s) used in the displayed person list.\n";
+
+
 
     public static final String MESSAGE_FORMAT =
             "(Format: deletetag INDEX, ... / TAG [/ TAG] ...)\n"
@@ -69,7 +71,8 @@ public class DeleteTagCommand extends Command {
             }
 
             if (!atLeastOneValidTag) {
-                throw new CommandException("Error: None of the specified tags exist in any of the specified contacts.");
+                throw new CommandException(
+                        "Error: None of the specified tags exist in any of the specified contacts.");
             }
 
 
