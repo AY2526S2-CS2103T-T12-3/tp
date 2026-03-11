@@ -24,8 +24,6 @@ public class DeleteTagCommand extends Command {
             + ": Deletes the specified tag(s) from the person(s) "
             + "identified by the index number(s) used in the displayed person list.\n";
 
-
-
     public static final String MESSAGE_FORMAT =
             "(Format: deletetag INDEX, ... / TAG [/ TAG] ...)\n"
             + "Example: "
@@ -55,7 +53,7 @@ public class DeleteTagCommand extends Command {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        Boolean atLeastOneValidTag = false;
+        Boolean hasAtLeastOneValidTag = false;
 
         for (int j = 0; j < targetIndices.size(); j++) {
             if (targetIndices.get(j).getZeroBased() >= lastShownList.size()) {
@@ -71,16 +69,15 @@ public class DeleteTagCommand extends Command {
             Set<Tag> updatedTags = new HashSet<>(person.getTags());
             for (Tag tag : tags) {
                 if (updatedTags.contains(tag)) {
-                    atLeastOneValidTag = true;
+                    hasAtLeastOneValidTag = true;
                 }
                 updatedTags.remove(tag);
             }
 
-            if (!atLeastOneValidTag) {
+            if (!hasAtLeastOneValidTag) {
                 throw new CommandException(
                         "Error: None of the specified tags exist in any of the specified contacts.");
             }
-
 
             Person editedPerson = new Person(
                     person.getName(),
@@ -90,7 +87,6 @@ public class DeleteTagCommand extends Command {
             );
 
             model.setPerson(person, editedPerson);
-
         }
 
         return new CommandResult(String.format(MESSAGE_DELETE_TAG_SUCCESS, tags.toString()));
@@ -109,21 +105,24 @@ public class DeleteTagCommand extends Command {
 
         DeleteTagCommand otherDeleteTagCommand = (DeleteTagCommand) other;
 
-        Boolean result = true;
+        Boolean isEqual = true;
 
         for (int i = 0; i < targetIndices.size(); i++) {
-            result = result && targetIndices.get(i).equals(otherDeleteTagCommand.targetIndices.get(i));
+            if (!isEqual) {
+                break;
+            }
+            isEqual = isEqual && targetIndices.get(i).equals(otherDeleteTagCommand.targetIndices.get(i));
         }
-        return result;
+        return isEqual;
     }
 
     @Override
     public String toString() {
-        ToStringBuilder stringbuilder = new ToStringBuilder(this);
+        ToStringBuilder stringBuilder = new ToStringBuilder(this);
 
         for (int i = 0; i < targetIndices.size(); i++) {
-            stringbuilder.add("targetIndex", targetIndices.get(i));
+            stringBuilder.add("targetIndex", targetIndices.get(i));
         }
-        return stringbuilder.toString();
+        return stringBuilder.toString();
     }
 }
