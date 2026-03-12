@@ -11,5 +11,6 @@ public class CliSyntax {
     public static final Prefix PREFIX_EMAIL = new Prefix("e/");
     public static final Prefix PREFIX_TAG = new Prefix("t/");
     public static final Prefix PREFIX_ADD_TAG_SEPARATOR = new Prefix("/");
+    public static final Prefix PREFIX_COMMA = new Prefix(",");
 
 }

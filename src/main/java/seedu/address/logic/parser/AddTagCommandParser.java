@@ -14,6 +14,7 @@ import java.util.Set;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_TAG_SEPARATOR;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
 
 /**
  * Parses input arguments and creates a new EditCommand object
@@ -27,24 +28,30 @@ public class AddTagCommandParser implements Parser<AddTagCommand> {
      */
     public AddTagCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_ADD_TAG_SEPARATOR);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_ADD_TAG_SEPARATOR, PREFIX_COMMA);
 
-        Index index;
+        Set<Index> indices = new HashSet<>();
 
         try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+            // Parse preamble (contains first index)
+            indices.add(ParserUtil.parseIndex(argMultimap.getPreamble()));
+
+            // Parse items in PREFIX_COMMA (contains the other indices, if specified)
+            for (String index : argMultimap.getAllValues(PREFIX_COMMA)) {
+                indices.add(ParserUtil.parseIndex(index));
+            }
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddTagCommand.MESSAGE_USAGE), pe);
         }
 
-        Set<Tag> tagSet = new HashSet<>();
-        parseTagsForAddTag(argMultimap.getAllValues(PREFIX_ADD_TAG_SEPARATOR)).ifPresent(tagSet::addAll);
+        Set<Tag> tags = new HashSet<>();
+        parseTagsForAddTag(argMultimap.getAllValues(PREFIX_ADD_TAG_SEPARATOR)).ifPresent(tags::addAll);
 
-        if (tagSet.isEmpty()) {
+        if (tags.isEmpty()) {
             throw new ParseException(AddTagCommand.MESSAGE_NO_TAGS);
         }
 
-        return new AddTagCommand(index, tagSet);
+        return new AddTagCommand(indices, tags);
     }
 
     /**
