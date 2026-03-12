@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_TAG_SEPARATOR;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Collection;
@@ -25,30 +26,45 @@ public class AddTagCommand extends Command {
 
     public static final String COMMAND_WORD = "addtag";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds tags to the person identified "
-            + "by the index number used in the displayed person list. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds tags to the person(s) identified by the index "
+            + "numbers used in the displayed person list. Multiple persons can be specified, separated by comma (,)."
             + "Multiple tags can be added, separated by a forward slash (/).\n"
             + "Parameters: INDEX (must be a positive integer) "
+            + "[" + PREFIX_COMMA + "INDEX]... "
             + "[" + PREFIX_ADD_TAG_SEPARATOR + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " 1 "
+            + "Example: " + COMMAND_WORD + " 1" + PREFIX_COMMA + "2 "
             + PREFIX_ADD_TAG_SEPARATOR + "Friend "
             + PREFIX_ADD_TAG_SEPARATOR + "Close";
 
-    public static final String MESSAGE_ADD_TAG_SUCCESS = "Added tags to: %1$s.";
+    public static final String MESSAGE_ADD_TAG_SUCCESS = "Added the following tags: %1$s.";
     public static final String MESSAGE_NO_TAGS = "At least one tag must be provided.";
 
-    private final Index index;
-    private final Collection<Tag> tags;
+    private final Set<Index> targetIndices;
+    private final Set<Tag> tags;
 
     /**
+     * @param targetIndices of the persons in the filtered person list to add tags to
+     * @param tags the collection of tags to be added
+     */
+    public AddTagCommand(Collection<Index> targetIndices, Collection<Tag> tags) {
+        requireAllNonNull(targetIndices, tags);
+
+        this.targetIndices = new HashSet<>(targetIndices);
+        this.tags = new HashSet<>(tags);
+    }
+
+    /**
+     * Convenience wrapper for {@code AddTagCommand(Collection<Index>, Collection<Tag>)} that wraps the {@code index}
+     * in a set.
      * @param index of the person in the filtered person list to add tags to
      * @param tags the collection of tags to be added
      */
     public AddTagCommand(Index index, Collection<Tag> tags) {
         requireAllNonNull(index, tags);
 
-        this.index = index;
-        this.tags = tags;
+        this.targetIndices = new HashSet<>();
+        this.targetIndices.add(index);
+        this.tags = new HashSet<>(tags);
     }
 
     @Override
@@ -61,16 +77,23 @@ public class AddTagCommand extends Command {
 
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        // First checks if all indices are valid. If at least 1 is invalid, cancel the operation.
+        for (Index index : targetIndices) {
+            if (index.getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            }
         }
 
-        Person personToEdit = lastShownList.get(index.getZeroBased());
-        Person editedPerson = createPersonWithAddedTags(personToEdit, tags);
+        // If all indices are valid, add the tags to each specified person.
+        for (Index index : targetIndices) {
+            Person personToEdit = lastShownList.get(index.getZeroBased());
+            Person editedPerson = createPersonWithAddedTags(personToEdit, tags);
 
-        model.setPerson(personToEdit, editedPerson);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_ADD_TAG_SUCCESS, Messages.format(editedPerson)));
+            model.setPerson(personToEdit, editedPerson);
+            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        }
+
+        return new CommandResult(String.format(MESSAGE_ADD_TAG_SUCCESS, tags));
     }
 
     /**
@@ -103,13 +126,13 @@ public class AddTagCommand extends Command {
         }
 
         AddTagCommand otherAddTagCommand = (AddTagCommand) other;
-        return index.equals(otherAddTagCommand.index) && tags.equals(otherAddTagCommand.tags);
+        return targetIndices.equals(otherAddTagCommand.targetIndices) && tags.equals(otherAddTagCommand.tags);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("index", index)
+                .add("targetIndices", targetIndices)
                 .add("tags", tags)
                 .toString();
     }
