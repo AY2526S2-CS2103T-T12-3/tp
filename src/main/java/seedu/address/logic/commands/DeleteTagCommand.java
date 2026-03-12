@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,8 +45,8 @@ public class DeleteTagCommand extends Command {
      * @param tags The tags to be removed from the specified persons.
      */
     public DeleteTagCommand(List<Index> targetIndices, Set<Tag> tags) {
-        this.targetIndices = targetIndices;
-        this.tags = tags;
+        this.targetIndices = new ArrayList<>(targetIndices);
+        this.tags = new HashSet<>(tags);
     }
 
     @Override
