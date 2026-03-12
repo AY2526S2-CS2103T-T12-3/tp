@@ -22,7 +22,10 @@ import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Email;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
 
@@ -41,6 +44,19 @@ public class DeleteTagCommandTest {
         DeleteTagCommand deleteTagCommand = new DeleteTagCommand(targetIndices, tags);
 
         assertCommandFailure(deleteTagCommand, model, "Error: " + Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    }
+
+    @Test
+    public void execute_allInvalidTags_throwsCommandException() {
+        List<Index> targetIndices = new ArrayList<>();
+        targetIndices.add(INDEX_FIRST_PERSON);
+        Set<Tag> tags = new HashSet<>();
+        tags.add(new Tag("lllllllllllllllllllllllll"));
+        DeleteTagCommand deleteTagCommand = new DeleteTagCommand(targetIndices, tags);
+
+        assertCommandFailure(deleteTagCommand,
+                model,
+                "Error: None of the specified tags exist in any of the specified contacts.");
     }
 
     @Test
