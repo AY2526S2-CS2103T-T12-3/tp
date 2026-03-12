@@ -20,14 +20,14 @@ public class DeleteTagCommandParser implements Parser<DeleteTagCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public DeleteTagCommand parse(String args) throws ParseException {
-        /*
-        Given an example command: "deletetag 1, 2, 3 / cs / backend"
-        args = "1, 2, 3 / cs / backend"
-        args.split(' / ') -> arr1 = [ "1, 2, 3", "cs", "backend" ]
-        arr1[0].split(',') -> arr2 = [ "1", " 2", " 3" ]
-         */
+        /* the following explanatory comments use an example command: "deletetag 1, 2, 3 / cs / backend"
+          args = "1, 2, 3 / cs / backend"
+          */
 
+        // indicesAndTags = args.split(' / ') = [ "1, 2, 3", "cs", "backend" ]
         String[] indicesAndTags = args.split(" / ");
+
+        // indicesStrings = indicesAndTags[0].split(',') = [ "1", " 2", " 3" ]
         String[] indicesStrings = indicesAndTags[0].split(",");
 
         if (indicesAndTags.length < 2) {
@@ -47,6 +47,7 @@ public class DeleteTagCommandParser implements Parser<DeleteTagCommand> {
             // parse tags
             List<String> tagStrings = new ArrayList<>();
             for (int i = 1; i < indicesAndTags.length; i++) {
+                // each element from indicesAndTags[1] onwards represents an individual tag string
                 tagStrings.add(indicesAndTags[i].trim());
             }
 
