@@ -1,5 +1,10 @@
 package seedu.address.logic.parser;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_TAG_SEPARATOR;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -10,11 +15,6 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddTagCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
-
-import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_TAG_SEPARATOR;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
 
 /**
  * Parses input arguments and creates a new EditCommand object
