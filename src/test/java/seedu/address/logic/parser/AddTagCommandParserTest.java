@@ -43,6 +43,9 @@ public class AddTagCommandParserTest {
         // only add tag separator written
         assertParseFailure(parser, PREFIX_ADD_TAG_SEPARATOR.toString(), MESSAGE_INVALID_FORMAT);
 
+        // only space and tag separator written
+        assertParseFailure(parser, EMPTY_TAG_DESC, MESSAGE_INVALID_FORMAT);
+
         // no index specified
         assertParseFailure(parser, VALID_TAG_DESC_ONE, MESSAGE_INVALID_FORMAT);
 
