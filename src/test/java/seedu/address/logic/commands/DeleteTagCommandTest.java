@@ -44,6 +44,19 @@ public class DeleteTagCommandTest {
     }
 
     @Test
+    public void execute_allInvalidTags_throwsCommandException() {
+        List<Index> targetIndices = new ArrayList<>();
+        targetIndices.add(INDEX_FIRST_PERSON);
+        Set<Tag> tags = new HashSet<>();
+        tags.add(new Tag("lllllllllllllllllllllllll"));
+        DeleteTagCommand deleteTagCommand = new DeleteTagCommand(targetIndices, tags);
+
+        assertCommandFailure(deleteTagCommand,
+                model,
+                "Error: None of the specified tags exist in any of the specified contacts.");
+    }
+
+    @Test
     public void execute_validIndexValidTags_success() {
         List<Index> targetIndices = new ArrayList<>();
         targetIndices.add(INDEX_FIRST_PERSON);

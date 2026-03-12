@@ -74,11 +74,6 @@ public class DeleteTagCommand extends Command {
                 updatedTags.remove(tag);
             }
 
-            if (!hasAtLeastOneValidTag) {
-                throw new CommandException(
-                        "Error: None of the specified tags exist in any of the specified contacts.");
-            }
-
             Person editedPerson = new Person(
                     person.getName(),
                     person.getPhone(),
@@ -87,6 +82,11 @@ public class DeleteTagCommand extends Command {
             );
 
             model.setPerson(person, editedPerson);
+        }
+
+        if (!hasAtLeastOneValidTag) {
+            throw new CommandException(
+                    "Error: None of the specified tags exist in any of the specified contacts.");
         }
 
         return new CommandResult(String.format(MESSAGE_DELETE_TAG_SUCCESS, tags.toString()));
