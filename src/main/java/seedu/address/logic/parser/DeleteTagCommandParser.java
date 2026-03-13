@@ -41,6 +41,9 @@ public class DeleteTagCommandParser implements Parser<DeleteTagCommand> {
             List<Index> indices = new ArrayList<>();
 
             for (String indexStr : indicesStrings) {
+                if (indexStr.trim().isEmpty()) {
+                    continue;
+                }
                 indices.add(ParserUtil.parseIndex(indexStr)); // trimming is handled inside parseIndex
             }
 
