@@ -25,7 +25,7 @@ public class DeleteTagCommandParser implements Parser<DeleteTagCommand> {
         // args = "1, 2, 3 / cs / backend"
 
         // indicesAndTags = args.split(' / ') = [ "1, 2, 3", "cs", "backend" ]
-        String[] indicesAndTags = args.split(" / ");
+        String[] indicesAndTags = args.split("/");
 
         // indicesStrings = indicesAndTags[0].split(',') = [ "1", " 2", " 3" ]
         String[] indicesStrings = indicesAndTags[0].split(",");
