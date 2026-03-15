@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_TAG_SEPARATOR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -74,7 +75,6 @@ public class AddTagCommand extends Command {
         }
 
         requireNonNull(model);
-
         List<Person> lastShownList = model.getFilteredPersonList();
 
         // First checks if all indices are valid. If at least 1 is invalid, cancel the operation.
@@ -84,14 +84,18 @@ public class AddTagCommand extends Command {
             }
         }
 
-        // If all indices are valid, add the tags to each specified person.
+        // Snapshot all target persons BEFORE any edits
+        List<Person> personsToEdit = new ArrayList<>();
         for (Index index : targetIndices) {
-            Person personToEdit = lastShownList.get(index.getZeroBased());
-            Person editedPerson = createPersonWithAddedTags(personToEdit, tags);
-
-            model.setPerson(personToEdit, editedPerson);
-            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+            personsToEdit.add(lastShownList.get(index.getZeroBased()));
         }
+
+        // Add the tags to each specified person object using the snapshotted list
+        for (Person personToEdit : personsToEdit) {
+            Person editedPerson = createPersonWithAddedTags(personToEdit, tags);
+            model.setPerson(personToEdit, editedPerson);
+        }
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
         return new CommandResult(String.format(MESSAGE_ADD_TAG_SUCCESS, tags));
     }

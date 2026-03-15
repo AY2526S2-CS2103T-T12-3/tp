@@ -3,6 +3,8 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,6 +36,7 @@ public class DeleteTagCommand extends Command {
             + " / friend";
 
     public static final String MESSAGE_DELETE_TAG_SUCCESS = "Removed tags %1$s from specified persons";
+    public static final String MESSAGE_NO_TAGS = "At least one tag must be provided.";
 
     private final List<Index> targetIndices;
     private final Set<Tag> tags;
@@ -51,37 +54,35 @@ public class DeleteTagCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        if (tags.isEmpty()) {
+            throw new CommandException(MESSAGE_NO_TAGS);
+        }
+
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
         Boolean hasAtLeastOneValidTag = false;
 
+        // First checks if all indices are valid.
         for (int j = 0; j < targetIndices.size(); j++) {
             if (targetIndices.get(j).getZeroBased() >= lastShownList.size()) {
                 throw new CommandException("Error: " + Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
             }
         }
 
-        for (int i = 0; i < targetIndices.size(); i++) {
+        // Snapshot all target persons BEFORE any edits
+        List<Person> personsToEdit = new ArrayList<>();
+        for (Index index : targetIndices) {
+            personsToEdit.add(lastShownList.get(index.getZeroBased()));
+        }
+
+        // Delete the tags from each specified person object using the snapshotted list
+        for (Person person : personsToEdit) {
             // edits the tags in each person and sets the edited person
-            Index index = targetIndices.get(i);
-            Person person = lastShownList.get(index.getZeroBased());
-
-            Set<Tag> updatedTags = new HashSet<>(person.getTags());
-            for (Tag tag : tags) {
-                if (updatedTags.contains(tag)) {
-                    hasAtLeastOneValidTag = true;
-                }
-                updatedTags.remove(tag);
+            if (!Collections.disjoint(person.getTags(), tags)) {
+                hasAtLeastOneValidTag = true;
             }
-
-            Person editedPerson = new Person(
-                    person.getName(),
-                    person.getPhone(),
-                    person.getEmail(),
-                    updatedTags
-            );
-
+            Person editedPerson = createPersonWithDeletedTags(person, tags);
             model.setPerson(person, editedPerson);
         }
 
@@ -91,6 +92,24 @@ public class DeleteTagCommand extends Command {
         }
 
         return new CommandResult(String.format(MESSAGE_DELETE_TAG_SUCCESS, tags.toString()));
+    }
+
+    /**
+     * Creates and returns a {@code Person} with the details of {@code personToEdit}
+     * without tags from {@code tags}.
+     */
+    private static Person createPersonWithDeletedTags(Person personToEdit, Collection<Tag> tags) {
+        assert personToEdit != null;
+
+        Set<Tag> updatedTags = new HashSet<>(personToEdit.getTags());
+        updatedTags.removeAll(tags);
+
+        return new Person(
+                personToEdit.getName(),
+                personToEdit.getPhone(),
+                personToEdit.getEmail(),
+                updatedTags
+        );
     }
 
     @Override

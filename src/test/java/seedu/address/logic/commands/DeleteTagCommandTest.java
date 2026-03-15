@@ -31,6 +31,16 @@ public class DeleteTagCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
+    public void execute_noTagsAdded_failure() {
+        Set<Tag> emptyTagSet = new HashSet<>();
+        List<Index> targetIndices = new ArrayList<>();
+        targetIndices.add(INDEX_FIRST_PERSON);
+        DeleteTagCommand deleteTagCommand = new DeleteTagCommand(targetIndices, emptyTagSet);
+
+        assertCommandFailure(deleteTagCommand, model, DeleteTagCommand.MESSAGE_NO_TAGS);
+    }
+
+    @Test
     public void execute_invalidIndex_throwsCommandException() {
         List<Index> targetIndices = new ArrayList<>();
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
