@@ -142,6 +142,20 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Deleting a tag/multiple tags from a person/multiple people
+Deletes one or more tags from one or more people in the address book
+
+Format: `deletetag INDEX, ... / TAG [/ TAG]`
+
+* Deletes the specified `TAG`(s) from the specified `INDEX`(s).
+* The indices refers to the index numbers shown in the displayed person list (1-indexed).
+* The indices **must all be positive integers** (1, 2, 3, ...), and be referring to a valid index in the address book.
+* At least one of the `TAG`s must be already tagged on one of the specified contacts, otherwise the command will fail. 
+
+Examples:
+* `deletetag 5 / classmates` deletes the `classmates` tag from contact index 5. 
+* `deletetag 1, 2, 3 / friends / cs` deletes the `friends` and `cs` tags from contact indices 1, 2 and 3.
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
