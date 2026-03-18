@@ -128,6 +128,39 @@ Examples:
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
+
+### Starring a person : `star`
+Stars / Favourites a person in the address book
+
+Format: `star INDEX`
+
+* Stars the person at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+* This command is functionally the same as `addtag INDEX, [INDICES...] / STAR`,
+    where addtag can star more people simultaneously
+
+Examples:
+* `list` followed by `star 2` stars the 2nd person in the address book.
+* `find Betsy` followed by `star 1` stars the 1st person in the results of the `find` command.
+
+
+### Unstarring a person : `unstar`
+Unstars / Unfavourites a person in the address book
+
+Format: `unstar INDEX`
+
+* Unstars the person at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+* This command is functionally the same as `deletetag INDEX, [INDICES...] / STAR`,
+    where deletetag can unstar more people simultaneously
+
+Examples:
+* `list` followed by `unstar 2` unstars the 2nd person in the address book.
+* `find Betsy` followed by `unstar 1` unstars the 1st person in the results of the `find` command.
+
+
 ### Deleting a person : `delete`
 
 Deletes the specified person from the address book.
