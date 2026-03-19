@@ -91,11 +91,21 @@ A person must have a `NAME` and at least one of the following:
 - `add n/John Doe e/johnd@example.com`
 - `add n/Betsy Crowe p/1234567 e/betsycrowe@example.com t/friend t/criminal`
 
-### Listing all persons : `list`
 
-Shows a list of all persons in the address book.
+### Deleting a person : `delete`
 
-Format: `list`
+Deletes the specified person from the address book.
+
+Format: `delete INDEX`
+
+* Deletes the person at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+
+Examples:
+* `list` followed by `delete 2` deletes the 2nd person in the address book.
+* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+
 
 ### Editing a person : `edit`
 
@@ -113,6 +123,14 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [t/TAG]…​`
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+
+
+### Listing all persons : `list`
+
+Shows a list of all persons in the address book.
+
+Format: `list`
+
 
 ### Locating persons by name: `find`
 
@@ -133,51 +151,20 @@ Examples:
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
 
-### Starring a person : `star`
-Stars / Favourites a person in the address book
+### Adding tags to one or more people : `addtag`
+Add one or more tags to one or more people in the address book
 
-Format: `star INDEX`
+Format: `addtag INDEX, [INDICES...] / TAG [/ TAG]`
 
-* Stars the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
-* This command is functionally the same as `addtag INDEX, [INDICES...] / STAR`,
-    where addtag can star more people simultaneously
-
-Examples:
-* `list` followed by `star 2` stars the 2nd person in the address book.
-* `find Betsy` followed by `star 1` stars the 1st person in the results of the `find` command.
-
-
-### Unstarring a person : `unstar`
-Unstars / Unfavourites a person in the address book
-
-Format: `unstar INDEX`
-
-* Unstars the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
-* This command is functionally the same as `deletetag INDEX, [INDICES...] / STAR`,
-    where deletetag can unstar more people simultaneously
+* Adds the specified `TAG`(s) to the specified `INDEX`(s).
+* The indices refers to the index numbers shown in the displayed person list (1-indexed).
+* The indices **must all be positive integers** (1, 2, 3, ...), and be referring to a valid index in the address book.
+* All indices must be separated from each other by a comma.
 
 Examples:
-* `list` followed by `unstar 2` unstars the 2nd person in the address book.
-* `find Betsy` followed by `unstar 1` unstars the 1st person in the results of the `find` command.
+* `addtag 5 / classmates` adds the `classmates` tag to contact index 5.
+* `addtag 1, 2, 3 / friends / cs` adds the `friends` and `cs` tags to contact indices 1, 2 and 3.
 
-
-### Deleting a person : `delete`
-
-Deletes the specified person from the address book.
-
-Format: `delete INDEX`
-
-* Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
-
-Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
 ### Deleting tags from one or more people : `deletetag`
 Deletes one or more tags from one or more people in the address book
@@ -193,6 +180,39 @@ Format: `deletetag INDEX, [INDICES...] / TAG [/ TAG]`
 Examples:
 * `deletetag 5 / classmates` deletes the `classmates` tag from contact index 5. 
 * `deletetag 1, 2, 3 / friends / cs` deletes the `friends` and `cs` tags from contact indices 1, 2 and 3.
+
+
+### Starring a person : `star`
+Stars / Favourites a person in the address book
+
+Format: `star INDEX`
+
+* Stars the person at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+* This command is functionally the same as `addtag INDEX, [INDICES...] / STAR`,
+  where addtag can star more people simultaneously
+
+Examples:
+* `list` followed by `star 2` stars the 2nd person in the address book.
+* `find Betsy` followed by `star 1` stars the 1st person in the results of the `find` command.
+
+
+### Unstarring a person : `unstar`
+Unstars / Unfavourites a person in the address book
+
+Format: `unstar INDEX`
+
+* Unstars the person at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+* This command is functionally the same as `deletetag INDEX, [INDICES...] / STAR`,
+  where deletetag can unstar more people simultaneously
+
+Examples:
+* `list` followed by `unstar 2` unstars the 2nd person in the address book.
+* `find Betsy` followed by `unstar 1` unstars the 1st person in the results of the `find` command.
+
 
 ### Clearing all entries : `clear`
 
@@ -243,13 +263,14 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com t/friend t/colleague`
-**Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Deleting tags** | `deletetag INDEX, [INDICES...] / TAG [/ TAG]`<br> e.g., `deletetag 1, 2 / friends / cs`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List** | `list`
 **Help** | `help`
+**Add** | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com t/friend t/colleague`
+**Delete** | `delete INDEX`<br> e.g., `delete 3`
+**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**List** | `list`
+**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Add tags** | `addtag INDEX, [INDICES...] / TAG [/ TAG]`<br> e.g., `addtag 1, 2 / friends / cs`
+**Delete tags** | `deletetag INDEX, [INDICES...] / TAG [/ TAG]`<br> e.g., `deletetag 1, 2 / friends / cs`
 **Star** | `star INDEX`<br> e.g., `star 2`
 **Unstar** | `unstar INDEX`<br> e.g., `unstar 2`
+**Clear** | `clear`
