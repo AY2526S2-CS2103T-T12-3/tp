@@ -2,9 +2,21 @@ package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_20260325;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_20260401;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_PROJECT;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_TEAM;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_INDEX_SINGLE;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_INDICES_MULTIPLE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_INDEX;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,6 +42,22 @@ public class ParserUtilTest {
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
+
+    // Samples for meeting inputs
+    public static final String INPUT_DESC_PROJECT = " " + PREFIX_MEETING_DESCRIPTION + VALID_DESCRIPTION_PROJECT;
+    public static final String INPUT_DESC_TEAM = " " + PREFIX_MEETING_DESCRIPTION + VALID_DESCRIPTION_TEAM;
+
+    public static final String INPUT_DATE_20260325 = " " + PREFIX_MEETING_DATE + VALID_DATE_20260325;
+    public static final String INPUT_DATE_20260401 = " " + PREFIX_MEETING_DATE + VALID_DATE_20260401;
+
+    public static final String INVALID_INPUT_DESCRIPTION = " " + PREFIX_MEETING_DESCRIPTION + ""; // empty
+    public static final String INVALID_INPUT_DATE = " " + PREFIX_MEETING_DATE + "25-03-2026";     // wrong format
+
+    public static final String INPUT_INDEX_SINGLE = " " + PREFIX_MEETING_INDEX + "1";
+    public static final String INPUT_INDICES_MULTIPLE = " " + PREFIX_MEETING_INDEX + "1, 2, 3";
+    public static final String INVALID_INPUT_INDEX_ZERO = " " + PREFIX_MEETING_INDEX + "0";
+    public static final String INVALID_INPUT_INDEX_NEGATIVE = " " + PREFIX_MEETING_INDEX + "-1";
+    public static final String INVALID_INPUT_INDEX_NON_NUMERIC = " " + PREFIX_MEETING_INDEX + "a,b";
 
     private static final String WHITESPACE = " \t\r\n";
 
