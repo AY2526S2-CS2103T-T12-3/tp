@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.meeting.Meeting;
-import seedu.address.model.tag.Tag;
 
 /**
  * Jackson-friendly version of {@link Meeting}.
@@ -39,7 +38,6 @@ class JsonAdaptedMeeting {
         this.date = source.getDate().toString();
     }
 
-    @JsonValue
     public String getDescription() {
         return description;
     }
@@ -54,9 +52,20 @@ class JsonAdaptedMeeting {
      * @throws IllegalValueException if there were any data constraints violated in the adapted meeting.
      */
     public Meeting toModelType() throws IllegalValueException {
-        if (!Meeting.isValidDescription(description) || !Meeting.isValidDateString(date)) {
-            throw new IllegalValueException(Tag.MESSAGE_CONSTRAINTS);
+        if (description == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "description"));
         }
+        if (!Meeting.isValidDescription(description)) {
+            throw new IllegalValueException(Meeting.MESSAGE_DESCRIPTION_CONSTRAINTS);
+        }
+
+        if (date == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "date"));
+        }
+        if (!Meeting.isValidDateString(date)) {
+            throw new IllegalValueException(Meeting.MESSAGE_DATE_CONSTRAINTS);
+        }
+
         LocalDate parsedDate = ParserUtil.parseDate(date);
         return new Meeting(description, parsedDate);
     }
