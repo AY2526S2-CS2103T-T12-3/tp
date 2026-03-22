@@ -13,6 +13,7 @@ import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_INDEX
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -21,13 +22,16 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.AddMeetingCommand;
 import seedu.address.logic.commands.AddTagCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.DeleteTagCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.address.logic.commands.EditTagCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
@@ -134,6 +138,34 @@ public class AddressBookParserTest {
         Set<Tag> tags = new HashSet<>();
         tags.add(new Tag("NewTag"));
         AddTagCommand expectedCommand = new AddTagCommand(INDEX_FIRST_PERSON, tags);
+
+        assertEquals(expectedCommand, command);
+    }
+
+    @Test
+    public void parseCommand_deleteTag() throws Exception {
+        DeleteTagCommand command = (DeleteTagCommand) parser.parseCommand(DeleteTagCommand.COMMAND_WORD + " "
+                + INDEX_FIRST_PERSON.getOneBased() + " /NewTag");
+
+        Set<Tag> tags = new HashSet<>();
+        List<Index> targetIndices = new ArrayList<>();
+        targetIndices.add(INDEX_FIRST_PERSON);
+        tags.add(new Tag("NewTag"));
+        DeleteTagCommand expectedCommand = new DeleteTagCommand(targetIndices, tags);
+
+        assertEquals(expectedCommand, command);
+    }
+
+    @Test
+    public void parseCommand_editTag() throws Exception {
+        EditTagCommand command = (EditTagCommand) parser.parseCommand(EditTagCommand.COMMAND_WORD + " "
+                + INDEX_FIRST_PERSON.getOneBased() + " o/OldTag" + " n/NewTag");
+
+        List<Index> targetIndices = new ArrayList<>();
+        targetIndices.add(INDEX_FIRST_PERSON);
+        Tag oldTag = new Tag("OldTag");
+        Tag newTag = new Tag("NewTag");
+        EditTagCommand expectedCommand = new EditTagCommand(targetIndices, oldTag, newTag);
 
         assertEquals(expectedCommand, command);
     }
