@@ -27,6 +27,7 @@ public class AddMeetingCommandTest {
     public static final String VALID_DESCRIPTION_TEAM = "Team Meeting";
     public static final LocalDate VALID_DATE_20260325 = LocalDate.parse("2026-03-25");
     public static final LocalDate VALID_DATE_20260401 = LocalDate.parse("2026-04-01");
+    public static final LocalDate VALID_DATE_20260406 = LocalDate.parse("2026-04-06");
     public static final Set<Index> VALID_INDEX_SINGLE = Set.of(INDEX_FIRST_PERSON);
     public static final Set<Index> VALID_INDICES_MULTIPLE = Set.of(
             INDEX_FIRST_PERSON, INDEX_SECOND_PERSON, INDEX_THIRD_PERSON

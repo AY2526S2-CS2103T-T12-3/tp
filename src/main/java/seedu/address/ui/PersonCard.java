@@ -1,12 +1,15 @@
 package seedu.address.ui;
 
 import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import seedu.address.model.meeting.Meeting;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
@@ -83,10 +86,20 @@ public class PersonCard extends UiPart<Region> {
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
 
+        List<Meeting> sortedMeetings = sortMeetings((person.getMeetings()));
+
         // then show meetings
-        person.getMeetings().stream()
+        sortedMeetings.forEach(meeting -> meetings.getChildren().add(new Label(meeting.toString())));
+    }
+
+    /**
+     * Sorts meetings based on their date
+     * @param meetings A set of meetings to be sorted
+     * @return A list of meetings sorted by date.
+     */
+    public static List<Meeting> sortMeetings(Set<Meeting> meetings) {
+        return meetings.stream()
                 .sorted(Comparator.comparing(meeting -> meeting.getDate()))
-                .forEach(meeting -> meetings.getChildren().add(
-                        new Label(meeting.toString())));
+                .toList();
     }
 }
