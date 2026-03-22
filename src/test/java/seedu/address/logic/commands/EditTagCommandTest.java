@@ -70,7 +70,9 @@ public class EditTagCommandTest {
                 personToEdit.getName(),
                 personToEdit.getPhone(),
                 personToEdit.getEmail(),
-                initialTags
+                initialTags,
+                personToEdit.getMeetings()
+
         );
         EditTagCommand editTagCommand = new EditTagCommand(targetIndices, old_tag, new_tag);
         model.setPerson(personToEdit, personWithOldTag);
@@ -79,7 +81,8 @@ public class EditTagCommandTest {
                 personToEdit.getName(),
                 personToEdit.getPhone(),
                 personToEdit.getEmail(),
-                finalTags
+                finalTags,
+                personToEdit.getMeetings()
         );
 
         String expectedMessage = String.format(
@@ -106,7 +109,8 @@ public class EditTagCommandTest {
                 personToEdit.getName(),
                 personToEdit.getPhone(),
                 personToEdit.getEmail(),
-                initialTags
+                initialTags,
+                personToEdit.getMeetings()
         );
 
         EditTagCommand editTagCommand = new EditTagCommand(targetIndices, old_tag, new_tag);
@@ -116,7 +120,8 @@ public class EditTagCommandTest {
                 personToEdit.getName(),
                 personToEdit.getPhone(),
                 personToEdit.getEmail(),
-                finalTags
+                finalTags,
+                personToEdit.getMeetings()
         );
 
         String expectedMessage = String.format(
