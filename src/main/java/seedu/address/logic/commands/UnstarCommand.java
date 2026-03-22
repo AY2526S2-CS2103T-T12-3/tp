@@ -53,7 +53,9 @@ public class UnstarCommand extends Command {
                 personToUnstar.getName(),
                 personToUnstar.getPhone(),
                 personToUnstar.getEmail(),
-                newTags);
+                newTags,
+                personToUnstar.getMeetings()
+        );
 
         model.setPerson(personToUnstar, unstarredPerson);
 

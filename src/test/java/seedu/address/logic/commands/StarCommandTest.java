@@ -44,7 +44,8 @@ public class StarCommandTest {
                 personToStar.getName(),
                 personToStar.getPhone(),
                 personToStar.getEmail(),
-                newTags);
+                newTags,
+                personToStar.getMeetings());
         expectedModel.setPerson(personToStar, starredPerson);
 
         String expectedMessage = String.format(StarCommand.MESSAGE_STAR_PERSON_SUCCESS,
@@ -76,7 +77,8 @@ public class StarCommandTest {
                 personToStar.getName(),
                 personToStar.getPhone(),
                 personToStar.getEmail(),
-                newTags);
+                newTags,
+                personToStar.getMeetings());
         expectedModel.setPerson(personToStar, starredPerson);
 
         String expectedMessage = String.format(StarCommand.MESSAGE_STAR_PERSON_SUCCESS,
@@ -100,7 +102,8 @@ public class StarCommandTest {
                 personToStar.getName(),
                 personToStar.getPhone(),
                 personToStar.getEmail(),
-                newTags);
+                newTags,
+                personToStar.getMeetings());
         model.setPerson(personToStar, personToStar);
         expectedModel.setPerson(personToStar, starredPerson);
 

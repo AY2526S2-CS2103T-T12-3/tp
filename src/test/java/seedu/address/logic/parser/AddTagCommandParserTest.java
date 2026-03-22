@@ -1,8 +1,8 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_TAG_SEPARATOR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SEPARATOR;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -24,10 +24,10 @@ public class AddTagCommandParserTest {
     private static final String EMPTY_TAG = "";
     private static final String INVALID_TAG = "hubby*"; // '*' not allowed in tags
 
-    private static final String VALID_TAG_DESC_ONE = " " + PREFIX_ADD_TAG_SEPARATOR + VALID_TAG_ONE;
-    private static final String VALID_TAG_DESC_TWO = " " + PREFIX_ADD_TAG_SEPARATOR + VALID_TAG_TWO;
-    private static final String EMPTY_TAG_DESC = " " + PREFIX_ADD_TAG_SEPARATOR + EMPTY_TAG;
-    private static final String INVALID_TAG_DESC = " " + PREFIX_ADD_TAG_SEPARATOR + INVALID_TAG;
+    private static final String VALID_TAG_DESC_ONE = " " + PREFIX_SEPARATOR + VALID_TAG_ONE;
+    private static final String VALID_TAG_DESC_TWO = " " + PREFIX_SEPARATOR + VALID_TAG_TWO;
+    private static final String EMPTY_TAG_DESC = " " + PREFIX_SEPARATOR + EMPTY_TAG;
+    private static final String INVALID_TAG_DESC = " " + PREFIX_SEPARATOR + INVALID_TAG;
 
 
     private static final String MESSAGE_INVALID_FORMAT =
@@ -41,7 +41,7 @@ public class AddTagCommandParserTest {
         assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
 
         // only add tag separator written
-        assertParseFailure(parser, PREFIX_ADD_TAG_SEPARATOR.toString(), MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, PREFIX_SEPARATOR.toString(), MESSAGE_INVALID_FORMAT);
 
         // only space and tag separator written
         assertParseFailure(parser, EMPTY_TAG_DESC, MESSAGE_INVALID_FORMAT);

@@ -2,8 +2,8 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_TAG_SEPARATOR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SEPARATOR;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.ArrayList;
@@ -32,10 +32,10 @@ public class AddTagCommand extends Command {
             + "Multiple tags can be added, separated by a forward slash (/).\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_COMMA + "INDEX]... "
-            + "[" + PREFIX_ADD_TAG_SEPARATOR + "TAG]...\n"
+            + "[" + PREFIX_SEPARATOR + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1" + PREFIX_COMMA + "2 "
-            + PREFIX_ADD_TAG_SEPARATOR + "Friend "
-            + PREFIX_ADD_TAG_SEPARATOR + "Close";
+            + PREFIX_SEPARATOR + "Friend "
+            + PREFIX_SEPARATOR + "Close";
 
     public static final String MESSAGE_ADD_TAG_SUCCESS = "Added the following tags: %1$s.";
     public static final String MESSAGE_NO_TAGS = "At least one tag must be provided.";
@@ -114,7 +114,8 @@ public class AddTagCommand extends Command {
                 personToEdit.getName(),
                 personToEdit.getPhone(),
                 personToEdit.getEmail(),
-                updatedTags
+                updatedTags,
+                personToEdit.getMeetings()
         );
     }
 

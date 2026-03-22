@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.meeting.Meeting;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -24,17 +25,19 @@ public class Person {
 
     // Data fields
     private final Set<Tag> tags = new HashSet<>();
+    private final Set<Meeting> meetings = new HashSet<>();
 
     /**
      * Name and either phone or email must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Set<Tag> tags) {
+    public Person(Name name, Phone phone, Email email, Set<Tag> tags, Set<Meeting> meetings) {
         requireAllNonNull(name, tags);
         requireAnyNonNull(phone, email);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.tags.addAll(tags);
+        this.meetings.addAll(meetings);
     }
 
     public Name getName() {
@@ -55,6 +58,14 @@ public class Person {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    /**
+     * Returns an immutable meetings set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public Set<Meeting> getMeetings() {
+        return Collections.unmodifiableSet(meetings);
     }
 
     /**

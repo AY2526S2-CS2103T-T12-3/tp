@@ -239,7 +239,8 @@ public class AddTagCommandTest {
                 personToEdit.getName(),
                 personToEdit.getPhone(),
                 personToEdit.getEmail(),
-                updatedTags
+                updatedTags,
+                personToEdit.getMeetings()
         );
     }
 }

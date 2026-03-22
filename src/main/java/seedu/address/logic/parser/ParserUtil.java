@@ -1,7 +1,11 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.AddMeetingCommand.MESSAGE_INVALID_DATE_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,6 +36,30 @@ public class ParserUtil {
             throw new ParseException(MESSAGE_INVALID_INDEX);
         }
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
+    }
+
+    /**
+     * Parses a comma-separated string of indices into a {@code Set<Index>}.
+     * Each index must be a non-zero unsigned integer (e.g., "1,2,3").
+     * Whitespace around each index will be trimmed before parsing.
+     *
+     * @param indicesString A string containing indices separated by commas.
+     * @return A {@code Set<Index>} containing all valid parsed indices.
+     * @throws ParseException If any index is invalid or does not conform to the expected format.
+     */
+    public static Set<Index> parseIndices(String indicesString, String usageMessage) throws ParseException {
+        String[] indices = indicesString.split(PREFIX_COMMA.toString());
+
+        Set<Index> indexSet = new HashSet<>();
+        try {
+            for (String index : indices) {
+                indexSet.add(ParserUtil.parseIndex(index.trim()));
+            }
+        } catch (ParseException pe) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, usageMessage), pe);
+        }
+
+        return indexSet;
     }
 
     /**
@@ -77,6 +105,20 @@ public class ParserUtil {
             throw new ParseException(Email.MESSAGE_CONSTRAINTS);
         }
         return new Email(trimmedEmail);
+    }
+
+    /**
+     * Parses a {@code String date} into a {@code LocalDate date}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code date} is invalid to convert.
+     */
+    public static LocalDate parseDate(String date) throws ParseException {
+        try {
+            return LocalDate.parse(date);
+        } catch (Exception e) {
+            throw new ParseException(MESSAGE_INVALID_DATE_FORMAT);
+        }
     }
 
     /**

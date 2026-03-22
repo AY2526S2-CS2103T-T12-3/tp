@@ -1,0 +1,122 @@
+package seedu.address.logic.parser;
+
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260401;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_TEAM;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SINGLE;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDICES_MULTIPLE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_INDEX;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+
+import org.junit.jupiter.api.Test;
+
+import seedu.address.logic.commands.AddMeetingCommand;
+
+public class AddMeetingCommandParserTest {
+    // Samples for meeting inputs
+    public static final String INPUT_DESC_PROJECT = " " + PREFIX_MEETING_DESCRIPTION + VALID_DESCRIPTION_PROJECT;
+    public static final String INPUT_DESC_TEAM = " " + PREFIX_MEETING_DESCRIPTION + VALID_DESCRIPTION_TEAM;
+
+    public static final String INPUT_DATE_20260325 = " " + PREFIX_MEETING_DATE + VALID_DATE_20260325;
+    public static final String INPUT_DATE_20260401 = " " + PREFIX_MEETING_DATE + VALID_DATE_20260401;
+
+    public static final String INVALID_INPUT_DESCRIPTION = " " + PREFIX_MEETING_DESCRIPTION + "";
+    public static final String INVALID_INPUT_DATE = " " + PREFIX_MEETING_DATE + "25-03-2026";
+
+    public static final String INPUT_INDEX_SINGLE = " " + PREFIX_MEETING_INDEX + "1";
+    public static final String INPUT_INDICES_MULTIPLE = " " + PREFIX_MEETING_INDEX + "1, 2, 3";
+    public static final String INVALID_INPUT_INDEX_ZERO = " " + PREFIX_MEETING_INDEX + "0";
+    public static final String INVALID_INPUT_INDEX_NEGATIVE = " " + PREFIX_MEETING_INDEX + "-1";
+    public static final String INVALID_INPUT_INDEX_NON_NUMERIC = " " + PREFIX_MEETING_INDEX + "a,b";
+
+    private AddMeetingCommandParser parser = new AddMeetingCommandParser();
+
+    @Test
+    public void parseAllFieldsPresent_singleIndex_success() {
+        // single index, valid description and date
+        assertParseSuccess(parser, INPUT_INDEX_SINGLE + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
+                new AddMeetingCommand(VALID_INDEX_SINGLE, VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325));
+    }
+
+    @Test
+    public void parseAllFieldsPresent_multipleIndices_success() {
+        AddMeetingCommand expectedCommand = new AddMeetingCommand(VALID_INDICES_MULTIPLE,
+                VALID_DESCRIPTION_TEAM, VALID_DATE_20260401);
+        assertParseSuccess(parser, INPUT_INDICES_MULTIPLE + INPUT_DESC_TEAM + INPUT_DATE_20260401,
+                expectedCommand);
+    }
+
+    @Test
+    public void parse_missingFields_failure() {
+        // missing index
+        assertParseFailure(parser, INPUT_DESC_PROJECT + INPUT_DATE_20260325,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+
+        // missing description
+        assertParseFailure(parser, VALID_INDEX_SINGLE + INPUT_DATE_20260325,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+
+        // missing date
+        assertParseFailure(parser, VALID_INDEX_SINGLE + INPUT_DESC_PROJECT,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+
+        // all missing
+        assertParseFailure(parser, "",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidIndex_failure() {
+        // zero
+        assertParseFailure(parser, INVALID_INPUT_INDEX_ZERO + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+
+        // negative
+        assertParseFailure(parser, INVALID_INPUT_INDEX_NEGATIVE + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+
+        // non-numeric
+        assertParseFailure(parser, INVALID_INPUT_INDEX_NON_NUMERIC + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidDescription_failure() {
+        assertParseFailure(parser, VALID_INDEX_SINGLE + INVALID_INPUT_DESCRIPTION + INPUT_DATE_20260325,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidDate_failure() {
+        assertParseFailure(parser, VALID_INDEX_SINGLE + INPUT_DESC_PROJECT + INVALID_INPUT_DATE,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_preamblePresent_failure() {
+        // extra preamble before any prefixes
+        assertParseFailure(parser, "randomPreamble " + VALID_INDEX_SINGLE + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_duplicatePrefixes_failure() {
+        // duplicated index
+        assertParseFailure(parser, VALID_INDEX_SINGLE + " " + PREFIX_MEETING_INDEX + VALID_INDEX_SINGLE
+                        + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+
+        // duplicated description
+        assertParseFailure(parser, VALID_INDEX_SINGLE + INPUT_DESC_PROJECT + INPUT_DESC_TEAM + INPUT_DATE_20260325,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+
+        // duplicated date
+        assertParseFailure(parser, VALID_INDEX_SINGLE + INPUT_DESC_PROJECT + INPUT_DATE_20260325 + INPUT_DATE_20260401,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+    }
+}

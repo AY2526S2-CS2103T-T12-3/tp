@@ -4,6 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SINGLE;
+import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_DATE_20260325;
+import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_DESC_PROJECT;
+import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_INDEX_SINGLE;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
@@ -17,6 +23,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.AddMeetingCommand;
 import seedu.address.logic.commands.AddTagCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
@@ -46,6 +53,17 @@ public class AddressBookParserTest {
         Person person = new PersonBuilder().build();
         AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommand(person));
         assertEquals(new AddCommand(person), command);
+    }
+
+    @Test
+    public void parseCommand_addMeeting() throws Exception {
+        String commandInput = AddMeetingCommand.COMMAND_WORD + INPUT_DESC_PROJECT
+                + INPUT_DATE_20260325 + INPUT_INDEX_SINGLE;
+        AddMeetingCommand command = (AddMeetingCommand) parser.parseCommand(commandInput);
+
+        AddMeetingCommand expectedCommand = new AddMeetingCommand(VALID_INDEX_SINGLE,
+                VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325);
+        assertEquals(expectedCommand, command);
     }
 
     @Test

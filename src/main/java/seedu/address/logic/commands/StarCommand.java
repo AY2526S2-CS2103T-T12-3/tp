@@ -53,7 +53,8 @@ public class StarCommand extends Command {
             personToStar.getName(),
             personToStar.getPhone(),
             personToStar.getEmail(),
-            newTags
+            newTags,
+            personToStar.getMeetings()
         );
 
         model.setPerson(personToStar, starredPerson);
