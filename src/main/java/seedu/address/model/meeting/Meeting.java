@@ -81,6 +81,6 @@ public class Meeting {
      */
     @Override
     public String toString() {
-        return description + " on " + date;
+        return date + ": " + description;
     }
 }

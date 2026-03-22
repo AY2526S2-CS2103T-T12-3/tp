@@ -38,7 +38,7 @@ public class MeetingTest {
     @Test
     public void toStringMethod() {
         Meeting meeting = new Meeting(VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325);
-        assertEquals(VALID_DESCRIPTION_PROJECT + " on " + VALID_DATE_20260325, meeting.toString());
+        assertEquals(VALID_DATE_20260325 + ": " + VALID_DESCRIPTION_PROJECT, meeting.toString());
     }
 
     @Test

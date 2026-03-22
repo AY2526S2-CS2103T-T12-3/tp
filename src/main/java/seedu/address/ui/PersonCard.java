@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import java.util.Comparator;
 
+import java.util.stream.Collectors;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
@@ -39,6 +40,8 @@ public class PersonCard extends UiPart<Region> {
     private Label email;
     @FXML
     private FlowPane tags;
+    @FXML
+    private FlowPane meetings;
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
@@ -81,5 +84,10 @@ public class PersonCard extends UiPart<Region> {
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
 
+        // then show meetings
+        person.getMeetings().stream()
+                .sorted(Comparator.comparing(meeting -> meeting.getDate()))
+                .forEach(meeting -> meetings.getChildren().add(
+                        new Label(meeting.toString())));
     }
 }
