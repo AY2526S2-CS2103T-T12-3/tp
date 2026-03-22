@@ -119,7 +119,7 @@ public class EditTagCommand extends Command {
                 MESSAGE_EDIT_TAG_SUCCESS_INDICES,
                 old_tag.toString(),
                 new_tag.toString()));
-        }
+    }
 
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
