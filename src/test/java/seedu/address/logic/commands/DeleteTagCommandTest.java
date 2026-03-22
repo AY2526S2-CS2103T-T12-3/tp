@@ -80,7 +80,8 @@ public class DeleteTagCommandTest {
                 personToDeleteFrom.getName(),
                 personToDeleteFrom.getPhone(),
                 personToDeleteFrom.getEmail(),
-                new HashSet<>()
+                new HashSet<>(),
+                personToDeleteFrom.getMeetings()
         );
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());

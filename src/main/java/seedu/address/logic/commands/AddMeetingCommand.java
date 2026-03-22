@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,11 +20,11 @@ import seedu.address.model.person.Person;
  */
 public class AddMeetingCommand extends Command {
 
-    public static final String COMMAND_WORD = "meeting";
+    public static final String COMMAND_WORD = "addmeeting";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a meeting to the specified person(s) "
             + "by index.\n"
-            + "Parameters: INDEX (must be a positive integer) "
+            + "Parameters: i/INDEX (must be a positive integer) "
             + "[" + PREFIX_COMMA + "INDEX]... "
             + "d/DESCRIPTION "
             + "dt/DATE (must be YYYY-MM-DD)\n"
@@ -35,14 +36,14 @@ public class AddMeetingCommand extends Command {
 
     private final List<Index> indices;
     private final String description;
-    private final String date;
+    private final LocalDate date;
 
     /**
      * @param indices Indexes of persons to add the meeting to
      * @param description Description of the meeting
      * @param date Date of the meeting (YYYY-MM-DD)
      */
-    public AddMeetingCommand(Set<Index> indices, String description, String date) {
+    public AddMeetingCommand(Set<Index> indices, String description, LocalDate date) {
         requireNonNull(indices);
         requireNonNull(description);
         requireNonNull(date);
@@ -71,19 +72,21 @@ public class AddMeetingCommand extends Command {
 
             Person personToEdit = lastShownList.get(index.getZeroBased());
 
-            // Parse the date string to LocalDate
-            LocalDate meetingDate;
-            try {
-                meetingDate = LocalDate.parse(date);
-            } catch (Exception e) {
-                throw new CommandException(MESSAGE_INVALID_DATE_FORMAT);
-            }
-
             // Create the meeting
-            Meeting meeting = new Meeting(description, meetingDate);
+            Meeting meeting = new Meeting(description, date);
+            Set<Meeting> copiedMeetings = new HashSet<>(personToEdit.getMeetings());
+
+            // Now you can safely add a new meeting
+            copiedMeetings.add(meeting);
 
             // Add meeting to person
-            Person updatedPerson = personToEdit;
+            Person updatedPerson = new Person(
+                    personToEdit.getName(),
+                    personToEdit.getPhone(),
+                    personToEdit.getEmail(),
+                    personToEdit.getTags(),
+                    copiedMeetings
+            );
 
             // Update model
             model.setPerson(personToEdit, updatedPerson);

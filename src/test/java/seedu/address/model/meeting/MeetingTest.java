@@ -2,14 +2,12 @@ package seedu.address.model.meeting;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_DESCRIPTION;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_20260325;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_20260401;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_PROJECT;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_TEAM;
+import static seedu.address.logic.commands.AddMeetingCommandTest.INVALID_DESCRIPTION;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260401;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_TEAM;
 import static seedu.address.testutil.Assert.assertThrows;
-
-import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
@@ -17,8 +15,7 @@ public class MeetingTest {
 
     @Test
     public void constructor_nullDescription_throwsNullPointerException() {
-        LocalDate validDate = LocalDate.parse(VALID_DATE_20260325);
-        assertThrows(NullPointerException.class, () -> new Meeting(null, validDate));
+        assertThrows(NullPointerException.class, () -> new Meeting(null, VALID_DATE_20260325));
     }
 
     @Test
@@ -28,34 +25,28 @@ public class MeetingTest {
 
     @Test
     public void constructor_invalidDescription_throwsIllegalArgumentException() {
-        LocalDate validDate = LocalDate.parse(VALID_DATE_20260325);
-        assertThrows(IllegalArgumentException.class, () -> new Meeting(INVALID_DESCRIPTION, validDate));
+        assertThrows(IllegalArgumentException.class, () -> new Meeting(INVALID_DESCRIPTION, VALID_DATE_20260325));
     }
 
     @Test
     public void constructor_validMeeting_success() {
-        LocalDate validDate = LocalDate.parse(VALID_DATE_20260325);
-        Meeting meeting = new Meeting(VALID_DESCRIPTION_PROJECT, validDate);
+        Meeting meeting = new Meeting(VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325);
         assertEquals(VALID_DESCRIPTION_PROJECT, meeting.getDescription());
-        assertEquals(validDate, meeting.getDate());
+        assertEquals(VALID_DATE_20260325, meeting.getDate());
     }
 
     @Test
     public void toStringMethod() {
-        LocalDate validDate = LocalDate.parse(VALID_DATE_20260325);
-        Meeting meeting = new Meeting(VALID_DESCRIPTION_PROJECT, validDate);
+        Meeting meeting = new Meeting(VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325);
         assertEquals(VALID_DESCRIPTION_PROJECT + " on " + VALID_DATE_20260325, meeting.toString());
     }
 
     @Test
     public void equals() {
-        LocalDate validDate1 = LocalDate.parse(VALID_DATE_20260325);
-        LocalDate validDate2 = LocalDate.parse(VALID_DATE_20260401);
-
-        Meeting meeting1 = new Meeting(VALID_DESCRIPTION_PROJECT, validDate1);
-        Meeting meeting2 = new Meeting(VALID_DESCRIPTION_PROJECT, validDate1);
-        Meeting meetingDiffDescription = new Meeting(VALID_DESCRIPTION_TEAM, validDate1);
-        Meeting meetingDiffDate = new Meeting(VALID_DESCRIPTION_PROJECT, validDate2);
+        Meeting meeting1 = new Meeting(VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325);
+        Meeting meeting2 = new Meeting(VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325);
+        Meeting meetingDiffDescription = new Meeting(VALID_DESCRIPTION_TEAM, VALID_DATE_20260325);
+        Meeting meetingDiffDate = new Meeting(VALID_DESCRIPTION_PROJECT, VALID_DATE_20260401);
 
         // same object
         assertEquals(meeting1, meeting1);

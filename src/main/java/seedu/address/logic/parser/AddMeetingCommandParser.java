@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_INDEX;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
@@ -51,8 +52,9 @@ public class AddMeetingCommandParser implements Parser<AddMeetingCommand> {
 
         // Parse date
         String date = argMultimap.getValue(PREFIX_MEETING_DATE).get().trim();
+        LocalDate parsedDate = ParserUtil.parseDate(date);
 
-        return new AddMeetingCommand(indices, description, date);
+        return new AddMeetingCommand(indices, description, parsedDate);
     }
 
     /**

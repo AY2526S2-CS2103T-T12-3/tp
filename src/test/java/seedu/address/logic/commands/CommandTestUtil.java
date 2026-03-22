@@ -7,14 +7,10 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -50,19 +46,6 @@ public class CommandTestUtil {
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
-
-    public static final String VALID_DESCRIPTION_PROJECT = "Project Discussion";
-    public static final String VALID_DESCRIPTION_TEAM = "Team Meeting";
-    public static final String VALID_DATE_20260325 = "2026-03-25";
-    public static final String VALID_DATE_20260401 = "2026-04-01";
-    public static final Set<Index> VALID_INDEX_SINGLE = Set.of(INDEX_FIRST_PERSON);
-    public static final Set<Index> VALID_INDICES_MULTIPLE = Set.of(
-            INDEX_FIRST_PERSON, INDEX_SECOND_PERSON, INDEX_THIRD_PERSON
-    );
-
-    public static final String INVALID_DESCRIPTION = "";
-    public static final String INVALID_DATE_WRONG_FORMAT = "25-03-2026";
-    public static final String INVALID_DATE_NON_EXISTENT = "2026-02-30";
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";

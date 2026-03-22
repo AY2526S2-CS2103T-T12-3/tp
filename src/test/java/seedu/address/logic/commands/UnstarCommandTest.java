@@ -45,7 +45,8 @@ public class UnstarCommandTest {
                 unstarredPerson.getName(),
                 unstarredPerson.getPhone(),
                 unstarredPerson.getEmail(),
-                starTags);
+                starTags,
+                unstarredPerson.getMeetings());
 
         // both models start with the starred person
         model.setPerson(unstarredPerson, starredPerson);
@@ -84,7 +85,8 @@ public class UnstarCommandTest {
                 unstarredPerson.getName(),
                 unstarredPerson.getPhone(),
                 unstarredPerson.getEmail(),
-                starTags);
+                starTags,
+                unstarredPerson.getMeetings());
 
         // both models start with the starred person
         model.setPerson(unstarredPerson, starredPerson);

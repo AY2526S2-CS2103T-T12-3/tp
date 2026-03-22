@@ -1,21 +1,17 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_DATE_NON_EXISTENT;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_DATE_WRONG_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_20260325;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_20260401;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_PROJECT;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_TEAM;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_INDEX_SINGLE;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_INDICES_MULTIPLE;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -27,6 +23,18 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 
 public class AddMeetingCommandTest {
+    public static final String VALID_DESCRIPTION_PROJECT = "Project Discussion";
+    public static final String VALID_DESCRIPTION_TEAM = "Team Meeting";
+    public static final LocalDate VALID_DATE_20260325 = LocalDate.parse("2026-03-25");
+    public static final LocalDate VALID_DATE_20260401 = LocalDate.parse("2026-04-01");
+    public static final Set<Index> VALID_INDEX_SINGLE = Set.of(INDEX_FIRST_PERSON);
+    public static final Set<Index> VALID_INDICES_MULTIPLE = Set.of(
+            INDEX_FIRST_PERSON, INDEX_SECOND_PERSON, INDEX_THIRD_PERSON
+    );
+
+    public static final String INVALID_DESCRIPTION = "";
+    public static final String INVALID_DATE_WRONG_FORMAT = "25-03-2026";
+    public static final String INVALID_DATE_NON_EXISTENT = "2026-02-30";
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
@@ -78,18 +86,6 @@ public class AddMeetingCommandTest {
                 VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325);
 
         assertCommandFailure(command, model, AddMeetingCommand.MESSAGE_INVALID_PERSON_INDEX);
-    }
-
-    @Test
-    public void execute_invalidDateFormat_throwsCommandException() {
-        Set<Index> indices = VALID_INDEX_SINGLE;
-        AddMeetingCommand commandWrongFormat = new AddMeetingCommand(indices,
-                VALID_DESCRIPTION_PROJECT, INVALID_DATE_WRONG_FORMAT);
-        AddMeetingCommand commandNonExistent = new AddMeetingCommand(indices,
-                VALID_DESCRIPTION_PROJECT, INVALID_DATE_NON_EXISTENT);
-
-        assertCommandFailure(commandWrongFormat, model, AddMeetingCommand.MESSAGE_INVALID_DATE_FORMAT);
-        assertCommandFailure(commandNonExistent, model, AddMeetingCommand.MESSAGE_INVALID_DATE_FORMAT);
     }
 
     @Test

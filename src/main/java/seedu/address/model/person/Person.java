@@ -30,13 +30,14 @@ public class Person {
     /**
      * Name and either phone or email must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Set<Tag> tags) {
+    public Person(Name name, Phone phone, Email email, Set<Tag> tags, Set<Meeting> meetings) {
         requireAllNonNull(name, tags);
         requireAnyNonNull(phone, email);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.tags.addAll(tags);
+        this.meetings.addAll(meetings);
     }
 
     public Name getName() {
@@ -57,6 +58,14 @@ public class Person {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    /**
+     * Returns an immutable meetings set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public Set<Meeting> getMeetings() {
+        return Collections.unmodifiableSet(meetings);
     }
 
     /**

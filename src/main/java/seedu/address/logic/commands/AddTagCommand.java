@@ -114,7 +114,8 @@ public class AddTagCommand extends Command {
                 personToEdit.getName(),
                 personToEdit.getPhone(),
                 personToEdit.getEmail(),
-                updatedTags
+                updatedTags,
+                personToEdit.getMeetings()
         );
     }
 

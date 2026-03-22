@@ -43,6 +43,13 @@ public class Meeting {
         return test != null && test.matches(VALIDATION_REGEX);
     }
 
+    /**
+     * Returns true if a given string is a valid date string.
+     */
+    public static boolean isValidDateString(String test) {
+        return test != null && test.matches(VALIDATION_REGEX);
+    }
+
     public String getDescription() {
         return description;
     }

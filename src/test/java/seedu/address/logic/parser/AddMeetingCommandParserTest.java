@@ -1,12 +1,12 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_20260325;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_20260401;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_PROJECT;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_TEAM;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_INDEX_SINGLE;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_INDICES_MULTIPLE;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260401;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_TEAM;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SINGLE;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDICES_MULTIPLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_INDEX;
