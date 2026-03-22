@@ -71,7 +71,7 @@ public class EditTagCommand extends Command {
         if (targetIndices.isEmpty()) {
             // global edit, add all valid indices to resolvedIndices
             for (int i = 0; i < lastShownList.size(); i++) {
-               resolvedIndices.add(Index.fromOneBased(i + 1));
+                resolvedIndices.add(Index.fromOneBased(i + 1));
             }
         } else {
             resolvedIndices = new ArrayList<>(targetIndices);
@@ -115,33 +115,36 @@ public class EditTagCommand extends Command {
                     String.format(MESSAGE_EDIT_TAG_SUCCESS_GLOBAL, old_tag.toString(), new_tag.toString()));
         }
 
-        return new CommandResult(String.format(MESSAGE_EDIT_TAG_SUCCESS_INDICES, old_tag.toString(), new_tag.toString()));
-    }
-
-        /**
-         * Creates and returns a {@code Person} with the details of {@code personToEdit}
-         * with the new tag.
-         */
-        private static Person createPersonWithEditedTags(Person personToEdit, Tag old_tag, Tag new_tag) {
-            assert personToEdit != null;
-
-            Set<Tag> updatedTags = new HashSet<>();
-
-            for (Tag tag : personToEdit.getTags()) {
-                if (tag.tagName.equals(old_tag.tagName)) {
-                    updatedTags.add(new Tag(new_tag.tagName));
-                } else {
-                    updatedTags.add(tag);
-                }
-            }
-
-            return new Person(
-                    personToEdit.getName(),
-                    personToEdit.getPhone(),
-                    personToEdit.getEmail(),
-                    updatedTags
-            );
+        return new CommandResult(String.format(
+                MESSAGE_EDIT_TAG_SUCCESS_INDICES,
+                old_tag.toString(),
+                new_tag.toString()));
         }
+
+    /**
+     * Creates and returns a {@code Person} with the details of {@code personToEdit}
+     * with the new tag.
+     */
+    private static Person createPersonWithEditedTags(Person personToEdit, Tag old_tag, Tag new_tag) {
+        assert personToEdit != null;
+
+        Set<Tag> updatedTags = new HashSet<>();
+
+        for (Tag tag : personToEdit.getTags()) {
+            if (tag.tagName.equals(old_tag.tagName)) {
+                updatedTags.add(new Tag(new_tag.tagName));
+            } else {
+                updatedTags.add(tag);
+            }
+        }
+
+        return new Person(
+                personToEdit.getName(),
+                personToEdit.getPhone(),
+                personToEdit.getEmail(),
+                updatedTags
+        );
+    }
 
     @Override
     public boolean equals(Object other) {
