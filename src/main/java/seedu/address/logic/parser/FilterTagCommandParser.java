@@ -30,7 +30,7 @@ public class FilterTagCommandParser implements Parser<FilterTagCommand> {
         try {
             // parse tags
             List<String> tagStrings = new ArrayList<>();
-            for (int i = 0; i < tagArr.length; i++) {
+            for (int i = 1; i < tagArr.length; i++) {
                 tagStrings.add(tagArr[i].trim());
             }
 

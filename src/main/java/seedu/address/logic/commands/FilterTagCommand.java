@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -70,6 +71,26 @@ public class FilterTagCommand extends Command {
         if (!hasAtLeastOneValidTag) {
             throw new CommandException(
                     "Error: None of the specified tags exist in any of the contacts in the current list.");
+        }
+
+
+        Predicate<Person> hasAnyTag = person -> {
+            for (Tag tag : tags) {
+                if (person.getTags().contains(tag)) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        model.updateFilteredPersonList(hasAnyTag);
+
+        boolean doesAnyTagMatch = model.getFilteredPersonList()
+                .stream()
+                .anyMatch(hasAnyTag);
+
+        if (!doesAnyTagMatch) {
+            throw new CommandException("Error: None of the tags given belong to any contact in the list.");
         }
 
         return new CommandResult(String.format(MESSAGE_FILTER_TAG_SUCCESS, tagList));
