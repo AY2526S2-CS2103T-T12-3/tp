@@ -11,6 +11,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.Button?>
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
          title="Address App" minWidth="450" minHeight="600" onCloseRequest="#handleExit">
   <icons>
@@ -24,14 +27,21 @@
       </stylesheets>
 
       <VBox>
-        <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
-          <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
-          </Menu>
-        </MenuBar>
+        <HBox styleClass="background">
+          <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
+            <Menu mnemonicParsing="false" text="File">
+              <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+              <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
+            </Menu>
+          </MenuBar>
+
+          <!-- Spacer to push the button to the right -->
+          <Region HBox.hgrow="ALWAYS"/>
+
+          <Button>Contacts</Button>
+        </HBox>
 
         <StackPane VBox.vgrow="NEVER" fx:id="commandBoxPlaceholder" styleClass="pane-with-border">
           <padding>
