@@ -3,7 +3,6 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_INDEX;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -22,29 +21,26 @@ public class AddMeetingCommandParser implements Parser<AddMeetingCommand> {
 
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args,
-                        PREFIX_MEETING_INDEX,
                         PREFIX_MEETING_DESCRIPTION,
                         PREFIX_MEETING_DATE);
 
-        boolean isIndexMissing = !isPrefixPresent(argMultimap, PREFIX_MEETING_INDEX);
+        boolean isIndexMissing = argMultimap.getPreamble().isEmpty();
         boolean isDescriptionMissing = !isPrefixPresent(argMultimap, PREFIX_MEETING_DESCRIPTION);
         boolean isDateMissing = !isPrefixPresent(argMultimap, PREFIX_MEETING_DATE);
-        boolean isPreamblePresent = !argMultimap.getPreamble().isEmpty();
 
-        if (isIndexMissing || isDescriptionMissing || isDateMissing || isPreamblePresent) {
+        if (isIndexMissing || isDescriptionMissing || isDateMissing) {
             throw new ParseException(String.format(
                     MESSAGE_INVALID_COMMAND_FORMAT,
                     AddMeetingCommand.MESSAGE_USAGE));
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(
-                PREFIX_MEETING_INDEX,
                 PREFIX_MEETING_DESCRIPTION,
                 PREFIX_MEETING_DATE);
 
         // Parse indices
         Set<Index> indices = ParserUtil.parseIndices(
-                argMultimap.getValue(PREFIX_MEETING_INDEX).get(),
+                argMultimap.getPreamble(),
                 AddMeetingCommand.MESSAGE_USAGE);
 
         // Parse description

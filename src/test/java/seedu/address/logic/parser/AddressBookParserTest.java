@@ -59,8 +59,8 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_addMeeting() throws Exception {
-        String commandInput = AddMeetingCommand.COMMAND_WORD + INPUT_DESC_PROJECT
-                + INPUT_DATE_20260325 + INPUT_INDEX_SINGLE;
+        String commandInput = AddMeetingCommand.COMMAND_WORD + INPUT_INDEX_SINGLE
+                + INPUT_DESC_PROJECT + INPUT_DATE_20260325;
         AddMeetingCommand command = (AddMeetingCommand) parser.parseCommand(commandInput);
 
         AddMeetingCommand expectedCommand = new AddMeetingCommand(VALID_INDEX_SINGLE,
