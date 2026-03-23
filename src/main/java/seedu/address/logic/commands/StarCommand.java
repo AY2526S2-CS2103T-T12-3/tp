@@ -50,6 +50,7 @@ public class StarCommand extends Command {
         newTags.add(new Tag(Tag.STAR_TAG));
 
         Person starredPerson = new Person(
+            personToStar.getId(),
             personToStar.getName(),
             personToStar.getPhone(),
             personToStar.getEmail(),

@@ -105,6 +105,7 @@ public class DeleteTagCommand extends Command {
         updatedTags.removeAll(tags);
 
         return new Person(
+                personToEdit.getId(),
                 personToEdit.getName(),
                 personToEdit.getPhone(),
                 personToEdit.getEmail(),

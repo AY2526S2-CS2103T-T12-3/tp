@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.commons.core.index.Index.fromOneBased;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.TagUtil.amendTagsOfPerson;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -66,24 +67,13 @@ public class EditTagCommandTest {
         Tag newTag = new Tag("bye");
         initialTags.add(oldTag);
         finalTags.add(newTag);
-        Person personWithOldTag = new Person(
-                personToEdit.getName(),
-                personToEdit.getPhone(),
-                personToEdit.getEmail(),
-                initialTags,
-                personToEdit.getMeetings()
 
-        );
+        Person personWithOldTag = amendTagsOfPerson(personToEdit, initialTags);
+
         EditTagCommand editTagCommand = new EditTagCommand(targetIndices, oldTag, newTag);
         model.setPerson(personToEdit, personWithOldTag);
 
-        Person personWithNewTag = new Person(
-                personToEdit.getName(),
-                personToEdit.getPhone(),
-                personToEdit.getEmail(),
-                finalTags,
-                personToEdit.getMeetings()
-        );
+        Person personWithNewTag = amendTagsOfPerson(personToEdit, finalTags);
 
         String expectedMessage = String.format(
                 EditTagCommand.MESSAGE_EDIT_TAG_SUCCESS_GLOBAL, oldTag, newTag);
@@ -105,24 +95,13 @@ public class EditTagCommandTest {
         Tag newTag = new Tag("bye");
         initialTags.add(oldTag);
         finalTags.add(newTag);
-        Person personWithOldTag = new Person(
-                personToEdit.getName(),
-                personToEdit.getPhone(),
-                personToEdit.getEmail(),
-                initialTags,
-                personToEdit.getMeetings()
-        );
+
+        Person personWithOldTag = amendTagsOfPerson(personToEdit, initialTags);
 
         EditTagCommand editTagCommand = new EditTagCommand(targetIndices, oldTag, newTag);
         model.setPerson(personToEdit, personWithOldTag);
 
-        Person personWithNewTag = new Person(
-                personToEdit.getName(),
-                personToEdit.getPhone(),
-                personToEdit.getEmail(),
-                finalTags,
-                personToEdit.getMeetings()
-        );
+        Person personWithNewTag = amendTagsOfPerson(personToEdit, finalTags);
 
         String expectedMessage = String.format(
                 EditTagCommand.MESSAGE_EDIT_TAG_SUCCESS_INDICES, oldTag, newTag);

@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.DeleteTagCommand.MESSAGE_DELETE_TAG_SUCCESS;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
@@ -67,27 +66,28 @@ public class DeleteTagCommandTest {
     }
 
     @Test
-    public void execute_validIndexValidTags_success() {
-        List<Index> targetIndices = new ArrayList<>();
-        targetIndices.add(INDEX_FIRST_PERSON);
-        Person personToDeleteFrom = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Set<Tag> tags = personToDeleteFrom.getTags();
-        DeleteTagCommand deleteTagCommand = new DeleteTagCommand(targetIndices, tags);
+    public void execute_validIndexValidTags_personUpdated() throws Exception {
+        // Get first person from the filtered list
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
-        String expectedMessage = String.format(MESSAGE_DELETE_TAG_SUCCESS, tags.toString());
+        Set<Tag> tagsToDelete = firstPerson.getTags();
 
-        Person editedPerson = new Person(
-                personToDeleteFrom.getName(),
-                personToDeleteFrom.getPhone(),
-                personToDeleteFrom.getEmail(),
-                new HashSet<>(),
-                personToDeleteFrom.getMeetings()
+        // Ensure the first person as expected has tags
+        assertTrue(!tagsToDelete.isEmpty());
+
+        // Prepare DeleteTagCommand with the person's current tags
+        DeleteTagCommand deleteTagCommand = new DeleteTagCommand(
+                List.of(INDEX_FIRST_PERSON),
+                firstPerson.getTags()
         );
 
-        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.setPerson(personToDeleteFrom, editedPerson);
+        CommandResult response = deleteTagCommand.execute(model);
+        CommandResult expectedResponse = new CommandResult(String.format(MESSAGE_DELETE_TAG_SUCCESS, tagsToDelete));
 
-        assertCommandSuccess(deleteTagCommand, model, expectedMessage, expectedModel);
+        assertTrue(response.equals(expectedResponse));
+
+        Person updatedPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        assertTrue(updatedPerson.getTags().isEmpty(), "Tags should be deleted");
     }
 
     @Test

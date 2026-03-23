@@ -6,12 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.logic.commands.TagUtil.amendTagsOfPerson;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,12 +30,12 @@ import seedu.address.model.tag.Tag;
  * Contains integration tests (interaction with the Model) and unit tests for EditCommand.
  */
 public class AddTagCommandTest {
-    private static final Index INDEX_FIRST_PERSON_COPY = Index.fromOneBased(1);
+    public static final Index INDEX_FIRST_PERSON_COPY = Index.fromOneBased(1);
 
-    private static final Tag NEW_TAG1 = new Tag("NewTag1");
-    private static final Tag NEW_TAG1_COPY = new Tag("NewTag1");
-    private static final Tag NEW_TAG2 = new Tag("NewTag2");
-    private static final Tag NEW_TAG3 = new Tag("NewTag3");
+    public static final Tag NEW_TAG1 = new Tag("NewTag1");
+    public static final Tag NEW_TAG1_COPY = new Tag("NewTag1");
+    public static final Tag NEW_TAG2 = new Tag("NewTag2");
+    public static final Tag NEW_TAG3 = new Tag("NewTag3");
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
@@ -54,7 +54,7 @@ public class AddTagCommandTest {
 
         Index indexLastPerson = Index.fromOneBased(model.getFilteredPersonList().size());
         Person lastPerson = model.getFilteredPersonList().get(indexLastPerson.getZeroBased());
-        Person editedPerson = addTagsToPerson(lastPerson, tagsToAdd);
+        Person editedPerson = amendTagsOfPerson(lastPerson, tagsToAdd);
 
         AddTagCommand addTagCommand = new AddTagCommand(indexLastPerson, tagsToAdd);
 
@@ -62,7 +62,6 @@ public class AddTagCommandTest {
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(lastPerson, editedPerson);
-
         assertCommandSuccess(addTagCommand, model, expectedMessage, expectedModel);
     }
 
@@ -73,7 +72,7 @@ public class AddTagCommandTest {
 
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
         Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Person editedPerson = addTagsToPerson(personInFilteredList, tagsToAdd);
+        Person editedPerson = amendTagsOfPerson(personInFilteredList, tagsToAdd);
 
         AddTagCommand addTagCommand = new AddTagCommand(INDEX_FIRST_PERSON, tagsToAdd);
 
@@ -94,7 +93,7 @@ public class AddTagCommandTest {
 
         Index indexLastPerson = Index.fromOneBased(model.getFilteredPersonList().size());
         Person lastPerson = model.getFilteredPersonList().get(indexLastPerson.getZeroBased());
-        Person editedPerson = addTagsToPerson(lastPerson, tagsToAdd);
+        Person editedPerson = amendTagsOfPerson(lastPerson, tagsToAdd);
 
         AddTagCommand addTagCommand = new AddTagCommand(indexLastPerson, tagsToAdd);
 
@@ -115,7 +114,7 @@ public class AddTagCommandTest {
 
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
         Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Person editedPerson = addTagsToPerson(personInFilteredList, tagsToAdd);
+        Person editedPerson = amendTagsOfPerson(personInFilteredList, tagsToAdd);
 
         AddTagCommand addTagCommand = new AddTagCommand(INDEX_FIRST_PERSON, tagsToAdd);
 
@@ -146,7 +145,7 @@ public class AddTagCommandTest {
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         for (Index index : targetIndices) {
             Person personToEdit = expectedModel.getFilteredPersonList().get(index.getZeroBased());
-            Person editedPerson = addTagsToPerson(personToEdit, tagsToAdd);
+            Person editedPerson = amendTagsOfPerson(personToEdit, tagsToAdd);
             System.out.println(editedPerson);
             expectedModel.setPerson(personToEdit, editedPerson);
         }
@@ -229,18 +228,5 @@ public class AddTagCommandTest {
         String expected = AddTagCommand.class.getCanonicalName() + "{targetIndices=" + targetIndices + ", tags="
                 + tags + "}";
         assertEquals(expected, addTagCommand.toString());
-    }
-
-    private Person addTagsToPerson(Person personToEdit, Collection<Tag> tags) {
-        Set<Tag> updatedTags = new HashSet<>(personToEdit.getTags());
-        tags.forEach(tag -> updatedTags.add(tag));
-
-        return new Person(
-                personToEdit.getName(),
-                personToEdit.getPhone(),
-                personToEdit.getEmail(),
-                updatedTags,
-                personToEdit.getMeetings()
-        );
     }
 }

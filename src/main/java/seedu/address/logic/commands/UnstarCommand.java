@@ -50,6 +50,7 @@ public class UnstarCommand extends Command {
         newTags.remove(new Tag(Tag.STAR_TAG));
 
         Person unstarredPerson = new Person(
+                personToUnstar.getId(),
                 personToUnstar.getName(),
                 personToUnstar.getPhone(),
                 personToUnstar.getEmail(),

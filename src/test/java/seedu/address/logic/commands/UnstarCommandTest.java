@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.logic.commands.TagUtil.amendTagsOfPerson;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -41,12 +42,7 @@ public class UnstarCommandTest {
         Set<Tag> tagsCopy = new HashSet<>(unstarredPerson.getTags());
         Set<Tag> starTags = new HashSet<>(tagsCopy);
         starTags.add(new Tag(Tag.STAR_TAG));
-        Person starredPerson = new Person(
-                unstarredPerson.getName(),
-                unstarredPerson.getPhone(),
-                unstarredPerson.getEmail(),
-                starTags,
-                unstarredPerson.getMeetings());
+        Person starredPerson = amendTagsOfPerson(unstarredPerson, starTags);
 
         // both models start with the starred person
         model.setPerson(unstarredPerson, starredPerson);
@@ -81,12 +77,7 @@ public class UnstarCommandTest {
         Set<Tag> tagsCopy = new HashSet<>(unstarredPerson.getTags());
         Set<Tag> starTags = new HashSet<>(tagsCopy);
         starTags.add(new Tag(Tag.STAR_TAG));
-        Person starredPerson = new Person(
-                unstarredPerson.getName(),
-                unstarredPerson.getPhone(),
-                unstarredPerson.getEmail(),
-                starTags,
-                unstarredPerson.getMeetings());
+        Person starredPerson = amendTagsOfPerson(unstarredPerson, starTags);
 
         // both models start with the starred person
         model.setPerson(unstarredPerson, starredPerson);

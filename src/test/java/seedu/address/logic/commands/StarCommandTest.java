@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.logic.commands.TagUtil.amendTagsOfPerson;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -40,12 +41,9 @@ public class StarCommandTest {
 
         Set<Tag> newTags = new HashSet<>(personToStar.getTags());
         newTags.add(new Tag(Tag.STAR_TAG));
-        Person starredPerson = new Person(
-                personToStar.getName(),
-                personToStar.getPhone(),
-                personToStar.getEmail(),
-                newTags,
-                personToStar.getMeetings());
+
+        Person starredPerson = amendTagsOfPerson(personToStar, newTags);
+
         expectedModel.setPerson(personToStar, starredPerson);
 
         String expectedMessage = String.format(StarCommand.MESSAGE_STAR_PERSON_SUCCESS,
@@ -73,12 +71,9 @@ public class StarCommandTest {
 
         Set<Tag> newTags = new HashSet<>(personToStar.getTags());
         newTags.add(new Tag(Tag.STAR_TAG));
-        Person starredPerson = new Person(
-                personToStar.getName(),
-                personToStar.getPhone(),
-                personToStar.getEmail(),
-                newTags,
-                personToStar.getMeetings());
+
+        Person starredPerson = amendTagsOfPerson(personToStar, newTags);
+
         expectedModel.setPerson(personToStar, starredPerson);
 
         String expectedMessage = String.format(StarCommand.MESSAGE_STAR_PERSON_SUCCESS,
@@ -98,12 +93,8 @@ public class StarCommandTest {
 
         Set<Tag> newTags = new HashSet<>(personToStar.getTags());
         newTags.add(new Tag(Tag.STAR_TAG));
-        Person starredPerson = new Person(
-                personToStar.getName(),
-                personToStar.getPhone(),
-                personToStar.getEmail(),
-                newTags,
-                personToStar.getMeetings());
+        Person starredPerson = amendTagsOfPerson(personToStar, newTags);
+
         model.setPerson(personToStar, personToStar);
         expectedModel.setPerson(personToStar, starredPerson);
 

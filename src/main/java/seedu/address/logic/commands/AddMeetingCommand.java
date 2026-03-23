@@ -39,6 +39,8 @@ public class AddMeetingCommand extends Command {
     private final LocalDate date;
 
     /**
+     * Creates an AddMeetingCommand to add the specified {@code Meeting}
+     *
      * @param indices Indexes of persons to add the meeting to
      * @param description Description of the meeting
      * @param date Date of the meeting (YYYY-MM-DD)
@@ -63,6 +65,9 @@ public class AddMeetingCommand extends Command {
 
         List<String> updatedPersonNames = new ArrayList<>();
 
+        // Create the meeting
+        Meeting meeting = new Meeting(description, date);
+
         // Loop through each index and add the meeting
         for (Index index : indices) {
 
@@ -71,22 +76,7 @@ public class AddMeetingCommand extends Command {
             }
 
             Person personToEdit = lastShownList.get(index.getZeroBased());
-
-            // Create the meeting
-            Meeting meeting = new Meeting(description, date);
-            Set<Meeting> copiedMeetings = new HashSet<>(personToEdit.getMeetings());
-
-            // Now you can safely add a new meeting
-            copiedMeetings.add(meeting);
-
-            // Add meeting to person
-            Person updatedPerson = new Person(
-                    personToEdit.getName(),
-                    personToEdit.getPhone(),
-                    personToEdit.getEmail(),
-                    personToEdit.getTags(),
-                    copiedMeetings
-            );
+            Person updatedPerson = addMeetingToPerson(personToEdit, meeting);
 
             // Update model
             model.setPerson(personToEdit, updatedPerson);
@@ -95,6 +85,29 @@ public class AddMeetingCommand extends Command {
         }
 
         return new CommandResult(String.format(MESSAGE_ADD_MEETING_SUCCESS, String.join(", ", updatedPersonNames)));
+    }
+
+    /**
+     * Creates and returns a {@code Person} with the meeting {@code meeting}
+     */
+    private static Person addMeetingToPerson(Person person, Meeting meeting) {
+        assert person != null && meeting != null;
+
+        // Copy existing meetings
+        Set<Meeting> updatedMeetings = new HashSet<>(person.getMeetings());
+
+        // Add the new meeting
+        updatedMeetings.add(meeting);
+
+        // Return a new Person with updated meetings
+        return new Person(
+                person.getId(),
+                person.getName(),
+                person.getPhone(),
+                person.getEmail(),
+                person.getTags(),
+                updatedMeetings
+        );
     }
 
     @Override

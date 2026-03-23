@@ -12,6 +12,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import seedu.address.model.AddressBook;
 import seedu.address.model.person.Person;
@@ -21,26 +22,54 @@ import seedu.address.model.person.Person;
  */
 public class TypicalPersons {
 
-    public static final Person ALICE = new PersonBuilder().withName("Alice Pauline")
+    // Assign unique IDs for each person
+    public static final Person ALICE = new PersonBuilder()
+            .withId(UUID.fromString("00000000-0000-0000-0000-000000000001"))
+            .withName("Alice Pauline")
             .withEmail("alice@example.com")
             .withPhone("94351253")
-            .withTags("friends").build();
-    public static final Person BENSON = new PersonBuilder().withName("Benson Meier")
-            .withEmail("johnd@example.com").withPhone("98765432")
-            .withTags("owesMoney", "friends").build();
-    public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
-            .withEmail("heinz@example.com").build();
-    public static final Person DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("87652533")
-            .withEmail("cornelia@example.com").withTags("friends").build();
-
-    // Manually added - Person's details found in {@code CommandTestUtil}
-    public static final Person AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
-            .withEmail(VALID_EMAIL_AMY).withTags(VALID_TAG_FRIEND).build();
-    public static final Person BOB = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-            .withEmail(VALID_EMAIL_BOB).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
+            .withTags("friends")
             .build();
 
-    public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
+    public static final Person BENSON = new PersonBuilder()
+            .withId(UUID.fromString("00000000-0000-0000-0000-000000000002"))
+            .withName("Benson Meier")
+            .withEmail("johnd@example.com")
+            .withPhone("98765432")
+            .withTags("owesMoney", "friends")
+            .build();
+
+    public static final Person CARL = new PersonBuilder()
+            .withId(UUID.fromString("00000000-0000-0000-0000-000000000003"))
+            .withName("Carl Kurz")
+            .withPhone("95352563")
+            .withEmail("heinz@example.com")
+            .build();
+
+    public static final Person DANIEL = new PersonBuilder()
+            .withId(UUID.fromString("00000000-0000-0000-0000-000000000004"))
+            .withName("Daniel Meier")
+            .withPhone("87652533")
+            .withEmail("cornelia@example.com")
+            .withTags("friends")
+            .build();
+
+    // Manually added - Person's details found in {@code CommandTestUtil}
+    public static final Person AMY = new PersonBuilder()
+            .withId(UUID.fromString("00000000-0000-0000-0000-000000000005"))
+            .withName(VALID_NAME_AMY)
+            .withPhone(VALID_PHONE_AMY)
+            .withEmail(VALID_EMAIL_AMY)
+            .withTags(VALID_TAG_FRIEND)
+            .build();
+
+    public static final Person BOB = new PersonBuilder()
+            .withId(UUID.fromString("00000000-0000-0000-0000-000000000006"))
+            .withName(VALID_NAME_BOB)
+            .withPhone(VALID_PHONE_BOB)
+            .withEmail(VALID_EMAIL_BOB)
+            .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
+            .build();
 
     private TypicalPersons() {} // prevents instantiation
 

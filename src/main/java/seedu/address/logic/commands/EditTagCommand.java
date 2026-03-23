@@ -139,6 +139,7 @@ public class EditTagCommand extends Command {
         }
 
         return new Person(
+                personToEdit.getId(),
                 personToEdit.getName(),
                 personToEdit.getPhone(),
                 personToEdit.getEmail(),

@@ -1,24 +1,33 @@
 {
-  "_comment": "AddressBook save file which contains the same Person values as in TypicalPersons#getTypicalAddressBook()",
-  "persons" : [ {
-    "name" : "Alice Pauline",
-    "phone" : "94351253",
-    "email" : "alice@example.com",
-    "tags" : [ "friends" ]
-  }, {
-    "name" : "Benson Meier",
-    "phone" : "98765432",
-    "email" : "johnd@example.com",
-    "tags" : [ "owesMoney", "friends" ]
-  }, {
-    "name" : "Carl Kurz",
-    "phone" : "95352563",
-    "email" : "heinz@example.com",
-    "tags" : [ ]
-  }, {
-    "name" : "Daniel Meier",
-    "phone" : "87652533",
-    "email" : "cornelia@example.com",
-    "tags" : [ "friends" ]
-  }]
+  "_comment": "AddressBook save file with fixed Person IDs, matching TypicalPersons#getTypicalAddressBook()",
+  "persons": [
+    {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "name": "Alice Pauline",
+      "phone": "94351253",
+      "email": "alice@example.com",
+      "tags": ["friends"]
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "name": "Benson Meier",
+      "phone": "98765432",
+      "email": "johnd@example.com",
+      "tags": ["owesMoney", "friends"]
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000003",
+      "name": "Carl Kurz",
+      "phone": "95352563",
+      "email": "heinz@example.com",
+      "tags": []
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000004",
+      "name": "Daniel Meier",
+      "phone": "87652533",
+      "email": "cornelia@example.com",
+      "tags": ["friends"]
+    }
+  ]
 }

@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.MeetingUtil.addMeetingToPerson;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
@@ -43,35 +44,42 @@ public class AddMeetingCommandTest {
         Set<Index> indices = VALID_INDEX_SINGLE;
         AddMeetingCommand command = new AddMeetingCommand(indices, VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325);
 
+        // Original target person
         Person targetPerson = model.getFilteredPersonList().get(indices.iterator().next().getZeroBased());
+
+        // Create edited person with the meeting added
+        Person editedPerson = addMeetingToPerson(targetPerson, VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325);
 
         String expectedMessage = String.format(AddMeetingCommand.MESSAGE_ADD_MEETING_SUCCESS,
                 targetPerson.getName().fullName);
 
+        // Build expected model
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.setPerson(targetPerson, targetPerson);
+        expectedModel.setPerson(targetPerson, editedPerson);
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_multipleIndices_success() throws Exception {
+        // Command for multiple indices
         AddMeetingCommand command = new AddMeetingCommand(VALID_INDICES_MULTIPLE,
                 VALID_DESCRIPTION_TEAM, VALID_DATE_20260401);
 
-        // Directly use the Person constants in the expected message
+        // Build expected message with the names of the people
         String expectedMessage = String.format(AddMeetingCommand.MESSAGE_ADD_MEETING_SUCCESS,
                 String.join(", ",
                         ALICE.getName().fullName,
                         BENSON.getName().fullName,
                         CARL.getName().fullName));
 
-        // Build expected model by adding meetings to each person
+        // Build expected model by creating edited copies with the meeting added
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.setPerson(ALICE, ALICE);
-        expectedModel.setPerson(BENSON, BENSON);
-        expectedModel.setPerson(CARL, CARL);
+        expectedModel.setPerson(ALICE, addMeetingToPerson(ALICE, VALID_DESCRIPTION_TEAM, VALID_DATE_20260401));
+        expectedModel.setPerson(BENSON, addMeetingToPerson(BENSON, VALID_DESCRIPTION_TEAM, VALID_DATE_20260401));
+        expectedModel.setPerson(CARL, addMeetingToPerson(CARL, VALID_DESCRIPTION_TEAM, VALID_DATE_20260401));
 
+        // Assert that the command behaves correctly
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 

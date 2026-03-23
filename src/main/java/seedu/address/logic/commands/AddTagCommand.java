@@ -111,6 +111,7 @@ public class AddTagCommand extends Command {
         updatedTags.addAll(tags);
 
         return new Person(
+                personToEdit.getId(),
                 personToEdit.getName(),
                 personToEdit.getPhone(),
                 personToEdit.getEmail(),

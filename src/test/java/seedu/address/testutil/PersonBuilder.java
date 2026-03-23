@@ -2,6 +2,7 @@ package seedu.address.testutil;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import seedu.address.model.meeting.Meeting;
 import seedu.address.model.person.Email;
@@ -19,12 +20,14 @@ public class PersonBuilder {
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
+    public static final UUID DEFAULT_ID = UUID.fromString("00000000-0000-0000-0000-000000000001");
 
     private Name name;
     private Phone phone;
     private Email email;
     private Set<Tag> tags;
     private Set<Meeting> meetings;
+    private UUID id;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -35,6 +38,7 @@ public class PersonBuilder {
         email = new Email(DEFAULT_EMAIL);
         tags = new HashSet<>();
         meetings = new HashSet<>();
+        id = DEFAULT_ID;
     }
 
     /**
@@ -46,6 +50,7 @@ public class PersonBuilder {
         email = personToCopy.getEmail();
         tags = new HashSet<>(personToCopy.getTags());
         meetings = new HashSet<>(personToCopy.getMeetings());
+        id = personToCopy.getId() != null ? personToCopy.getId() : null;
     }
 
     /**
@@ -90,8 +95,24 @@ public class PersonBuilder {
         return this;
     }
 
-    public Person build() {
-        return new Person(name, phone, email, tags, meetings);
+    /**
+     * Sets the {@code ID} of the {@code Person} that we are building.
+     * If {@code id} is null or empty, the Person will generate a new ID.
+     */
+    public PersonBuilder withId(UUID id) {
+        this.id = id;
+        return this;
     }
 
+    /**
+     * Builds the {@code Person} object with all the set fields.
+     * If {@code id} is null or empty, the constructor that generates a new ID will be used.
+     */
+    public Person build() {
+        if (id == null) {
+            return new Person(name, phone, email, tags, meetings);
+        } else {
+            return new Person(id, name, phone, email, tags, meetings);
+        }
+    }
 }
