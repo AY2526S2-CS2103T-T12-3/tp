@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -64,27 +65,32 @@ public class AddMeetingCommand extends Command {
         List<Person> lastShownList = model.getFilteredPersonList();
 
         List<String> updatedPersonNames = new ArrayList<>();
+        List<UUID> participantIds = new ArrayList<>();
 
-        // Create the meeting
-        Meeting meeting = new Meeting(description, date);
-
-        // Loop through each index and add the meeting
+        // First pass: validate indices + collect IDs
         for (Index index : indices) {
-
             if (index.getZeroBased() >= lastShownList.size()) {
                 throw new CommandException(MESSAGE_INVALID_PERSON_INDEX);
             }
 
+            Person person = lastShownList.get(index.getZeroBased());
+            participantIds.add(person.getId());
+        }
+
+        Meeting meeting = new Meeting(description, date, participantIds);
+
+        // Second pass: add meeting to each person
+        for (Index index : indices) {
             Person personToEdit = lastShownList.get(index.getZeroBased());
             Person updatedPerson = createPersonWithMeetingAdded(personToEdit, meeting);
 
-            // Update model
             model.setPerson(personToEdit, updatedPerson);
-
             updatedPersonNames.add(personToEdit.getName().fullName);
         }
 
-        return new CommandResult(String.format(MESSAGE_ADD_MEETING_SUCCESS, String.join(", ", updatedPersonNames)));
+        return new CommandResult(
+                String.format(MESSAGE_ADD_MEETING_SUCCESS, String.join(", ", updatedPersonNames))
+        );
     }
 
     @Override

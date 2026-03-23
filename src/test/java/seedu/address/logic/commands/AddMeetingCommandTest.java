@@ -54,7 +54,7 @@ public class AddMeetingCommandTest {
         List<UUID> participantIds = List.of(targetPerson.getId());
 
         // Meeting with validated IDs
-        Meeting meeting = new Meeting(VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325);
+        Meeting meeting = new Meeting(VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325, participantIds);
 
         // Create edited person with the meeting added
         Person editedPerson = createPersonWithMeetingAdded(targetPerson, meeting);
@@ -82,7 +82,7 @@ public class AddMeetingCommandTest {
         );
 
         // Meeting with validated IDs
-        Meeting meeting = new Meeting(VALID_DESCRIPTION_TEAM, VALID_DATE_20260401);
+        Meeting meeting = new Meeting(VALID_DESCRIPTION_TEAM, VALID_DATE_20260401, participantIds);
 
         // Build expected model by adding the meeting to each person
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
