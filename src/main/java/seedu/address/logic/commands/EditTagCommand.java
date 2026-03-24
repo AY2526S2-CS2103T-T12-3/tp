@@ -26,7 +26,7 @@ public class EditTagCommand extends Command {
             + "identified by the index number(s) used in the displayed person list, or globally.\n";
 
     public static final String MESSAGE_FORMAT =
-            "(Format: edittag [INDICES or 'all'] o/ OLDTAG n/ NEWTAG] ...)\n"
+            "(Format: edittag [INDICES or 'all'] o/ OLDTAG n/ NEWTAG)\n"
                     + "Example: "
                     + COMMAND_WORD
                     + " 1, 2, 3"
@@ -42,21 +42,21 @@ public class EditTagCommand extends Command {
     public static final String MESSAGE_OLDTAG_INVALID =
             "Error: The specified old tag (o/) does not exist in any of the specified contacts.";
 
-    private Tag old_tag;
-    private Tag new_tag;
+    private Tag oldTag;
+    private Tag newTag;
     private final List<Index> targetIndices;
 
     /**
      * Acts as the constructor for EditTagCommand.
      *
      * @param targetIndices The target indices representing the persons to be edited.
-     * @param old_tag The existing tag to be changed from the specified persons.
-     * @param new_tag The tag that the old tag is to be changed to. Can be an existing tag that is not the old tag.
+     * @param oldTag The existing tag to be changed from the specified persons.
+     * @param newTag The tag that the old tag is to be changed to. Can be an existing tag that is not the old tag.
      */
-    public EditTagCommand(List<Index> targetIndices, Tag old_tag, Tag new_tag) {
+    public EditTagCommand(List<Index> targetIndices, Tag oldTag, Tag newTag) {
         this.targetIndices = new ArrayList<>(targetIndices);
-        this.old_tag = old_tag;
-        this.new_tag = new_tag;
+        this.oldTag = oldTag;
+        this.newTag = newTag;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class EditTagCommand extends Command {
 
         for (Person person : personsToEdit) {
             // checks if the old tag given is valid for at least one of the specified contacts
-            if (person.getTags().contains(old_tag)) {
+            if (person.getTags().contains(oldTag)) {
                 isOldTagValid = true;
                 break;
             }
@@ -105,34 +105,34 @@ public class EditTagCommand extends Command {
 
         for (Person person : personsToEdit) {
             // edits the tag in each person and sets the edited person
-            Person editedPerson = createPersonWithEditedTags(person, old_tag, new_tag);
+            Person editedPerson = createPersonWithEditedTags(person, oldTag, newTag);
             model.setPerson(person, editedPerson);
         }
 
         if (resolvedIndices.size() == lastShownList.size()) {
             // global edit
             return new CommandResult(
-                    String.format(MESSAGE_EDIT_TAG_SUCCESS_GLOBAL, old_tag.toString(), new_tag.toString()));
+                    String.format(MESSAGE_EDIT_TAG_SUCCESS_GLOBAL, oldTag.toString(), newTag.toString()));
         }
 
         return new CommandResult(String.format(
                 MESSAGE_EDIT_TAG_SUCCESS_INDICES,
-                old_tag.toString(),
-                new_tag.toString()));
+                oldTag.toString(),
+                newTag.toString()));
     }
 
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * with the new tag.
      */
-    private static Person createPersonWithEditedTags(Person personToEdit, Tag old_tag, Tag new_tag) {
+    private static Person createPersonWithEditedTags(Person personToEdit, Tag oldTag, Tag newTag) {
         assert personToEdit != null;
 
         Set<Tag> updatedTags = new HashSet<>();
 
         for (Tag tag : personToEdit.getTags()) {
-            if (tag.tagName.equals(old_tag.tagName)) {
-                updatedTags.add(new Tag(new_tag.tagName));
+            if (tag.tagName.equals(oldTag.tagName)) {
+                updatedTags.add(new Tag(newTag.tagName));
             } else {
                 updatedTags.add(tag);
             }

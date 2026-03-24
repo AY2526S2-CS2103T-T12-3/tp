@@ -9,12 +9,12 @@ import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SIN
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDICES_MULTIPLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_INDEX;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.AddMeetingCommand;
 
 public class AddMeetingCommandParserTest {
@@ -28,11 +28,11 @@ public class AddMeetingCommandParserTest {
     public static final String INVALID_INPUT_DESCRIPTION = " " + PREFIX_MEETING_DESCRIPTION + "";
     public static final String INVALID_INPUT_DATE = " " + PREFIX_MEETING_DATE + "25-03-2026";
 
-    public static final String INPUT_INDEX_SINGLE = " " + PREFIX_MEETING_INDEX + "1";
-    public static final String INPUT_INDICES_MULTIPLE = " " + PREFIX_MEETING_INDEX + "1, 2, 3";
-    public static final String INVALID_INPUT_INDEX_ZERO = " " + PREFIX_MEETING_INDEX + "0";
-    public static final String INVALID_INPUT_INDEX_NEGATIVE = " " + PREFIX_MEETING_INDEX + "-1";
-    public static final String INVALID_INPUT_INDEX_NON_NUMERIC = " " + PREFIX_MEETING_INDEX + "a,b";
+    public static final String INPUT_INDEX_SINGLE = " 1";
+    public static final String INPUT_INDICES_MULTIPLE = " 1, 2, 3";
+    public static final String INVALID_INPUT_INDEX_ZERO = " 0";
+    public static final String INVALID_INPUT_INDEX_NEGATIVE = " -1";
+    public static final String INVALID_INPUT_INDEX_NON_NUMERIC = " a,b";
 
     private AddMeetingCommandParser parser = new AddMeetingCommandParser();
 
@@ -106,17 +106,12 @@ public class AddMeetingCommandParserTest {
 
     @Test
     public void parse_duplicatePrefixes_failure() {
-        // duplicated index
-        assertParseFailure(parser, VALID_INDEX_SINGLE + " " + PREFIX_MEETING_INDEX + VALID_INDEX_SINGLE
-                        + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
-
         // duplicated description
         assertParseFailure(parser, VALID_INDEX_SINGLE + INPUT_DESC_PROJECT + INPUT_DESC_TEAM + INPUT_DATE_20260325,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_MEETING_DESCRIPTION));
 
         // duplicated date
         assertParseFailure(parser, VALID_INDEX_SINGLE + INPUT_DESC_PROJECT + INPUT_DATE_20260325 + INPUT_DATE_20260401,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_MEETING_DATE));
     }
 }

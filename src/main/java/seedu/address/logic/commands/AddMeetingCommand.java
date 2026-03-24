@@ -24,11 +24,11 @@ public class AddMeetingCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a meeting to the specified person(s) "
             + "by index.\n"
-            + "Parameters: i/INDEX (must be a positive integer) "
+            + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_COMMA + "INDEX]... "
             + "d/DESCRIPTION "
             + "dt/DATE (must be YYYY-MM-DD)\n"
-            + "Example: " + COMMAND_WORD + " i/1,2 d/Project discussion dt/2026-03-25";
+            + "Example: " + COMMAND_WORD + " 1,2 d/Project discussion dt/2026-03-25";
 
     public static final String MESSAGE_ADD_MEETING_SUCCESS = "Added meeting to person(s): %1$s";
     public static final String MESSAGE_INVALID_PERSON_INDEX = "Invalid person index provided.";

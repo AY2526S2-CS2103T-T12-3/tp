@@ -21,7 +21,6 @@ public class CliSyntax {
     public static final Prefix PREFIX_COMMA = new Prefix(",");
     public static final Prefix PREFIX_OLDTAG = new Prefix("o/");
     public static final Prefix PREFIX_NEWTAG = new Prefix("n/");
-    public static final Prefix PREFIX_MEETING_INDEX = new Prefix("i/");
     public static final Prefix PREFIX_MEETING_DESCRIPTION = new Prefix("d/");
     public static final Prefix PREFIX_MEETING_DATE = new Prefix("dt/");
 }

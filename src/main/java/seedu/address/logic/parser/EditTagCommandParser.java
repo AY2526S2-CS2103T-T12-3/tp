@@ -25,8 +25,8 @@ public class EditTagCommandParser implements Parser<EditTagCommand> {
     public EditTagCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_OLDTAG, PREFIX_NEWTAG);
 
-        boolean isOldTagEmpty = isPrefixAbsent(argMultimap, PREFIX_OLDTAG);
-        boolean isNewTagEmpty = isPrefixAbsent(argMultimap, PREFIX_NEWTAG);
+        boolean isOldTagEmpty = !isPrefixPresent(argMultimap, PREFIX_OLDTAG);
+        boolean isNewTagEmpty = !isPrefixPresent(argMultimap, PREFIX_NEWTAG);
         boolean isPreamblePresent = !argMultimap.getPreamble().isEmpty();
 
         if (isOldTagEmpty || isNewTagEmpty || !isPreamblePresent) {
@@ -35,8 +35,8 @@ public class EditTagCommandParser implements Parser<EditTagCommand> {
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_OLDTAG, PREFIX_NEWTAG);
 
-        Tag old_tag = ParserUtil.parseTag(argMultimap.getValue(PREFIX_OLDTAG).get());
-        Tag new_tag = ParserUtil.parseTag(argMultimap.getValue(PREFIX_NEWTAG).get());
+        Tag oldTag = ParserUtil.parseTag(argMultimap.getValue(PREFIX_OLDTAG).get());
+        Tag newTag = ParserUtil.parseTag(argMultimap.getValue(PREFIX_NEWTAG).get());
 
         String[] indices = argMultimap.getPreamble().split(",");
         List<Index> targetIndices = new ArrayList<>();
@@ -50,15 +50,15 @@ public class EditTagCommandParser implements Parser<EditTagCommand> {
             }
         }
 
-        return new EditTagCommand(targetIndices, old_tag, new_tag);
+        return new EditTagCommand(targetIndices, oldTag, newTag);
     }
 
     /**
      * Returns true if the prefix contains empty {@code Optional} values in the given
      * {@code ArgumentMultimap}.
      */
-    private static boolean isPrefixAbsent(ArgumentMultimap argumentMultimap, Prefix prefix) {
-        return argumentMultimap.getValue(prefix).isEmpty();
+    private static boolean isPrefixPresent(ArgumentMultimap argumentMultimap, Prefix prefix) {
+        return !argumentMultimap.getValue(prefix).isEmpty();
     }
 
 }
