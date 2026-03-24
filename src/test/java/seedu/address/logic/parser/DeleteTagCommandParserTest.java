@@ -33,6 +33,8 @@ public class DeleteTagCommandParserTest {
         tags.add(new Tag("friend"));
 
         assertParseSuccess(parser, "1 / friend", new DeleteTagCommand(targetIndices, tags));
+
+        assertParseSuccess(parser, "1 /friend", new DeleteTagCommand(targetIndices, tags));
     }
 
     @Test
