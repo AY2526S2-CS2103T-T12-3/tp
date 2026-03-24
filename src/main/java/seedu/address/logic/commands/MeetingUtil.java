@@ -25,4 +25,18 @@ public class MeetingUtil {
                 updatedMeetings
         );
     }
+
+    /**
+     * Helper method to return a new Person object with the new list of meetings given
+     */
+    public static Person createPersonWithMeetingsRemoved(Person personToEdit, Set<Meeting> updatedMeetings) {
+        return new Person(
+                personToEdit.getId(),
+                personToEdit.getName(),
+                personToEdit.getPhone(),
+                personToEdit.getEmail(),
+                personToEdit.getTags(),
+                new HashSet<>(updatedMeetings)
+        );
+    }
 }

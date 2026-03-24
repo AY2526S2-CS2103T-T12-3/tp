@@ -20,7 +20,6 @@ import seedu.address.model.person.Person;
  * Adds a meeting to one or more persons in the address book.
  */
 public class AddMeetingCommand extends Command {
-
     public static final String COMMAND_WORD = "addmeeting";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a meeting to the specified person(s) "
