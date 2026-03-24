@@ -68,4 +68,5 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
                 && phoneKeywords.equals(otherPredicate.phoneKeywords)
                 && emailKeywords.equals(otherPredicate.emailKeywords);
     }
+
 }
