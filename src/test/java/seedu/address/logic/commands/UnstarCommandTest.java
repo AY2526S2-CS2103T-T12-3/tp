@@ -137,12 +137,4 @@ public class UnstarCommandTest {
         assertEquals(expected, unstarCommand.toString());
     }
 
-    /**
-     * Updates {@code model}'s filtered list to show no one.
-     */
-    private void showNoPerson(Model model) {
-        model.updateFilteredPersonList(p -> false);
-
-        assertTrue(model.getFilteredPersonList().isEmpty());
-    }
 }
