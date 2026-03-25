@@ -10,6 +10,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
 import java.util.Comparator;
+import java.util.Set;
 
 /**
  * An UI component that displays information of a {@code Person}.
@@ -35,52 +36,24 @@ public class MeetingCard extends UiPart<Region> {
     @FXML
     private Label id;
     @FXML
-    private Label phone;
+    private Label date;
     @FXML
-    private Label email;
-    @FXML
-    private FlowPane tags;
+    private FlowPane participants;
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
      */
-    public MeetingCard(Meeting meeting, int displayedIndex) {
+    public MeetingCard(Meeting meeting, int displayedIndex, Set<Person> participantSet) {
         super(FXML);
         this.meeting = meeting;
 
         id.setText(displayedIndex + ". ");
-        name.setText(person.getName().fullName);
+        name.setText(meeting.getDescription());
 
-        if (person.getPhone() != null) {
-            phone.setText(person.getPhone().value);
-        } else {
-            phone.setManaged(false);
-            phone.setVisible(false);
-        }
+        date.setText(meeting.getDate().toString());
 
-        if (person.getEmail() != null) {
-            email.setText(person.getEmail().value);
-        } else {
-            email.setManaged(false);
-            email.setVisible(false);
-        }
-
-        Tag starTag = new Tag(Tag.STAR_TAG);
-
-        // show the STAR tag first
-        person.getTags().stream()
-                .filter(tag -> tag.equals(starTag))
-                .forEach(tag -> {
-                    Label tagLabel = new Label(tag.tagName);
-                    tagLabel.setStyle("-fx-background-color: gold; -fx-text-fill: black;");
-                    tags.getChildren().add(tagLabel);
-                });
-
-        // then show the rest of the tags
-        person.getTags().stream()
-                .filter(tag -> !tag.equals(starTag))
-                .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-
+        participantSet.stream()
+                .sorted(Comparator.comparing(person -> person.getName().fullName))
+                .forEach(person -> participants.getChildren().add(new Label(person.getName().fullName)));
     }
 }
