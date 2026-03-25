@@ -23,5 +23,5 @@ public class CliSyntax {
     public static final Prefix PREFIX_NEWTAG = new Prefix("n/");
     public static final Prefix PREFIX_MEETING_DESCRIPTION = new Prefix("d/");
     public static final Prefix PREFIX_MEETING_DATE = new Prefix("dt/");
-    public static final Prefix PREFIX_MEETING = new Prefix("m/");
+    public static final Prefix PREFIX_MEETING_INDEX = new Prefix("m/");
 }

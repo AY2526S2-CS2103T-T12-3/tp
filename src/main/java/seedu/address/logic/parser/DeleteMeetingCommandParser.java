@@ -1,7 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_INDEX;
 
 import java.util.Set;
 
@@ -26,10 +26,10 @@ public class DeleteMeetingCommandParser implements Parser<DeleteMeetingCommand> 
 
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args,
-                        PREFIX_MEETING);
+                        PREFIX_MEETING_INDEX);
 
         boolean isIndexMissing = argMultimap.getPreamble().isEmpty();
-        boolean areMeetingsMissing = !isPrefixPresent(argMultimap, PREFIX_MEETING);
+        boolean areMeetingsMissing = !isPrefixPresent(argMultimap, PREFIX_MEETING_INDEX);
 
         if (isIndexMissing || areMeetingsMissing) {
             throw new ParseException(String.format(
@@ -37,7 +37,7 @@ public class DeleteMeetingCommandParser implements Parser<DeleteMeetingCommand> 
                     DeleteMeetingCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_MEETING);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_MEETING_INDEX);
 
         // Parse indices
         Set<Index> indices = ParserUtil.parseIndices(
@@ -46,7 +46,7 @@ public class DeleteMeetingCommandParser implements Parser<DeleteMeetingCommand> 
 
         // Parse meeting indices
         Set<Index> meetingIndices = ParserUtil.parseIndices(
-                argMultimap.getValue(PREFIX_MEETING).get().trim(),
+                argMultimap.getValue(PREFIX_MEETING_INDEX).get().trim(),
                 DeleteMeetingCommand.MESSAGE_USAGE);
         return new DeleteMeetingCommand(indices, meetingIndices);
     }
