@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
@@ -32,8 +33,12 @@ public class MainWindow extends UiPart<Stage> {
 
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
+    private MeetingListPanel meetingListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
+
+    // Keeps track of the current content screen (e.g. displaying person list or meeting list)
+    private ContentScreen currentContentScreen;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -42,13 +47,16 @@ public class MainWindow extends UiPart<Stage> {
     private MenuItem helpMenuItem;
 
     @FXML
-    private StackPane personListPanelPlaceholder;
+    private StackPane contentPanelPlaceholder;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
 
     @FXML
     private StackPane statusbarPlaceholder;
+
+    @FXML
+    private Button screenSwitchButton;
 
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
@@ -110,8 +118,7 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        personListPanel = new PersonListPanel(logic.getFilteredPersonList());
-        personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+        setContentScreen(ContentScreen.PERSON_LIST);
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
@@ -161,6 +168,49 @@ public class MainWindow extends UiPart<Stage> {
         logic.setGuiSettings(guiSettings);
         helpWindow.hide();
         primaryStage.hide();
+    }
+
+    /**
+     * Switches the current content screen.
+     * @param newContentScreen the new content screen to be displayed.
+     */
+    private void setContentScreen(ContentScreen newContentScreen) {
+        currentContentScreen = newContentScreen;
+
+        contentPanelPlaceholder.getChildren().clear();
+
+        switch (newContentScreen) {
+            case PERSON_LIST:
+                if (personListPanel == null) {
+                    personListPanel = new PersonListPanel(logic.getFilteredPersonList());
+                }
+                contentPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+                screenSwitchButton.setText("Contacts");
+                break;
+            case MEETING_LIST:
+                if (meetingListPanel == null) {
+                    meetingListPanel = new MeetingListPanel();
+                }
+                contentPanelPlaceholder.getChildren().add(meetingListPanel.getRoot());
+                screenSwitchButton.setText("Meetings");
+                break;
+            default:
+                // TODO: Throw exception, unknown screen name
+        }
+    }
+
+    @FXML
+    private void handleSwitchScreen() {
+        if (currentContentScreen == ContentScreen.PERSON_LIST) {
+            setContentScreen(ContentScreen.MEETING_LIST);
+        } else {
+            setContentScreen(ContentScreen.PERSON_LIST);
+        }
+    }
+
+    private enum ContentScreen {
+        PERSON_LIST,
+        MEETING_LIST
     }
 
     public PersonListPanel getPersonListPanel() {
