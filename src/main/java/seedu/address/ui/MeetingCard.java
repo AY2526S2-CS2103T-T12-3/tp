@@ -7,7 +7,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.meeting.Meeting;
 import seedu.address.model.person.Person;
-import seedu.address.model.tag.Tag;
 
 import java.util.Comparator;
 import java.util.Set;
