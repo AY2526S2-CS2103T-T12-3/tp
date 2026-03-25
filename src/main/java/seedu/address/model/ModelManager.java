@@ -116,7 +116,7 @@ public class ModelManager implements Model {
 
     @Override
     public Person getPerson(UUID uuid) {
-         return addressBook.getPerson(uuid);
+        return addressBook.getPerson(uuid);
     }
 
     //=========== Filtered Person List Accessors =============================================================
