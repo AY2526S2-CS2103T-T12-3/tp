@@ -1,9 +1,11 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -69,7 +71,9 @@ class JsonAdaptedPerson {
                 .collect(Collectors.toList()));
         meetings.addAll(source.getMeetings().stream()
                 .map(JsonAdaptedMeeting::new)
-                .collect(Collectors.toList()));
+                .toList());
+
+        meetings.sort(Comparator.comparing(JsonAdaptedMeeting::getDate));
     }
 
     /**

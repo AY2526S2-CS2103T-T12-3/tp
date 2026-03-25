@@ -12,8 +12,6 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.MeetingUtil.createPersonWithGivenMeetings;
 import static seedu.address.logic.commands.MeetingUtil.createPersonWithMeetingAdded;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.List;
@@ -49,6 +47,17 @@ public class DeleteMeetingCommandTest {
 
         CommandResult response = command.execute(model);
 
+        // Expected message
+        String expectedPersonNames = firstPerson.getName().fullName;
+        CommandResult expectedResponse = new CommandResult(String.format(
+                DeleteMeetingCommand.MESSAGE_DELETE_MEETING_SUCCESS,
+                "1",
+                expectedPersonNames
+        ));
+
+        // Check response equality
+        assertTrue(response.equals(expectedResponse));
+
         // Check that the meeting was deleted
         Person updatedPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         assertTrue(updatedPerson.getMeetings().isEmpty());
@@ -70,11 +79,24 @@ public class DeleteMeetingCommandTest {
 
         // Execute DeleteMeetingCommand for all three persons
         DeleteMeetingCommand command = new DeleteMeetingCommand(
-                Set.of(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON, INDEX_THIRD_PERSON),
-                VALID_INDEX_SINGLE
-        );
+                VALID_INDICES_MULTIPLE, VALID_INDICES_MULTIPLE);
 
         CommandResult response = command.execute(model);
+        // Build expected names
+        List<String> expectedNamesList = persons.stream()
+                .map(p -> p.getName().fullName)
+                .sorted()
+                .toList();
+
+        String expectedNames = String.join(", ", expectedNamesList);
+
+        CommandResult expectedResponse = new CommandResult(String.format(
+                DeleteMeetingCommand.MESSAGE_DELETE_MEETING_SUCCESS,
+                "1, 2, 3",
+                expectedNames
+        ));
+
+        assertTrue(response.equals(expectedResponse));
 
         // Check all meetings removed
         for (int i = 0; i < 3; i++) {

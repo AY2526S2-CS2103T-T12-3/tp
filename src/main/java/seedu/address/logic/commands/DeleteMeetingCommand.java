@@ -11,12 +11,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.meeting.Meeting;
 import seedu.address.model.person.Person;
 
+/**
+ * For the persons at the given indices, deletes the meetings at the specified meeting indices.
+ * Each deleted meeting is removed from every participant linked to that meeting.
+ */
 public class DeleteMeetingCommand extends Command {
     public static final String COMMAND_WORD = "deletemeeting";
 
@@ -37,6 +42,12 @@ public class DeleteMeetingCommand extends Command {
     private final List<Index> personIndices;
     private final Set<Index> meetingIndices;
 
+    /**
+     * Creates an DeleteMeetingCommand to delete the specified {@code Meeting}s
+     *
+     * @param personIndices Indexes of persons to look for the meetings to delete
+     * @param meetingIndices The indices of the meetings to delete in the persons
+     */
     public DeleteMeetingCommand(Set<Index> personIndices, Set<Index> meetingIndices) {
         requireNonNull(personIndices);
         requireNonNull(meetingIndices);
