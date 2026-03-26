@@ -4,9 +4,9 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -25,17 +25,17 @@ public class Meeting {
 
     private final String description;
     private final LocalDate date;
-    private final List<UUID> participantsID;
+    private final Set<UUID> participantsID;
 
     /**
      * Constructs a {@code Meeting} with the specified description, date,
-     * and a list of valid IDs of all participants.
+     * and a set of valid IDs of all participants.
      *
      * @param description Description of the meeting; must not be null or blank.
      * @param date Date of the meeting; must not be null.
-     * @param participantsID List of participant IDs; must not be null or contain nulls.
+     * @param participantsID Set of participant IDs; must not be null or contain nulls.
      */
-    public Meeting(String description, LocalDate date, List<UUID> participantsID) {
+    public Meeting(String description, LocalDate date, Set<UUID> participantsID) {
         requireNonNull(description, MESSAGE_DESCRIPTION_CONSTRAINTS);
         requireNonNull(date, MESSAGE_DATE_CONSTRAINTS);
         requireNonNull(participantsID, MESSAGE_INVALID_PARTICIPANT_IDS);
@@ -43,17 +43,15 @@ public class Meeting {
         checkArgument(isValidDescription(description), MESSAGE_DESCRIPTION_CONSTRAINTS);
 
         // Validate each UUID individually
-        List<UUID> validIds = new ArrayList<>();
         for (UUID id : participantsID) {
             if (id == null) {
                 throw new IllegalArgumentException(MESSAGE_INVALID_PARTICIPANT_IDS);
             }
-            validIds.add(id);
         }
 
         this.description = description;
         this.date = date;
-        this.participantsID = validIds;
+        this.participantsID = new HashSet<>(participantsID);;
     }
 
     /**
@@ -75,11 +73,11 @@ public class Meeting {
     }
 
     public LocalDate getDate() {
-        return date;
+        return LocalDate.from(date); // Returns a defensive copy of the date.
     }
 
-    public List<UUID> getParticipantsID() {
-        return participantsID;
+    public Set<UUID> getParticipantsID() {
+        return new HashSet<>(participantsID); // Returns a defensive copy of the set.
     }
 
     @Override
