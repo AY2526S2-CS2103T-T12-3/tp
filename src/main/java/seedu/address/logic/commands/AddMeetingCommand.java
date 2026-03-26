@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.commands.MeetingUtil.collectParticipantIds;
 import static seedu.address.logic.commands.MeetingUtil.createPersonWithMeetingAdded;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
 
@@ -20,7 +21,6 @@ import seedu.address.model.person.Person;
  * Adds a meeting to one or more persons in the address book.
  */
 public class AddMeetingCommand extends Command {
-
     public static final String COMMAND_WORD = "addmeeting";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a meeting to the specified person(s) "
@@ -34,6 +34,7 @@ public class AddMeetingCommand extends Command {
     public static final String MESSAGE_ADD_MEETING_SUCCESS = "Added meeting to person(s): %1$s";
     public static final String MESSAGE_INVALID_PERSON_INDEX = "Invalid person index provided.";
     public static final String MESSAGE_INVALID_DATE_FORMAT = "Invalid date format! Use YYYY-MM-DD.";
+    public static final String MESSAGE_MEETING_ALREADY_EXISTS = "This meeting already exists for %1$s";
 
     private final List<Index> indices;
     private final String description;
@@ -65,17 +66,7 @@ public class AddMeetingCommand extends Command {
         List<Person> lastShownList = model.getFilteredPersonList();
 
         List<String> updatedPersonNames = new ArrayList<>();
-        List<UUID> participantIds = new ArrayList<>();
-
-        // First pass: validate indices + collect IDs
-        for (Index index : indices) {
-            if (index.getZeroBased() >= lastShownList.size()) {
-                throw new CommandException(MESSAGE_INVALID_PERSON_INDEX);
-            }
-
-            Person personToAdd = lastShownList.get(index.getZeroBased());
-            participantIds.add(personToAdd.getId());
-        }
+        List<UUID> participantIds = collectParticipantIds(lastShownList, indices);
 
         Meeting meeting = new Meeting(description, date, participantIds);
 

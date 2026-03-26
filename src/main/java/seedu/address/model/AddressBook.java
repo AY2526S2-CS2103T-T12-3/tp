@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -138,6 +139,8 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         ObservableList<Meeting> meetingList = FXCollections.observableArrayList();
         meetingList.addAll(meetingSet);
+
+        meetingList.sort(Comparator.comparing(Meeting::getDate));
 
         return FXCollections.unmodifiableObservableList(meetingList);
     }

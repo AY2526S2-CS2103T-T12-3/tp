@@ -27,6 +27,7 @@ import seedu.address.logic.commands.AddMeetingCommand;
 import seedu.address.logic.commands.AddTagCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.DeleteMeetingCommand;
 import seedu.address.logic.commands.DeleteTagCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
@@ -79,6 +80,15 @@ public class AddressBookParserTest {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
                 DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
         assertEquals(new DeleteCommand(INDEX_FIRST_PERSON), command);
+    }
+
+    @Test
+    public void parseCommand_deleteMeeting() throws Exception {
+        String commandInput = DeleteMeetingCommand.COMMAND_WORD + INPUT_INDEX_SINGLE;
+        DeleteMeetingCommand command = (DeleteMeetingCommand) parser.parseCommand(commandInput);
+
+        DeleteMeetingCommand expectedCommand = new DeleteMeetingCommand(VALID_INDEX_SINGLE);
+        assertEquals(expectedCommand, command);
     }
 
     @Test

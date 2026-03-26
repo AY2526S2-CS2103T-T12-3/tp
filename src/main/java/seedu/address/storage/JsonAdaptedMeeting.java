@@ -21,7 +21,7 @@ class JsonAdaptedMeeting {
 
     private final String description;
     private final String date;
-    private final List<String> personIds; // ✅ NEW FIELD
+    private final List<String> personIds;
 
     /**
      * Constructs a {@code JsonAdaptedMeeting} with the given details.
