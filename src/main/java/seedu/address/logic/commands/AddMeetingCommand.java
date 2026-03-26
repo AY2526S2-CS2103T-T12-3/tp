@@ -1,11 +1,10 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.commands.MeetingUtil.createPersonWithMeetingAdded;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -31,11 +30,11 @@ public class AddMeetingCommand extends Command {
             + "dt/DATE (must be YYYY-MM-DD)\n"
             + "Example: " + COMMAND_WORD + " 1,2 d/Project discussion dt/2026-03-25";
 
-    public static final String MESSAGE_ADD_MEETING_SUCCESS = "Added meeting to person(s): %1$s";
+    public static final String MESSAGE_ADD_MEETING_SUCCESS = "Added meeting: %1$s";
     public static final String MESSAGE_INVALID_PERSON_INDEX = "Invalid person index provided.";
     public static final String MESSAGE_INVALID_DATE_FORMAT = "Invalid date format! Use YYYY-MM-DD.";
 
-    private final List<Index> indices;
+    private final Set<Index> indices;
     private final String description;
     private final LocalDate date;
 
@@ -51,9 +50,7 @@ public class AddMeetingCommand extends Command {
         requireNonNull(description);
         requireNonNull(date);
 
-        this.indices = indices.stream()
-                .sorted((i1, i2) -> Integer.compare(i1.getZeroBased(), i2.getZeroBased()))
-                .toList();
+        this.indices = indices;
         this.description = description;
         this.date = date;
     }
@@ -64,10 +61,9 @@ public class AddMeetingCommand extends Command {
 
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        List<String> updatedPersonNames = new ArrayList<>();
-        List<UUID> participantIds = new ArrayList<>();
+        Set<UUID> participantIds = new HashSet<>();
 
-        // First pass: validate indices + collect IDs
+        // Validate indices + collect IDs
         for (Index index : indices) {
             if (index.getZeroBased() >= lastShownList.size()) {
                 throw new CommandException(MESSAGE_INVALID_PERSON_INDEX);
@@ -78,19 +74,8 @@ public class AddMeetingCommand extends Command {
         }
 
         Meeting meeting = new Meeting(description, date, participantIds);
-
-        // Second pass: add meeting to each person
-        for (Index index : indices) {
-            Person personToEdit = lastShownList.get(index.getZeroBased());
-            Person updatedPerson = createPersonWithMeetingAdded(personToEdit, meeting);
-
-            model.setPerson(personToEdit, updatedPerson);
-            updatedPersonNames.add(personToEdit.getName().fullName);
-        }
-
-        return new CommandResult(
-                String.format(MESSAGE_ADD_MEETING_SUCCESS, String.join(", ", updatedPersonNames))
-        );
+        model.addMeeting(meeting);
+        return new CommandResult(String.format(MESSAGE_ADD_MEETING_SUCCESS, meeting));
     }
 
     @Override
