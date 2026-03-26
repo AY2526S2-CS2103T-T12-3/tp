@@ -85,7 +85,7 @@ public class AddressBookTest {
     }
 
     @Test
-    public void getPerson_validUUID_success() {
+    public void getPerson_validUuid_success() {
         AddressBook newData = getTypicalAddressBook();
         addressBook.resetData(newData);
 
