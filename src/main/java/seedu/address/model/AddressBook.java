@@ -2,7 +2,6 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -167,8 +166,8 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     /**
      * Replaces the given meeting {@code target} in the list with {@code editedMeeting}.
-     * {@code target} must exist in the address book.
-     * The meeting details of {@code editedMeeting} must not be the same as another existing meeting in the address book.
+     * {@code target} must exist in the address book. The meeting details of {@code editedMeeting}
+     * must not be the same as another existing meeting in the address book.
      */
     public void setMeeting(Meeting target, Meeting editedMeeting) {
         requireNonNull(editedMeeting);
@@ -212,16 +211,20 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
-    /** Returns the set of all {@code Meeting}s in this address book
-     * whose participant set contains the given {@code id}. */
+    /**
+     * Returns the set of all {@code Meeting}s in this address book
+     * whose participant set contains the given {@code id}.
+     */
     private Set<Meeting> getMeetingsContainingId(UUID id) {
         return meetings.asUnmodifiableObservableList().stream()
                 .filter(meeting -> meeting.getParticipantsID().contains(id))
                 .collect(Collectors.toSet());
     }
 
-    /** Returns a copy of the given {@code meeting}
-     * with the specified {@code id} removed from the set of participants UUID. */
+    /**
+     * Returns a copy of the given {@code meeting}
+     * with the specified {@code id} removed from the set of participants UUID.
+     */
     private static Meeting removeIdFromMeeting(Meeting meeting, UUID id) {
         Set<UUID> newUuidSet = meeting.getParticipantsID();
         newUuidSet.remove(id);

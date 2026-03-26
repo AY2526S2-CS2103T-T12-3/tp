@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.meeting.Meeting;
 import seedu.address.model.tag.Tag;
 
 /**

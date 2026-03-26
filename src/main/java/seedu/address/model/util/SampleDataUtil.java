@@ -2,7 +2,6 @@ package seedu.address.model.util;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -76,14 +75,14 @@ public class SampleDataUtil {
 
     public static Meeting[] getSampleMeetings() {
         return new Meeting[] {
-                new Meeting(
-                        "Project Meeting",
-                        LocalDate.of(2026, 6, 15),
-                        Set.of(UUID_1, UUID_3, UUID_4)),
-                new Meeting(
-                        "Coffee",
-                        LocalDate.of(2026, 6, 11),
-                        Set.of(UUID_1))
+            new Meeting(
+                    "Project Meeting",
+                    LocalDate.of(2026, 6, 15),
+                    Set.of(UUID_1, UUID_3, UUID_4)),
+            new Meeting(
+                    "Coffee",
+                    LocalDate.of(2026, 6, 11),
+                    Set.of(UUID_1))
         };
     }
 
