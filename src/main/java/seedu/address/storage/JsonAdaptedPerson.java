@@ -30,7 +30,6 @@ class JsonAdaptedPerson {
     private final String phone;
     private final String email;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
-    private final List<JsonAdaptedMeeting> meetings = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -41,8 +40,7 @@ class JsonAdaptedPerson {
             @JsonProperty("name") String name,
             @JsonProperty("phone") String phone,
             @JsonProperty("email") String email,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags,
-            @JsonProperty("meetings") List<JsonAdaptedMeeting> meetings
+            @JsonProperty("tags") List<JsonAdaptedTag> tags
     ) {
         this.id = id;
         this.name = name;
@@ -50,9 +48,6 @@ class JsonAdaptedPerson {
         this.email = email;
         if (tags != null) {
             this.tags.addAll(tags);
-        }
-        if (meetings != null) {
-            this.meetings.addAll(meetings);
         }
     }
 
@@ -67,9 +62,6 @@ class JsonAdaptedPerson {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
-        meetings.addAll(source.getMeetings().stream()
-                .map(JsonAdaptedMeeting::new)
-                .collect(Collectors.toList()));
     }
 
     /**
@@ -82,12 +74,6 @@ class JsonAdaptedPerson {
         final List<Tag> personTags = new ArrayList<>();
         for (JsonAdaptedTag tag : tags) {
             personTags.add(tag.toModelType());
-        }
-
-        // Convert meetings
-        final List<Meeting> personMeetings = new ArrayList<>();
-        for (JsonAdaptedMeeting meeting : meetings) {
-            personMeetings.add(meeting.toModelType());
         }
 
         // Validate name
@@ -123,11 +109,10 @@ class JsonAdaptedPerson {
         }
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        final Set<Meeting> modelMeetings = new HashSet<>(personMeetings);
 
         // Handle ID: if missing, call constructor that generates new ID
         if (id == null || id.isEmpty()) {
-            return new Person(modelName, modelPhone, modelEmail, modelTags, modelMeetings);
+            return new Person(modelName, modelPhone, modelEmail, modelTags);
         } else {
             final UUID modelId;
             try {
@@ -135,7 +120,7 @@ class JsonAdaptedPerson {
             } catch (IllegalArgumentException e) {
                 throw new IllegalValueException(INVALID_UUID_MESSAGE);
             }
-            return new Person(modelId, modelName, modelPhone, modelEmail, modelTags, modelMeetings);
+            return new Person(modelId, modelName, modelPhone, modelEmail, modelTags);
         }
     }
 }
