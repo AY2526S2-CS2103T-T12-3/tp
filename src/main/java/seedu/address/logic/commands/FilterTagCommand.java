@@ -67,7 +67,7 @@ public class FilterTagCommand extends Command {
             return false;
         };
 
-        boolean doesAnyTagMatch = model.getFilteredPersonList()
+        boolean doesAnyTagMatch = model.getAddressBook().getPersonList()
                 .stream()
                 .anyMatch(hasAnyTag);
 
