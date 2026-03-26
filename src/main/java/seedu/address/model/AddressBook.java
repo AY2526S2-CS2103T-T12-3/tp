@@ -108,8 +108,8 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.remove(key);
     }
 
-    /** Returns the person with the given UUID, or null if not found */
-    public Person getPerson(UUID uuid) {
+    /** Returns the person with the given UUID. Throws {@code PersonNotFoundException} if not found. */
+    public Person getPerson(UUID uuid) throws PersonNotFoundException {
         return persons.asUnmodifiableObservableList()
                 .stream()
                 .filter(person -> person.getId().equals(uuid))
