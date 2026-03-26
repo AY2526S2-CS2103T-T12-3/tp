@@ -34,6 +34,7 @@ public class AddMeetingCommand extends Command {
     public static final String MESSAGE_ADD_MEETING_SUCCESS = "Added meeting to person(s): %1$s";
     public static final String MESSAGE_INVALID_PERSON_INDEX = "Invalid person index provided.";
     public static final String MESSAGE_INVALID_DATE_FORMAT = "Invalid date format! Use YYYY-MM-DD.";
+    public static final String MESSAGE_MEETING_ALREADY_EXISTS = "This meeting already exists for %1$s";
 
     private final List<Index> indices;
     private final String description;

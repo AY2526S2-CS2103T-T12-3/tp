@@ -2,11 +2,9 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.commands.MeetingUtil.removeMeetingFromAllParticipants;
-import static seedu.address.logic.commands.MeetingUtil.validatePersonIndices;
+import static seedu.address.logic.commands.MeetingUtil.validateMeetingIndices;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +14,6 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.meeting.Meeting;
-import seedu.address.model.person.Person;
 
 /**
  * For the persons at the given indices, deletes the meetings at the specified meeting indices.
@@ -34,77 +31,59 @@ public class DeleteMeetingCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1,2 m/1,3";
 
     public static final String MESSAGE_DELETE_MEETING_SUCCESS =
-            "Deleted meeting(s) %1$s from person(s): %2$s";
+            "Deleted meeting(s) %1$s";
 
     public static final String MESSAGE_INVALID_MEETING_INDEX =
-            "Invalid meeting index provided.";
+            "Invalid meeting index provided: %1$s";
 
-    private final List<Index> personIndices;
     private final Set<Index> meetingIndices;
 
     /**
      * Creates an DeleteMeetingCommand to delete the specified {@code Meeting}s
      *
-     * @param personIndices Indexes of persons to look for the meetings to delete
      * @param meetingIndices The indices of the meetings to delete in the persons
      */
-    public DeleteMeetingCommand(Set<Index> personIndices, Set<Index> meetingIndices) {
-        requireNonNull(personIndices);
+    public DeleteMeetingCommand(Set<Index> meetingIndices) {
         requireNonNull(meetingIndices);
 
-        this.personIndices = personIndices.stream()
-                .sorted((i1, i2) -> Integer.compare(i1.getZeroBased(), i2.getZeroBased()))
-                .toList();
         this.meetingIndices = new HashSet<>(meetingIndices);
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> lastShownList = model.getFilteredPersonList();
-        List<String> updatedPersonNames = new ArrayList<>();
 
-        // Validate person indices first
-        validatePersonIndices(lastShownList, personIndices);
+        // Get the filtered list of meetings directly
+        List<Meeting> lastShownMeetingList = model.getFilteredMeetingList();
 
-        // Track if we actually deleted at least one meeting
-        boolean anyDeleted = false;
+        // Validate meeting indices first
+        validateMeetingIndices(lastShownMeetingList, meetingIndices);
+
+        // Track meetings actually deleted for feedback
         Set<Meeting> meetingsToDelete = new HashSet<>();
+        Set<Index> actualDeletedIndices = new HashSet<>();
 
-        for (Index personIndex : personIndices) {
-            Person person = lastShownList.get(personIndex.getZeroBased());
-            List<Meeting> personMeetings = new ArrayList<>(person.getMeetings());
-            personMeetings.sort(Comparator.comparing(Meeting::getDate)
-                    .thenComparing(Meeting::getDescription));
-
-            for (Index meetingIdx : meetingIndices) {
-                if (meetingIdx.getZeroBased() < personMeetings.size()) {
-                    meetingsToDelete.add(personMeetings.get(meetingIdx.getZeroBased()));
-                    anyDeleted = true;
-                }
-            }
-
-            // Add person to updated list only if they had at least one meeting to delete
-            if (!meetingsToDelete.isEmpty()) {
-                updatedPersonNames.add(person.getName().fullName);
+        for (Index meetingIdx : meetingIndices) {
+            int zeroBased = meetingIdx.getZeroBased();
+            if (zeroBased >= 0 && zeroBased < lastShownMeetingList.size()) {
+                meetingsToDelete.add(lastShownMeetingList.get(zeroBased));
+                actualDeletedIndices.add(meetingIdx);
             }
         }
 
-        // Only delete if we found at least one valid meeting
-        if (anyDeleted) {
-            for (Meeting meeting : meetingsToDelete) {
-                removeMeetingFromAllParticipants(lastShownList, meeting, model);
-            }
-
-            String meetingIndexString = formatMeetingIndices(meetingIndices);
-            return new CommandResult(
-                    String.format(MESSAGE_DELETE_MEETING_SUCCESS,
-                            meetingIndexString,
-                            String.join(", ", updatedPersonNames))
-            );
-        } else {
+        if (meetingsToDelete.isEmpty()) {
             return new CommandResult(MESSAGE_INVALID_MEETING_INDEX);
         }
+
+        // Delete meetings from model
+        for (Meeting meeting : meetingsToDelete) {
+            removeMeetingFromAllParticipants(meeting, model);
+        }
+
+        // Format only the indices of meetings actually deleted
+        String meetingIndexString = formatMeetingIndices(actualDeletedIndices);
+        return new CommandResult(
+                String.format(MESSAGE_DELETE_MEETING_SUCCESS, meetingIndexString));
     }
 
     @Override
@@ -119,8 +98,7 @@ public class DeleteMeetingCommand extends Command {
 
         DeleteMeetingCommand otherCommand = (DeleteMeetingCommand) other;
 
-        return personIndices.equals(otherCommand.personIndices)
-                && meetingIndices.equals(otherCommand.meetingIndices);
+        return meetingIndices.equals(otherCommand.meetingIndices);
     }
 
     /**

@@ -1,7 +1,6 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_INDEX;
 
 import java.util.Set;
 
@@ -24,37 +23,19 @@ public class DeleteMeetingCommandParser implements Parser<DeleteMeetingCommand> 
     @Override
     public DeleteMeetingCommand parse(String args) throws ParseException {
 
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args,
-                        PREFIX_MEETING_INDEX);
+        boolean areIndexesMissing = args.isEmpty();
 
-        boolean isIndexMissing = argMultimap.getPreamble().isEmpty();
-        boolean areMeetingsMissing = !isPrefixPresent(argMultimap, PREFIX_MEETING_INDEX);
-
-        if (isIndexMissing || areMeetingsMissing) {
+        if (areIndexesMissing) {
             throw new ParseException(String.format(
                     MESSAGE_INVALID_COMMAND_FORMAT,
                     DeleteMeetingCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_MEETING_INDEX);
-
-        // Parse indices
-        Set<Index> indices = ParserUtil.parseIndices(
-                argMultimap.getPreamble(),
-                DeleteMeetingCommand.MESSAGE_USAGE);
-
         // Parse meeting indices
         Set<Index> meetingIndices = ParserUtil.parseIndices(
-                argMultimap.getValue(PREFIX_MEETING_INDEX).get().trim(),
+                args,
                 DeleteMeetingCommand.MESSAGE_USAGE);
-        return new DeleteMeetingCommand(indices, meetingIndices);
-    }
 
-    /**
-     * Returns true if the prefix contains a value in the given ArgumentMultimap.
-     */
-    private static boolean isPrefixPresent(ArgumentMultimap argumentMultimap, Prefix prefix) {
-        return argumentMultimap.getValue(prefix).isPresent();
+        return new DeleteMeetingCommand(meetingIndices);
     }
 }

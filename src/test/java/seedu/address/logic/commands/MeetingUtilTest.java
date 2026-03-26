@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260401;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
@@ -10,7 +11,6 @@ import static seedu.address.logic.commands.MeetingUtil.collectParticipantIds;
 import static seedu.address.logic.commands.MeetingUtil.createPersonWithGivenMeetings;
 import static seedu.address.logic.commands.MeetingUtil.createPersonWithMeetingAdded;
 import static seedu.address.logic.commands.MeetingUtil.removeMeetingFromAllParticipants;
-import static seedu.address.logic.commands.MeetingUtil.validatePersonIndices;
 
 import java.util.HashSet;
 import java.util.List;
@@ -42,10 +42,10 @@ public class MeetingUtilTest {
             VALID_DATE_20260325, participantIds);
 
     @Test
-    public void createPersonWithMeetingAdded_addsMeeting() {
+    public void createPersonWithMeetingAdded_addsMeeting() throws CommandException {
         Person updated = createPersonWithMeetingAdded(testPerson1, testMeeting1);
         assertEquals(1, updated.getMeetings().size());
-        assertEquals(true, updated.getMeetings().contains(testMeeting1));
+        assertTrue(updated.getMeetings().contains(testMeeting1));
     }
 
     @Test
@@ -56,8 +56,8 @@ public class MeetingUtilTest {
 
         Person updated = createPersonWithGivenMeetings(testPerson1, meetings);
         assertEquals(2, updated.getMeetings().size());
-        assertEquals(true, updated.getMeetings().contains(testMeeting1));
-        assertEquals(true, updated.getMeetings().contains(testMeeting2));
+        assertTrue(updated.getMeetings().contains(testMeeting1));
+        assertTrue(updated.getMeetings().contains(testMeeting2));
     }
 
     @Test
@@ -78,30 +78,15 @@ public class MeetingUtilTest {
     }
 
     @Test
-    public void validatePersonIndices_validIndices_noException() throws CommandException {
-        List<Person> persons = List.of(testPerson1, testPerson2);
-        List<Index> indices = List.of(Index.fromZeroBased(0), Index.fromZeroBased(1));
-        validatePersonIndices(persons, indices); // should pass
-    }
-
-    @Test
-    public void validatePersonIndices_invalidIndex_throwsCommandException() {
-        List<Person> persons = List.of(testPerson1);
-        List<Index> indices = List.of(Index.fromZeroBased(1));
-
-        assertThrows(CommandException.class, () -> validatePersonIndices(persons, indices));
-    }
-
-    @Test
     public void removeMeetingFromAllParticipants_removesCorrectly() throws CommandException {
-        // Add meeting to both persons
+        // Add meeting to both persons in model
         model.setPerson(testPerson1, createPersonWithMeetingAdded(testPerson1, testMeeting1));
         model.setPerson(testPerson2, createPersonWithMeetingAdded(testPerson2, testMeeting1));
 
-        List<Person> list = model.getFilteredPersonList();
-        removeMeetingFromAllParticipants(list, testMeeting1, model);
+        // Call correct method signature
+        removeMeetingFromAllParticipants(testMeeting1, model);
 
-        // Check that both persons no longer have the meeting
+        // Verify
         Person updated1 = model.getFilteredPersonList().get(0);
         Person updated2 = model.getFilteredPersonList().get(1);
 

@@ -2,6 +2,8 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.commands.AddMeetingCommand.MESSAGE_INVALID_PERSON_INDEX;
+import static seedu.address.logic.commands.AddMeetingCommand.MESSAGE_MEETING_ALREADY_EXISTS;
+import static seedu.address.logic.commands.DeleteMeetingCommand.MESSAGE_INVALID_MEETING_INDEX;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,11 +22,24 @@ import seedu.address.model.person.Person;
  */
 public class MeetingUtil {
     /**
-     * Helper method to return a new Person object with the given new meeting added
+     * Helper method to return a new Person object with the given new meeting added.
+     *
+     * @throws CommandException if the meeting already exists for this person.
      */
-    public static Person createPersonWithMeetingAdded(Person person, Meeting meeting) {
+    public static Person createPersonWithMeetingAdded(Person person, Meeting meeting) throws CommandException {
+        requireNonNull(person);
+        requireNonNull(meeting);
+
         Set<Meeting> updatedMeetings = new HashSet<>(person.getMeetings());
+
+        if (updatedMeetings.contains(meeting)) {
+            throw new CommandException(String.format(
+                    MESSAGE_MEETING_ALREADY_EXISTS,
+                    person.getName().fullName));
+        }
+
         updatedMeetings.add(meeting);
+
         return new Person(
                 person.getId(),
                 person.getName(),
@@ -65,43 +80,44 @@ public class MeetingUtil {
     }
 
     /**
-     * Validates if there are people in the given indices in the AddressBook.
+     * Validates that all meeting indices are within the bounds of the given meeting list.
+     *
+     * @param meetingList The list of meetings to validate against.
+     * @param meetingIndices The set of indices to validate.
+     * @throws CommandException if any index is out of bounds.
      */
-    public static void validatePersonIndices(List<Person> listOfPeople, List<Index> personIndices)
+    public static void validateMeetingIndices(List<Meeting> meetingList, Set<Index> meetingIndices)
             throws CommandException {
+        requireNonNull(meetingList);
+        requireNonNull(meetingIndices);
 
-        for (Index personIndex : personIndices) {
-            if (personIndex.getZeroBased() >= listOfPeople.size()) {
-                throw new CommandException(MESSAGE_INVALID_PERSON_INDEX);
+        for (Index idx : meetingIndices) {
+            if (idx.getZeroBased() < 0 || idx.getZeroBased() >= meetingList.size()) {
+                throw new CommandException(String.format(MESSAGE_INVALID_MEETING_INDEX, idx.getOneBased()));
             }
         }
     }
 
     /**
-     * Removes the specified meeting from all its participants in the list given.
+     * Removes the specified meeting from all its participants.
      *
-     * @param lastShownList The list of persons to look through.
      * @param meetingToDelete The meeting to remove.
      * @param model The model to update persons in.
+     * @throws CommandException if any participant cannot be found in the model.
      */
-    public static void removeMeetingFromAllParticipants(List<Person> lastShownList,
-                                                        Meeting meetingToDelete,
-                                                        Model model) throws CommandException {
-        requireNonNull(lastShownList);
+    public static void removeMeetingFromAllParticipants(Meeting meetingToDelete, Model model)
+            throws CommandException {
         requireNonNull(meetingToDelete);
         requireNonNull(model);
 
         for (UUID participantId : meetingToDelete.getParticipantsID()) {
-            // Find the participant in the filtered list
-            for (Person person : lastShownList) {
-                if (person.getId().equals(participantId)) {
-                    Set<Meeting> updatedMeetings = new HashSet<>(person.getMeetings());
-                    updatedMeetings.remove(meetingToDelete); // remove the exact meeting object
+            Person participant = model.getPerson(participantId);
 
-                    Person updatedPerson = createPersonWithGivenMeetings(person, updatedMeetings);
-                    model.setPerson(person, updatedPerson);
-                }
-            }
+            Set<Meeting> updatedMeetings = new HashSet<>(participant.getMeetings());
+            updatedMeetings.remove(meetingToDelete);
+
+            Person updatedPerson = createPersonWithGivenMeetings(participant, updatedMeetings);
+            model.setPerson(participant, updatedPerson);
         }
     }
 }

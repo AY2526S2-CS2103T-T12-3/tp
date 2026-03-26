@@ -4,11 +4,9 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAnyNonNull;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.UUID;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -31,7 +29,7 @@ public class Person {
 
     // Data fields
     private final Set<Tag> tags = new HashSet<>();
-    private final Set<Meeting> meetings = new TreeSet<>(Comparator.comparing(Meeting::getDate));
+    private final Set<Meeting> meetings = new HashSet<>();
 
     /**
      * Constructs a Person object with the given id

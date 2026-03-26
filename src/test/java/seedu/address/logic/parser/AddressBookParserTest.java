@@ -10,7 +10,6 @@ import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SIN
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_DATE_20260325;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_DESC_PROJECT;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_INDEX_SINGLE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_INDEX;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
@@ -85,12 +84,10 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_deleteMeeting() throws Exception {
-        String commandInput = DeleteMeetingCommand.COMMAND_WORD + INPUT_INDEX_SINGLE
-                + " " + PREFIX_MEETING_INDEX + INPUT_INDEX_SINGLE;
+        String commandInput = DeleteMeetingCommand.COMMAND_WORD + INPUT_INDEX_SINGLE;
         DeleteMeetingCommand command = (DeleteMeetingCommand) parser.parseCommand(commandInput);
 
-        DeleteMeetingCommand expectedCommand = new DeleteMeetingCommand(VALID_INDEX_SINGLE,
-                VALID_INDEX_SINGLE);
+        DeleteMeetingCommand expectedCommand = new DeleteMeetingCommand(VALID_INDEX_SINGLE);
         assertEquals(expectedCommand, command);
     }
 
