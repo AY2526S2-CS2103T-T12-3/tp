@@ -8,16 +8,21 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.meeting.Meeting;
+import seedu.address.model.meeting.exceptions.DuplicateMeetingException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -50,9 +55,29 @@ public class AddressBookTest {
         Person editedAlice = new PersonBuilder(ALICE).withTags(VALID_TAG_HUSBAND)
                 .build();
         List<Person> newPersons = Arrays.asList(ALICE, editedAlice);
-        AddressBookStub newData = new AddressBookStub(newPersons);
+        List<Meeting> emptyMeetings = new ArrayList<>();
+        AddressBookStub newData = new AddressBookStub(newPersons, emptyMeetings);
 
         assertThrows(DuplicatePersonException.class, () -> addressBook.resetData(newData));
+    }
+
+    @Test
+    public void resetData_withDuplicateMeeting_throwsDuplicateMeetingException() {
+        List<Person> newPersons = Collections.singletonList(ALICE);
+
+        List<Meeting> newMeetings = new ArrayList<>();
+        newMeetings.add(new Meeting(
+                "Coffee",
+                LocalDate.of(2026, 8, 12),
+                Set.of(ALICE.getId())));
+        newMeetings.add(new Meeting(
+                "Coffee",
+                LocalDate.of(2026, 8, 12),
+                Set.of(ALICE.getId())));
+
+        AddressBookStub newData = new AddressBookStub(newPersons, newMeetings);
+
+        assertThrows(DuplicateMeetingException.class, () -> addressBook.resetData(newData));
     }
 
     @Test
@@ -97,7 +122,9 @@ public class AddressBookTest {
 
     @Test
     public void toStringMethod() {
-        String expected = AddressBook.class.getCanonicalName() + "{persons=" + addressBook.getPersonList() + "}";
+        String expected = AddressBook.class.getCanonicalName()
+                + "{persons=" + addressBook.getPersonList() + ", "
+                + "meetings=" + addressBook.getMeetingList() + "}";
         assertEquals(expected, addressBook.toString());
     }
 
@@ -106,14 +133,21 @@ public class AddressBookTest {
      */
     private static class AddressBookStub implements ReadOnlyAddressBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
+        private final ObservableList<Meeting> meetings = FXCollections.observableArrayList();
 
-        AddressBookStub(Collection<Person> persons) {
+        AddressBookStub(Collection<Person> persons, Collection<Meeting> meetings) {
             this.persons.setAll(persons);
+            this.meetings.setAll(meetings);
         }
 
         @Override
         public ObservableList<Person> getPersonList() {
             return persons;
+        }
+
+        @Override
+        public ObservableList<Meeting> getMeetingList() {
+            return meetings;
         }
     }
 
