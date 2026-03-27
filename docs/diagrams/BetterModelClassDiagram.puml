@@ -21,7 +21,7 @@ Person *--> Name
 Person *--> Phone
 Person *--> Email
 
-Meeting *-right-> "*" UUID
+Meeting *-right-> "*" ID
 Meeting *--> "1" Date
 Meeting *--> "1" Description
 @enduml
