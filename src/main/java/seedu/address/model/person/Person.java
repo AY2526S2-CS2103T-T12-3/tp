@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.meeting.Meeting;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -29,13 +28,12 @@ public class Person {
 
     // Data fields
     private final Set<Tag> tags = new HashSet<>();
-    private final Set<Meeting> meetings = new HashSet<>();
 
     /**
      * Constructs a Person object with the given id
      * Name and either phone or email must be present and not null.
      */
-    public Person(UUID id, Name name, Phone phone, Email email, Set<Tag> tags, Set<Meeting> meetings) {
+    public Person(UUID id, Name name, Phone phone, Email email, Set<Tag> tags) {
         requireAllNonNull(id, name, tags);
         requireAnyNonNull(phone, email);
 
@@ -44,15 +42,14 @@ public class Person {
         this.phone = phone;
         this.email = email;
         this.tags.addAll(tags);
-        this.meetings.addAll(meetings);
     }
 
     /**
      * Constructs a Person object without any given id
      * Name and either phone or email must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Set<Tag> tags, Set<Meeting> meetings) {
-        this(UUID.randomUUID(), name, phone, email, tags, meetings);
+    public Person(Name name, Phone phone, Email email, Set<Tag> tags) {
+        this(UUID.randomUUID(), name, phone, email, tags);
     }
 
     public UUID getId() {
@@ -77,14 +74,6 @@ public class Person {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
-    }
-
-    /**
-     * Returns an immutable meetings set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
-     */
-    public Set<Meeting> getMeetings() {
-        return Collections.unmodifiableSet(meetings);
     }
 
     /**
@@ -137,14 +126,13 @@ public class Person {
         return Objects.equals(name, otherPerson.name)
                 && Objects.equals(phone, otherPerson.phone)
                 && Objects.equals(email, otherPerson.email)
-                && Objects.equals(tags, otherPerson.tags)
-                && Objects.equals(meetings, otherPerson.meetings);
+                && Objects.equals(tags, otherPerson.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, tags, meetings);
+        return Objects.hash(name, phone, email, tags);
     }
 
     @Override
@@ -155,7 +143,6 @@ public class Person {
                 .add("phone", phone)
                 .add("email", email)
                 .add("tags", tags)
-                .add("meetings", meetings)
                 .toString();
     }
 

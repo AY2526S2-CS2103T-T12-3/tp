@@ -15,6 +15,7 @@ import seedu.address.model.person.Person;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
+    Predicate<Meeting> PREDICATE_SHOW_ALL_MEETINGS = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -54,6 +55,8 @@ public interface Model {
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
 
+    //===== Person-level operations =====================================================
+
     /**
      * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
@@ -78,11 +81,7 @@ public interface Model {
      */
     void setPerson(Person target, Person editedPerson);
 
-    /**
-     * Gets the person with the given UUID.
-     * @param uuid the UUID of the person.
-     * @return the person with the given UUID.
-     */
+    /** Finds the person with the given UUID. */
     Person getPerson(UUID uuid);
 
     /** Returns an unmodifiable view of the filtered person list */
@@ -94,6 +93,38 @@ public interface Model {
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
 
+    //===== Meeting-level operations ======================================================
+
+    /**
+     * Returns true if a meeting with the same details as {@code meeting} exists in the address book.
+     */
+    boolean hasMeeting(Meeting meeting);
+
+    /**
+     * Deletes the given meeting.
+     * The meeting must exist in the address book.
+     */
+    void deleteMeeting(Meeting target);
+
+    /**
+     * Adds the given meeting.
+     * {@code meeting} must not already exist in the address book.
+     */
+    void addMeeting(Meeting meeting);
+
+    /**
+     * Replaces the given meeting {@code target} with {@code editedMeeting}.
+     * {@code target} must exist in the address book. The meeting details of {@code editedMeeting}
+     * must not be the same as another existing meeting in the address book.
+     */
+    void setMeeting(Meeting target, Meeting editedMeeting);
+
     /** Returns an unmodifiable view of the filtered meeting list */
     ObservableList<Meeting> getFilteredMeetingList();
+
+    /**
+     * Updates the filter of the filtered meeting list to filter by the given {@code predicate}.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredMeetingList(Predicate<Meeting> predicate);
 }

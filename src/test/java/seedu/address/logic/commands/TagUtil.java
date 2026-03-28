@@ -26,8 +26,7 @@ public class TagUtil {
                 personToEdit.getName(),
                 personToEdit.getPhone(),
                 personToEdit.getEmail(),
-                updatedTags,
-                personToEdit.getMeetings()
+                updatedTags
         );
     }
 }

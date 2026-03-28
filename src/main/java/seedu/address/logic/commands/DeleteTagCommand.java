@@ -110,8 +110,7 @@ public class DeleteTagCommand extends Command {
                 personToEdit.getName(),
                 personToEdit.getPhone(),
                 personToEdit.getEmail(),
-                updatedTags,
-                personToEdit.getMeetings()
+                updatedTags
         );
     }
 

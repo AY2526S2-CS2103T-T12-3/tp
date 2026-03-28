@@ -1,8 +1,9 @@
 package seedu.address.model.util;
 
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import seedu.address.model.AddressBook;
@@ -18,51 +19,70 @@ import seedu.address.model.tag.Tag;
  * Contains utility methods for populating {@code AddressBook} with sample data.
  */
 public class SampleDataUtil {
+    private static final UUID UUID_1 = UUID.fromString("00000000-0000-0000-0000-000000000001");
+    private static final UUID UUID_2 = UUID.fromString("00000000-0000-0000-0000-000000000002");
+    private static final UUID UUID_3 = UUID.fromString("00000000-0000-0000-0000-000000000003");
+    private static final UUID UUID_4 = UUID.fromString("00000000-0000-0000-0000-000000000004");
+    private static final UUID UUID_5 = UUID.fromString("00000000-0000-0000-0000-000000000005");
+    private static final UUID UUID_6 = UUID.fromString("00000000-0000-0000-0000-000000000006");
 
     public static Person[] getSamplePersons() {
         return new Person[] {
             new Person(
+                    UUID_1,
                     new Name("Alex Yeoh"),
                     new Phone("87438807"),
                     new Email("alexyeoh@example.com"),
-                    getTagSet("friends"),
-                    getMeetingSet() // empty meeting set
+                    getTagSet("friends")
             ),
             new Person(
+                    UUID_2,
                     new Name("Bernice Yu"),
                     new Phone("99272758"),
                     new Email("berniceyu@example.com"),
-                    getTagSet("colleagues", "friends"),
-                    getMeetingSet()
+                    getTagSet("colleagues", "friends")
             ),
             new Person(
+                    UUID_3,
                     new Name("Charlotte Oliveiro"),
                     new Phone("93210283"),
                     new Email("charlotte@example.com"),
-                    getTagSet("neighbours"),
-                    getMeetingSet()
+                    getTagSet("neighbours")
             ),
             new Person(
+                    UUID_4,
                     new Name("David Li"),
                     new Phone("91031282"),
                     new Email("lidavid@example.com"),
-                    getTagSet("family"),
-                    getMeetingSet()
+                    getTagSet("family")
             ),
             new Person(
+                    UUID_5,
                     new Name("Irfan Ibrahim"),
                     new Phone("92492021"),
                     new Email("irfan@example.com"),
-                    getTagSet("classmates"),
-                    getMeetingSet()
+                    getTagSet("classmates")
             ),
             new Person(
+                    UUID_6,
                     new Name("Roy Balakrishnan"),
                     new Phone("92624417"),
                     new Email("royb@example.com"),
-                    getTagSet("colleagues"),
-                    getMeetingSet()
+                    getTagSet("colleagues")
             )
+        };
+    }
+
+    public static Meeting[] getSampleMeetings() {
+        return new Meeting[] {
+            new Meeting(
+                    "Project Meeting",
+                    LocalDate.of(2026, 6, 15),
+                    Set.of(UUID_1, UUID_3, UUID_4)),
+            new Meeting(
+                    "Coffee",
+                    LocalDate.of(2026, 6, 11),
+                    Set.of(UUID_1))
         };
     }
 
@@ -70,6 +90,9 @@ public class SampleDataUtil {
         AddressBook sampleAb = new AddressBook();
         for (Person samplePerson : getSamplePersons()) {
             sampleAb.addPerson(samplePerson);
+        }
+        for (Meeting sampleMeeting : getSampleMeetings()) {
+            sampleAb.addMeeting(sampleMeeting);
         }
         return sampleAb;
     }
@@ -81,12 +104,5 @@ public class SampleDataUtil {
         return Arrays.stream(strings)
                 .map(Tag::new)
                 .collect(Collectors.toSet());
-    }
-
-    /**
-     * Returns an empty meeting set for sample persons.
-     */
-    public static Set<Meeting> getMeetingSet() {
-        return Collections.emptySet(); // no meetings yet
     }
 }

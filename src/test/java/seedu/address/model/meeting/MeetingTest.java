@@ -9,7 +9,7 @@ import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTI
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_TEAM;
 import static seedu.address.testutil.Assert.assertThrows;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ public class MeetingTest {
     private static final UUID VALID_UUID_2 =
             UUID.fromString("00000000-0000-0000-0000-000000000002");
 
-    public static final List<UUID> VALID_UUIDS = List.of(VALID_UUID_1, VALID_UUID_2);
+    public static final Set<UUID> VALID_UUIDS = Set.of(VALID_UUID_1, VALID_UUID_2);
 
     @Test
     public void constructor_nullDescription_throwsNullPointerException() {

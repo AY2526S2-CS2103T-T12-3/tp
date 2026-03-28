@@ -1,7 +1,7 @@
 package seedu.address.storage;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -21,7 +21,7 @@ class JsonAdaptedMeeting {
 
     private final String description;
     private final String date;
-    private final List<String> personIds;
+    private final Set<String> personIds;
 
     /**
      * Constructs a {@code JsonAdaptedMeeting} with the given details.
@@ -29,7 +29,7 @@ class JsonAdaptedMeeting {
     @JsonCreator
     public JsonAdaptedMeeting(@JsonProperty("description") String description,
                               @JsonProperty("date") String date,
-                              @JsonProperty("personIds") List<String> personIds) {
+                              @JsonProperty("personIds") Set<String> personIds) {
         this.description = description;
         this.date = date;
         this.personIds = personIds;
@@ -43,7 +43,7 @@ class JsonAdaptedMeeting {
         this.date = source.getDate().toString();
         this.personIds = source.getParticipantsID().stream()
                 .map(UUID::toString)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     public String getDescription() {
@@ -54,7 +54,7 @@ class JsonAdaptedMeeting {
         return date;
     }
 
-    public List<String> getPersonIds() {
+    public Set<String> getPersonIds() {
         return personIds;
     }
 
@@ -83,9 +83,9 @@ class JsonAdaptedMeeting {
 
         LocalDate parsedDate = ParserUtil.parseDate(date);
 
-        List<UUID> modelPersonIds = personIds.stream()
+        Set<UUID> modelPersonIds = personIds.stream()
                 .map(UUID::fromString)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
 
         return new Meeting(description, parsedDate, modelPersonIds);
     }

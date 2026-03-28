@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.commands.MeetingUtil.createPersonWithMeetingAdded;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
@@ -13,7 +12,6 @@ import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -51,20 +49,16 @@ public class AddMeetingCommandTest {
         Person targetPerson = model.getFilteredPersonList().get(indices.iterator().next().getZeroBased());
 
         // Collect participant IDs for the meeting
-        List<UUID> participantIds = List.of(targetPerson.getId());
+        Set<UUID> participantIds = Set.of(targetPerson.getId());
 
         // Meeting with validated IDs
         Meeting meeting = new Meeting(VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325, participantIds);
 
-        // Create edited person with the meeting added
-        Person editedPerson = createPersonWithMeetingAdded(targetPerson, meeting);
-
-        String expectedMessage = String.format(AddMeetingCommand.MESSAGE_ADD_MEETING_SUCCESS,
-                targetPerson.getName().fullName);
+        String expectedMessage = String.format(AddMeetingCommand.MESSAGE_ADD_MEETING_SUCCESS, meeting);
 
         // Build expected model
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.setPerson(targetPerson, editedPerson);
+        expectedModel.addMeeting(meeting);
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
@@ -75,7 +69,7 @@ public class AddMeetingCommandTest {
                 VALID_DESCRIPTION_TEAM, VALID_DATE_20260401);
 
         // Collect participant IDs from all target persons
-        List<UUID> participantIds = List.of(
+        Set<UUID> participantIds = Set.of(
                 ALICE.getId(),
                 BENSON.getId(),
                 CARL.getId()
@@ -86,16 +80,10 @@ public class AddMeetingCommandTest {
 
         // Build expected model by adding the meeting to each person
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.setPerson(ALICE, createPersonWithMeetingAdded(ALICE, meeting));
-        expectedModel.setPerson(BENSON, createPersonWithMeetingAdded(BENSON, meeting));
-        expectedModel.setPerson(CARL, createPersonWithMeetingAdded(CARL, meeting));
+        expectedModel.addMeeting(meeting);
 
         // Expected message with names
-        String expectedMessage = String.format(AddMeetingCommand.MESSAGE_ADD_MEETING_SUCCESS,
-                String.join(", ",
-                        ALICE.getName().fullName,
-                        BENSON.getName().fullName,
-                        CARL.getName().fullName));
+        String expectedMessage = String.format(AddMeetingCommand.MESSAGE_ADD_MEETING_SUCCESS, meeting);
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }

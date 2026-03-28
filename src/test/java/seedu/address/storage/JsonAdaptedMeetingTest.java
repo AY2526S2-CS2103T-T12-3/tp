@@ -8,7 +8,7 @@ import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTI
 import static seedu.address.storage.JsonAdaptedPersonTest.VALID_MEETINGS;
 import static seedu.address.testutil.Assert.assertThrows;
 
-import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -22,8 +22,8 @@ public class JsonAdaptedMeetingTest {
     public static final String INVALID_ID_1 = "bruh";
     public static final String INVALID_ID_2 = "";
 
-    public static final List<String> VALID_IDS = List.of(VALID_ID_1, VALID_ID_2);
-    public static final List<String> INVALID_IDS = List.of(INVALID_ID_1, INVALID_ID_2);
+    public static final Set<String> VALID_IDS = Set.of(VALID_ID_1, VALID_ID_2);
+    public static final Set<String> INVALID_IDS = Set.of(INVALID_ID_1, INVALID_ID_2);
 
     @Test
     public void toModelType_validMeetings_success() throws Exception {

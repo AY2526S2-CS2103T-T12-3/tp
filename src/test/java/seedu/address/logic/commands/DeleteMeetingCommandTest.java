@@ -1,25 +1,18 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260401;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_TEAM;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SINGLE;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDICES_MULTIPLE;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.DeleteMeetingCommand.MESSAGE_INVALID_MEETING_INDEX;
-import static seedu.address.logic.commands.MeetingUtil.createPersonWithGivenMeetings;
-import static seedu.address.logic.commands.MeetingUtil.createPersonWithMeetingAdded;
-import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_INDEX_SINGLE;
-import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_INDICES_MULTIPLE;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +21,6 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.meeting.Meeting;
-import seedu.address.model.person.Person;
 
 public class DeleteMeetingCommandTest {
 
@@ -36,11 +28,9 @@ public class DeleteMeetingCommandTest {
 
     @Test
     public void execute_singleIndex_success() throws Exception {
-        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        List<UUID> participantIds = List.of(firstPerson.getId());
-        Meeting meetingToAdd = new Meeting(VALID_DESCRIPTION_TEAM, VALID_DATE_20260325, participantIds);
+        List<Meeting> lastSeenList = model.getFilteredMeetingList();
 
-        model.setPerson(firstPerson, createPersonWithMeetingAdded(firstPerson, meetingToAdd));
+        List<Meeting> meetingToDelete = List.of(lastSeenList.get(INDEX_FIRST_PERSON.getZeroBased()));
 
         // Execute DeleteMeetingCommand
         DeleteMeetingCommand command = new DeleteMeetingCommand(VALID_INDEX_SINGLE);
@@ -48,47 +38,37 @@ public class DeleteMeetingCommandTest {
         CommandResult response = command.execute(model);
 
         // Expected message
-        String expectedMessage = String.format(
-                DeleteMeetingCommand.MESSAGE_DELETE_MEETING_SUCCESS, INPUT_INDEX_SINGLE.trim()
-        );
+        String expectedMessage = String.format(DeleteMeetingCommand.MESSAGE_DELETE_MEETING_SUCCESS, meetingToDelete);
 
         assertEquals(expectedMessage, response.getFeedbackToUser());
 
         // Check that the meeting was deleted
-        Person updatedPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        assertTrue(updatedPerson.getMeetings().isEmpty());
+        assertFalse(model.hasMeeting(meetingToDelete.get(0)));
     }
 
     @Test
     public void execute_multipleIndices_success() throws Exception {
-        List<Person> persons = model.getFilteredPersonList().subList(0, 3);
-        List<UUID> participantIds = persons.stream().map(Person::getId).toList();
+        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        List<Meeting> lastSeenList = model.getFilteredMeetingList();
 
-        Meeting testMeeting1 = new Meeting(VALID_DESCRIPTION_TEAM, VALID_DATE_20260325, participantIds);
-        Meeting testMeeting2 = new Meeting(VALID_DESCRIPTION_TEAM, VALID_DATE_20260401, participantIds);
-        Meeting testMeeting3 = new Meeting(VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325, participantIds);
+        // Note: Typical Address Book must have at least 2 meetings.
+        List<Meeting> meetingsToDelete = List.of(
+                lastSeenList.get(INDEX_FIRST_PERSON.getZeroBased()),
+                lastSeenList.get(INDEX_SECOND_PERSON.getZeroBased())
+        );
 
-        Set<Meeting> setOfMeetings = Set.of(testMeeting1, testMeeting2, testMeeting3);
-        for (Person p : persons) {
-            model.setPerson(p, createPersonWithGivenMeetings(p, setOfMeetings));
-        }
-
-        // Execute DeleteMeetingCommand for all three meetings
-        DeleteMeetingCommand command = new DeleteMeetingCommand(VALID_INDICES_MULTIPLE);
+        // Execute DeleteMeetingCommand
+        DeleteMeetingCommand command = new DeleteMeetingCommand(Set.of(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON));
 
         CommandResult response = command.execute(model);
 
-        // Expected message (only the indices that existed)
-        String expectedMessage = String.format(
-                DeleteMeetingCommand.MESSAGE_DELETE_MEETING_SUCCESS, INPUT_INDICES_MULTIPLE.trim()
-        );
+        // Expected message
+        String expectedMessage = String.format(DeleteMeetingCommand.MESSAGE_DELETE_MEETING_SUCCESS, meetingsToDelete);
+
         assertEquals(expectedMessage, response.getFeedbackToUser());
 
-        // Check all meetings removed
-        for (int i = 0; i < 3; i++) {
-            Person updatedPerson = model.getFilteredPersonList().get(i);
-            assertTrue(updatedPerson.getMeetings().isEmpty());
-        }
+        // Check that the meeting was deleted
+        meetingsToDelete.forEach(m -> assertFalse(model.hasMeeting(m)));
     }
 
     @Test
