@@ -4,6 +4,7 @@ skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 
+AddressBook *-right-> "1" UniqueMeetingList
 AddressBook *-right-> "1" UniquePersonList
 AddressBook *-right-> "1" UniqueTagList
 UniqueTagList -[hidden]down- UniquePersonList
@@ -11,11 +12,16 @@ UniqueTagList -[hidden]down- UniquePersonList
 
 UniqueTagList -right-> "*" Tag
 UniquePersonList -right-> Person
+UniqueMeetingList *-right-> Meeting
 
 Person -up-> "*" Tag
 
+Person *--> ID
 Person *--> Name
 Person *--> Phone
 Person *--> Email
-Person *--> Address
+
+Meeting *-right-> "*" ID
+Meeting *--> "1" Date
+Meeting *--> "1" Description
 @enduml
