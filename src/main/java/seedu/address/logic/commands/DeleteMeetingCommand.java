@@ -52,8 +52,9 @@ public class DeleteMeetingCommand extends Command {
         // Get the filtered list of meetings directly
         List<Meeting> lastShownMeetingList = model.getFilteredMeetingList();
 
-        // Validate indices + collect meetings
+        // Validate indices and collect meetings
         Set<Meeting> meetingsToDelete = new HashSet<>();
+
         for (Index index : meetingIndices) {
             if (index.getZeroBased() >= lastShownMeetingList.size()) {
                 throw new CommandException(String.format(MESSAGE_INVALID_MEETING_INDEX, index.getOneBased()));
@@ -80,14 +81,5 @@ public class DeleteMeetingCommand extends Command {
         DeleteMeetingCommand otherCommand = (DeleteMeetingCommand) other;
 
         return meetingIndices.equals(otherCommand.meetingIndices);
-    }
-
-    /**
-     * Formats the meeting indices into a string to be used for {@code MESSAGE_DELETE_MEETING_SUCCESS}.
-     */
-    private String formatMeetingIndices(Set<Index> meetingIndices) {
-        return meetingIndices.stream()
-                .map(i -> String.valueOf(i.getOneBased()))
-                .collect(Collectors.joining(", "));
     }
 }

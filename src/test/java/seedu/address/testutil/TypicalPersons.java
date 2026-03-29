@@ -8,6 +8,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.testutil.TypicalMeetings.getTypicalMeetings;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,12 +25,12 @@ import seedu.address.model.person.Person;
  * A utility class containing a list of {@code Person} objects to be used in tests.
  */
 public class TypicalPersons {
-    private static final UUID UUID_1 = UUID.fromString("00000000-0000-0000-0000-000000000001");
-    private static final UUID UUID_2 = UUID.fromString("00000000-0000-0000-0000-000000000002");
-    private static final UUID UUID_3 = UUID.fromString("00000000-0000-0000-0000-000000000003");
-    private static final UUID UUID_4 = UUID.fromString("00000000-0000-0000-0000-000000000004");
-    private static final UUID UUID_5 = UUID.fromString("00000000-0000-0000-0000-000000000005");
-    private static final UUID UUID_6 = UUID.fromString("00000000-0000-0000-0000-000000000006");
+    public static final UUID UUID_1 = UUID.fromString("00000000-0000-0000-0000-000000000001");
+    public static final UUID UUID_2 = UUID.fromString("00000000-0000-0000-0000-000000000002");
+    public static final UUID UUID_3 = UUID.fromString("00000000-0000-0000-0000-000000000003");
+    public static final UUID UUID_4 = UUID.fromString("00000000-0000-0000-0000-000000000004");
+    public static final UUID UUID_5 = UUID.fromString("00000000-0000-0000-0000-000000000005");
+    public static final UUID UUID_6 = UUID.fromString("00000000-0000-0000-0000-000000000006");
 
     // Assign unique IDs for each person
     public static final Person ALICE = new PersonBuilder()
@@ -80,15 +81,6 @@ public class TypicalPersons {
             .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
             .build();
 
-    public static final Meeting PROJECT_MEETING = new Meeting(
-            "Project Meeting",
-            LocalDate.of(2026, 6, 15),
-            Set.of(UUID_1, UUID_3, UUID_4));
-    public static final Meeting COFFEE_MEETING = new Meeting(
-            "Coffee",
-            LocalDate.of(2026, 6, 11),
-            Set.of(UUID_1));
-
     private TypicalPersons() {} // prevents instantiation
 
     /**
@@ -107,9 +99,5 @@ public class TypicalPersons {
 
     public static List<Person> getTypicalPersons() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL));
-    }
-
-    public static List<Meeting> getTypicalMeetings() {
-        return new ArrayList<>((Arrays.asList(PROJECT_MEETING, COFFEE_MEETING)));
     }
 }

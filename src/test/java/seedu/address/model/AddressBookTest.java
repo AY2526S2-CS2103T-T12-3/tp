@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalMeetings.COFFEE_MEETING;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.time.LocalDate;
@@ -68,13 +69,13 @@ public class AddressBookTest {
 
         List<Meeting> newMeetings = new ArrayList<>();
         newMeetings.add(new Meeting(
-                TypicalPersons.COFFEE_MEETING.getDescription(),
-                TypicalPersons.COFFEE_MEETING.getDate(),
-                TypicalPersons.COFFEE_MEETING.getParticipantsID()));
+                COFFEE_MEETING.getDescription(),
+                COFFEE_MEETING.getDate(),
+                COFFEE_MEETING.getParticipantsID()));
         newMeetings.add(new Meeting(
-                TypicalPersons.COFFEE_MEETING.getDescription(),
-                TypicalPersons.COFFEE_MEETING.getDate(),
-                TypicalPersons.COFFEE_MEETING.getParticipantsID()));
+                COFFEE_MEETING.getDescription(),
+                COFFEE_MEETING.getDate(),
+                COFFEE_MEETING.getParticipantsID()));
 
         AddressBookStub newData = new AddressBookStub(newPersons, newMeetings);
 
@@ -87,15 +88,15 @@ public class AddressBookTest {
 
         List<Meeting> newMeetings = new ArrayList<>();
         newMeetings.add(new Meeting(
-                TypicalPersons.COFFEE_MEETING.getDescription(),
-                TypicalPersons.COFFEE_MEETING.getDate(),
-                TypicalPersons.COFFEE_MEETING.getParticipantsID()));
+                COFFEE_MEETING.getDescription(),
+                COFFEE_MEETING.getDate(),
+                COFFEE_MEETING.getParticipantsID()));
 
-        Set<UUID> participantsMinusOne = TypicalPersons.COFFEE_MEETING.getParticipantsID();
+        Set<UUID> participantsMinusOne = COFFEE_MEETING.getParticipantsID();
         participantsMinusOne.remove(participantsMinusOne.iterator().next()); // Remove first UUID.
         newMeetings.add(new Meeting(
-                TypicalPersons.COFFEE_MEETING.getDescription(),
-                TypicalPersons.COFFEE_MEETING.getDate(),
+                COFFEE_MEETING.getDescription(),
+                COFFEE_MEETING.getDate(),
                 participantsMinusOne));
 
         AddressBookStub newData = new AddressBookStub(newPersons, newMeetings);

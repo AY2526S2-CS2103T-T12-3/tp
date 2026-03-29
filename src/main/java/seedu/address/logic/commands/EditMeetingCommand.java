@@ -17,6 +17,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
@@ -49,7 +50,7 @@ public class EditMeetingCommand extends Command {
             + PREFIX_ADD_PERSON_TO_MEETING_INDEX + "3 5 "
             + PREFIX_DELETE_PERSON_FROM_MEETING_INDEX + "2";
 
-    public static final String MESSAGE_EDIT_MEETING_SUCCESS = "Edited Meeting: %1$s";
+    public static final String MESSAGE_EDIT_MEETING_SUCCESS = "Edited meeting(s): %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
 
     private final Set<Index> meetingIndices;
@@ -76,6 +77,7 @@ public class EditMeetingCommand extends Command {
         List<Meeting> lastShownMeetingList = model.getFilteredMeetingList();
 
         Set<Meeting> meetingsToEdit = new HashSet<>();
+        Set<Index> editedMeetingIndices = new HashSet<>();
         editMeetingDescriptor.resolveParticipantIds(model);
 
         for (Index index : meetingIndices) {
@@ -91,11 +93,13 @@ public class EditMeetingCommand extends Command {
 
             try {
                 model.setMeeting(meetingToEdit, editedMeeting);
+                editedMeetingIndices.add(index);
             } catch (DuplicateMeetingException e) {
                 throw new CommandException(MESSAGE_MEETING_ALREADY_EXISTS);
             }
         }
-        return new CommandResult(MESSAGE_EDIT_MEETING_SUCCESS);
+        return new CommandResult(String.format(MESSAGE_EDIT_MEETING_SUCCESS,
+                formatMeetingIndices(editedMeetingIndices)));
     }
 
     /**
@@ -120,6 +124,15 @@ public class EditMeetingCommand extends Command {
                 .ifPresent(updatedParticipantsId::removeAll);
 
         return new Meeting(updatedDescription, updatedDate, updatedParticipantsId);
+    }
+
+    /**
+     * Formats the meeting indices into a string to be used for {@code MESSAGE_DELETE_MEETING_SUCCESS}.
+     */
+    private String formatMeetingIndices(Set<Index> meetingIndices) {
+        return meetingIndices.stream()
+                .map(i -> String.valueOf(i.getOneBased()))
+                .collect(Collectors.joining(", "));
     }
 
     @Override
