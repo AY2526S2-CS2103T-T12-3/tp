@@ -22,8 +22,16 @@ public class TypicalMeetings {
             "Coffee",
             LocalDate.of(2026, 6, 11),
             Set.of(UUID_1));
+    public static final Meeting STRATEGY_MEETING = new Meeting(
+            "Strategy Discussion",
+            LocalDate.of(2026, 7, 15),
+            Set.of(UUID_1, UUID_3)
+    );
 
     public static List<Meeting> getTypicalMeetings() {
-        return new ArrayList<>((Arrays.asList(PROJECT_MEETING, COFFEE_MEETING)));
+        return new ArrayList<>((Arrays.asList(
+                PROJECT_MEETING,
+                COFFEE_MEETING,
+                STRATEGY_MEETING)));
     }
 }

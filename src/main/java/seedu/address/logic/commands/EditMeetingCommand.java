@@ -59,7 +59,7 @@ public class EditMeetingCommand extends Command {
     /**
      * Creates an EditMeetingCommand to edit the specified {@code Meeting}s
      *
-     * @param meetingIndices        The indices of the meeting in the list to edit
+     * @param meetingIndices The indices of the meeting in the list to edit
      * @param editMeetingDescriptor The details to edit the meeting with
      */
     public EditMeetingCommand(Set<Index> meetingIndices, EditMeetingDescriptor editMeetingDescriptor) {
@@ -104,7 +104,7 @@ public class EditMeetingCommand extends Command {
 
     /**
      * Creates and returns a {@code Meeting} with the details of {@code meetingToEdit}
-     * edited with {@code editPersonDescriptor}.
+     * edited with {@code editMeetingDescriptor}.
      */
     private static Meeting createEditedMeeting(Meeting meetingToEdit,
                                                EditMeetingCommand.EditMeetingDescriptor editMeetingDescriptor) {
@@ -146,6 +146,14 @@ public class EditMeetingCommand extends Command {
                 && editMeetingDescriptor.equals(otherCommand.editMeetingDescriptor);
     }
 
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("meetingIndices", meetingIndices)
+                .add("editMeetingDescriptor", editMeetingDescriptor)
+                .toString();
+    }
+
     /**
      * Stores the details to edit the meeting with. Each non-empty field value will replace the
      * corresponding field value of the meeting.
@@ -180,6 +188,11 @@ public class EditMeetingCommand extends Command {
                     peopleToAddId, peopleToDeleteId);
         }
 
+        /**
+         * Resolves set of participant indices given into a set of
+         * their actual {@code id} given the {@code model} provided, and stores them
+         * as variables in the class as {@code peopleToAddId} and {@code peopleToDeleteId}.
+         */
         public void resolveParticipantIds(Model model) throws CommandException {
             List<Person> persons = model.getFilteredPersonList();
 
@@ -187,6 +200,13 @@ public class EditMeetingCommand extends Command {
             this.peopleToDeleteId = resolveIndicesToIds(peopleIndicesToDelete, persons);
         }
 
+        /**
+         * Returns a set of participant {@code id} given a set of {@code indices}
+         * that represent the position of the participants in {@code persons}.
+         *
+         * @param indices Indexes of the persons to find in {@code persons}.
+         * @param persons List to search for the participants to get the {@code id} from.
+         */
         private Set<UUID> resolveIndicesToIds(Set<Index> indices, List<Person> persons)
                 throws CommandException {
             if (indices == null) {
