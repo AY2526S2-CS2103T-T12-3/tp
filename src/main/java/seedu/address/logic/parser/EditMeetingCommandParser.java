@@ -1,22 +1,29 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_PERSON_TO_MEETING_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DELETE_PERSON_FROM_MEETING_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 import static seedu.address.logic.parser.ParserUtil.parseIndices;
 
 import java.util.Set;
+
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditMeetingCommand;
 import seedu.address.logic.commands.EditMeetingCommand.EditMeetingDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
 
+/**
+ * Parses input arguments and creates a new EditMeetingCommand object
+ */
 public class EditMeetingCommandParser implements Parser<EditMeetingCommand> {
 
+    /**
+     * Parses the given {@code String} of arguments in the context of the EditMeetingCommand
+     * and returns an EditMeetingCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
     @Override
     public EditMeetingCommand parse(String args) throws ParseException {
         requireNonNull(args);
@@ -42,8 +49,7 @@ public class EditMeetingCommandParser implements Parser<EditMeetingCommand> {
         }
 
         if (argMultimap.getValue(PREFIX_MEETING_DATE).isPresent()) {
-                descriptor.setDate(
-                        ParserUtil.parseDate(argMultimap.getValue(PREFIX_MEETING_DATE).get()));
+            descriptor.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_MEETING_DATE).get()));
         }
 
         if (argMultimap.getValue(PREFIX_ADD_PERSON_TO_MEETING_INDEX).isPresent()) {

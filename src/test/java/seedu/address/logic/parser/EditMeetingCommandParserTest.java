@@ -4,17 +4,16 @@ import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_INDEX
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INVALID_INPUT_INDEX_NEGATIVE;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INVALID_INPUT_INDEX_NON_NUMERIC;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INVALID_INPUT_INDEX_ZERO;
-import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
-import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_PERSON_TO_MEETING_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DELETE_PERSON_FROM_MEETING_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 import static seedu.address.testutil.TypicalMeetings.PROJECT_MEETING;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,6 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditMeetingCommand;
 import seedu.address.logic.commands.EditMeetingCommand.EditMeetingDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.testutil.TypicalIndexes;
 
 class EditMeetingCommandParserTest {
     private static final String MESSAGE_INVALID_FORMAT =

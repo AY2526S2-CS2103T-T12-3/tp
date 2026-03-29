@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
@@ -28,7 +29,7 @@ import seedu.address.model.meeting.exceptions.DuplicateMeetingException;
 import seedu.address.model.person.Person;
 
 /**
- * Edits the details of an existing meeting in the address book.
+ * Edits the details of existing meetings in the address book.
  */
 public class EditMeetingCommand extends Command {
 
@@ -38,7 +39,8 @@ public class EditMeetingCommand extends Command {
             + "by the index number used in the displayed meeting list. "
             + "Existing values will be overwritten by the input values.\n"
             + "Participants can be added or deleted based on their positions in the contact list.\n"
-            + "E.g " + PREFIX_ADD_PERSON_TO_MEETING_INDEX + "2 will add the second person in the contact list to the meeting. \n"
+            + "E.g " + PREFIX_ADD_PERSON_TO_MEETING_INDEX
+            + "2 will add the second person in the current contact list to the meeting. \n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_MEETING_DESCRIPTION + "DESCRIPTION] "
             + "[" + PREFIX_MEETING_DATE + "DATE] "
@@ -127,7 +129,7 @@ public class EditMeetingCommand extends Command {
     }
 
     /**
-     * Formats the meeting indices into a string to be used for {@code MESSAGE_DELETE_MEETING_SUCCESS}.
+     * Formats the meeting indices into a comma-separated string for success messages.
      */
     private String formatMeetingIndices(Set<Index> meetingIndices) {
         return meetingIndices.stream()
@@ -137,8 +139,13 @@ public class EditMeetingCommand extends Command {
 
     @Override
     public boolean equals(Object other) {
-        if (other == this) return true;
-        if (!(other instanceof EditMeetingCommand)) return false;
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof EditMeetingCommand)) {
+            return false;
+        }
 
         EditMeetingCommand otherCommand = (EditMeetingCommand) other;
 
@@ -171,6 +178,9 @@ public class EditMeetingCommand extends Command {
 
         public EditMeetingDescriptor() {}
 
+        /**
+         * Copy constructor.
+         */
         public EditMeetingDescriptor(EditMeetingDescriptor toCopy) {
             setDescription(toCopy.description);
             setDate(toCopy.date);
@@ -181,6 +191,9 @@ public class EditMeetingCommand extends Command {
             setPeopleToDeleteId(toCopy.peopleToDeleteId);
         }
 
+        /**
+         * Returns true if at least one field is edited.
+         */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(
                     description, date, participantsID,
@@ -189,9 +202,12 @@ public class EditMeetingCommand extends Command {
         }
 
         /**
-         * Resolves set of participant indices given into a set of
-         * their actual {@code id} given the {@code model} provided, and stores them
-         * as variables in the class as {@code peopleToAddId} and {@code peopleToDeleteId}.
+         * Converts the participant indices stored in this descriptor into the corresponding
+         * participant IDs using the provided {@code model}. The resulting IDs are stored
+         * internally as {@code peopleToAddId} and {@code peopleToDeleteId}.
+         *
+         * @param model The {@code Model} containing the list of persons to resolve indices from
+         * @throws CommandException Thrown if any index is out of bounds of the person list
          */
         public void resolveParticipantIds(Model model) throws CommandException {
             List<Person> persons = model.getFilteredPersonList();
@@ -201,11 +217,13 @@ public class EditMeetingCommand extends Command {
         }
 
         /**
-         * Returns a set of participant {@code id} given a set of {@code indices}
-         * that represent the position of the participants in {@code persons}.
+         * Resolves a set of {@code Index} objects to their corresponding participant {@code UUID}s
+         * from the given list of {@code persons}.
          *
-         * @param indices Indexes of the persons to find in {@code persons}.
-         * @param persons List to search for the participants to get the {@code id} from.
+         * @param indices The set of indices representing positions in {@code persons}; may be {@code null}
+         * @param persons The list of persons to resolve the IDs from
+         * @return A set of resolved participant {@code UUID}s, or {@code null} if {@code indices} is {@code null}
+         * @throws CommandException If any index is invalid (i.e., out of bounds of {@code persons})
          */
         private Set<UUID> resolveIndicesToIds(Set<Index> indices, List<Person> persons)
                 throws CommandException {
@@ -291,8 +309,14 @@ public class EditMeetingCommand extends Command {
 
         @Override
         public boolean equals(Object other) {
-            if (other == this) return true;
-            if (!(other instanceof EditMeetingDescriptor)) return false;
+            if (other == this) {
+                return true;
+            }
+
+            if (!(other instanceof EditMeetingDescriptor)) {
+                return false;
+            }
+
             EditMeetingDescriptor o = (EditMeetingDescriptor) other;
             return Objects.equals(description, o.description)
                     && Objects.equals(date, o.date)

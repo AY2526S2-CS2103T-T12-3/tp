@@ -14,7 +14,6 @@ import static seedu.address.testutil.TypicalPersons.UUID_2;
 import static seedu.address.testutil.TypicalPersons.UUID_3;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
-import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,6 +21,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditMeetingCommand.EditMeetingDescriptor;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -125,8 +125,6 @@ public class EditMeetingDescriptorTest {
         Index invalidIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         EditMeetingDescriptor descriptor = new EditMeetingDescriptor();
         descriptor.setPeopleIndicesToAdd(Set.of(invalidIndex));
-
-        assertThrows(seedu.address.logic.commands.exceptions.CommandException.class,
-                () -> descriptor.resolveParticipantIds(model));
+        assertThrows(CommandException.class, () -> descriptor.resolveParticipantIds(model));
     }
 }

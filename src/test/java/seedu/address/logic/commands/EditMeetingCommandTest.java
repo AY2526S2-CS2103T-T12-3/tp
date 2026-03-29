@@ -14,23 +14,21 @@ import static seedu.address.testutil.TypicalMeetings.STRATEGY_MEETING;
 import static seedu.address.testutil.TypicalPersons.UUID_1;
 import static seedu.address.testutil.TypicalPersons.UUID_3;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
-import static seedu.address.testutil.TypicalMeetings.getTypicalMeetings;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.AddressBook;
+import seedu.address.logic.commands.EditMeetingCommand.EditMeetingDescriptor;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.meeting.Meeting;
-import seedu.address.logic.commands.EditMeetingCommand.EditMeetingDescriptor;
 
 public class EditMeetingCommandTest {
 
@@ -92,7 +90,9 @@ public class EditMeetingCommandTest {
 
     @Test
     public void execute_noFieldSpecifiedUnfilteredList_success() {
-        EditMeetingCommand editMeetingCommand = new EditMeetingCommand(Set.of(INDEX_FIRST_PERSON), new EditMeetingDescriptor());
+        EditMeetingCommand editMeetingCommand = new EditMeetingCommand(
+                Set.of(INDEX_FIRST_PERSON),
+                new EditMeetingDescriptor());
         String expectedMessage = String.format(EditMeetingCommand.MESSAGE_EDIT_MEETING_SUCCESS, "1");
 
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
