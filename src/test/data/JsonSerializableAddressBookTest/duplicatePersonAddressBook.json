@@ -3,12 +3,14 @@
     "id": "00000000-0000-0000-0000-000000000001",
     "name": "Alice Pauline",
     "phone": "94351253",
-    "email": "pauline@example.com"
+    "email": "alice@example.com",
+    "tags" : ["friends"]
   }, {
     "id": "00000000-0000-0000-0000-000000000001",
     "name": "Alice Pauline",
     "phone": "94351253",
-    "email": "pauline@example.com"
+    "email": "alice@example.com",
+    "tags" : ["friends"]
   } ],
   "meetings": [ ]
 }

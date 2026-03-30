@@ -2,12 +2,12 @@ package seedu.address.storage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-import java.util.logging.Logger;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
@@ -20,14 +20,18 @@ import seedu.address.model.person.Person;
  */
 @JsonRootName(value = "addressbook")
 class JsonSerializableAddressBook {
-    private static final Logger logger = LogsCenter.getLogger(JsonSerializableAddressBook.class);
-
+    public static final String MESSAGE_INVALID_PERSON =
+            "Invalid person at index %d: %s";
+    public static final String MESSAGE_INVALID_MEETING =
+            "Invalid meeting at index %d: %s";
     public static final String MESSAGE_DUPLICATE_PERSON =
             "%s already exists in the address book, skipping person.";
     public static final String MESSAGE_DUPLICATE_MEETING =
             "%s already exists in the meeting list, skipping meeting.";
     public static final String MESSAGE_DUPLICATE_ID =
             "%s has an ID that already exists in the address book, skipping person.";
+
+    private static final Logger logger = LogsCenter.getLogger(JsonSerializableAddressBook.class);
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
     private final List<JsonAdaptedMeeting> meetings = new ArrayList<>();
@@ -55,40 +59,54 @@ class JsonSerializableAddressBook {
 
     /**
      * Converts this address book into the model's {@code AddressBook} object.
-     * Logs for all duplicate objects created and skips past these objects.
-     *
-     * @throws IllegalValueException if there were any data constraints violated.
+     * Logs for all invalid and duplicate {@code Person} and {@code Meeting} and
+     * skips past these objects.
      */
-    public AddressBook toModelType() throws IllegalValueException {
+    public AddressBook toModelType() {
         AddressBook addressBook = new AddressBook();
 
         // Adds persons
-        for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
-            Person person = jsonAdaptedPerson.toModelType();
+        for (int i = 0; i < persons.size(); i++) {
+            JsonAdaptedPerson jsonAdaptedPerson = persons.get(i);
+            try {
+                Person person = jsonAdaptedPerson.toModelType();
 
-            if (addressBook.hasPerson(person)) {
-                logger.warning(String.format(MESSAGE_DUPLICATE_PERSON, person.toString()));
-                continue;
+                // Skips person duplicate
+                if (addressBook.hasPerson(person)) {
+                    logger.warning(String.format(MESSAGE_DUPLICATE_PERSON, person.getName()));
+                    continue;
+                }
+
+                // Skips duplicate ID
+                if (addressBook.hasSameID(person)) {
+                    logger.warning(String.format(MESSAGE_DUPLICATE_ID, person.getName()));
+                    continue;
+                }
+
+                addressBook.addPerson(person);
+            } catch (IllegalValueException e) {
+                // Log invalid person with index and exception message
+                logger.warning(String.format(MESSAGE_INVALID_PERSON, i, e.getMessage()));
             }
-
-            if (addressBook.hasSameID(person)) {
-                logger.warning(String.format(MESSAGE_DUPLICATE_ID, person.getName()));
-                continue;
-            }
-
-            addressBook.addPerson(person);
         }
 
         // Adds meetings
-        for (JsonAdaptedMeeting jsonAdaptedMeeting : meetings) {
-            Meeting meeting = jsonAdaptedMeeting.toModelType();
+        for (int i = 0; i < meetings.size(); i++) {
+            JsonAdaptedMeeting jsonAdaptedMeeting = meetings.get(i);
+            try {
+                Meeting meeting = jsonAdaptedMeeting.toModelType();
 
-            if (addressBook.hasMeeting(meeting)) {
-                logger.warning(String.format(MESSAGE_DUPLICATE_MEETING, meeting.toString()));
-                continue;
+                // Skips meeting duplicate
+                if (addressBook.hasMeeting(meeting)) {
+                    logger.warning(String.format(MESSAGE_DUPLICATE_MEETING, meeting.toString()));
+                    continue;
+                }
+
+                addressBook.addMeeting(meeting);
+            } catch (IllegalValueException e) {
+                // Log invalid meeting with index and exception message
+                logger.warning(String.format(MESSAGE_INVALID_MEETING, i, e.getMessage()));
             }
-
-            addressBook.addMeeting(meeting);
         }
 
         return addressBook;

@@ -1,0 +1,34 @@
+{
+  "persons": [
+    {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "name": "Alex Yeoh",
+      "phone": "87438807",
+      "email": "alexyeoh@example.com",
+      "tags": ["friends"]
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "name": "Bernice Yu",
+      "phone": "99272758",
+      "email": "berniceyu@example.com",
+      "tags": ["colleagues"]
+    }
+  ],
+  "meetings": [
+    {
+      "description": "Project Meeting",
+      "date": "2026-06-15",
+      "personIds": [
+        "00000000-0000-0000-0000-000000000001"
+      ]
+    },
+    {
+      "description": "Project Meeting",
+      "date": "2026-06-15",
+      "personIds": [
+        "00000000-0000-0000-0000-000000000001"
+      ]
+    }
+  ]
+}
