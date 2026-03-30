@@ -1,7 +1,6 @@
 package seedu.address.model.meeting;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -18,10 +17,11 @@ public class Meeting {
     public static final String MESSAGE_INVALID_PARTICIPANT_IDS =
             "Meeting must have valid participant IDs";
 
+    public static final String VALIDATION_REGEX = "\\d{4}-\\d{2}-\\d{2}";
+
     private final Description description;
     private final LocalDate date;
     private final Set<UUID> participantsID;
-    public static final String VALIDATION_REGEX = "\\d{4}-\\d{2}-\\d{2}";
 
     /**
      * Constructs a {@code Meeting} with the specified description, date,

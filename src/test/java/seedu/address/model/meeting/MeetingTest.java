@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
+
 import seedu.address.testutil.MeetingBuilder;
 
 public class MeetingTest {
