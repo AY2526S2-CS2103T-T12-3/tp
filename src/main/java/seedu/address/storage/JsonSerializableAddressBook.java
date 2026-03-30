@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
+import java.util.logging.Logger;
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -18,10 +20,14 @@ import seedu.address.model.person.Person;
  */
 @JsonRootName(value = "addressbook")
 class JsonSerializableAddressBook {
+    private static final Logger logger = LogsCenter.getLogger(JsonSerializableAddressBook.class);
 
-    public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
-    public static final String MESSAGE_DUPLICATE_MEETING = "Meetings list contains duplicate meeting(s).";
-    public static final String MESSAGE_DUPLICATE_ID = "Persons list contains duplicate ID(s).";
+    public static final String MESSAGE_DUPLICATE_PERSON =
+            "%s already exists in the address book, skipping person.";
+    public static final String MESSAGE_DUPLICATE_MEETING =
+            "%s already exists in the meeting list, skipping meeting.";
+    public static final String MESSAGE_DUPLICATE_ID =
+            "%s has an ID that already exists in the address book, skipping person.";
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
     private final List<JsonAdaptedMeeting> meetings = new ArrayList<>();
@@ -49,6 +55,7 @@ class JsonSerializableAddressBook {
 
     /**
      * Converts this address book into the model's {@code AddressBook} object.
+     * Logs for all duplicate objects created and skips past these objects.
      *
      * @throws IllegalValueException if there were any data constraints violated.
      */
@@ -60,11 +67,13 @@ class JsonSerializableAddressBook {
             Person person = jsonAdaptedPerson.toModelType();
 
             if (addressBook.hasPerson(person)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
+                logger.warning(String.format(MESSAGE_DUPLICATE_PERSON, person.toString()));
+                continue;
             }
 
             if (addressBook.hasSameID(person)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_ID);
+                logger.warning(String.format(MESSAGE_DUPLICATE_ID, person.getName()));
+                continue;
             }
 
             addressBook.addPerson(person);
@@ -75,7 +84,8 @@ class JsonSerializableAddressBook {
             Meeting meeting = jsonAdaptedMeeting.toModelType();
 
             if (addressBook.hasMeeting(meeting)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_MEETING);
+                logger.warning(String.format(MESSAGE_DUPLICATE_MEETING, meeting.toString()));
+                continue;
             }
 
             addressBook.addMeeting(meeting);
@@ -83,5 +93,4 @@ class JsonSerializableAddressBook {
 
         return addressBook;
     }
-
 }
