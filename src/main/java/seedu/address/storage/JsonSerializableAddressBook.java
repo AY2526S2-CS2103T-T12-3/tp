@@ -78,7 +78,7 @@ class JsonSerializableAddressBook {
 
     /**
      * Adds all persons from the JSON list to the given {@code AddressBook}.
-     * Skips duplicates or invalid entries and logs warnings.
+     * Skips and logs duplicates or invalid entries.
      */
     private void addPersonsToModel(AddressBook addressBook) {
         for (int i = 0; i < persons.size(); i++) {
@@ -108,7 +108,7 @@ class JsonSerializableAddressBook {
 
     /**
      * Adds all meetings from the JSON list to the given {@code AddressBook}.
-     * Skips duplicates or invalid entries, logs warnings, and logs meetings with invalid participants.
+     * Skips and logs duplicates, invalid entries, and meetings with invalid participants.
      */
     private void addMeetingsToModel(AddressBook addressBook) {
         for (int i = 0; i < meetings.size(); i++) {
@@ -137,7 +137,7 @@ class JsonSerializableAddressBook {
 
     /**
      * Returns true if the meeting has any invalid participants.
-     * Logs a warning for each invalid participant found.
+     * Logs a warning if invalid participant is found.
      */
     private boolean hasInvalidParticipants(Meeting meeting, AddressBook addressBook) {
         for (UUID participantId : meeting.getParticipantsID()) {
