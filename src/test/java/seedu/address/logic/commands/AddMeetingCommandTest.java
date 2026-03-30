@@ -21,6 +21,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.meeting.Description;
 import seedu.address.model.meeting.Meeting;
 import seedu.address.model.person.Person;
 
@@ -43,7 +44,8 @@ public class AddMeetingCommandTest {
     @Test
     public void execute_singleIndex_success() throws Exception {
         Set<Index> indices = VALID_INDEX_SINGLE;
-        AddMeetingCommand command = new AddMeetingCommand(indices, VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325);
+        AddMeetingCommand command = new AddMeetingCommand(indices,
+                new Description(VALID_DESCRIPTION_PROJECT), VALID_DATE_20260325);
 
         // Original target person
         Person targetPerson = model.getFilteredPersonList().get(indices.iterator().next().getZeroBased());
@@ -52,7 +54,8 @@ public class AddMeetingCommandTest {
         Set<UUID> participantIds = Set.of(targetPerson.getId());
 
         // Meeting with validated IDs
-        Meeting meeting = new Meeting(VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325, participantIds);
+        Meeting meeting = new Meeting(new Description(VALID_DESCRIPTION_PROJECT),
+                VALID_DATE_20260325, participantIds);
 
         String expectedMessage = String.format(AddMeetingCommand.MESSAGE_ADD_MEETING_SUCCESS, meeting);
 
@@ -66,7 +69,7 @@ public class AddMeetingCommandTest {
     @Test
     public void execute_multipleIndices_success() throws Exception {
         AddMeetingCommand command = new AddMeetingCommand(VALID_INDICES_MULTIPLE,
-                VALID_DESCRIPTION_TEAM, VALID_DATE_20260401);
+                new Description(VALID_DESCRIPTION_TEAM), VALID_DATE_20260401);
 
         // Collect participant IDs from all target persons
         Set<UUID> participantIds = Set.of(
