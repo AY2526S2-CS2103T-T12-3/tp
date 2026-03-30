@@ -27,7 +27,7 @@ import seedu.address.model.person.Person;
 import seedu.address.testutil.MeetingBuilder;
 
 public class AddMeetingCommandTest {
-    public static final String VALID_DESCRIPTION_PROJECT = "Project Discussion";
+    public static final String VALID_DESCRIPTION_PROJECT = "Project discussion";
     public static final String VALID_DESCRIPTION_TEAM = "Team Meeting";
     public static final LocalDate VALID_DATE_20260325 = LocalDate.parse("2026-03-25");
     public static final LocalDate VALID_DATE_20260401 = LocalDate.parse("2026-04-01");
