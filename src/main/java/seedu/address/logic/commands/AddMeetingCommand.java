@@ -12,6 +12,7 @@ import java.util.UUID;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.meeting.Description;
 import seedu.address.model.meeting.Meeting;
 import seedu.address.model.meeting.exceptions.DuplicateMeetingException;
 import seedu.address.model.person.Person;
@@ -37,7 +38,7 @@ public class AddMeetingCommand extends Command {
             "A meeting with the same description and date already exists";
 
     private final Set<Index> indices;
-    private final String description;
+    private final Description description;
     private final LocalDate date;
 
     /**
@@ -47,7 +48,7 @@ public class AddMeetingCommand extends Command {
      * @param description Description of the meeting
      * @param date Date of the meeting (YYYY-MM-DD)
      */
-    public AddMeetingCommand(Set<Index> indices, String description, LocalDate date) {
+    public AddMeetingCommand(Set<Index> indices, Description description, LocalDate date) {
         requireNonNull(indices);
         requireNonNull(description);
         requireNonNull(date);

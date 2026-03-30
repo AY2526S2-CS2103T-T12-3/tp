@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -10,6 +11,8 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddMeetingCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.meeting.Description;
+import seedu.address.model.person.Name;
 
 /**
  * Parses input arguments and creates a new AddMeetingCommand object.
@@ -44,7 +47,7 @@ public class AddMeetingCommandParser implements Parser<AddMeetingCommand> {
                 AddMeetingCommand.MESSAGE_USAGE);
 
         // Parse description
-        String description = argMultimap.getValue(PREFIX_MEETING_DESCRIPTION).get().trim();
+        Description description = ParserUtil.parseDescription(argMultimap.getValue(PREFIX_MEETING_DESCRIPTION).get());
 
         // Parse date
         String date = argMultimap.getValue(PREFIX_MEETING_DATE).get().trim();

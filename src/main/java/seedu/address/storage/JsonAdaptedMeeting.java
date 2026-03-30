@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.parser.ParserUtil;
+import seedu.address.model.meeting.Description;
 import seedu.address.model.meeting.Meeting;
 
 /**
@@ -39,7 +40,7 @@ class JsonAdaptedMeeting {
      * Converts a given {@code Meeting} into this class for Jackson use.
      */
     public JsonAdaptedMeeting(Meeting source) {
-        this.description = source.getDescription();
+        this.description = source.getDescription().description;
         this.date = source.getDate().toString();
         this.personIds = source.getParticipantsID().stream()
                 .map(UUID::toString)
@@ -66,9 +67,7 @@ class JsonAdaptedMeeting {
         if (description == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "description"));
         }
-        if (!Meeting.isValidDescription(description)) {
-            throw new IllegalValueException(Meeting.MESSAGE_DESCRIPTION_CONSTRAINTS);
-        }
+        Description modelDescription = new Description(description);
 
         if (date == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "date"));
@@ -87,6 +86,6 @@ class JsonAdaptedMeeting {
                 .map(UUID::fromString)
                 .collect(Collectors.toSet());
 
-        return new Meeting(description, parsedDate, modelPersonIds);
+        return new Meeting(modelDescription, parsedDate, modelPersonIds);
     }
 }
