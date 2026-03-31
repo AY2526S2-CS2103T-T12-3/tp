@@ -94,7 +94,7 @@ public class AddressBookTest {
                 COFFEE_MEETING.getDate(),
                 COFFEE_MEETING.getParticipantsID()));
 
-        Set<UUID> participantsMinusOne = COFFEE_MEETING.getParticipantsID();
+        Set<PersonId> participantsMinusOne = COFFEE_MEETING.getParticipantsID();
         participantsMinusOne.remove(participantsMinusOne.iterator().next()); // Remove first UUID.
 
         newMeetings.add(new Meeting(
