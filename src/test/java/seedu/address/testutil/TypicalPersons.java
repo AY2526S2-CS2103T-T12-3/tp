@@ -9,7 +9,6 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +18,7 @@ import java.util.UUID;
 import seedu.address.model.AddressBook;
 import seedu.address.model.meeting.Description;
 import seedu.address.model.meeting.Meeting;
+import seedu.address.model.meeting.MeetingDate;
 import seedu.address.model.person.Person;
 
 /**
@@ -83,11 +83,11 @@ public class TypicalPersons {
 
     public static final Meeting PROJECT_MEETING = new Meeting(
             new Description("Project Meeting"),
-            LocalDate.of(2026, 6, 15),
+            new MeetingDate("2026-06-15"),
             Set.of(UUID_1, UUID_3, UUID_4));
     public static final Meeting COFFEE_MEETING = new Meeting(
             new Description("Coffee"),
-            LocalDate.of(2026, 6, 11),
+            new MeetingDate("2026-06-11"),
             Set.of(UUID_1));
 
     private TypicalPersons() {} // prevents instantiation

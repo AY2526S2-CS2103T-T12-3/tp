@@ -53,7 +53,7 @@ public class MeetingTest {
                 .withParticipants(VALID_UUIDS)
                 .build();
         assertEquals(new Description(VALID_DESCRIPTION_PROJECT), meeting.getDescription());
-        assertEquals(VALID_DATE_20260325, meeting.getDate());
+        assertEquals(new MeetingDate(VALID_DATE_20260325), meeting.getDate());
         assertEquals(VALID_UUIDS, meeting.getParticipantsID());
     }
 

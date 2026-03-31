@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.AddMeetingCommand;
 import seedu.address.model.meeting.Description;
+import seedu.address.model.meeting.MeetingDate;
 
 public class AddMeetingCommandParserTest {
     // Samples for meeting inputs
@@ -44,7 +45,7 @@ public class AddMeetingCommandParserTest {
                 new AddMeetingCommand(
                         VALID_INDEX_SINGLE,
                         new Description(VALID_DESCRIPTION_PROJECT),
-                        VALID_DATE_20260325));
+                        new MeetingDate(VALID_DATE_20260325)));
     }
 
     @Test
@@ -52,7 +53,7 @@ public class AddMeetingCommandParserTest {
         AddMeetingCommand expectedCommand = new AddMeetingCommand(
                 VALID_INDICES_MULTIPLE,
                 new Description(VALID_DESCRIPTION_TEAM),
-                VALID_DATE_20260401);
+                new MeetingDate(VALID_DATE_20260401));
         assertParseSuccess(parser, INPUT_INDICES_MULTIPLE + INPUT_DESC_TEAM + INPUT_DATE_20260401,
                 expectedCommand);
     }

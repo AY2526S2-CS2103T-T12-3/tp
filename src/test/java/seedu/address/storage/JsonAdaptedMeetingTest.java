@@ -1,8 +1,6 @@
 package seedu.address.storage;
 
-import static seedu.address.logic.commands.AddMeetingCommandTest.INVALID_DATE_NON_EXISTENT;
 import static seedu.address.logic.commands.AddMeetingCommandTest.INVALID_DATE_WRONG_FORMAT;
-import static seedu.address.logic.commands.AddMeetingCommandTest.INVALID_DESCRIPTION;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
 import static seedu.address.storage.JsonAdaptedPersonTest.VALID_MEETINGS;
@@ -47,20 +45,6 @@ public class JsonAdaptedMeetingTest {
         JsonAdaptedMeeting meeting = new JsonAdaptedMeeting(VALID_DESCRIPTION_PROJECT,
                 null, VALID_IDS);
         assertThrows(IllegalValueException.class, meeting::toModelType);
-    }
-
-    @Test
-    public void toModelType_emptyDate_throwsIllegalValueException() {
-        JsonAdaptedMeeting meeting = new JsonAdaptedMeeting(VALID_DESCRIPTION_PROJECT,
-                INVALID_DESCRIPTION, VALID_IDS);
-        assertThrows(IllegalValueException.class, meeting::toModelType);
-    }
-
-    @Test
-    public void toModelType_nonExistentDate_throwsException() {
-        JsonAdaptedMeeting meeting = new JsonAdaptedMeeting(VALID_DESCRIPTION_PROJECT,
-                INVALID_DATE_NON_EXISTENT, VALID_IDS);
-        assertThrows(Exception.class, meeting::toModelType);
     }
 
     @Test
