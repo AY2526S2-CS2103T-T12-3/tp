@@ -35,7 +35,6 @@ public class TypicalMeetings {
             .withDate("2026-07-15")
             .withParticipants(Set.of(ID_1, ID_3))
             .build();
-    );
 
     private TypicalMeetings() {} // prevents instantiation
 
