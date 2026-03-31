@@ -1,6 +1,7 @@
 package seedu.address.model.meeting;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -28,15 +29,12 @@ public class Meeting {
      * @param participantsID Set of participant IDs; must not be null or contain nulls.
      */
     public Meeting(Description description, MeetingDate date, Set<PersonId> participantsID) {
-        assert description != null : "description should not be null";
-        assert date != null : "date should not be null";
+        requireAllNonNull(description, date);
         requireNonNull(participantsID, MESSAGE_INVALID_PARTICIPANT_IDS);
 
         // Validate each PersonId individually
         for (PersonId id : participantsID) {
-            if (id == null) {
-                throw new IllegalArgumentException(MESSAGE_INVALID_PARTICIPANT_IDS);
-            }
+            requireNonNull(id, MESSAGE_INVALID_PARTICIPANT_IDS);
         }
 
         this.description = description;

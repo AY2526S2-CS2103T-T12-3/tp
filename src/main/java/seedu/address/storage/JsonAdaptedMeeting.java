@@ -1,6 +1,8 @@
 package seedu.address.storage;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -19,6 +21,8 @@ import seedu.address.model.person.PersonId;
 class JsonAdaptedMeeting {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Meeting's %s field is missing!";
+    public static final String MESSAGE_INVALID_ID_FOUND = "Illegal ID found in meeting, skipping ID: ";
+    private static final Logger logger = Logger.getLogger(JsonAdaptedMeeting.class.getName());
 
     private final String description;
     private final String date;
@@ -63,7 +67,6 @@ class JsonAdaptedMeeting {
      * Converts this Jackson-friendly adapted meeting object into the model's {@code Meeting} object.
      */
     public Meeting toModelType() throws IllegalValueException {
-
         if (description == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "description"));
         }
@@ -78,9 +81,14 @@ class JsonAdaptedMeeting {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "personIds"));
         }
 
-        Set<PersonId> modelPersonIds = personIds.stream()
-                .map(PersonId::new)
-                .collect(Collectors.toSet());
+        Set<PersonId> modelPersonIds = new HashSet<>();
+        for (String id : personIds) {
+            try {
+                modelPersonIds.add(new PersonId(id));
+            } catch (IllegalArgumentException e) {
+                logger.warning(MESSAGE_INVALID_ID_FOUND + id);
+            }
+        }
 
         return new Meeting(modelDescription, parsedDate, modelPersonIds);
     }

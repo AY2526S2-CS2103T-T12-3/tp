@@ -4,8 +4,8 @@ import java.util.UUID;
 
 /**
  * Represents a unique ID for a Person.
- * - If no string is provided, generates a new random ID.
- * - If a string is provided, validates it as a proper UUID.
+ * For the first constructor where no string is provided, generates a new random ID.
+ * For the second constructor where string is provided, validates it as a proper UUID.
  * Guarantees: immutable;
  */
 public class PersonId {
