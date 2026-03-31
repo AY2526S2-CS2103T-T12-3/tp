@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import seedu.address.model.meeting.Description;
 import seedu.address.model.meeting.Meeting;
+import seedu.address.model.meeting.MeetingDate;
 
 /**
  * A utility class to help with building {@code Meeting} objects.
@@ -14,12 +15,11 @@ import seedu.address.model.meeting.Meeting;
 public class MeetingBuilder {
 
     public static final String DEFAULT_DESCRIPTION = "Project Meeting";
-    public static final LocalDate DEFAULT_DATE = LocalDate.of(2026, 6, 15);
+    public static final String DEFAULT_DATE = "2026-06-15";
     public static final Set<UUID> DEFAULT_PARTICIPANTS = new HashSet<>();
-    public static final UUID DEFAULT_ID = UUID.fromString("00000000-0000-0000-0000-000000000101");
 
     private Description description;
-    private LocalDate date;
+    private MeetingDate date;
     private Set<UUID> participants;
 
     /**
@@ -27,7 +27,7 @@ public class MeetingBuilder {
      */
     public MeetingBuilder() {
         description = new Description(DEFAULT_DESCRIPTION);
-        date = DEFAULT_DATE;
+        date = new MeetingDate(DEFAULT_DATE);
         participants = new HashSet<>(DEFAULT_PARTICIPANTS);
     }
 
@@ -51,8 +51,8 @@ public class MeetingBuilder {
     /**
      * Sets the {@code date} of the {@code Meeting} that we are building.
      */
-    public MeetingBuilder withDate(LocalDate date) {
-        this.date = date;
+    public MeetingBuilder withDate(String date) {
+        this.date = new MeetingDate(date);
         return this;
     }
 

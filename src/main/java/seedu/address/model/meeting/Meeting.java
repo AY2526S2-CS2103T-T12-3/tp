@@ -2,7 +2,6 @@ package seedu.address.model.meeting;
 
 import static java.util.Objects.requireNonNull;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -12,15 +11,11 @@ import java.util.UUID;
  * Represents a Meeting associated with a person in the address book.
  */
 public class Meeting {
-    public static final String MESSAGE_DATE_CONSTRAINTS =
-            "Meeting date must not be null";
     public static final String MESSAGE_INVALID_PARTICIPANT_IDS =
             "Meeting must have valid participant IDs";
 
-    public static final String VALIDATION_REGEX = "\\d{4}-\\d{2}-\\d{2}";
-
     private final Description description;
-    private final LocalDate date;
+    private final MeetingDate date;
     private final Set<UUID> participantsID;
 
     /**
@@ -31,9 +26,9 @@ public class Meeting {
      * @param date Date of the meeting; must not be null.
      * @param participantsID Set of participant IDs; must not be null or contain nulls.
      */
-    public Meeting(Description description, LocalDate date, Set<UUID> participantsID) {
-        requireNonNull(description);
-        requireNonNull(date, MESSAGE_DATE_CONSTRAINTS);
+    public Meeting(Description description, MeetingDate date, Set<UUID> participantsID) {
+        assert description != null : "description should not be null";
+        assert date != null : "date should not be null";
         requireNonNull(participantsID, MESSAGE_INVALID_PARTICIPANT_IDS);
 
         // Validate each UUID individually
@@ -48,19 +43,12 @@ public class Meeting {
         this.participantsID = new HashSet<>(participantsID);;
     }
 
-    /**
-     * Returns true if a given string is a valid date string.
-     */
-    public static boolean isValidDateString(String test) {
-        return test != null && test.matches(VALIDATION_REGEX);
-    }
-
     public Description getDescription() {
         return description;
     }
 
-    public LocalDate getDate() {
-        return LocalDate.from(date); // Returns a defensive copy of the date.
+    public MeetingDate getDate() {
+        return date;
     }
 
     public Set<UUID> getParticipantsID() {

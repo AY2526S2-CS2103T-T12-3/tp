@@ -8,6 +8,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable; is not blank.
  */
 public class Description {
+    public static final String MESSAGE_DESCRIPTION_NON_NULL =
+            "Meeting description must not be null";
     public static final String MESSAGE_DESCRIPTION_CONSTRAINTS = "Meeting description should not be blank";
 
     public final String description;
@@ -18,7 +20,7 @@ public class Description {
      * @param description A non-blank meeting description.
      */
     public Description(String description) {
-        requireNonNull(description);
+        requireNonNull(description, MESSAGE_DESCRIPTION_NON_NULL);
         checkArgument(isValidDescription(description), MESSAGE_DESCRIPTION_CONSTRAINTS);
 
         this.description = description;

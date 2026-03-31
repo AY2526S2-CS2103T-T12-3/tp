@@ -1,6 +1,5 @@
 package seedu.address.storage;
 
-import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -12,6 +11,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.meeting.Description;
 import seedu.address.model.meeting.Meeting;
+import seedu.address.model.meeting.MeetingDate;
 
 /**
  * Jackson-friendly version of {@link Meeting}.
@@ -72,15 +72,13 @@ class JsonAdaptedMeeting {
         if (date == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "date"));
         }
-        if (!Meeting.isValidDateString(date)) {
-            throw new IllegalValueException(Meeting.MESSAGE_DATE_CONSTRAINTS);
-        }
+        MeetingDate modelDate = new MeetingDate(date);
 
         if (personIds == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "personIds"));
         }
 
-        LocalDate parsedDate = ParserUtil.parseDate(date);
+        MeetingDate parsedDate = ParserUtil.parseDate(date);
 
         Set<UUID> modelPersonIds = personIds.stream()
                 .map(UUID::fromString)

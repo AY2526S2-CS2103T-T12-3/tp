@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +13,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.meeting.Description;
 import seedu.address.model.meeting.Meeting;
+import seedu.address.model.meeting.MeetingDate;
 import seedu.address.model.meeting.exceptions.DuplicateMeetingException;
 import seedu.address.model.person.Person;
 
@@ -33,13 +33,12 @@ public class AddMeetingCommand extends Command {
 
     public static final String MESSAGE_ADD_MEETING_SUCCESS = "Added meeting: %1$s";
     public static final String MESSAGE_INVALID_PERSON_INDEX = "Invalid person index provided.";
-    public static final String MESSAGE_INVALID_DATE_FORMAT = "Invalid date format! Use YYYY-MM-DD.";
     public static final String MESSAGE_MEETING_ALREADY_EXISTS =
             "A meeting with the same description and date already exists";
 
     private final Set<Index> indices;
     private final Description description;
-    private final LocalDate date;
+    private final MeetingDate date;
 
     /**
      * Creates an AddMeetingCommand to add the specified {@code Meeting}
@@ -48,7 +47,7 @@ public class AddMeetingCommand extends Command {
      * @param description Description of the meeting
      * @param date Date of the meeting (YYYY-MM-DD)
      */
-    public AddMeetingCommand(Set<Index> indices, Description description, LocalDate date) {
+    public AddMeetingCommand(Set<Index> indices, Description description, MeetingDate date) {
         requireNonNull(indices);
         requireNonNull(description);
         requireNonNull(date);

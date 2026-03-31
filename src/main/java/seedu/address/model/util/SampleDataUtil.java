@@ -1,6 +1,5 @@
 package seedu.address.model.util;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
@@ -10,6 +9,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.meeting.Description;
 import seedu.address.model.meeting.Meeting;
+import seedu.address.model.meeting.MeetingDate;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
@@ -78,11 +78,11 @@ public class SampleDataUtil {
         return new Meeting[] {
             new Meeting(
                     new Description("Project Meeting"),
-                    LocalDate.of(2026, 6, 15),
+                    new MeetingDate("2026-06-15"),
                     Set.of(UUID_1, UUID_3, UUID_4)),
             new Meeting(
                     new Description("Coffee"),
-                    LocalDate.of(2026, 6, 11),
+                    new MeetingDate("2026-06-11"),
                     Set.of(UUID_1))
         };
     }
