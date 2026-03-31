@@ -57,17 +57,21 @@ class JsonSerializableAddressBook {
 
         // Adds persons
         for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
-            Person person = jsonAdaptedPerson.toModelType();
+            try {
+                Person person = jsonAdaptedPerson.toModelType();
 
-            if (addressBook.hasPerson(person)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
+                if (addressBook.hasPerson(person)) {
+                    throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
+                }
+
+                if (addressBook.hasSameID(person)) {
+                    throw new IllegalValueException(MESSAGE_DUPLICATE_ID);
+                }
+
+                addressBook.addPerson(person);
+            } catch (IllegalArgumentException unused) {
+                // Skip invalid IDs.
             }
-
-            if (addressBook.hasSameID(person)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_ID);
-            }
-
-            addressBook.addPerson(person);
         }
 
         // Adds meetings
