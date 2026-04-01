@@ -33,8 +33,8 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
     @Override
     public boolean test(Person person) {
         String name = person.getName().fullName.toLowerCase();
-        String phone = person.getPhone().value.toLowerCase();
-        String email = person.getEmail().value.toLowerCase();
+        String phone = person.getPhone() == null ? "" : person.getPhone().value.toLowerCase();
+        String email = person.getEmail() == null ? "" : person.getEmail().value.toLowerCase();
 
         // Global search
         if (!globalKeywords.isEmpty()) {

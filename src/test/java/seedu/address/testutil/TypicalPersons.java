@@ -2,10 +2,14 @@ package seedu.address.testutil;
 
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_JOHN;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_JANE;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_JOHN;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_JANE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.TypicalMeetings.getTypicalMeetings;
@@ -78,6 +82,22 @@ public class TypicalPersons {
             .withEmail(VALID_EMAIL_BOB)
             .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
             .build();
+
+    // John is someone with no phone number
+    public static final Person JOHN = new PersonBuilder()
+            .withName(VALID_NAME_JOHN)
+            .withPhone(null)
+            .withEmail(VALID_EMAIL_JOHN)
+            .build();
+
+    // jane is someone with no email
+    public static final Person JANE = new PersonBuilder()
+            .withName(VALID_NAME_JANE)
+            .withPhone(VALID_PHONE_JANE)
+            .withEmail(null)
+            .build();
+
+
 
     private TypicalPersons() {} // prevents instantiation
 

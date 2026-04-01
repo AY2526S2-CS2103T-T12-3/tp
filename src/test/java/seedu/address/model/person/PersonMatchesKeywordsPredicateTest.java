@@ -3,6 +3,8 @@ package seedu.address.model.person;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.JANE;
+import static seedu.address.testutil.TypicalPersons.JOHN;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -182,4 +184,21 @@ public class PersonMatchesKeywordsPredicateTest {
 
         assertTrue(predicate.test(ALICE));
     }
+
+    @Test
+    public void test_nullPhone_noNpe() {
+        PersonMatchesKeywordsPredicate predicate = new PersonMatchesKeywordsPredicate(
+                        List.of("john"), List.of(), List.of(), List.of());
+
+        assertTrue(predicate.test(JOHN)); // John is someone with no phone number
+    }
+
+    @Test
+    public void test_nullEmail_noNpe() {
+        PersonMatchesKeywordsPredicate predicate = new PersonMatchesKeywordsPredicate(
+                        List.of("jane"), List.of(), List.of(), List.of());
+
+        assertTrue(predicate.test(JANE)); // Jane is someone with no email
+    }
+
 }
