@@ -25,6 +25,8 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Meeting> filteredMeetings;
+    private Predicate<Person> currentPredicate;
+
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -42,6 +44,10 @@ public class ModelManager implements Model {
 
     public ModelManager() {
         this(new AddressBook(), new UserPrefs());
+    }
+
+    public Predicate<Person> getCurrentPredicate() {
+        return currentPredicate;
     }
 
     //=========== UserPrefs ==================================================================================
@@ -133,10 +139,29 @@ public class ModelManager implements Model {
         return filteredPersons;
     }
 
+    /**
+     * Updates the filter of the filtered person list to filter by the given
+     * {@code predicate}.
+     *
+     * @throws NullPointerException if {@code predicate} is null.
+     */
     @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
+        currentPredicate = predicate; // sets the current predicate to whatever has been passed by the user
         filteredPersons.setPredicate(predicate);
+    }
+
+    /**
+     * Updates the filter of the filtered person list to filter by all previous {@code predicate}
+     * @param predicate
+     */
+    @Override
+    public void updateFilteredPersonListStacked(Predicate<Person> predicate) {
+        requireNonNull(predicate);
+        Predicate<Person> stackedPredicate = getCurrentPredicate().and(predicate);
+        currentPredicate = stackedPredicate; // update the stored predicate
+        filteredPersons.setPredicate(stackedPredicate);
     }
 
     //=========== Meeting-level operations ====================================================================

@@ -93,6 +93,12 @@ public interface Model {
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
 
+    /**
+     * Updates the filter of the filtered person list to filter by all previous {@code predicate}
+     * @param predicate new predicate to be stacked with the other predicates
+     */
+    void updateFilteredPersonListStacked(Predicate<Person> predicate);
+
     //===== Meeting-level operations ======================================================
 
     /**
