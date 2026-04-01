@@ -8,11 +8,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import seedu.address.model.meeting.Meeting;
 import seedu.address.model.person.Person;
 
 /**
- * An UI component that displays information of a {@code Person}.
+ * An UI component that displays information of a {@code Meeting}.
  */
 public class MeetingCard extends UiPart<Region> {
 
@@ -51,8 +52,24 @@ public class MeetingCard extends UiPart<Region> {
 
         date.setText(meeting.getDate().toString());
 
+        // Clear any existing children first (safety)
+        participants.getChildren().clear();
+
         participantSet.stream()
                 .sorted(Comparator.comparing(person -> person.getName().fullName))
-                .forEach(person -> participants.getChildren().add(new Label(person.getName().fullName)));
+                .forEach(person -> {
+                    // Create one label with name, phone, email stacked using \n
+                    String text = person.getName().fullName + "\n"
+                            + person.getPhone().value + "\n"
+                            + person.getEmail().value;
+
+                    Label personLabel = new Label(text);
+
+                    // Optional styling
+                    personLabel.setStyle("-fx-padding: 3; -fx-border-color: lightgray; -fx-border-radius: 3;");
+
+                    // Add the label to the FlowPane
+                    participants.getChildren().add(personLabel);
+                });
     }
 }

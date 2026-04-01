@@ -334,6 +334,11 @@
     -fx-vgap: 3;
 }
 
+#participants {
+    -fx-hgap: 7;
+    -fx-vgap: 3;
+}
+
 #tags .label {
     -fx-text-fill: white;
     -fx-background-color: #3e7b91;

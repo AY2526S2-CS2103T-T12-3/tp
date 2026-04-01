@@ -52,7 +52,7 @@ public class EditMeetingCommand extends Command {
             + PREFIX_ADD_PERSON_TO_MEETING_INDEX + "3, 5 "
             + PREFIX_DELETE_PERSON_FROM_MEETING_INDEX + "2";
 
-    public static final String MESSAGE_EDIT_MEETING_SUCCESS = "Edited meeting(s): %1$s";
+    public static final String MESSAGE_EDIT_MEETING_SUCCESS = "Edited meeting: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
 
     private final Index meetingIndex;
@@ -94,7 +94,7 @@ public class EditMeetingCommand extends Command {
         }
 
         return new CommandResult(String.format(MESSAGE_EDIT_MEETING_SUCCESS,
-                meetingIndex.getOneBased()));
+                editedMeeting.toString()));
     }
 
     /**
