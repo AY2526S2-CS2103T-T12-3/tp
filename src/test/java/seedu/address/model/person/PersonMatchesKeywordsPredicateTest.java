@@ -3,14 +3,14 @@ package seedu.address.model.person;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.JANE;
+import static seedu.address.testutil.TypicalPersons.JOHN;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
-import seedu.address.testutil.PersonBuilder;
 
 public class PersonMatchesKeywordsPredicateTest {
 
@@ -187,30 +187,18 @@ public class PersonMatchesKeywordsPredicateTest {
 
     @Test
     public void test_nullPhone_noNpe() {
-        Person person = new PersonBuilder()
-                        .withName("Alice")
-                        .withPhone(null)
-                        .withEmail("alice@gmail.com")
-                        .build();
-
         PersonMatchesKeywordsPredicate predicate = new PersonMatchesKeywordsPredicate(
-                        List.of("alice"), List.of(), List.of(), List.of());
+                        List.of("john"), List.of(), List.of(), List.of());
 
-        assertTrue(predicate.test(person));
+        assertTrue(predicate.test(JOHN)); // John is someone with no phone number
     }
 
     @Test
     public void test_nullEmail_noNpe() {
-        Person person = new PersonBuilder()
-                        .withName("Bob")
-                        .withPhone("90001111")
-                        .withEmail(null)
-                        .build();
-
         PersonMatchesKeywordsPredicate predicate = new PersonMatchesKeywordsPredicate(
-                        List.of("bob"), List.of(), List.of(), List.of());
+                        List.of("jane"), List.of(), List.of(), List.of());
 
-        assertTrue(predicate.test(person));
+        assertTrue(predicate.test(JANE)); // Jane is someone with no email
     }
 
 }
