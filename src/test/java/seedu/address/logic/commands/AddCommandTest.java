@@ -166,6 +166,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void updateFilteredPersonListStacked(Predicate<Person> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public boolean hasMeeting(Meeting meeting) {
             throw new AssertionError("This method should not be called.");
         }

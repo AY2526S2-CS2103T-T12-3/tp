@@ -25,7 +25,7 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Meeting> filteredMeetings;
-    private Predicate<Person> currentPredicate;
+    private Predicate<Person> currentPredicate = PREDICATE_SHOW_ALL_PERSONS;
 
 
     /**
