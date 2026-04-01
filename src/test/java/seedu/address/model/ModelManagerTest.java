@@ -7,15 +7,18 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonMatchesKeywordsPredicate;
 import seedu.address.testutil.AddressBookBuilder;
 
@@ -92,6 +95,71 @@ public class ModelManagerTest {
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
+    }
+
+    @Test
+    public void updateFilteredPersonListStacked_filtersCorrectly() {
+        ModelManager model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+        // first filter: name contains "meier"
+        Predicate<Person> first = person ->
+                person.getName().fullName.toLowerCase().contains("meier");
+
+        model.updateFilteredPersonList(first);
+
+        assertEquals(2, model.getFilteredPersonList().size()); // Benson Meier, Daniel Meier
+        // second filter: email contains "cornelia"
+        Predicate<Person> second = person ->
+                person.getEmail().value.toLowerCase().contains("cornelia");
+
+        model.updateFilteredPersonListStacked(second);
+
+        // should only be Daniel Meier
+        assertEquals(1, model.getFilteredPersonList().size());
+        assertEquals(model.getFilteredPersonList().get(0).getName().fullName.toLowerCase(),
+                "daniel meier");
+    }
+
+    @Test
+    public void updateFilteredPersonListStacked_noExistingPredicate_works() {
+        ModelManager model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+        Predicate<Person> predicate = person -> person.getName().fullName.toLowerCase().contains("meier");
+
+        model.updateFilteredPersonListStacked(predicate);
+
+        assertEquals(2, model.getFilteredPersonList().size());
+    }
+
+    @Test
+    public void updateFilteredPersonList_afterStacked_resetsProperly() {
+        ModelManager model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+        Predicate<Person> meier = p -> p.getName().fullName.toLowerCase().contains("meier");
+        Predicate<Person> dan = p -> p.getName().fullName.toLowerCase().contains("dan");
+
+        model.updateFilteredPersonList(meier);
+        model.updateFilteredPersonListStacked(dan);
+
+        // now reset
+        model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
+
+        assertEquals(model.getAddressBook().getPersonList().size(),
+                model.getFilteredPersonList().size());
+    }
+
+    @Test
+    public void updateFilteredPersonListIncremental_appliesAndLogic() {
+        ModelManager model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+        Predicate<Person> meier = p -> p.getName().fullName.contains("Meier");
+        Predicate<Person> pauline = p -> p.getName().fullName.contains("pauline");
+
+        model.updateFilteredPersonList(meier);
+        model.updateFilteredPersonListStacked(pauline);
+
+        // should be empty (no one is both Tan and Lee)
+        assertTrue(model.getFilteredPersonList().isEmpty());
     }
 
     @Test
