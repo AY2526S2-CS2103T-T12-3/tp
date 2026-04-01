@@ -1,13 +1,13 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
-import java.util.UUID;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.meeting.Meeting;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonId;
 
 /**
  * The API of the Model component.
@@ -81,8 +81,8 @@ public interface Model {
      */
     void setPerson(Person target, Person editedPerson);
 
-    /** Finds the person with the given UUID. */
-    Person getPerson(UUID uuid);
+    /** Finds the person with the given PersonId. */
+    Person getPerson(PersonId id);
 
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();

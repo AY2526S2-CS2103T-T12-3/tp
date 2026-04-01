@@ -52,7 +52,7 @@ public class MeetingListPanel extends UiPart<Region> {
                 setText(null);
             } else {
                 Set<Person> participants = new HashSet<>();
-                meeting.getParticipantsID().forEach(uuid -> participants.add(model.getPerson(uuid)));
+                meeting.getParticipantsIDs().forEach(id -> participants.add(model.getPerson(id)));
 
                 setGraphic(new MeetingCard(meeting, getIndex() + 1, participants).getRoot());
             }

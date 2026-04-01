@@ -3,18 +3,18 @@ package seedu.address.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalMeetings.COFFEE_MEETING;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,8 +25,10 @@ import seedu.address.model.meeting.Meeting;
 import seedu.address.model.meeting.exceptions.DuplicateMeetingException;
 import seedu.address.model.meeting.exceptions.MeetingNotFoundException;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonId;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.testutil.MeetingBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.TypicalPersons;
 
@@ -71,11 +73,11 @@ public class AddressBookTest {
         newMeetings.add(new Meeting(
                 COFFEE_MEETING.getDescription(),
                 COFFEE_MEETING.getDate(),
-                COFFEE_MEETING.getParticipantsID()));
+                COFFEE_MEETING.getParticipantsIDs()));
         newMeetings.add(new Meeting(
                 COFFEE_MEETING.getDescription(),
                 COFFEE_MEETING.getDate(),
-                COFFEE_MEETING.getParticipantsID()));
+                COFFEE_MEETING.getParticipantsIDs()));
 
         AddressBookStub newData = new AddressBookStub(newPersons, newMeetings);
 
@@ -90,10 +92,11 @@ public class AddressBookTest {
         newMeetings.add(new Meeting(
                 COFFEE_MEETING.getDescription(),
                 COFFEE_MEETING.getDate(),
-                COFFEE_MEETING.getParticipantsID()));
+                COFFEE_MEETING.getParticipantsIDs()));
 
-        Set<UUID> participantsMinusOne = COFFEE_MEETING.getParticipantsID();
+        Set<PersonId> participantsMinusOne = COFFEE_MEETING.getParticipantsIDs();
         participantsMinusOne.remove(participantsMinusOne.iterator().next()); // Remove first UUID.
+
         newMeetings.add(new Meeting(
                 COFFEE_MEETING.getDescription(),
                 COFFEE_MEETING.getDate(),
@@ -134,18 +137,18 @@ public class AddressBookTest {
     }
 
     @Test
-    public void getPerson_validUuid_success() {
+    public void getPerson_validPersonId_success() {
         AddressBook newData = getTypicalAddressBook();
         addressBook.resetData(newData);
 
         Person firstPerson = addressBook.getPersonList().stream().findFirst().orElseThrow(PersonNotFoundException::new);
-        UUID idToFind = firstPerson.getId();
+        PersonId idToFind = firstPerson.getId();
 
         assertEquals(firstPerson, addressBook.getPerson(idToFind));
     }
 
     @Test
-    public void addMeeting_nonexistentUuid_fail() {
+    public void addMeeting_nonexistentPersonId_fail() {
         AddressBook newData = getTypicalAddressBook();
         addressBook.resetData(newData);
 
@@ -153,10 +156,12 @@ public class AddressBookTest {
 
         addressBook.removePerson(firstPerson);
 
-        Meeting meetingWithNonexistentPerson = new Meeting(
-                "Meetup",
-                LocalDate.of(2026, 7, 5),
-                Set.of(firstPerson.getId()));
+        // Create a meeting referencing the removed person's PersonId
+        Meeting meetingWithNonexistentPerson = new MeetingBuilder()
+                .withDescription(VALID_DESCRIPTION_PROJECT)
+                .withDate(VALID_DATE_20260325)
+                .withParticipants(Set.of(firstPerson.getId().toString()))
+                .build();
 
         assertThrows(PersonNotFoundException.class, () -> addressBook.addMeeting(meetingWithNonexistentPerson));
     }
@@ -168,18 +173,18 @@ public class AddressBookTest {
 
         Meeting firstMeeting =
                 addressBook.getMeetingList().stream().findFirst().orElseThrow(MeetingNotFoundException::new);
-        UUID firstParticipantId = firstMeeting.getParticipantsID().iterator().next();
+        PersonId firstParticipantId = firstMeeting.getParticipantsIDs().iterator().next();
 
         addressBook.removePerson(addressBook.getPerson(firstParticipantId));
 
-        Set<UUID> newUuidSet = firstMeeting.getParticipantsID();
-        newUuidSet.remove(firstParticipantId);
+        Set<PersonId> newPersonIdSet = firstMeeting.getParticipantsIDs();
+        newPersonIdSet.remove(firstParticipantId);
 
-        Meeting editedMeeting = new Meeting(firstMeeting.getDescription(), firstMeeting.getDate(), newUuidSet);
+        Meeting editedMeeting = new Meeting(firstMeeting.getDescription(), firstMeeting.getDate(), newPersonIdSet);
 
         for (Meeting m : addressBook.getMeetingList()) {
             if (m.isSameMeeting(editedMeeting)) {
-                assertEquals(editedMeeting.getParticipantsID(), m.getParticipantsID());
+                assertEquals(editedMeeting.getParticipantsIDs(), m.getParticipantsIDs());
             }
         }
     }

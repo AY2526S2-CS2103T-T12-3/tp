@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -14,6 +13,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonId;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
@@ -22,7 +22,6 @@ import seedu.address.model.tag.Tag;
  */
 class JsonAdaptedPerson {
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Person's %s field is missing!";
-    public static final String INVALID_UUID_MESSAGE = "Invalid UUID format for Person's ID.";
 
     private final String id;
     private final String name;
@@ -109,17 +108,13 @@ class JsonAdaptedPerson {
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
 
-        // Handle ID: if missing, call constructor that generates new ID
-        if (id == null || id.isEmpty()) {
+        // If IllegalArgumentException returned, call constructor that generates new ID
+        final PersonId modelId;
+        try {
+            modelId = new PersonId(id);
+        } catch (IllegalArgumentException e) {
             return new Person(modelName, modelPhone, modelEmail, modelTags);
-        } else {
-            final UUID modelId;
-            try {
-                modelId = UUID.fromString(id);
-            } catch (IllegalArgumentException e) {
-                throw new IllegalValueException(INVALID_UUID_MESSAGE);
-            }
-            return new Person(modelId, modelName, modelPhone, modelEmail, modelTags);
         }
+        return new Person(modelId, modelName, modelPhone, modelEmail, modelTags);
     }
 }

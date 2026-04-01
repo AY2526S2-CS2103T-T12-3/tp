@@ -46,10 +46,8 @@ public class EditMeetingCommandParser implements Parser<EditMeetingCommand> {
         }
 
         if (argMultimap.getValue(PREFIX_MEETING_DESCRIPTION).isPresent()) {
-            String trimmedDescription = argMultimap.getValue(PREFIX_MEETING_DESCRIPTION).get().trim();
-            if (!trimmedDescription.isEmpty()) {
-                descriptor.setDescription(trimmedDescription);
-            }
+            descriptor.setDescription(ParserUtil.parseDescription(
+                    argMultimap.getValue(PREFIX_MEETING_DESCRIPTION).get()));
         }
 
         if (argMultimap.getValue(PREFIX_MEETING_DATE).isPresent()) {

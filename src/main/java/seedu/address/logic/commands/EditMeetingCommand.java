@@ -9,23 +9,24 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DELETE_PERSON_FROM_MEE
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.meeting.Description;
 import seedu.address.model.meeting.Meeting;
+import seedu.address.model.meeting.MeetingDate;
 import seedu.address.model.meeting.exceptions.DuplicateMeetingException;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonId;
 
 /**
  * Edits the details of existing meetings in the address book.
@@ -104,12 +105,12 @@ public class EditMeetingCommand extends Command {
                                                EditMeetingCommand.EditMeetingDescriptor editMeetingDescriptor) {
         assert meetingToEdit != null;
 
-        String updatedDescription = editMeetingDescriptor.getDescription()
+        Description updatedDescription = editMeetingDescriptor.getDescription()
                 .orElse(meetingToEdit.getDescription());
-        LocalDate updatedDate = editMeetingDescriptor.getDate()
+        MeetingDate updatedDate = editMeetingDescriptor.getDate()
                 .orElse(meetingToEdit.getDate());
 
-        Set<UUID> updatedParticipantsId = new HashSet<>(meetingToEdit.getParticipantsID());
+        Set<PersonId> updatedParticipantsId = new HashSet<>(meetingToEdit.getParticipantsIDs());
 
         editMeetingDescriptor.getIdsToAdd()
                 .ifPresent(updatedParticipantsId::addAll);
@@ -149,15 +150,15 @@ public class EditMeetingCommand extends Command {
      * corresponding field value of the meeting.
      */
     public static class EditMeetingDescriptor {
-        private String description;
-        private LocalDate date;
-        private Set<UUID> participantsID;
+        private Description description;
+        private MeetingDate date;
+        private Set<PersonId> participantsID;
 
         private Set<Index> personIndicesToAdd;
         private Set<Index> personIndicesToDelete;
 
-        private Set<UUID> idsToAdd;
-        private Set<UUID> idsToDelete;
+        private Set<PersonId> idsToAdd;
+        private Set<PersonId> idsToDelete;
 
         public EditMeetingDescriptor() {}
 
@@ -200,21 +201,21 @@ public class EditMeetingCommand extends Command {
         }
 
         /**
-         * Resolves a set of {@code Index} objects to their corresponding participant {@code UUID}s
+         * Resolves a set of {@code Index} objects to their corresponding participant {@code PersonId}s
          * from the given list of {@code persons}.
          *
          * @param indices The set of indices representing positions in {@code persons}; may be {@code null}
          * @param persons The list of persons to resolve the IDs from
-         * @return A set of resolved participant {@code UUID}s, or {@code null} if {@code indices} is {@code null}
+         * @return A set of resolved participant {@code PersonId}s, or {@code null} if {@code indices} is {@code null}
          * @throws CommandException If any index is invalid (i.e., out of bounds of {@code persons})
          */
-        private Set<UUID> resolveIndicesToIds(Set<Index> indices, List<Person> persons)
+        private Set<PersonId> resolveIndicesToIds(Set<Index> indices, List<Person> persons)
                 throws CommandException {
             if (indices == null) {
                 return null;
             }
 
-            Set<UUID> resolvedIds = new HashSet<>();
+            Set<PersonId> resolvedIds = new HashSet<>();
             for (Index index : indices) {
                 if (index.getZeroBased() >= persons.size()) {
                     throw new CommandException(MESSAGE_INVALID_PERSON_INDEX);
@@ -224,15 +225,15 @@ public class EditMeetingCommand extends Command {
             return resolvedIds;
         }
 
-        public void setDescription(String description) {
+        public void setDescription(Description description) {
             this.description = description;
         }
 
-        public void setDate(LocalDate date) {
+        public void setDate(MeetingDate date) {
             this.date = date;
         }
 
-        public void setParticipantsID(Set<UUID> participantsID) {
+        public void setParticipantsID(Set<PersonId> participantsID) {
             this.participantsID = (participantsID != null) ? new HashSet<>(participantsID) : null;
         }
 
@@ -244,23 +245,23 @@ public class EditMeetingCommand extends Command {
             this.personIndicesToDelete = (personIndicesToDelete != null) ? new HashSet<>(personIndicesToDelete) : null;
         }
 
-        public void setIdsToAdd(Set<UUID> idsToAdd) {
+        public void setIdsToAdd(Set<PersonId> idsToAdd) {
             this.idsToAdd = (idsToAdd != null) ? new HashSet<>(idsToAdd) : null;
         }
 
-        public void setIdsToDelete(Set<UUID> idsToDelete) {
+        public void setIdsToDelete(Set<PersonId> idsToDelete) {
             this.idsToDelete = (idsToDelete != null) ? new HashSet<>(idsToDelete) : null;
         }
 
-        public Optional<String> getDescription() {
+        public Optional<Description> getDescription() {
             return Optional.ofNullable(description);
         }
 
-        public Optional<LocalDate> getDate() {
+        public Optional<MeetingDate> getDate() {
             return Optional.ofNullable(date);
         }
 
-        public Optional<Set<UUID>> getParticipantsID() {
+        public Optional<Set<PersonId>> getParticipantsID() {
             return (participantsID != null)
                     ? Optional.of(Collections.unmodifiableSet(participantsID))
                     : Optional.empty();
@@ -278,13 +279,13 @@ public class EditMeetingCommand extends Command {
                     : Optional.empty();
         }
 
-        public Optional<Set<UUID>> getIdsToAdd() {
+        public Optional<Set<PersonId>> getIdsToAdd() {
             return (idsToAdd != null)
                     ? Optional.of(Collections.unmodifiableSet(idsToAdd))
                     : Optional.empty();
         }
 
-        public Optional<Set<UUID>> getIdsToDelete() {
+        public Optional<Set<PersonId>> getIdsToDelete() {
             return (idsToDelete != null)
                     ? Optional.of(Collections.unmodifiableSet(idsToDelete))
                     : Optional.empty();

@@ -9,13 +9,12 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 import static seedu.address.testutil.TypicalMeetings.COFFEE_MEETING;
 import static seedu.address.testutil.TypicalMeetings.PROJECT_MEETING;
-import static seedu.address.testutil.TypicalPersons.UUID_1;
-import static seedu.address.testutil.TypicalPersons.UUID_2;
-import static seedu.address.testutil.TypicalPersons.UUID_3;
+import static seedu.address.testutil.TypicalPersons.ID_1;
+import static seedu.address.testutil.TypicalPersons.ID_2;
+import static seedu.address.testutil.TypicalPersons.ID_3;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.Set;
-import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,8 +24,10 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.PersonId;
 
 public class EditMeetingDescriptorTest {
+
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
@@ -34,11 +35,11 @@ public class EditMeetingDescriptorTest {
         EditMeetingDescriptor descriptor = new EditMeetingDescriptor();
         descriptor.setDescription(COFFEE_MEETING.getDescription());
         descriptor.setDate(COFFEE_MEETING.getDate());
-        descriptor.setParticipantsID(Set.of(UUID_1, UUID_3));
+        descriptor.setParticipantsID(Set.of(new PersonId(ID_1), new PersonId(ID_3)));
         descriptor.setPersonIndicesToAdd(Set.of(INDEX_SECOND_PERSON));
         descriptor.setPersonIndicesToDelete(Set.of(INDEX_FIRST_PERSON));
-        descriptor.setIdsToAdd(Set.of(UUID_2));
-        descriptor.setIdsToDelete(Set.of(UUID_1));
+        descriptor.setIdsToAdd(Set.of(new PersonId(ID_2)));
+        descriptor.setIdsToDelete(Set.of(new PersonId(ID_1)));
 
         // same values -> returns true
         EditMeetingDescriptor copy = new EditMeetingDescriptor(descriptor);
@@ -65,7 +66,7 @@ public class EditMeetingDescriptorTest {
 
         // different participants id -> returns false
         different = new EditMeetingDescriptor(descriptor);
-        different.setParticipantsID(Set.of(UUID.randomUUID()));
+        different.setParticipantsID(Set.of(new PersonId()));
         assertFalse(descriptor.equals(different));
 
         // different indices to add -> returns false
@@ -80,12 +81,12 @@ public class EditMeetingDescriptorTest {
 
         // different peopleToAddId -> returns false
         different = new EditMeetingDescriptor(descriptor);
-        different.setIdsToAdd(Set.of(UUID.randomUUID()));
+        different.setIdsToAdd(Set.of(new PersonId()));
         assertFalse(descriptor.equals(different));
 
         // different peopleToDeleteId -> returns false
         different = new EditMeetingDescriptor(descriptor);
-        different.setIdsToDelete(Set.of(UUID.randomUUID()));
+        different.setIdsToDelete(Set.of(new PersonId()));
         assertFalse(descriptor.equals(different));
     }
 
@@ -112,9 +113,8 @@ public class EditMeetingDescriptorTest {
         descriptor.resolveParticipantIds(model);
 
         // Verify that the converted IDs match the IDs of persons in model
-        Set<UUID> expectedAddIds = Set.of(UUID_1, UUID_2);
-
-        Set<UUID> expectedDeleteIds = Set.of(UUID_3);
+        Set<PersonId> expectedAddIds = Set.of(new PersonId(ID_1), new PersonId(ID_2));
+        Set<PersonId> expectedDeleteIds = Set.of(new PersonId(ID_3));
 
         assertEquals(expectedAddIds, descriptor.getIdsToAdd().orElseThrow());
         assertEquals(expectedDeleteIds, descriptor.getIdsToDelete().orElseThrow());

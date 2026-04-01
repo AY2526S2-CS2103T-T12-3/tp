@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +24,8 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.meeting.Meeting;
 import seedu.address.model.meeting.MeetingMatchesKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonId;
+import seedu.address.testutil.MeetingBuilder;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindMeetingCommand}.
@@ -71,9 +72,9 @@ public class FindMeetingCommandTest {
         List<String> descriptionKeywords = Collections.emptyList();
         List<String> dateKeywords = Collections.emptyList();
         Set<Index> personIndices = Collections.emptySet();
-        Set<UUID> uuidsToMatch = Collections.emptySet();
+        Set<PersonId> idsToMatch = Collections.emptySet();
         MeetingMatchesKeywordsPredicate predicate =
-                new MeetingMatchesKeywordsPredicate(descriptionKeywords, dateKeywords, uuidsToMatch);
+                new MeetingMatchesKeywordsPredicate(descriptionKeywords, dateKeywords, idsToMatch);
         FindMeetingCommand command = new FindMeetingCommand(descriptionKeywords, dateKeywords, personIndices);
         expectedModel.updateFilteredMeetingList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -86,22 +87,26 @@ public class FindMeetingCommandTest {
         List<String> descriptionKeywords = new ArrayList<>();
         List<String> dateKeywords = Collections.emptyList();
         Set<Index> personIndices = Collections.emptySet();
-        Set<UUID> uuidsToMatch = Collections.emptySet();
+        Set<PersonId> idsToMatch = Collections.emptySet();
 
         Set<Index> indices = VALID_INDEX_SINGLE;
 
         Person targetPerson = model.getFilteredPersonList().get(indices.iterator().next().getZeroBased());
 
-        Set<UUID> participantIds = Set.of(targetPerson.getId());
+        Set<String> participantIds = Set.of(targetPerson.getId().toString());
 
-        Meeting meeting = new Meeting(VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325, participantIds);
+        Meeting meeting = new MeetingBuilder()
+                .withDescription(VALID_DESCRIPTION_PROJECT)
+                .withDate(VALID_DATE_20260325)
+                .withParticipants(participantIds)
+                .build();
 
         descriptionKeywords.add(VALID_DESCRIPTION_PROJECT);
 
         model.addMeeting(meeting);
 
         MeetingMatchesKeywordsPredicate predicate =
-                new MeetingMatchesKeywordsPredicate(descriptionKeywords, dateKeywords, uuidsToMatch);
+                new MeetingMatchesKeywordsPredicate(descriptionKeywords, dateKeywords, idsToMatch);
 
         FindMeetingCommand command = new FindMeetingCommand(descriptionKeywords, dateKeywords, personIndices);
 

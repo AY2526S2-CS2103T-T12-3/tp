@@ -1,8 +1,8 @@
 package seedu.address.storage;
 
-import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -10,7 +10,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.parser.ParserUtil;
+import seedu.address.model.meeting.Description;
 import seedu.address.model.meeting.Meeting;
+import seedu.address.model.meeting.MeetingDate;
+import seedu.address.model.person.PersonId;
 
 /**
  * Jackson-friendly version of {@link Meeting}.
@@ -18,6 +21,8 @@ import seedu.address.model.meeting.Meeting;
 class JsonAdaptedMeeting {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Meeting's %s field is missing!";
+    public static final String MESSAGE_INVALID_ID_FOUND = "Illegal ID found in meeting, skipping ID: ";
+    private static final Logger logger = Logger.getLogger(JsonAdaptedMeeting.class.getName());
 
     private final String description;
     private final String date;
@@ -39,10 +44,10 @@ class JsonAdaptedMeeting {
      * Converts a given {@code Meeting} into this class for Jackson use.
      */
     public JsonAdaptedMeeting(Meeting source) {
-        this.description = source.getDescription();
+        this.description = source.getDescription().description;
         this.date = source.getDate().toString();
-        this.personIds = source.getParticipantsID().stream()
-                .map(UUID::toString)
+        this.personIds = source.getParticipantsIDs().stream()
+                .map(PersonId::toString)
                 .collect(Collectors.toSet());
     }
 
@@ -62,31 +67,29 @@ class JsonAdaptedMeeting {
      * Converts this Jackson-friendly adapted meeting object into the model's {@code Meeting} object.
      */
     public Meeting toModelType() throws IllegalValueException {
-
         if (description == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "description"));
         }
-        if (!Meeting.isValidDescription(description)) {
-            throw new IllegalValueException(Meeting.MESSAGE_DESCRIPTION_CONSTRAINTS);
-        }
+        Description modelDescription = new Description(description);
 
         if (date == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "date"));
         }
-        if (!Meeting.isValidDateString(date)) {
-            throw new IllegalValueException(Meeting.MESSAGE_DATE_CONSTRAINTS);
-        }
+        MeetingDate parsedDate = ParserUtil.parseDate(date);
 
         if (personIds == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "personIds"));
         }
 
-        LocalDate parsedDate = ParserUtil.parseDate(date);
+        Set<PersonId> modelPersonIds = new HashSet<>();
+        for (String id : personIds) {
+            try {
+                modelPersonIds.add(new PersonId(id));
+            } catch (IllegalArgumentException e) {
+                logger.warning(MESSAGE_INVALID_ID_FOUND + id);
+            }
+        }
 
-        Set<UUID> modelPersonIds = personIds.stream()
-                .map(UUID::fromString)
-                .collect(Collectors.toSet());
-
-        return new Meeting(description, parsedDate, modelPersonIds);
+        return new Meeting(modelDescription, parsedDate, modelPersonIds);
     }
 }

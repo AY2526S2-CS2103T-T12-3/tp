@@ -10,62 +10,89 @@ import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTI
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.Set;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-public class MeetingTest {
-    private static final UUID VALID_UUID_1 =
-            UUID.fromString("00000000-0000-0000-0000-000000000001");
-    private static final UUID VALID_UUID_2 =
-            UUID.fromString("00000000-0000-0000-0000-000000000002");
+import seedu.address.model.person.PersonId;
+import seedu.address.testutil.MeetingBuilder;
 
-    public static final Set<UUID> VALID_UUIDS = Set.of(VALID_UUID_1, VALID_UUID_2);
+public class MeetingTest {
+    private static final String VALID_ID_1 = "00000000-0000-0000-0000-000000000001";
+    private static final String VALID_ID_2 = "00000000-0000-0000-0000-000000000002";
+
+    public static final Set<String> VALID_IDS = Set.of(VALID_ID_1, VALID_ID_2);
 
     @Test
     public void constructor_nullDescription_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new Meeting(null,
-                VALID_DATE_20260325, VALID_UUIDS));
+        assertThrows(NullPointerException.class, () ->
+                new MeetingBuilder().withDescription(null).withDate(VALID_DATE_20260325)
+                        .withParticipants(VALID_IDS).build());
     }
 
     @Test
     public void constructor_nullDate_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new Meeting(VALID_DESCRIPTION_PROJECT,
-                null, VALID_UUIDS));
+        assertThrows(NullPointerException.class, () ->
+                new MeetingBuilder().withDescription(VALID_DESCRIPTION_PROJECT).withDate(null)
+                        .withParticipants(VALID_IDS).build());
     }
 
     @Test
     public void constructor_invalidDescription_throwsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> new Meeting(INVALID_DESCRIPTION,
-                VALID_DATE_20260325, VALID_UUIDS));
+        assertThrows(IllegalArgumentException.class, () ->
+                new MeetingBuilder().withDescription(INVALID_DESCRIPTION)
+                        .withDate(VALID_DATE_20260325).withParticipants(VALID_IDS).build());
     }
 
     @Test
     public void constructor_validMeeting_success() {
-        Meeting meeting = new Meeting(VALID_DESCRIPTION_PROJECT,
-                VALID_DATE_20260325, VALID_UUIDS);
-        assertEquals(VALID_DESCRIPTION_PROJECT, meeting.getDescription());
-        assertEquals(VALID_DATE_20260325, meeting.getDate());
-        assertEquals(VALID_UUIDS, meeting.getParticipantsID());
+        Meeting meeting = new MeetingBuilder()
+                .withDescription(VALID_DESCRIPTION_PROJECT)
+                .withDate(VALID_DATE_20260325)
+                .withParticipants(VALID_IDS)
+                .build();
+        assertEquals(new Description(VALID_DESCRIPTION_PROJECT), meeting.getDescription());
+        assertEquals(new MeetingDate(VALID_DATE_20260325), meeting.getDate());
+
+        Set<String> actualIds = meeting.getParticipantsIDs().stream()
+                .map(PersonId::toString)
+                .collect(Collectors.toSet());
+
+        assertEquals(VALID_IDS, actualIds);
     }
 
     @Test
     public void toStringMethod() {
-        Meeting meeting = new Meeting(VALID_DESCRIPTION_PROJECT,
-                VALID_DATE_20260325, VALID_UUIDS);
+        Meeting meeting = new MeetingBuilder()
+                .withDescription(VALID_DESCRIPTION_PROJECT)
+                .withDate(VALID_DATE_20260325)
+                .withParticipants(VALID_IDS)
+                .build();
         assertEquals(VALID_DESCRIPTION_PROJECT + " on " + VALID_DATE_20260325, meeting.toString());
     }
 
     @Test
     public void equals() {
-        Meeting meeting1 = new Meeting(VALID_DESCRIPTION_PROJECT,
-                VALID_DATE_20260325, VALID_UUIDS);
-        Meeting meeting2 = new Meeting(VALID_DESCRIPTION_PROJECT,
-                VALID_DATE_20260325, VALID_UUIDS);
-        Meeting meetingDiffDescription = new Meeting(VALID_DESCRIPTION_TEAM,
-                VALID_DATE_20260325, VALID_UUIDS);
-        Meeting meetingDiffDate = new Meeting(VALID_DESCRIPTION_PROJECT,
-                VALID_DATE_20260401, VALID_UUIDS);
+        Meeting meeting1 = new MeetingBuilder()
+                .withDescription(VALID_DESCRIPTION_PROJECT)
+                .withDate(VALID_DATE_20260325)
+                .withParticipants(VALID_IDS)
+                .build();
+        Meeting meeting2 = new MeetingBuilder()
+                .withDescription(VALID_DESCRIPTION_PROJECT)
+                .withDate(VALID_DATE_20260325)
+                .withParticipants(VALID_IDS)
+                .build();
+        Meeting meetingDiffDescription = new MeetingBuilder()
+                .withDescription(VALID_DESCRIPTION_TEAM)
+                .withDate(VALID_DATE_20260325)
+                .withParticipants(VALID_IDS)
+                .build();
+        Meeting meetingDiffDate = new MeetingBuilder()
+                .withDescription(VALID_DESCRIPTION_PROJECT)
+                .withDate(VALID_DATE_20260401)
+                .withParticipants(VALID_IDS)
+                .build();
 
         // same object
         assertEquals(meeting1, meeting1);

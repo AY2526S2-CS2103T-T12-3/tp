@@ -11,14 +11,12 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 import static seedu.address.testutil.TypicalMeetings.COFFEE_MEETING;
 import static seedu.address.testutil.TypicalMeetings.PROJECT_MEETING;
 import static seedu.address.testutil.TypicalMeetings.STRATEGY_MEETING;
-import static seedu.address.testutil.TypicalPersons.UUID_1;
-import static seedu.address.testutil.TypicalPersons.UUID_3;
+import static seedu.address.testutil.TypicalPersons.ID_1;
+import static seedu.address.testutil.TypicalPersons.ID_3;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +26,10 @@ import seedu.address.logic.commands.EditMeetingCommand.EditMeetingDescriptor;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.meeting.Description;
 import seedu.address.model.meeting.Meeting;
+import seedu.address.model.meeting.MeetingDate;
+import seedu.address.model.person.PersonId;
 
 public class EditMeetingCommandTest {
 
@@ -39,12 +40,12 @@ public class EditMeetingCommandTest {
         Index targetIndex = INDEX_FIRST_PERSON;
         Meeting meetingToEdit = model.getFilteredMeetingList().get(targetIndex.getZeroBased());
 
-        String newDescription = COFFEE_MEETING.getDescription();
-        LocalDate newDate = STRATEGY_MEETING.getDate();
+        Description newDescription = COFFEE_MEETING.getDescription();
+        MeetingDate newDate = STRATEGY_MEETING.getDate();
 
-        Set<UUID> expectedParticipants = new HashSet<>(meetingToEdit.getParticipantsID());
-        expectedParticipants.add(UUID_3);
-        expectedParticipants.remove(UUID_1);
+        Set<PersonId> expectedParticipants = new HashSet<>(meetingToEdit.getParticipantsIDs());
+        expectedParticipants.add(new PersonId(ID_3));
+        expectedParticipants.remove(new PersonId(ID_1));
 
         Meeting editedMeeting = new Meeting(newDescription, newDate, expectedParticipants);
 
@@ -68,11 +69,11 @@ public class EditMeetingCommandTest {
     public void execute_someFieldsSpecifiedUnfilteredList_success() {
         Meeting meetingToEdit = model.getFilteredMeetingList().get(INDEX_SECOND_PERSON.getZeroBased());
 
-        String newDescription = STRATEGY_MEETING.getDescription();
+        Description newDescription = STRATEGY_MEETING.getDescription();
 
         Meeting editedMeeting = new Meeting(newDescription,
                 meetingToEdit.getDate(),
-                meetingToEdit.getParticipantsID());
+                meetingToEdit.getParticipantsIDs());
 
         EditMeetingDescriptor descriptor = new EditMeetingDescriptor();
         descriptor.setDescription(newDescription);

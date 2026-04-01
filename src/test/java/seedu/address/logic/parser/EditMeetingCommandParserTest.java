@@ -33,7 +33,8 @@ class EditMeetingCommandParserTest {
     @Test
     void parse_missingParts_failure() {
         // no index specified
-        assertParseFailure(parser, PREFIX_MEETING_DESCRIPTION + PROJECT_MEETING.getDescription(),
+        assertParseFailure(parser, PREFIX_MEETING_DESCRIPTION
+                + PROJECT_MEETING.getDescription().toString(),
                 MESSAGE_INVALID_FORMAT);
 
         // no fields specified
