@@ -70,9 +70,11 @@ public class FilterTagCommandTest {
         };
         FilterTagCommand filterTagCommand = new FilterTagCommand(tags);
 
-        String expectedMessage = String.format(MESSAGE_FILTER_TAG_SUCCESS, tagList);
+        expectedModel.updateFilteredPersonListStacked(hasAnyTag);
 
-        expectedModel.updateFilteredPersonList(hasAnyTag);
+        String expectedMessage = String.format(MESSAGE_FILTER_TAG_SUCCESS,
+                tagList,
+                expectedModel.getFilteredPersonList().size());
 
         assertCommandSuccess(filterTagCommand, model, expectedMessage, expectedModel);
     }
