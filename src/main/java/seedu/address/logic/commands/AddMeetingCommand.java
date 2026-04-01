@@ -23,10 +23,10 @@ import seedu.address.model.person.PersonId;
 public class AddMeetingCommand extends Command {
     public static final String COMMAND_WORD = "addmeeting";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a meeting to the specified person(s) "
-            + "by index.\n"
-            + "Parameters: INDEX (must be a positive integer) "
-            + "[" + PREFIX_COMMA + "INDEX]... "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a meeting"
+            + " to zero or more of the specified person(s) by index.\n"
+            + "Parameters: "
+            + "[INDEX (must be a positive integer)" + PREFIX_COMMA + "INDEX]... "
             + "d/DESCRIPTION "
             + "dt/DATE (must be YYYY-MM-DD)\n"
             + "Example: " + COMMAND_WORD + " 1,2 d/Project discussion dt/2026-03-25";

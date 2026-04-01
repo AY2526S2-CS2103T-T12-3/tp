@@ -12,6 +12,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
+import java.util.HashSet;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
@@ -59,11 +61,17 @@ public class AddMeetingCommandParserTest {
     }
 
     @Test
-    public void parse_missingFields_failure() {
+    public void parse_missingIndex_success() {
         // missing index
-        assertParseFailure(parser, INPUT_DESC_PROJECT + INPUT_DATE_20260325,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+        AddMeetingCommand expectedCommand = new AddMeetingCommand(
+                new HashSet<>(),
+                new Description(VALID_DESCRIPTION_TEAM),
+                new MeetingDate(VALID_DATE_20260401));
+        assertParseSuccess(parser, INPUT_DESC_TEAM + INPUT_DATE_20260401, expectedCommand);
+    }
 
+    @Test
+    public void parse_missingFields_failure() {
         // missing description
         assertParseFailure(parser, VALID_INDEX_SINGLE + INPUT_DATE_20260325,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
