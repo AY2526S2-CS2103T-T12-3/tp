@@ -57,7 +57,7 @@ public class EditMeetingCommandTest {
 
         EditMeetingCommand editMeetingCommand = new EditMeetingCommand(INDEX_FIRST_PERSON, descriptor);
 
-        String expectedMessage = String.format(EditMeetingCommand.MESSAGE_EDIT_MEETING_SUCCESS, "1");
+        String expectedMessage = String.format(EditMeetingCommand.MESSAGE_EDIT_MEETING_SUCCESS, editedMeeting);
 
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.setMeeting(meetingToEdit, editedMeeting);
@@ -82,7 +82,7 @@ public class EditMeetingCommandTest {
 
         String expectedMessage = String.format(
                 EditMeetingCommand.MESSAGE_EDIT_MEETING_SUCCESS,
-                INDEX_SECOND_PERSON.getOneBased());
+                editedMeeting);
 
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.setMeeting(meetingToEdit, editedMeeting);
@@ -95,9 +95,11 @@ public class EditMeetingCommandTest {
         EditMeetingCommand editMeetingCommand = new EditMeetingCommand(
                 INDEX_FIRST_PERSON,
                 new EditMeetingDescriptor());
+
+        Meeting meetingToEdit = model.getFilteredMeetingList().get(INDEX_FIRST_PERSON.getZeroBased());
         String expectedMessage = String.format(
                 EditMeetingCommand.MESSAGE_EDIT_MEETING_SUCCESS,
-                INDEX_FIRST_PERSON.getOneBased());
+                meetingToEdit);
 
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
