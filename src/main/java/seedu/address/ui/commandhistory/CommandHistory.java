@@ -77,6 +77,7 @@ public class CommandHistory {
 
     /**
      * Shifts to the previous command in the history, or the draft if the history is empty.
+     * If the history is currently at the oldest command, then this function returns the input back to the caller.
      * @param currentCommand the current command that is being edited by the user. Used to save as draft.
      * @return the previous command in the history.
      */
@@ -84,6 +85,12 @@ public class CommandHistory {
         if (isOnDraft()) {
             draft = currentCommand; // Saves the current draft.
         }
+
+        // If currently on the oldest command, then prevCommand() should do nothing.
+        if (isOnOldestCommand()) {
+            return currentCommand;
+        }
+
         if (currentIndex > 0) {
             currentIndex--;
         }
