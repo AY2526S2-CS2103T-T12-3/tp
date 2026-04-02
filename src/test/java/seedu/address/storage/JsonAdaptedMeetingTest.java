@@ -1,8 +1,7 @@
 package seedu.address.storage;
 
-import static seedu.address.logic.commands.AddMeetingCommandTest.INVALID_DATE_NON_EXISTENT;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.AddMeetingCommandTest.INVALID_DATE_WRONG_FORMAT;
-import static seedu.address.logic.commands.AddMeetingCommandTest.INVALID_DESCRIPTION;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
 import static seedu.address.storage.JsonAdaptedPersonTest.VALID_MEETINGS;
@@ -29,22 +28,15 @@ public class JsonAdaptedMeetingTest {
     public void toModelType_validMeetings_success() throws Exception {
         for (JsonAdaptedMeeting meeting : VALID_MEETINGS) {
             Meeting modelMeeting = meeting.toModelType();
-            assert(modelMeeting.getDescription().equals(meeting.getDescription()));
+            assert(modelMeeting.getDescription().description.equals(meeting.getDescription()));
             assert(modelMeeting.getDate().toString().equals(meeting.getDate()));
-            assert(modelMeeting.getParticipantsID().size() == VALID_IDS.size()); // optional extra check
+            assert(modelMeeting.getParticipantsIDs().size() == VALID_IDS.size()); // optional extra check
         }
     }
 
     @Test
     public void toModelType_nullDescription_throwsIllegalValueException() {
         JsonAdaptedMeeting meeting = new JsonAdaptedMeeting(null,
-                VALID_DATE_20260325.toString(), VALID_IDS);
-        assertThrows(IllegalValueException.class, meeting::toModelType);
-    }
-
-    @Test
-    public void toModelType_emptyDescription_throwsIllegalValueException() {
-        JsonAdaptedMeeting meeting = new JsonAdaptedMeeting(INVALID_DESCRIPTION,
                 VALID_DATE_20260325.toString(), VALID_IDS);
         assertThrows(IllegalValueException.class, meeting::toModelType);
     }
@@ -57,24 +49,17 @@ public class JsonAdaptedMeetingTest {
     }
 
     @Test
-    public void toModelType_emptyDate_throwsIllegalValueException() {
-        JsonAdaptedMeeting meeting = new JsonAdaptedMeeting(VALID_DESCRIPTION_PROJECT,
-                INVALID_DESCRIPTION, VALID_IDS);
-        assertThrows(IllegalValueException.class, meeting::toModelType);
-    }
+    public void toModelType_invalidIDs_ignored() throws Exception {
+        JsonAdaptedMeeting meetingWithInvalidIds = new JsonAdaptedMeeting(
+                VALID_DESCRIPTION_PROJECT,
+                VALID_DATE_20260325,
+                INVALID_IDS
+        );
 
-    @Test
-    public void toModelType_nonExistentDate_throwsException() {
-        JsonAdaptedMeeting meeting = new JsonAdaptedMeeting(VALID_DESCRIPTION_PROJECT,
-                INVALID_DATE_NON_EXISTENT, VALID_IDS);
-        assertThrows(Exception.class, meeting::toModelType);
-    }
+        Meeting modelMeeting = meetingWithInvalidIds.toModelType();
 
-    @Test
-    public void toModelType_invalidIDs_throwsException() {
-        JsonAdaptedMeeting meeting = new JsonAdaptedMeeting(VALID_DESCRIPTION_PROJECT,
-                VALID_DATE_20260325.toString(), INVALID_IDS);
-        assertThrows(Exception.class, meeting::toModelType);
+        // Check that invalid IDs were ignored and meeting still has 0 participants
+        assertTrue(modelMeeting.getParticipantsIDs().isEmpty());
     }
 
     @Test

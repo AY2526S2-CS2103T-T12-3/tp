@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
-import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -14,6 +13,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.meeting.Meeting;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonId;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -25,6 +25,8 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Meeting> filteredMeetings;
+    private Predicate<Person> currentPredicate = PREDICATE_SHOW_ALL_PERSONS;
+
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -118,8 +120,8 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public Person getPerson(UUID uuid) {
-        return addressBook.getPerson(uuid);
+    public Person getPerson(PersonId id) {
+        return addressBook.getPerson(id);
     }
 
     //=========== Filtered Person List Accessors =============================================================
@@ -133,10 +135,29 @@ public class ModelManager implements Model {
         return filteredPersons;
     }
 
+    /**
+     * Updates the filter of the filtered person list to filter by the given
+     * {@code predicate}.
+     *
+     * @throws NullPointerException if {@code predicate} is null.
+     */
     @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
+        currentPredicate = predicate; // sets the current predicate to whatever has been passed by the user
         filteredPersons.setPredicate(predicate);
+    }
+
+    /**
+     * Updates the filter of the filtered person list to filter by all previous {@code predicate}
+     * @param predicate the new predicate to be appended to the existing predicates
+     */
+    @Override
+    public void updateFilteredPersonListStacked(Predicate<Person> predicate) {
+        requireNonNull(predicate);
+        Predicate<Person> stackedPredicate = currentPredicate.and(predicate);
+        currentPredicate = stackedPredicate; // update the stored predicate
+        filteredPersons.setPredicate(stackedPredicate);
     }
 
     //=========== Meeting-level operations ====================================================================

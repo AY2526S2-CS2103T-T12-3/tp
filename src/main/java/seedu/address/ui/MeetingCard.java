@@ -47,7 +47,7 @@ public class MeetingCard extends UiPart<Region> {
         this.meeting = meeting;
 
         id.setText(displayedIndex + ". ");
-        name.setText(meeting.getDescription());
+        name.setText(meeting.getDescription().description);
 
         date.setText(meeting.getDate().toString());
 

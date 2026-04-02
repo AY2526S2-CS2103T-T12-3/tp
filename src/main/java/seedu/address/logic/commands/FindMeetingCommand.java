@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
@@ -14,6 +13,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.meeting.MeetingMatchesKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonId;
 
 /**
  * Finds and lists all meetings in address book whose specific parameters contains any of the argument keywords.
@@ -29,7 +29,7 @@ public class FindMeetingCommand extends Command {
             + "Example: " + COMMAND_WORD + " d/ meeting dt/ 2026";
 
     public static final String MESSAGE_FORMAT =
-            "Format: findmeeting [d/ SEARCH SUBSTRING) [dt/ SEARCH SUBSTRING] [i/ PERSON INDICES]...\n"
+            "Format: findmeeting [d/ SEARCH SUBSTRING] [dt/ SEARCH SUBSTRING] [i/ PERSON INDICES]...\n"
                     + "Example: "
                     + COMMAND_WORD
                     + " d/ meeting"
@@ -63,16 +63,16 @@ public class FindMeetingCommand extends Command {
         requireNonNull(model);
         List<Person> personList = model.getFilteredPersonList();
 
-        Set<UUID> uuidsToMatch = new HashSet<>();
+        Set<PersonId> personIdsToMatch = new HashSet<>();
         for (Index index : personIndices) {
             if (index.getZeroBased() >= personList.size()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
             }
-            uuidsToMatch.add(personList.get(index.getZeroBased()).getId());
+            personIdsToMatch.add(personList.get(index.getZeroBased()).getId());
         }
 
         MeetingMatchesKeywordsPredicate predicate =
-                new MeetingMatchesKeywordsPredicate(descriptionKeywords, dateKeywords, uuidsToMatch);
+                new MeetingMatchesKeywordsPredicate(descriptionKeywords, dateKeywords, personIdsToMatch);
 
         model.updateFilteredMeetingList(predicate);
         return new CommandResult(

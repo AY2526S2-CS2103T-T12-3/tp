@@ -26,11 +26,16 @@ import seedu.address.testutil.EditPersonDescriptorBuilder;
  */
 public class CommandTestUtil {
     public static final String VALID_NAME_AMY = "Amy Bee";
+    public static final String VALID_NAME_JANE = "Jane Doe";
+    public static final String VALID_NAME_JOHN = "John Doe";
     public static final String VALID_NAME_BOB = "Bob Choo";
     public static final String VALID_PHONE_AMY = "11111111";
+    public static final String VALID_PHONE_JANE = "99991111";
     public static final String VALID_PHONE_BOB = "22222222";
     public static final String VALID_EMAIL_AMY = "amy@example.com";
+    public static final String VALID_EMAIL_JANE = "janedoe1997@gmail.com";
     public static final String VALID_EMAIL_BOB = "bob@example.com";
+    public static final String VALID_EMAIL_JOHN = "johndoecompany@gmail.com";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
     public static final String VALID_ID_AMY = "11111111-1111-1111-1111-111111111111";

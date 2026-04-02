@@ -30,7 +30,10 @@ public class FilterTagCommand extends Command {
                     + " / family"
                     + " / friends";
 
-    public static final String MESSAGE_FILTER_TAG_SUCCESS = "Filtered contact list by tags: %1$s";
+    public static final String MESSAGE_FILTER_TAG_SUCCESS =
+            "Filtered current filtered contact list by tags: %1$s"
+            + "\n"
+            + "%2$s persons listed!";
     public static final String MESSAGE_NO_TAGS = "At least one tag must be provided." + "\n" + MESSAGE_FORMAT;
     public static final String MESSAGE_NO_VALID_TAG =
             "Error: None of the tags given belong to any contact in the list.";
@@ -67,7 +70,7 @@ public class FilterTagCommand extends Command {
             return false;
         };
 
-        boolean doesAnyTagMatch = model.getAddressBook().getPersonList()
+        boolean doesAnyTagMatch = model.getFilteredPersonList()
                 .stream()
                 .anyMatch(hasAnyTag);
 
@@ -75,9 +78,10 @@ public class FilterTagCommand extends Command {
             throw new CommandException(MESSAGE_NO_VALID_TAG);
         }
 
-        model.updateFilteredPersonList(hasAnyTag);
+        model.updateFilteredPersonListStacked(hasAnyTag);
 
-        return new CommandResult(String.format(MESSAGE_FILTER_TAG_SUCCESS, tagList));
+        return new CommandResult(String.format(
+                MESSAGE_FILTER_TAG_SUCCESS, tagList, model.getFilteredPersonList().size()));
     }
 
     @Override

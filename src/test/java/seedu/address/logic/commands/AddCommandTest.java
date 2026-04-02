@@ -9,7 +9,6 @@ import static seedu.address.testutil.Assert.assertThrows;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.UUID;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -24,6 +23,7 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.meeting.Meeting;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonId;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.TypicalPersons;
 
@@ -151,7 +151,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public Person getPerson(UUID uuid) {
+        public Person getPerson(PersonId id) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -162,6 +162,11 @@ public class AddCommandTest {
 
         @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredPersonListStacked(Predicate<Person> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 

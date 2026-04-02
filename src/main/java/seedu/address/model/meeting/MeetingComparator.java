@@ -7,5 +7,6 @@ import java.util.Comparator;
  * Meetings will be sorted by date (earliest first).
  */
 public class MeetingComparator {
-    public static final Comparator<Meeting> EARLIEST_DATE_FIRST = Comparator.comparing(Meeting::getDate);
+    public static final Comparator<Meeting> EARLIEST_DATE_FIRST =
+            Comparator.comparing(meeting -> meeting.getDate().date);
 }

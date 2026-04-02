@@ -45,7 +45,15 @@ public class UniquePersonList implements Iterable<Person> {
      */
     public boolean hasSameID(Person toCheck) {
         requireNonNull(toCheck);
-        return internalList.stream().anyMatch(person -> person.getId() == toCheck.getId());
+        return internalList.stream().anyMatch(person -> person.getId().equals(toCheck.getId()));
+    }
+
+    /**
+     * Returns true if the list has a person with the same {@code PersonID} as {@code id}.
+     */
+    public boolean hasSameID(PersonId id) {
+        requireNonNull(id);
+        return internalList.stream().anyMatch(person -> person.getId().equals(id));
     }
 
     /**

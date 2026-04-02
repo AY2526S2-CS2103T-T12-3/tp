@@ -2,11 +2,11 @@ package seedu.address.testutil;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonId;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
@@ -15,27 +15,26 @@ import seedu.address.model.util.SampleDataUtil;
  * A utility class to help with building Person objects.
  */
 public class PersonBuilder {
-
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
-    public static final UUID DEFAULT_ID = UUID.fromString("00000000-0000-0000-0000-000000000001");
+    public static final String DEFAULT_ID = "00000000-0000-0000-0000-000000000001";
 
+    private PersonId id;
     private Name name;
     private Phone phone;
     private Email email;
     private Set<Tag> tags;
-    private UUID id;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
      */
     public PersonBuilder() {
+        id = new PersonId(DEFAULT_ID);
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
         tags = new HashSet<>();
-        id = DEFAULT_ID;
     }
 
     /**
@@ -92,11 +91,11 @@ public class PersonBuilder {
     }
 
     /**
-     * Sets the {@code ID} of the {@code Person} that we are building.
-     * If {@code id} is null or empty, the Person will generate a new ID.
+     * Sets the {@code PersonId} of the {@code Person} that we are building.
+     * If {@code id} is null or empty, the Person will generate a new PersonId.
      */
-    public PersonBuilder withId(UUID id) {
-        this.id = id;
+    public PersonBuilder withId(String id) {
+        this.id = new PersonId(id);
         return this;
     }
 
@@ -106,8 +105,10 @@ public class PersonBuilder {
      */
     public Person build() {
         if (id == null) {
+            // no ID set, generate automatically
             return new Person(name, phone, email, tags);
         } else {
+            // use the specified PersonId
             return new Person(id, name, phone, email, tags);
         }
     }

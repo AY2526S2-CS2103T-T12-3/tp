@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
@@ -13,6 +12,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.meeting.Meeting;
 import seedu.address.model.meeting.UniqueMeetingList;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonId;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
@@ -94,6 +94,14 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Returns true if a person with the same {@code PersonId} exists in the address book.
+     */
+    public boolean hasSameID(PersonId id) {
+        requireNonNull(id);
+        return persons.hasSameID(id);
+    }
+
+    /**
      * Adds a person to the address book.
      * The person must not already exist in the address book.
      */
@@ -112,12 +120,12 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(editedPerson);
         // Updates references to this person from meetings
         for (Meeting m : getMeetingsContainingId(target.getId())) {
-            Set<UUID> newUuidSet = m.getParticipantsID();
+            Set<PersonId> newPersonIdSet = m.getParticipantsIDs();
 
-            newUuidSet.remove(target.getId());
-            newUuidSet.add(editedPerson.getId());
+            newPersonIdSet.remove(target.getId());
+            newPersonIdSet.add(editedPerson.getId());
 
-            Meeting editedMeeting = new Meeting(m.getDescription(), m.getDate(), newUuidSet);
+            Meeting editedMeeting = new Meeting(m.getDescription(), m.getDate(), newPersonIdSet);
             setMeeting(m, editedMeeting);
         }
 
@@ -138,11 +146,11 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.remove(key);
     }
 
-    /** Returns the person with the given UUID. Throws {@code PersonNotFoundException} if not found. */
-    public Person getPerson(UUID uuid) throws PersonNotFoundException {
+    /** Returns the person with the given PersonId. Throws {@code PersonNotFoundException} if not found. */
+    public Person getPerson(PersonId id) throws PersonNotFoundException {
         return persons.asUnmodifiableObservableList()
                 .stream()
-                .filter(person -> person.getId().equals(uuid))
+                .filter(person -> person.getId().equals(id))
                 .findFirst()
                 .orElseThrow(PersonNotFoundException::new);
     }
@@ -208,7 +216,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     /** Throws an error if any of the ID in the meeting's participant set does not exist in the address book. */
     private void verifyParticipantsExist(Meeting meeting) throws PersonNotFoundException {
-        for (UUID id : meeting.getParticipantsID()) {
+        for (PersonId id : meeting.getParticipantsIDs()) {
             getPerson(id);
         }
     }
@@ -217,20 +225,20 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Returns the set of all {@code Meeting}s in this address book
      * whose participant set contains the given {@code id}.
      */
-    private Set<Meeting> getMeetingsContainingId(UUID id) {
+    private Set<Meeting> getMeetingsContainingId(PersonId id) {
         return meetings.asUnmodifiableObservableList().stream()
-                .filter(meeting -> meeting.getParticipantsID().contains(id))
+                .filter(meeting -> meeting.getParticipantsIDs().contains(id))
                 .collect(Collectors.toSet());
     }
 
     /**
      * Returns a copy of the given {@code meeting}
-     * with the specified {@code id} removed from the set of participants UUID.
+     * with the specified {@code id} removed from the set of participants PersonId.
      */
-    private static Meeting removeIdFromMeeting(Meeting meeting, UUID id) {
-        Set<UUID> newUuidSet = meeting.getParticipantsID();
-        newUuidSet.remove(id);
-        return new Meeting(meeting.getDescription(), meeting.getDate(), newUuidSet);
+    private static Meeting removeIdFromMeeting(Meeting meeting, PersonId id) {
+        Set<PersonId> newPersonIdSet = meeting.getParticipantsIDs();
+        newPersonIdSet.remove(id);
+        return new Meeting(meeting.getDescription(), meeting.getDate(), newPersonIdSet);
     }
 
     @Override

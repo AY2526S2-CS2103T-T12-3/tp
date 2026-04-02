@@ -43,6 +43,8 @@ import seedu.address.logic.commands.ListMeetingCommand;
 import seedu.address.logic.commands.StarCommand;
 import seedu.address.logic.commands.UnstarCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.meeting.Description;
+import seedu.address.model.meeting.MeetingDate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonMatchesKeywordsPredicate;
 import seedu.address.model.tag.Tag;
@@ -68,7 +70,8 @@ public class AddressBookParserTest {
         AddMeetingCommand command = (AddMeetingCommand) parser.parseCommand(commandInput);
 
         AddMeetingCommand expectedCommand = new AddMeetingCommand(VALID_INDEX_SINGLE,
-                VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325);
+                new Description(VALID_DESCRIPTION_PROJECT),
+                new MeetingDate(VALID_DATE_20260325));
         assertEquals(expectedCommand, command);
     }
 
