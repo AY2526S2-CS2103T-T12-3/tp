@@ -8,7 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 public class CommandHistoryTest {
-    private static final String USER_DRAFT = "Editing";
+    private static final String USER_DRAFT = "Editing 1";
+    private static final String USER_DRAFT_2 = "Editing 2";
     private static final String COMMAND_1 = "Test command 1";
     private static final String COMMAND_2 = "Test command 2";
     private static final String COMMAND_3 = "Test command 3";
@@ -157,7 +158,7 @@ public class CommandHistoryTest {
     }
 
     @Test
-    public void prevAndNextCommand_typicalHistory_success() {
+    public void navigateCommand_typicalHistory_success() {
         CommandHistory ch = typicalCommandHistory();
         assertTrue(ch.isOnDraft());
         assertFalse(ch.isOnOldestCommand());
@@ -192,5 +193,63 @@ public class CommandHistoryTest {
         // Once oldest command is reached, prevCommand() should stay at it.
         userDraft = ch.prevCommand(userDraft);
         assertEquals(COMMAND_1, userDraft);
+    }
+
+    @Test
+    public void navigateCommand_changeDraftInTheMiddle_originalDraftKept() {
+        CommandHistory ch = typicalCommandHistory();
+
+        String userDraft = USER_DRAFT;
+
+        userDraft = ch.prevCommand(userDraft);
+        assertEquals(COMMAND_3, userDraft);
+
+        userDraft = USER_DRAFT_2; // Simulate a user editing one of the previous commands.
+
+        userDraft = ch.prevCommand(userDraft);
+        assertEquals(COMMAND_2, userDraft);
+
+        userDraft = ch.nextCommand(userDraft);
+        assertEquals(COMMAND_3, userDraft); // COMMAND_3 shouldn't be overwritten.
+
+        userDraft = ch.nextCommand(userDraft);
+        assertEquals(USER_DRAFT, userDraft); // Original user draft shouldn't be overwritten.
+    }
+
+    @Test
+    public void navigateCommand_changeDraft_success() {
+        CommandHistory ch = typicalCommandHistory();
+
+        String userDraft = USER_DRAFT;
+
+        userDraft = ch.prevCommand(userDraft);
+        assertEquals(COMMAND_3, userDraft);
+
+        ch.nextCommand(userDraft);
+
+        userDraft = USER_DRAFT_2; // Simulate a user editing the current draft.
+
+        userDraft = ch.prevCommand(userDraft);
+        assertEquals(COMMAND_3, userDraft);
+
+        userDraft = ch.nextCommand(userDraft);
+        assertEquals(USER_DRAFT_2, userDraft); // Original user draft shouldn't be overwritten.
+    }
+
+    @Test
+    public void navigateCommand_changeDraftDuringOldest_draftKept() {
+        CommandHistory ch = typicalCommandHistory();
+
+        String userDraft = USER_DRAFT;
+
+        // Go to the oldest command
+        userDraft = ch.prevCommand(userDraft);
+        userDraft = ch.prevCommand(userDraft);
+        userDraft = ch.prevCommand(userDraft);
+        assertEquals(COMMAND_1, userDraft);
+
+        userDraft = USER_DRAFT_2;
+        userDraft = ch.prevCommand(userDraft);
+        assertEquals(USER_DRAFT_2, userDraft);
     }
 }
