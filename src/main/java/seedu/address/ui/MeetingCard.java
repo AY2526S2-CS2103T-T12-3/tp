@@ -12,7 +12,7 @@ import seedu.address.model.meeting.Meeting;
 import seedu.address.model.person.Person;
 
 /**
- * An UI component that displays information of a {@code Person}.
+ * An UI component that displays information of a {@code Meeting}.
  */
 public class MeetingCard extends UiPart<Region> {
 
@@ -51,8 +51,14 @@ public class MeetingCard extends UiPart<Region> {
 
         date.setText(meeting.getDate().toString());
 
+        // Clear any existing children first (safety)
+        participants.getChildren().clear();
+
         participantSet.stream()
                 .sorted(Comparator.comparing(person -> person.getName().fullName))
-                .forEach(person -> participants.getChildren().add(new Label(person.getName().fullName)));
+                .forEach(person -> {
+                    ParticipantCard participantCard = new ParticipantCard(person);
+                    participants.getChildren().add(participantCard.getRoot());
+                });
     }
 }
