@@ -348,6 +348,11 @@
     -fx-font-size: 11;
 }
 
+#participants {
+    -fx-hgap: 7;
+    -fx-vgap: 3;
+}
+
 #participants .label {
     -fx-text-fill: white;
     -fx-background-color: #3e7b91;
