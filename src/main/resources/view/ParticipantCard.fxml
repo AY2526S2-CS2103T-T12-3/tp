@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label fx:id="participantDetails"
+               style="-fx-padding: 3; -fx-border-color: lightgray; -fx-border-radius: 3;" />
+    </children>
+</HBox>

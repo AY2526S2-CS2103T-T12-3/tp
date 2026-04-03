@@ -57,18 +57,8 @@ public class MeetingCard extends UiPart<Region> {
         participantSet.stream()
                 .sorted(Comparator.comparing(person -> person.getName().fullName))
                 .forEach(person -> {
-                    // Create one label with name, phone, email stacked using \n
-                    String text = person.getName().fullName + "\n"
-                            + person.getPhone().value + "\n"
-                            + person.getEmail().value;
-
-                    Label personLabel = new Label(text);
-
-                    // Optional styling
-                    personLabel.setStyle("-fx-padding: 3; -fx-border-color: lightgray; -fx-border-radius: 3;");
-
-                    // Add the label to the FlowPane
-                    participants.getChildren().add(personLabel);
+                    ParticipantCard participantCard = new ParticipantCard(person);
+                    participants.getChildren().add(participantCard.getRoot());
                 });
     }
 }
