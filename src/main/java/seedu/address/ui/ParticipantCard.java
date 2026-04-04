@@ -25,8 +25,8 @@ public class ParticipantCard extends UiPart<Region> {
         this.person = person;
 
         String text = person.getName().fullName + "\n"
-                + person.getPhone().value + "\n"
-                + person.getEmail().value;
+                + (person.getPhone() != null ? person.getPhone().value : "")
+                + (person.getEmail() != null ? person.getEmail().value : "");
 
         participantDetails.setText(text);
     }

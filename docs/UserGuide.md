@@ -18,8 +18,6 @@ Hello fellow students, welcome to our Internlink User Guide!
    - [Viewing help (`help`)](#viewing-help--help)
    - [Clearing all entries (`clear`)](#clearing-all-entries--clear)
    - [Exiting the program (`exit`)](#exiting-the-program--exit)
-   - [Saving the data](#saving-the-data)
-   - [Editing the data file](#editing-the-data-file)
  * [Features - Managing contact information](#features---managing-contact-information)
    - [Adding a person (`add`)](#adding-a-person--add)
    - [Deleting a person (`delete`)](#deleting-a-person--delete)
@@ -40,6 +38,10 @@ Hello fellow students, welcome to our Internlink User Guide!
    - [Editing a meeting (`editmeeting`)](#editing-a-meeting--editmeeting)
  * [Features - Searching for meeting information](#features---searching-for-meeting-information)
    - [Finding a meeting (`findmeeting`)](#finding-a-meeting--findmeeting)
+* [Features - Managing data](#features---managing-data)
+  - [Saving the data](#saving-the-data)
+  - [Editing the data file](#editing-the-data-file)
+
 * [FAQ](#faq)
 * [Known issues](#known-issues)
 * [Command summary](#command-summary)
@@ -174,18 +176,6 @@ Format: `clear`
 Exits the program.
 
 Format: `exit`
-
-### Saving the data
-
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
-
-### Editing the data file
-
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
- 
-> ⚠️ **Caution:** If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
-
 
 ## Features - Managing contact information
 
@@ -426,6 +416,20 @@ Format: `findmeeting [d/DESCRIPTION] [dt/DATE] [i/PERSON_INDEX,...]`
 Examples:
 * `findmeeting d/project` searches for all meetings that contain `project` in their description.
 * `findmeeting d/meeting dt/2026 i/1,2,3` searches for all meetings that contain `meeting` in their description OR contain `2026` in their date OR contains all of persons 1, 2 and 3 from the current filtered person list.
+
+## Features - Managing data
+
+### Saving the data
+
+Internlink data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+
+### Editing the data file
+
+Internlink data is saved automatically as a JSON file `[JAR file location]/data/InternlinkData.json`. Advanced users are welcome to update data directly by editing that data file.
+
+> ⚠️ **Caution:** If your changes to the data file makes its format invalid, Internlink will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause Internlink to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+
 
 </div>
 
