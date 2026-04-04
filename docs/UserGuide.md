@@ -101,12 +101,11 @@ Internlink requires **Java 17** to run. Please follow the instructions according
 > * If Java is installed, you'll see the version number (e.g., `java version "17.0.1"`)
 > * The first number before the first period (`.`) should be 17 or higher
 >
-**If Java is not installed or the version is below 17:**
-> Download and install Java 17 by following the guides below:
+**If Java is not installed or the version is below 17:**<br>
+Download and install Java 17 by following the guides below:
 > * [for Windows users](https://se-education.org/guides/tutorials/javaInstallationWindows.html)
 > * [for Mac users](https://se-education.org/guides/tutorials/javaInstallationMac.html)
 > * [for Linux users](https://se-education.org/guides/tutorials/javaInstallationLinux.html)<br>
-
 
 After installation, restart your terminal and verify the version again by repeating step 2.<br>
 If installed correctly, when you [check your Java version again](#checking-your-java-version), you should see a Java version starting with `17` (e.g., `17.0.5`).
@@ -183,9 +182,8 @@ AddressBook data are saved in the hard disk automatically after any command that
 ### Editing the data file
 
 AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
-
-> [!CAUTION] 
-> If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+ 
+> ⚠️ **Caution:** If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 
 
