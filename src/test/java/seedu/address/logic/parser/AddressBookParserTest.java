@@ -34,9 +34,9 @@ import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.EditTagCommand;
 import seedu.address.logic.commands.ExitCommand;
-import seedu.address.logic.commands.FilterTagCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.FindMeetingCommand;
+import seedu.address.logic.commands.FindTagCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.ListMeetingCommand;
@@ -210,13 +210,13 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_filterTag() throws Exception {
-        FilterTagCommand command = (FilterTagCommand) parser.parseCommand(FilterTagCommand.COMMAND_WORD
+    public void parseCommand_findTag() throws Exception {
+        FindTagCommand command = (FindTagCommand) parser.parseCommand(FindTagCommand.COMMAND_WORD
                 + " / NewTag");
 
         Set<Tag> tags = new HashSet<>();
         tags.add(new Tag("NewTag"));
-        FilterTagCommand expectedCommand = new FilterTagCommand(tags);
+        FindTagCommand expectedCommand = new FindTagCommand(tags);
 
         assertEquals(expectedCommand, command);
     }

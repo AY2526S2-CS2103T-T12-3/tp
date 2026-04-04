@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.commands.FilterTagCommand.MESSAGE_FILTER_TAG_SUCCESS;
+import static seedu.address.logic.commands.FindTagCommand.MESSAGE_FIND_TAG_SUCCESS;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
@@ -26,7 +26,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
 
-public class FilterTagCommandTest {
+public class FindTagCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
     private Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
@@ -34,9 +34,9 @@ public class FilterTagCommandTest {
     @Test
     public void execute_noTagsAdded_throwsCommandException() {
         Set<Tag> emptyTagSet = new HashSet<>();
-        FilterTagCommand filterTagCommand = new FilterTagCommand(emptyTagSet);
+        FindTagCommand findTagCommand = new FindTagCommand(emptyTagSet);
 
-        assertCommandFailure(filterTagCommand, model, FilterTagCommand.MESSAGE_NO_TAGS);
+        assertCommandFailure(findTagCommand, model, FindTagCommand.MESSAGE_NO_TAGS);
     }
 
     @Test
@@ -44,9 +44,9 @@ public class FilterTagCommandTest {
         Set<Tag> tags = new HashSet<>();
         tags.add(new Tag("llllllllllllllll"));
 
-        FilterTagCommand filterTagCommand = new FilterTagCommand(tags);
+        FindTagCommand findTagCommand = new FindTagCommand(tags);
 
-        assertCommandFailure(filterTagCommand, model, FilterTagCommand.MESSAGE_NO_VALID_TAG);
+        assertCommandFailure(findTagCommand, model, FindTagCommand.MESSAGE_NO_VALID_TAG);
     }
 
     @Test
@@ -68,15 +68,15 @@ public class FilterTagCommandTest {
             }
             return false;
         };
-        FilterTagCommand filterTagCommand = new FilterTagCommand(tags);
+        FindTagCommand findTagCommand = new FindTagCommand(tags);
 
         expectedModel.updateFilteredPersonListStacked(hasAnyTag);
 
-        String expectedMessage = String.format(MESSAGE_FILTER_TAG_SUCCESS,
+        String expectedMessage = String.format(MESSAGE_FIND_TAG_SUCCESS,
                 tagList,
                 expectedModel.getFilteredPersonList().size());
 
-        assertCommandSuccess(filterTagCommand, model, expectedMessage, expectedModel);
+        assertCommandSuccess(findTagCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
@@ -85,24 +85,24 @@ public class FilterTagCommandTest {
         tags1.add(new Tag("friend"));
         Set<Tag> tags2 = new HashSet<>();
         tags1.add(new Tag("classmate"));
-        FilterTagCommand filterTagFirstCommand = new FilterTagCommand(tags1);
-        FilterTagCommand filterTagSecondCommand = new FilterTagCommand(tags2);
+        FindTagCommand findTagFirstCommand = new FindTagCommand(tags1);
+        FindTagCommand findTagSecondCommand = new FindTagCommand(tags2);
 
         // same object -> returns true
-        assertTrue(filterTagFirstCommand.equals(filterTagFirstCommand));
+        assertTrue(findTagFirstCommand.equals(findTagFirstCommand));
 
         // same values -> returns true
-        FilterTagCommand filterFirstCommandCopy = new FilterTagCommand(tags1);
-        assertTrue(filterTagFirstCommand.equals(filterFirstCommandCopy));
+        FindTagCommand findFirstCommandCopy = new FindTagCommand(tags1);
+        assertTrue(findTagFirstCommand.equals(findFirstCommandCopy));
 
         // different types -> returns false
-        assertFalse(filterTagFirstCommand.equals(1));
+        assertFalse(findTagFirstCommand.equals(1));
 
         // null -> returns false
-        assertFalse(filterTagFirstCommand.equals(null));
+        assertFalse(findTagFirstCommand.equals(null));
 
         // different tags -> returns false
-        assertFalse(filterTagFirstCommand.equals(filterTagSecondCommand));
+        assertFalse(findTagFirstCommand.equals(findTagSecondCommand));
     }
 
     @Test
@@ -111,9 +111,9 @@ public class FilterTagCommandTest {
         List<Index> targetIndices = new ArrayList<>();
         targetIndices.add(targetIndex);
         Set<Tag> tags = new HashSet<>();
-        FilterTagCommand filterTagCommand = new FilterTagCommand(tags);
-        String expected = FilterTagCommand.class.getCanonicalName() + "{tags=" + tags + "}";
-        assertEquals(expected, filterTagCommand.toString());
+        FindTagCommand findTagCommand = new FindTagCommand(tags);
+        String expected = FindTagCommand.class.getCanonicalName() + "{tags=" + tags + "}";
+        assertEquals(expected, findTagCommand.toString());
     }
 }
 
