@@ -33,7 +33,7 @@ public class FindTagCommand extends Command {
                     + " / friends";
 
     public static final String MESSAGE_FIND_TAG_SUCCESS =
-            "Found contacts with at least one of these tags: %1$s"
+            "Found all contacts in the current list with at least one of these tags: %1$s"
             + "\n"
             + "%2$s persons listed!";
     public static final String MESSAGE_NO_TAGS = "At least one tag must be provided." + "\n" + MESSAGE_FORMAT;

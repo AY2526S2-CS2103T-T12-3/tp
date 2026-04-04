@@ -75,7 +75,7 @@ public class FindMeetingCommand extends Command {
         MeetingMatchesKeywordsPredicate predicate =
                 new MeetingMatchesKeywordsPredicate(descriptionKeywords, dateKeywords, personIdsToMatch);
 
-        model.updateFilteredMeetingList(predicate);
+        model.updateFilteredMeetingListStacked(predicate);
         return new CommandResult(
                 String.format(Messages.MESSAGE_MEETINGS_LISTED_OVERVIEW, model.getFilteredMeetingList().size()));
     }

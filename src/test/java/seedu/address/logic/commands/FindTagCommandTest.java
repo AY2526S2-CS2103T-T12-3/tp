@@ -85,24 +85,24 @@ public class FindTagCommandTest {
         tags1.add(new Tag("friend"));
         Set<Tag> tags2 = new HashSet<>();
         tags1.add(new Tag("classmate"));
-        FindTagCommand filterTagFirstCommand = new FindTagCommand(tags1);
-        FindTagCommand filterTagSecondCommand = new FindTagCommand(tags2);
+        FindTagCommand findTagFirstCommand = new FindTagCommand(tags1);
+        FindTagCommand findTagSecondCommand = new FindTagCommand(tags2);
 
         // same object -> returns true
-        assertTrue(filterTagFirstCommand.equals(filterTagFirstCommand));
+        assertTrue(findTagFirstCommand.equals(findTagFirstCommand));
 
         // same values -> returns true
-        FindTagCommand filterFirstCommandCopy = new FindTagCommand(tags1);
-        assertTrue(filterTagFirstCommand.equals(filterFirstCommandCopy));
+        FindTagCommand findFirstCommandCopy = new FindTagCommand(tags1);
+        assertTrue(findTagFirstCommand.equals(findFirstCommandCopy));
 
         // different types -> returns false
-        assertFalse(filterTagFirstCommand.equals(1));
+        assertFalse(findTagFirstCommand.equals(1));
 
         // null -> returns false
-        assertFalse(filterTagFirstCommand.equals(null));
+        assertFalse(findTagFirstCommand.equals(null));
 
         // different tags -> returns false
-        assertFalse(filterTagFirstCommand.equals(filterTagSecondCommand));
+        assertFalse(findTagFirstCommand.equals(findTagSecondCommand));
     }
 
     @Test
