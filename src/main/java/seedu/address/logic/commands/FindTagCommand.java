@@ -14,13 +14,15 @@ import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
 /**
- * Finds for the specified tags and displays the filtered contact list.
+ * Finds for the specified tags in the current displayed contact list
+ * and displays the resulting contact list.
  */
 public class FindTagCommand extends Command {
     public static final String COMMAND_WORD = "findtag";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Finds contacts with the specified tags and displays the filtered contact list.\n";
+            + ": Finds contacts with the any of the specified tags on the current displayed list "
+            + "and displays the filtered contact list.\n";
 
     public static final String MESSAGE_FORMAT =
             "(Format: findtag / TAG [/ TAG]...)\n"
