@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_BLANK_FIND_FIELD_INPUT;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -92,8 +93,65 @@ public class FindCommandParserTest {
     @Test
     public void parse_mixedGlobalAndPrefix_throwsParseException() {
         assertParseFailure(parser,
-                "find Alice n/Bob",
+                " Alice n/Bob",
                 "Cannot mix global search with prefixed search.");
+    }
+
+    @Test
+    public void parse_blankNamePrefix_throwsParseException() {
+        assertParseFailure(parser, " n/",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, " n/   ",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, " \n n/ \n \t ",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_blankPhonePrefix_throwsParseException() {
+        assertParseFailure(parser, " p/",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, " p/   ",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, " \n p/ \n \t ",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_blankEmailPrefix_throwsParseException() {
+        assertParseFailure(parser, " e/",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, " e/   ",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, " \n e/ \n \t ",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_multipleBlankPrefixes_throwsParseException() {
+        assertParseFailure(parser, " n/ p/",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, " n/   p/   e/   ",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_oneValidOneBlankPrefix_throwsParseException() {
+        assertParseFailure(parser, " n/Alice p/",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, " n/Alice e/   ",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, " p/1234 n/   ",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
     }
 
 }
