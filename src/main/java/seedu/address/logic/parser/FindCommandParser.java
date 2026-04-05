@@ -6,7 +6,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 
-import java.util.Arrays;
 import java.util.List;
 
 import seedu.address.logic.commands.FindCommand;
@@ -33,7 +32,7 @@ public class FindCommandParser implements Parser<FindCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        String preamble = argMultimap.getPreamble().trim();
+        String preamble = argMultimap.getPreamble().trim().replaceAll("\\s+", " ");
 
         List<String> nameKeywords = argMultimap.getAllValues(PREFIX_NAME);
         List<String> phoneKeywords = argMultimap.getAllValues(PREFIX_PHONE);
@@ -68,7 +67,7 @@ public class FindCommandParser implements Parser<FindCommand> {
 
         List<String> globalKeywords = preamble.isEmpty()
                 ? List.of()
-                : Arrays.asList(preamble.split("\\s+"));
+                : List.of(preamble);
 
         return new FindCommand(new PersonMatchesKeywordsPredicate(
                 globalKeywords,

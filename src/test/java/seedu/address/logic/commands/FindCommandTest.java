@@ -5,12 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -71,13 +70,13 @@ public class FindCommandTest {
     }
 
     @Test
-    public void execute_multipleKeywords_multiplePersonsFound() {
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 2);
+    public void execute_globalSubstring_noPersonFound() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
         PersonMatchesKeywordsPredicate predicate = preparePredicate("Pauline Kurz");
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(ALICE, CARL), model.getFilteredPersonList());
+        assertEquals(Collections.emptyList(), model.getFilteredPersonList());
     }
 
     @Test
@@ -96,8 +95,9 @@ public class FindCommandTest {
      * Parses {@code userInput} into a {@code PersonMatchesKeywordsPredicate}.
      */
     private PersonMatchesKeywordsPredicate preparePredicate(String userInput) {
+        String normalizedInput = userInput.trim().replaceAll("\\s+", " ");
         return new PersonMatchesKeywordsPredicate(
-                Arrays.asList(userInput.split("\\s+")), // global search
+                normalizedInput.isEmpty() ? Collections.emptyList() : List.of(normalizedInput),
                 Collections.emptyList(),
                 Collections.emptyList(),
                 Collections.emptyList());
