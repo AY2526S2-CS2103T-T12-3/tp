@@ -18,7 +18,7 @@ Class Email
 Class Name
 Class Phone
 Class Tag
-Class ID
+Class PersonId
 
 Class UniqueMeetingList
 Class Meeting
@@ -48,9 +48,9 @@ Person *--> Name
 Person *--> Phone
 Person *--> Email
 Person *--> "*" Tag
-Person *--> ID
+Person *--> PersonId
 
-Meeting *--> "*" ID
+Meeting *--> "*" PersonId
 Meeting *--> Date
 Meeting *--> Description
 
@@ -59,8 +59,6 @@ UniquePersonList -[hidden]right-> I
 Person -[hidden]right-->Meeting
 
 Name -[hidden]right-> Phone
-Tag -[hidden]right-> ID
-
 
 ModelManager --> "~* filtered" Person
 @enduml

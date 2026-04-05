@@ -16,12 +16,12 @@ UniqueMeetingList *-right-> Meeting
 
 Person -up-> "*" Tag
 
-Person *--> ID
+Person *--> PersonId
 Person *--> Name
 Person *--> Phone
 Person *--> Email
 
-Meeting *-right-> "*" ID
-Meeting *--> "1" Date
-Meeting *--> "1" Description
+Meeting *-right-> "*" PersonId
+Meeting *--> Date
+Meeting *--> Description
 @enduml
