@@ -36,7 +36,7 @@ public class EditMeetingCommand extends Command {
     public static final String COMMAND_WORD = "editmeeting";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the meeting identified "
-            + "by the index number used in the displayed meeting list. "
+            + "by the index number used in the displayed meeting list.\n"
             + "Existing values will be overwritten by the input values.\n"
             + "Participants can be added or deleted based on their positions in the contact list.\n"
             + "E.g " + PREFIX_ADD_PERSON_TO_MEETING_INDEX
