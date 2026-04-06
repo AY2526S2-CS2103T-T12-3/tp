@@ -35,6 +35,10 @@ class JsonAdaptedMeeting {
     public JsonAdaptedMeeting(@JsonProperty("description") String description,
                               @JsonProperty("date") String date,
                               @JsonProperty("personIds") Set<String> personIds) {
+        assert description != null && !description.isBlank() : "description should not be null or blank";
+        assert date != null && !date.isBlank() : "date should not be null or blank";
+        assert personIds != null : "personIds should not be null";
+
         this.description = description;
         this.date = date;
         this.personIds = personIds;
@@ -44,6 +48,8 @@ class JsonAdaptedMeeting {
      * Converts a given {@code Meeting} into this class for Jackson use.
      */
     public JsonAdaptedMeeting(Meeting source) {
+        assert source != null : "source should not be null";
+
         this.description = source.getDescription().description;
         this.date = source.getDate().toString();
         this.personIds = source.getParticipantsIDs().stream()

@@ -99,7 +99,7 @@ class JsonSerializableAddressBook {
                 }
 
                 addressBook.addPerson(person);
-            } catch (IllegalValueException e) {
+            } catch (IllegalValueException | IllegalArgumentException e) {
                 // Log invalid person with index and exception message
                 logger.warning(String.format(MESSAGE_INVALID_PERSON, i, e.getMessage()));
             }
@@ -128,7 +128,7 @@ class JsonSerializableAddressBook {
                 }
 
                 addressBook.addMeeting(meeting);
-            } catch (IllegalValueException e) {
+            } catch (IllegalValueException | IllegalArgumentException e) {
                 // Log invalid meeting with index and exception message
                 logger.warning(String.format(MESSAGE_INVALID_MEETING, i, e.getMessage()));
             }

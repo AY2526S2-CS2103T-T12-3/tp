@@ -40,19 +40,34 @@ class JsonAdaptedPerson {
             @JsonProperty("email") String email,
             @JsonProperty("tags") List<JsonAdaptedTag> tags
     ) {
+        assert id != null && !id.isBlank() : "id should not be null or blank";
+        assert name != null && !name.isBlank() : "name should not be null or blank";
+
+        assert (phone != null && !phone.isBlank())
+                || (email != null && !email.isBlank())
+                : "At least one of phone or email must be provided";
+
+        assert tags != null : "tags should not be null";
+        assert !tags.contains(null) : "tags should not contain null";
+
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.email = email;
+
         if (tags != null) {
             this.tags.addAll(tags);
         }
+
+        assert this.tags != null : "tags should be initialized";
     }
 
     /**
      * Converts a given {@code Person} into this class for Jackson use.
      */
     public JsonAdaptedPerson(Person source) {
+        assert source != null : "source should not be null";
+
         id = source.getId().toString();
         name = source.getName().fullName;
         phone = source.getPhone() != null ? source.getPhone().value : null;
