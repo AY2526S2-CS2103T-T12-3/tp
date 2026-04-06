@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeParseException;
 
 /**
@@ -46,12 +47,12 @@ public class MeetingDate implements Comparable<MeetingDate> {
         return date;
     }
 
-    public boolean isUpcoming() {
-        return date.isAfter(LocalDate.now());
+    public boolean isBefore(ChronoLocalDate time) {
+        return date.isBefore(time);
     }
 
-    public boolean isPast() {
-        return !isUpcoming();
+    public boolean isAfter(ChronoLocalDate time) {
+        return date.isAfter(time);
     }
 
     @Override
