@@ -107,6 +107,10 @@
     -fx-background-color: #515658;
 }
 
+.separator {
+    -fx-background-color: #383838;
+}
+
 .list-cell:filled:selected {
     -fx-background-color: #424d5f;
 }
