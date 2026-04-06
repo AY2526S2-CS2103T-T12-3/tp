@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SINGLE;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SET_SINGLE;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
@@ -89,7 +89,7 @@ public class FindMeetingCommandTest {
         Set<Index> personIndices = Collections.emptySet();
         Set<PersonId> idsToMatch = Collections.emptySet();
 
-        Set<Index> indices = VALID_INDEX_SINGLE;
+        Set<Index> indices = VALID_INDEX_SET_SINGLE;
 
         Person targetPerson = model.getFilteredPersonList().get(indices.iterator().next().getZeroBased());
 

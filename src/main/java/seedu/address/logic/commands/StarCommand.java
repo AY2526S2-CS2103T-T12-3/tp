@@ -2,9 +2,12 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
@@ -15,51 +18,87 @@ import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
 /**
- * Stars a person identified using it's displayed index from the address book.
- * This is basically the same as adding a tag with the reserved 'STAR' keyword
+ * Stars the person(s) identified using their displayed indices from the current displayed list.
+ * This is basically the same as adding a tag with the reserved 'STAR' keyword.
  */
 public class StarCommand extends Command {
 
     public static final String COMMAND_WORD = "star";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Stars / Favourites the person identified by the index number used in the displayed person list.\n"
+            + ": Stars / Favourites the person(s) identified by their indices used in the displayed person list.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_STAR_PERSON_SUCCESS = "Starred Person: %1$s";
+    public static final String MESSAGE_STAR_PERSON_SUCCESS = "Starred Person(s): %1$s";
 
-    private final Index targetIndex;
+    public static final String MESSAGE_NO_VALID_PERSONS_STAR =
+            "Error: All contacts provided are already starred.";
 
-    public StarCommand(Index targetIndex) {
-        this.targetIndex = targetIndex;
+    private final Set<Index> targetIndices;
+
+    public StarCommand(Set<Index> targetIndices) {
+        this.targetIndices = targetIndices;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> lastShownList = model.getFilteredPersonList();
 
-        if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        List<Index> sortedIndices = new ArrayList<>(targetIndices);
+        sortedIndices.sort(Comparator.comparingInt(Index::getZeroBased));
+
+        List<Person> personsToStar = getPersonsToStar(model, sortedIndices);
+        List<Person> starredPersons = setPersonsToStar(model, personsToStar);
+
+        String starredPersonsString = starredPersons.stream()
+                .map(person -> person.getName().fullName)
+                .collect(Collectors.joining(", "));
+
+        return new CommandResult(String.format(MESSAGE_STAR_PERSON_SUCCESS, starredPersonsString));
+    }
+
+    public List<Person> setPersonsToStar(Model model, List<Person> personsToStar) throws CommandException {
+        for (Person personToStar : personsToStar) {
+            Set<Tag> newTags = new HashSet<>(personToStar.getTags());
+            newTags.add(new Tag(Tag.STAR_TAG));
+
+            Person starredPerson = new Person(
+                    personToStar.getId(),
+                    personToStar.getName(),
+                    personToStar.getPhone(),
+                    personToStar.getEmail(),
+                    newTags
+            );
+
+            model.setPerson(personToStar, starredPerson);
         }
 
-        Person personToStar = lastShownList.get(targetIndex.getZeroBased());
+        return personsToStar;
+    }
 
-        Set<Tag> newTags = new HashSet<>(personToStar.getTags());
-        newTags.add(new Tag(Tag.STAR_TAG));
+    private static List<Person> getPersonsToStar(Model model, List<Index> targetIndices) throws CommandException {
+        List<Person> lastShownList = model.getFilteredPersonList();
+        List<Person> personsToStar = new ArrayList<>();
 
-        Person starredPerson = new Person(
-            personToStar.getId(),
-            personToStar.getName(),
-            personToStar.getPhone(),
-            personToStar.getEmail(),
-            newTags
-        );
+        for (Index index : targetIndices) {
+            if (index.getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            }
 
-        model.setPerson(personToStar, starredPerson);
+            Person personToStar = lastShownList.get(index.getZeroBased());
 
-        return new CommandResult(String.format(MESSAGE_STAR_PERSON_SUCCESS, Messages.format(starredPerson)));
+            if (personToStar.getTags().contains(new Tag(Tag.STAR_TAG))) {
+                continue; // already starred, skip
+            }
+
+            personsToStar.add(personToStar);
+        }
+
+        if (personsToStar.isEmpty()) {
+            throw new CommandException(MESSAGE_NO_VALID_PERSONS_STAR);
+        }
+        return personsToStar;
     }
 
     @Override
@@ -74,13 +113,13 @@ public class StarCommand extends Command {
         }
 
         StarCommand otherStarCommand = (StarCommand) other;
-        return targetIndex.equals(otherStarCommand.targetIndex);
+        return targetIndices.equals(otherStarCommand.targetIndices);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("targetIndex", targetIndex)
+                .add("targetIndices", targetIndices)
                 .toString();
     }
 }

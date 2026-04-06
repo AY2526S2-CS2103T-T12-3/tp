@@ -133,4 +133,10 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredMeetingList(Predicate<Meeting> predicate);
+
+    /**
+     * Updates the filter of the filtered meeting list to filter by all previous {@code predicate}
+     * @param predicate new predicate to be stacked with the other predicates
+     */
+    void updateFilteredMeetingListStacked(Predicate<Meeting> predicate);
 }

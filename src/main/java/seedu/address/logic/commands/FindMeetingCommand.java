@@ -16,15 +16,16 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonId;
 
 /**
- * Finds and lists all meetings in address book whose specific parameters contains any of the argument keywords.
- * Keyword matching is case-insensitive.
+ * Finds and lists all meetings in the current displayed meeting list whose specific
+ * parameters contains any of the argument keywords. Keyword matching is case-insensitive.
  */
 public class FindMeetingCommand extends Command {
 
     public static final String COMMAND_WORD = "findmeeting";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all meetings whose parameters contain any of "
-            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
+            + "the specified keywords (case-insensitive) on the current displayed list "
+            + "and displays them as a list with index numbers.\n"
             + "Parameters: [d/ SEARCH SUBSTRING] [dt/ SEARCH SUBSTRING] [i/ PERSON INDICES]...\n"
             + "Example: " + COMMAND_WORD + " d/ meeting dt/ 2026";
 
@@ -74,7 +75,7 @@ public class FindMeetingCommand extends Command {
         MeetingMatchesKeywordsPredicate predicate =
                 new MeetingMatchesKeywordsPredicate(descriptionKeywords, dateKeywords, personIdsToMatch);
 
-        model.updateFilteredMeetingList(predicate);
+        model.updateFilteredMeetingListStacked(predicate);
         return new CommandResult(
                 String.format(Messages.MESSAGE_MEETINGS_LISTED_OVERVIEW, model.getFilteredMeetingList().size()));
     }

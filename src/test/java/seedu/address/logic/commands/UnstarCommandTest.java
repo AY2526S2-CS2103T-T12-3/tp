@@ -35,7 +35,9 @@ public class UnstarCommandTest {
     @Test
     public void execute_unstarValidIndexUnfilteredList_success() {
         Person unstarredPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        UnstarCommand unstarCommand = new UnstarCommand(INDEX_FIRST_PERSON);
+        Set<Index> targetIndices = new HashSet<>();
+        targetIndices.add(Index.fromOneBased(1));
+        UnstarCommand unstarCommand = new UnstarCommand(targetIndices);
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
 
@@ -52,7 +54,7 @@ public class UnstarCommandTest {
         expectedModel.setPerson(starredPerson, unstarredPerson);
 
         String expectedMessage = String.format(UnstarCommand.MESSAGE_UNSTAR_PERSON_SUCCESS,
-                Messages.format(unstarredPerson));
+                unstarredPerson.getName().fullName);
 
         assertCommandSuccess(unstarCommand, model, expectedMessage, expectedModel);
     }
@@ -60,7 +62,9 @@ public class UnstarCommandTest {
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-        UnstarCommand unstarCommand = new UnstarCommand(outOfBoundIndex);
+        Set<Index> targetIndices = new HashSet<>();
+        targetIndices.add(outOfBoundIndex);
+        UnstarCommand unstarCommand = new UnstarCommand(targetIndices);
 
         assertCommandFailure(unstarCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
@@ -70,7 +74,11 @@ public class UnstarCommandTest {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
         Person unstarredPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        UnstarCommand unstarCommand = new UnstarCommand(INDEX_FIRST_PERSON);
+
+        Set<Index> targetIndices = new HashSet<>();
+        targetIndices.add(Index.fromOneBased(1));
+
+        UnstarCommand unstarCommand = new UnstarCommand(targetIndices);
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
 
@@ -87,7 +95,7 @@ public class UnstarCommandTest {
         expectedModel.setPerson(starredPerson, unstarredPerson);
 
         String expectedMessage = String.format(UnstarCommand.MESSAGE_UNSTAR_PERSON_SUCCESS,
-                Messages.format(unstarredPerson));
+                unstarredPerson.getName().fullName);
 
         showPersonAtIndex(expectedModel, INDEX_FIRST_PERSON);
 
@@ -102,38 +110,45 @@ public class UnstarCommandTest {
         // ensures that outOfBoundIndex is still in bounds of address book list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getPersonList().size());
 
-        UnstarCommand unstarCommand = new UnstarCommand(outOfBoundIndex);
+        Set<Index> targetIndices = new HashSet<>();
+        targetIndices.add(outOfBoundIndex);
+
+        UnstarCommand unstarCommand = new UnstarCommand(targetIndices);
 
         assertCommandFailure(unstarCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
     @Test
     public void equals() {
-        UnstarCommand starFirstCommand = new UnstarCommand(INDEX_FIRST_PERSON);
-        UnstarCommand starSecondCommand = new UnstarCommand(INDEX_SECOND_PERSON);
+        Set<Index> targetIndices1 = new HashSet<>();
+        targetIndices1.add(INDEX_FIRST_PERSON);
+        Set<Index> targetIndices2 = new HashSet<>();
+        UnstarCommand unstarFirstCommand = new UnstarCommand(targetIndices1);
+        UnstarCommand unstarSecondCommand = new UnstarCommand(targetIndices2);
 
         // same object -> returns true
-        assertTrue(starFirstCommand.equals(starFirstCommand));
+        assertTrue(unstarFirstCommand.equals(unstarFirstCommand));
 
         // same values -> returns true
-        UnstarCommand starFirstCommandCopy = new UnstarCommand(INDEX_FIRST_PERSON);
-        assertTrue(starFirstCommand.equals(starFirstCommandCopy));
+        UnstarCommand unstarFirstCommandCopy = new UnstarCommand(targetIndices1);
+        assertTrue(unstarFirstCommand.equals(unstarFirstCommandCopy));
 
         // different types -> returns false
-        assertFalse(starFirstCommand.equals(1));
+        assertFalse(unstarFirstCommand.equals(1));
 
         // null -> returns false
-        assertFalse(starFirstCommand.equals(null));
+        assertFalse(unstarFirstCommand.equals(null));
 
         // different person -> returns false
-        assertFalse(starFirstCommand.equals(starSecondCommand));
+        assertFalse(unstarFirstCommand.equals(unstarSecondCommand));
     }
 
     @Test
     public void toStringMethod() {
-        Index targetIndex = Index.fromOneBased(1);
-        UnstarCommand unstarCommand = new UnstarCommand(targetIndex);
-        String expected = UnstarCommand.class.getCanonicalName() + "{targetIndex=" + targetIndex + "}";
+        Set<Index> targetIndices = new HashSet<>();
+        targetIndices.add(Index.fromOneBased(1));
+        UnstarCommand unstarCommand = new UnstarCommand(targetIndices);
+        String expected = UnstarCommand.class.getCanonicalName() + "{targetIndices=" + targetIndices + "}";
         assertEquals(expected, unstarCommand.toString());
     }
 

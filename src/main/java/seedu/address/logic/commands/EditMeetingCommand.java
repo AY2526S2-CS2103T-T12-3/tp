@@ -36,7 +36,7 @@ public class EditMeetingCommand extends Command {
     public static final String COMMAND_WORD = "editmeeting";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the meeting identified "
-            + "by the index number used in the displayed meeting list. "
+            + "by the index number used in the displayed meeting list.\n"
             + "Existing values will be overwritten by the input values.\n"
             + "Participants can be added or deleted based on their positions in the contact list.\n"
             + "E.g " + PREFIX_ADD_PERSON_TO_MEETING_INDEX
@@ -54,6 +54,8 @@ public class EditMeetingCommand extends Command {
 
     public static final String MESSAGE_EDIT_MEETING_SUCCESS = "Edited meeting: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
+    public static final String MESSAGE_PERSON_NOT_IN_MEETING =
+            "Invalid contact index provided: At least one participant to be removed is not in the meeting.";
 
     private final Index meetingIndex;
     private final EditMeetingDescriptor editMeetingDescriptor;
@@ -100,9 +102,13 @@ public class EditMeetingCommand extends Command {
     /**
      * Creates and returns a {@code Meeting} with the details of {@code meetingToEdit}
      * edited with {@code editMeetingDescriptor}.
+     *
+     * @throws CommandException If a participant being removed is not in the meeting
      */
     private static Meeting createEditedMeeting(Meeting meetingToEdit,
-                                               EditMeetingCommand.EditMeetingDescriptor editMeetingDescriptor) {
+                                               EditMeetingCommand.EditMeetingDescriptor editMeetingDescriptor)
+            throws CommandException {
+
         assert meetingToEdit != null;
 
         Description updatedDescription = editMeetingDescriptor.getDescription()
@@ -115,8 +121,15 @@ public class EditMeetingCommand extends Command {
         editMeetingDescriptor.getIdsToAdd()
                 .ifPresent(updatedParticipantsId::addAll);
 
-        editMeetingDescriptor.getIdsToDelete()
-                .ifPresent(updatedParticipantsId::removeAll);
+        Optional<Set<PersonId>> idsToDelete = editMeetingDescriptor.getIdsToDelete();
+        if (idsToDelete.isPresent()) {
+            for (PersonId id : idsToDelete.get()) {
+                if (!updatedParticipantsId.contains(id)) {
+                    throw new CommandException(MESSAGE_PERSON_NOT_IN_MEETING);
+                }
+            }
+            updatedParticipantsId.removeAll(editMeetingDescriptor.getIdsToDelete().get());
+        }
 
         return new Meeting(updatedDescription, updatedDate, updatedParticipantsId);
     }

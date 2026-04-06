@@ -14,11 +14,12 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
     private final List<String> emailKeywords;
 
     /**
-     * Constructor for PersonMatchesKeywordsPredicate class
-     * @param globalKeywords
-     * @param nameKeywords substring to match for Person names
-     * @param phoneKeywords substring to match for Person phone numbers
-     * @param emailKeywords substring to match for Person emails
+     * Constructor for PersonMatchesKeywordsPredicate class.
+     *
+     * @param globalKeywords substring to match across all searchable fields
+     * @param nameKeywords   substring to match for Person names
+     * @param phoneKeywords  substring to match for Person phone numbers
+     * @param emailKeywords  substring to match for Person emails
      */
     public PersonMatchesKeywordsPredicate(List<String> globalKeywords,
             List<String> nameKeywords,
@@ -36,14 +37,12 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
         String phone = person.getPhone() == null ? "" : person.getPhone().value.toLowerCase();
         String email = person.getEmail() == null ? "" : person.getEmail().value.toLowerCase();
 
-        // Global search
+        // Global search: treat the entire input as one substring
         if (!globalKeywords.isEmpty()) {
-            return globalKeywords.stream().anyMatch(k -> {
-                String keyword = k.toLowerCase();
-                return name.contains(keyword)
-                        || phone.contains(keyword)
-                        || email.contains(keyword);
-            });
+            String globalSubstring = globalKeywords.get(0).toLowerCase();
+            return name.contains(globalSubstring)
+                    || phone.contains(globalSubstring)
+                    || email.contains(globalSubstring);
         }
 
         // Field-specific search
@@ -75,5 +74,4 @@ public class PersonMatchesKeywordsPredicate implements Predicate<Person> {
                 && phoneKeywords.equals(otherPredicate.phoneKeywords)
                 && emailKeywords.equals(otherPredicate.emailKeywords);
     }
-
 }

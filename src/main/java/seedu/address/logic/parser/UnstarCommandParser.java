@@ -2,6 +2,8 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+import java.util.Set;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.UnstarCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -20,8 +22,8 @@ public class UnstarCommandParser implements Parser<UnstarCommand> {
      */
     public UnstarCommand parse(String args) throws ParseException {
         try {
-            Index index = ParserUtil.parseIndex(args);
-            return new UnstarCommand(index);
+            Set<Index> indices = ParserUtil.parseIndices(args, UnstarCommand.MESSAGE_USAGE);
+            return new UnstarCommand(indices);
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnstarCommand.MESSAGE_USAGE), pe);

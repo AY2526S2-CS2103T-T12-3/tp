@@ -44,6 +44,7 @@ public class ParserUtil {
      * Parses a comma-separated string of indices into a {@code Set<Index>}.
      * Each index must be a non-zero unsigned integer (e.g., "1,2,3").
      * Whitespace around each index will be trimmed before parsing.
+     * If duplicate indices are provided, it will be ignored.
      *
      * @param indicesString A string containing indices separated by commas.
      * @return A {@code Set<Index>} containing all valid parsed indices.

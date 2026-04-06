@@ -30,8 +30,8 @@ public class AddMeetingCommandTest {
     public static final String VALID_DESCRIPTION_TEAM = "Team Meeting";
     public static final String VALID_DATE_20260325 = "2026-03-25";
     public static final String VALID_DATE_20260401 = "2026-04-01";
-    public static final Set<Index> VALID_INDEX_SINGLE = Set.of(INDEX_FIRST_PERSON);
-    public static final Set<Index> VALID_INDICES_MULTIPLE = Set.of(
+    public static final Set<Index> VALID_INDEX_SET_SINGLE = Set.of(INDEX_FIRST_PERSON);
+    public static final Set<Index> VALID_INDICES_SET_MULTIPLE = Set.of(
             INDEX_FIRST_PERSON, INDEX_SECOND_PERSON, INDEX_THIRD_PERSON
     );
 
@@ -43,7 +43,7 @@ public class AddMeetingCommandTest {
 
     @Test
     public void execute_singleIndex_success() throws Exception {
-        Set<Index> indices = VALID_INDEX_SINGLE;
+        Set<Index> indices = VALID_INDEX_SET_SINGLE;
         AddMeetingCommand command = new AddMeetingCommand(indices,
                 new Description(VALID_DESCRIPTION_PROJECT),
                 new MeetingDate(VALID_DATE_20260325));
@@ -73,7 +73,7 @@ public class AddMeetingCommandTest {
 
     @Test
     public void execute_multipleIndices_success() throws Exception {
-        AddMeetingCommand command = new AddMeetingCommand(VALID_INDICES_MULTIPLE,
+        AddMeetingCommand command = new AddMeetingCommand(VALID_INDICES_SET_MULTIPLE,
                 new Description(VALID_DESCRIPTION_TEAM),
                 new MeetingDate(VALID_DATE_20260401));
 
@@ -115,8 +115,8 @@ public class AddMeetingCommandTest {
 
     @Test
     public void equals() {
-        Set<Index> firstIndices = VALID_INDEX_SINGLE;
-        Set<Index> secondIndices = VALID_INDICES_MULTIPLE;
+        Set<Index> firstIndices = VALID_INDEX_SET_SINGLE;
+        Set<Index> secondIndices = VALID_INDICES_SET_MULTIPLE;
 
         AddMeetingCommand firstCommand = new AddMeetingCommand(firstIndices,
                 new Description(VALID_DESCRIPTION_PROJECT),

@@ -1,8 +1,8 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SINGLE;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDICES_MULTIPLE;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SET_SINGLE;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDICES_SET_MULTIPLE;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_INDEX_SINGLE;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_INDICES_MULTIPLE;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INVALID_INPUT_INDEX_NEGATIVE;
@@ -25,13 +25,13 @@ public class DeleteMeetingCommandParserTest {
     @Test
     public void parse_validSingleIndex_returnsDeleteMeetingCommand() {
         assertParseSuccess(parser, INPUT_INDEX_SINGLE,
-                new DeleteMeetingCommand(VALID_INDEX_SINGLE));
+                new DeleteMeetingCommand(VALID_INDEX_SET_SINGLE));
     }
 
     @Test
     public void parse_validMultipleIndices_returnsDeleteMeetingCommand() {
         assertParseSuccess(parser, INPUT_INDICES_MULTIPLE,
-                new DeleteMeetingCommand(VALID_INDICES_MULTIPLE));
+                new DeleteMeetingCommand(VALID_INDICES_SET_MULTIPLE));
     }
 
     @Test

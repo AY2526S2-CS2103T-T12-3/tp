@@ -6,7 +6,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SINGLE;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SET_SINGLE;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_DATE_20260325;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_DESC_PROJECT;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_INDEX_SINGLE;
@@ -14,11 +14,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PERSON_INDICES;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
@@ -34,9 +32,9 @@ import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.EditTagCommand;
 import seedu.address.logic.commands.ExitCommand;
-import seedu.address.logic.commands.FilterTagCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.FindMeetingCommand;
+import seedu.address.logic.commands.FindTagCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.ListMeetingCommand;
@@ -69,7 +67,7 @@ public class AddressBookParserTest {
                 + INPUT_DESC_PROJECT + INPUT_DATE_20260325;
         AddMeetingCommand command = (AddMeetingCommand) parser.parseCommand(commandInput);
 
-        AddMeetingCommand expectedCommand = new AddMeetingCommand(VALID_INDEX_SINGLE,
+        AddMeetingCommand expectedCommand = new AddMeetingCommand(VALID_INDEX_SET_SINGLE,
                 new Description(VALID_DESCRIPTION_PROJECT),
                 new MeetingDate(VALID_DATE_20260325));
         assertEquals(expectedCommand, command);
@@ -85,7 +83,7 @@ public class AddressBookParserTest {
     public void parseCommand_delete() throws Exception {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
                 DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
-        assertEquals(new DeleteCommand(INDEX_FIRST_PERSON), command);
+        assertEquals(new DeleteCommand(VALID_INDEX_SET_SINGLE), command);
     }
 
     @Test
@@ -93,7 +91,7 @@ public class AddressBookParserTest {
         String commandInput = DeleteMeetingCommand.COMMAND_WORD + INPUT_INDEX_SINGLE;
         DeleteMeetingCommand command = (DeleteMeetingCommand) parser.parseCommand(commandInput);
 
-        DeleteMeetingCommand expectedCommand = new DeleteMeetingCommand(VALID_INDEX_SINGLE);
+        DeleteMeetingCommand expectedCommand = new DeleteMeetingCommand(VALID_INDEX_SET_SINGLE);
         assertEquals(expectedCommand, command);
     }
 
@@ -101,14 +99,18 @@ public class AddressBookParserTest {
     public void parseCommand_star() throws Exception {
         StarCommand command = (StarCommand) parser.parseCommand(
                 StarCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
-        assertEquals(new StarCommand(INDEX_FIRST_PERSON), command);
+        Set<Index> targetIndices = new HashSet<>();
+        targetIndices.add(INDEX_FIRST_PERSON);
+        assertEquals(new StarCommand(targetIndices), command);
     }
 
     @Test
     public void parseCommand_unstar() throws Exception {
         UnstarCommand command = (UnstarCommand) parser.parseCommand(
                 UnstarCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
-        assertEquals(new UnstarCommand(INDEX_FIRST_PERSON), command);
+        Set<Index> targetIndices = new HashSet<>();
+        targetIndices.add(INDEX_FIRST_PERSON);
+        assertEquals(new UnstarCommand(targetIndices), command);
     }
 
     @Test
@@ -129,12 +131,17 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_find() throws Exception {
-        List<String> keywords = Arrays.asList("foo", "bar", "baz");
+        String globalSubstring = "foo bar baz";
         FindCommand command = (FindCommand) parser.parseCommand(
-                FindCommand.COMMAND_WORD + " "
-                        + keywords.stream().collect(Collectors.joining(" ")));
+                FindCommand.COMMAND_WORD + " " + globalSubstring);
+
         assertEquals(new FindCommand(
-                new PersonMatchesKeywordsPredicate(keywords, List.of(), List.of(), List.of())), command);
+                new PersonMatchesKeywordsPredicate(
+                        List.of(globalSubstring),
+                        List.of(),
+                        List.of(),
+                        List.of())),
+                command);
     }
 
     @Test
@@ -210,13 +217,13 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_filterTag() throws Exception {
-        FilterTagCommand command = (FilterTagCommand) parser.parseCommand(FilterTagCommand.COMMAND_WORD
+    public void parseCommand_findTag() throws Exception {
+        FindTagCommand command = (FindTagCommand) parser.parseCommand(FindTagCommand.COMMAND_WORD
                 + " / NewTag");
 
         Set<Tag> tags = new HashSet<>();
         tags.add(new Tag("NewTag"));
-        FilterTagCommand expectedCommand = new FilterTagCommand(tags);
+        FindTagCommand expectedCommand = new FindTagCommand(tags);
 
         assertEquals(expectedCommand, command);
     }

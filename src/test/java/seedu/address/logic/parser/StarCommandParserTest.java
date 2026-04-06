@@ -5,8 +5,12 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailur
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.StarCommand;
 
 public class StarCommandParserTest {
@@ -15,7 +19,9 @@ public class StarCommandParserTest {
 
     @Test
     public void parse_validArgs_returnsStarCommand() {
-        assertParseSuccess(parser, "1", new StarCommand(INDEX_FIRST_PERSON));
+        Set<Index> targetIndices = new HashSet<>();
+        targetIndices.add(INDEX_FIRST_PERSON);
+        assertParseSuccess(parser, "1", new StarCommand(targetIndices));
     }
 
     @Test

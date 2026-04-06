@@ -3,8 +3,8 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SINGLE;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDICES_MULTIPLE;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SET_SINGLE;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDICES_SET_MULTIPLE;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.DeleteMeetingCommand.MESSAGE_INVALID_MEETING_INDEX;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -33,7 +33,7 @@ public class DeleteMeetingCommandTest {
         List<Meeting> meetingToDelete = List.of(lastSeenList.get(INDEX_FIRST_PERSON.getZeroBased()));
 
         // Execute DeleteMeetingCommand
-        DeleteMeetingCommand command = new DeleteMeetingCommand(VALID_INDEX_SINGLE);
+        DeleteMeetingCommand command = new DeleteMeetingCommand(VALID_INDEX_SET_SINGLE);
 
         CommandResult response = command.execute(model);
 
@@ -86,7 +86,7 @@ public class DeleteMeetingCommandTest {
     @Test
     public void equals() {
         DeleteMeetingCommand firstCommand = new DeleteMeetingCommand(Set.of(Index.fromOneBased(1)));
-        DeleteMeetingCommand secondCommand = new DeleteMeetingCommand(VALID_INDICES_MULTIPLE);
+        DeleteMeetingCommand secondCommand = new DeleteMeetingCommand(VALID_INDICES_SET_MULTIPLE);
 
         // same object
         assertEquals(firstCommand, firstCommand);

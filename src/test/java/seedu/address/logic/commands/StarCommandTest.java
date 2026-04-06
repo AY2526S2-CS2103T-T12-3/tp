@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.logic.commands.StarCommand.MESSAGE_NO_VALID_PERSONS_STAR;
 import static seedu.address.logic.commands.TagUtil.amendTagsOfPerson;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
@@ -35,7 +36,9 @@ public class StarCommandTest {
     @Test
     public void execute_starValidIndexUnfilteredList_success() {
         Person personToStar = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        StarCommand starCommand = new StarCommand(INDEX_FIRST_PERSON);
+        Set<Index> targetIndices = new HashSet<>();
+        targetIndices.add(Index.fromOneBased(1));
+        StarCommand starCommand = new StarCommand(targetIndices);
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
 
@@ -47,7 +50,7 @@ public class StarCommandTest {
         expectedModel.setPerson(personToStar, starredPerson);
 
         String expectedMessage = String.format(StarCommand.MESSAGE_STAR_PERSON_SUCCESS,
-                Messages.format(starredPerson));
+                starredPerson.getName().fullName);
 
         assertCommandSuccess(starCommand, model, expectedMessage, expectedModel);
     }
@@ -55,7 +58,10 @@ public class StarCommandTest {
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-        StarCommand starCommand = new StarCommand(outOfBoundIndex);
+        Set<Index> targetIndices = new HashSet<>();
+        targetIndices.add(Index.fromOneBased(1));
+        targetIndices.add(outOfBoundIndex);
+        StarCommand starCommand = new StarCommand(targetIndices);
 
         assertCommandFailure(starCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
@@ -65,7 +71,10 @@ public class StarCommandTest {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
         Person personToStar = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        StarCommand starCommand = new StarCommand(INDEX_FIRST_PERSON);
+
+        Set<Index> targetIndices = new HashSet<>();
+        targetIndices.add(Index.fromOneBased(1));
+        StarCommand starCommand = new StarCommand(targetIndices);
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
 
@@ -77,7 +86,7 @@ public class StarCommandTest {
         expectedModel.setPerson(personToStar, starredPerson);
 
         String expectedMessage = String.format(StarCommand.MESSAGE_STAR_PERSON_SUCCESS,
-                Messages.format(starredPerson));
+                starredPerson.getName().fullName);
 
         showPersonAtIndex(expectedModel, INDEX_FIRST_PERSON);
 
@@ -85,9 +94,13 @@ public class StarCommandTest {
     }
 
     @Test
-    public void execute_starPersonWithStarTag_success() {
+    public void execute_starPersonWithStarTag_failure() {
         Person personToStar = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        StarCommand starCommand = new StarCommand(INDEX_FIRST_PERSON);
+
+        Set<Index> targetIndices = new HashSet<>();
+        targetIndices.add(Index.fromOneBased(1));
+
+        StarCommand starCommand = new StarCommand(targetIndices);
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
 
@@ -95,13 +108,12 @@ public class StarCommandTest {
         newTags.add(new Tag(Tag.STAR_TAG));
         Person starredPerson = amendTagsOfPerson(personToStar, newTags);
 
-        model.setPerson(personToStar, personToStar);
+        model.setPerson(personToStar, starredPerson);
         expectedModel.setPerson(personToStar, starredPerson);
 
-        String expectedMessage = String.format(StarCommand.MESSAGE_STAR_PERSON_SUCCESS,
-                Messages.format(starredPerson));
+        String expectedMessage = String.format(MESSAGE_NO_VALID_PERSONS_STAR);
 
-        assertCommandSuccess(starCommand, model, expectedMessage, expectedModel);
+        assertCommandFailure(starCommand, model, expectedMessage);
     }
 
     @Test
@@ -112,21 +124,27 @@ public class StarCommandTest {
         // ensures that outOfBoundIndex is still in bounds of address book list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getPersonList().size());
 
-        StarCommand starCommand = new StarCommand(outOfBoundIndex);
+        Set<Index> targetIndices = new HashSet<>();
+        targetIndices.add(outOfBoundIndex);
+
+        StarCommand starCommand = new StarCommand(targetIndices);
 
         assertCommandFailure(starCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
     @Test
     public void equals() {
-        StarCommand starFirstCommand = new StarCommand(INDEX_FIRST_PERSON);
-        StarCommand starSecondCommand = new StarCommand(INDEX_SECOND_PERSON);
+        Set<Index> targetIndices1 = new HashSet<>();
+        targetIndices1.add(INDEX_FIRST_PERSON);
+        Set<Index> targetIndices2 = new HashSet<>();
+        StarCommand starFirstCommand = new StarCommand(targetIndices1);
+        StarCommand starSecondCommand = new StarCommand(targetIndices2);
 
         // same object -> returns true
         assertTrue(starFirstCommand.equals(starFirstCommand));
 
         // same values -> returns true
-        StarCommand starFirstCommandCopy = new StarCommand(INDEX_FIRST_PERSON);
+        StarCommand starFirstCommandCopy = new StarCommand(targetIndices1);
         assertTrue(starFirstCommand.equals(starFirstCommandCopy));
 
         // different types -> returns false
@@ -141,9 +159,10 @@ public class StarCommandTest {
 
     @Test
     public void toStringMethod() {
-        Index targetIndex = Index.fromOneBased(1);
-        StarCommand starCommand = new StarCommand(targetIndex);
-        String expected = StarCommand.class.getCanonicalName() + "{targetIndex=" + targetIndex + "}";
+        Set<Index> targetIndices = new HashSet<>();
+        targetIndices.add(Index.fromOneBased(1));
+        StarCommand starCommand = new StarCommand(targetIndices);
+        String expected = StarCommand.class.getCanonicalName() + "{targetIndices=" + targetIndices + "}";
         assertEquals(expected, starCommand.toString());
     }
 

@@ -5,8 +5,8 @@ import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_2026
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260401;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_TEAM;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SINGLE;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDICES_MULTIPLE;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SET_SINGLE;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDICES_SET_MULTIPLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
@@ -45,7 +45,7 @@ public class AddMeetingCommandParserTest {
         // single index, valid description and date
         assertParseSuccess(parser, INPUT_INDEX_SINGLE + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
                 new AddMeetingCommand(
-                        VALID_INDEX_SINGLE,
+                        VALID_INDEX_SET_SINGLE,
                         new Description(VALID_DESCRIPTION_PROJECT),
                         new MeetingDate(VALID_DATE_20260325)));
     }
@@ -53,7 +53,7 @@ public class AddMeetingCommandParserTest {
     @Test
     public void parseAllFieldsPresent_multipleIndices_success() {
         AddMeetingCommand expectedCommand = new AddMeetingCommand(
-                VALID_INDICES_MULTIPLE,
+                VALID_INDICES_SET_MULTIPLE,
                 new Description(VALID_DESCRIPTION_TEAM),
                 new MeetingDate(VALID_DATE_20260401));
         assertParseSuccess(parser, INPUT_INDICES_MULTIPLE + INPUT_DESC_TEAM + INPUT_DATE_20260401,
@@ -73,11 +73,11 @@ public class AddMeetingCommandParserTest {
     @Test
     public void parse_missingFields_failure() {
         // missing description
-        assertParseFailure(parser, VALID_INDEX_SINGLE + INPUT_DATE_20260325,
+        assertParseFailure(parser, VALID_INDEX_SET_SINGLE + INPUT_DATE_20260325,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
 
         // missing date
-        assertParseFailure(parser, VALID_INDEX_SINGLE + INPUT_DESC_PROJECT,
+        assertParseFailure(parser, VALID_INDEX_SET_SINGLE + INPUT_DESC_PROJECT,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
 
         // all missing
@@ -102,31 +102,34 @@ public class AddMeetingCommandParserTest {
 
     @Test
     public void parse_invalidDescription_failure() {
-        assertParseFailure(parser, VALID_INDEX_SINGLE + INVALID_INPUT_DESCRIPTION + INPUT_DATE_20260325,
+        assertParseFailure(parser, VALID_INDEX_SET_SINGLE + INVALID_INPUT_DESCRIPTION + INPUT_DATE_20260325,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_invalidDate_failure() {
-        assertParseFailure(parser, VALID_INDEX_SINGLE + INPUT_DESC_PROJECT + INVALID_INPUT_DATE,
+        assertParseFailure(parser, VALID_INDEX_SET_SINGLE + INPUT_DESC_PROJECT + INVALID_INPUT_DATE,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_preamblePresent_failure() {
         // extra preamble before any prefixes
-        assertParseFailure(parser, "randomPreamble " + VALID_INDEX_SINGLE + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
+        assertParseFailure(parser, "randomPreamble "
+                        + VALID_INDEX_SET_SINGLE + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_duplicatePrefixes_failure() {
         // duplicated description
-        assertParseFailure(parser, VALID_INDEX_SINGLE + INPUT_DESC_PROJECT + INPUT_DESC_TEAM + INPUT_DATE_20260325,
+        assertParseFailure(parser,
+                VALID_INDEX_SET_SINGLE + INPUT_DESC_PROJECT + INPUT_DESC_TEAM + INPUT_DATE_20260325,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_MEETING_DESCRIPTION));
 
         // duplicated date
-        assertParseFailure(parser, VALID_INDEX_SINGLE + INPUT_DESC_PROJECT + INPUT_DATE_20260325 + INPUT_DATE_20260401,
+        assertParseFailure(parser,
+                VALID_INDEX_SET_SINGLE + INPUT_DESC_PROJECT + INPUT_DATE_20260325 + INPUT_DATE_20260401,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_MEETING_DATE));
     }
 }
