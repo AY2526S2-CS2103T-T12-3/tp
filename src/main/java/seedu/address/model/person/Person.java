@@ -40,9 +40,8 @@ public class Person {
         this.email = email;
         this.tags.addAll(tags);
 
-        assert this.id != null;
-        assert this.name != null;
-        assert this.tags != null;
+        assert this.id != null : "id should not be null";
+        assert this.name != null : "name should not be null";
     }
 
     /**
@@ -55,10 +54,12 @@ public class Person {
 
     // Returns a defensive copy of the parameters.
     public PersonId getId() {
+        assert id != null : "id should not be null";;
         return new PersonId(id.toString());
     }
 
     public Name getName() {
+        assert name != null : "name should not be null";;
         return new Name(name.toString());
     }
 
@@ -97,7 +98,7 @@ public class Person {
      * Returns true if both persons have same name, phone and email.
      */
     public boolean hasSameDetails(Person otherPerson) {
-        assert otherPerson != null;
+        assert otherPerson != null : "otherPerson should not be null";;
 
         boolean isPhoneBothNull = getPhone() == null && otherPerson.getPhone() == null;
         boolean isPhoneBothNonNullAndEqual = getPhone() != null && getPhone().equals(otherPerson.getPhone());
@@ -129,7 +130,7 @@ public class Person {
 
         Person otherPerson = (Person) other;
 
-        assert otherPerson != null;
+        assert otherPerson != null : "otherPerson should not be null";
 
         return Objects.equals(name, otherPerson.name)
                 && Objects.equals(phone, otherPerson.phone)

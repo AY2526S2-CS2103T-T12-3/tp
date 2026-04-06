@@ -39,19 +39,17 @@ public class Meeting {
         this.date = date;
         this.participantsID = new HashSet<>(participantsID);
 
-        // Assertions (internal consistency checks)
-        assert this.description != null;
-        assert this.date != null;
-        assert this.participantsID != null;
+        assert this.description != null : "description should not be null";
+        assert this.date != null : "date should not be null";
     }
 
     public Description getDescription() {
-        assert description != null;
+        assert description != null : "description should not be null";
         return new Description(description.toString());
     }
 
     public MeetingDate getDate() {
-        assert date != null;
+        assert date != null : "date should not be null";
         return new MeetingDate(date.toString());
     }
 
@@ -64,7 +62,7 @@ public class Meeting {
      * Two meetings are the same if their descriptions and date are equal.
      */
     public boolean isSameMeeting(Meeting otherMeeting) {
-        assert otherMeeting != null;
+        assert otherMeeting != null : "otherMeeting should not be null";;
         return description.equals(otherMeeting.description)
                 && date.equals(otherMeeting.date);
     }
@@ -84,7 +82,7 @@ public class Meeting {
         }
 
         Meeting otherMeeting = (Meeting) other;
-        assert otherMeeting != null;
+        assert otherMeeting != null : "otherMeeting should not be null";;
 
         return description.equals(otherMeeting.description)
                 && date.equals(otherMeeting.date)
