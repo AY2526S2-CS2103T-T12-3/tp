@@ -34,4 +34,9 @@ public class MeetingItem implements ListItem {
         meeting.getParticipantsIDs().forEach(id -> participants.add(model.getPerson(id)));
         return new MeetingCard(meeting, index.getOneBased(), participants).getRoot();
     }
+
+    @Override
+    public boolean isMouseTransparent() {
+        return false;
+    }
 }
