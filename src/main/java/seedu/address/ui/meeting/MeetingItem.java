@@ -1,14 +1,14 @@
 package seedu.address.ui.meeting;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.index.Index;
 import seedu.address.model.Model;
 import seedu.address.model.meeting.Meeting;
 import seedu.address.model.person.Person;
 import seedu.address.ui.listutil.ListItem;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * A list item that contains a meeting card.
