@@ -1,4 +1,4 @@
-package seedu.address.ui;
+package seedu.address.ui.meeting;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +13,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.Model;
 import seedu.address.model.meeting.Meeting;
 import seedu.address.model.person.Person;
+import seedu.address.ui.UiPart;
 
 /**
  * Panel containing the list of persons.

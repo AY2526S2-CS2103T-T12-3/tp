@@ -1,9 +1,10 @@
-package seedu.address.ui;
+package seedu.address.ui.meeting;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
+import seedu.address.ui.UiPart;
 
 /**
  * A UI component that displays information of a {@code Person} in a meeting.

@@ -1,4 +1,4 @@
-package seedu.address.ui;
+package seedu.address.ui.meeting;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.meeting.Meeting;
 import seedu.address.model.person.Person;
+import seedu.address.ui.UiPart;
 
 /**
  * An UI component that displays information of a {@code Meeting}.
