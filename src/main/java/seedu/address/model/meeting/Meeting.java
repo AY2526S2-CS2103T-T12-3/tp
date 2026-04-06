@@ -3,6 +3,7 @@ package seedu.address.model.meeting;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.chrono.ChronoLocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -63,12 +64,12 @@ public class Meeting {
                 && date.equals(otherMeeting.date);
     }
 
-    public boolean isUpcoming() {
-        return date.isUpcoming();
+    public boolean isBefore(ChronoLocalDate time) {
+        return date.isBefore(time);
     }
 
-    public boolean isPast() {
-        return date.isPast();
+    public boolean isAfter(ChronoLocalDate time) {
+        return date.isAfter(time);
     }
 
     @Override
