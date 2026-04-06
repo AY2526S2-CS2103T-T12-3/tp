@@ -20,6 +20,9 @@ public class Description {
      * @param description A non-blank meeting description.
      */
     public Description(String description) {
+        assert description != null : "description should not be null";
+        assert description != "" : "description should not be empty";
+
         requireNonNull(description, MESSAGE_DESCRIPTION_NON_NULL);
         checkArgument(isValidDescription(description), MESSAGE_DESCRIPTION_CONSTRAINTS);
 

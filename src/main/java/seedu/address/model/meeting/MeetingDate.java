@@ -24,6 +24,9 @@ public class MeetingDate {
      * @param dateString A valid date string in yyyy-MM-dd format.
      */
     public MeetingDate(String dateString) {
+        assert dateString != null : "dateString should not be null";
+        assert dateString != "" : "dateString should not be empty";
+
         requireNonNull(dateString, MESSAGE_DATE_NON_NULL);
         checkArgument(isValidDateString(dateString), MESSAGE_DATE_CONSTRAINTS);
         this.date = LocalDate.parse(dateString);
