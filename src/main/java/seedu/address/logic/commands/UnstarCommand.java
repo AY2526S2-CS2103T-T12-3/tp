@@ -26,8 +26,8 @@ public class UnstarCommand extends Command {
     public static final String COMMAND_WORD = "unstar";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Unstars / Unfavourites the person(s) identified by their indices used in the displayed contact list.\n"
-            + "Parameters: INDEX (must be a positive integer) [, INDEX]...\n"
+            + ": Unstars / Unfavourites the person(s) identified by their indices in the displayed contact list.\n"
+            + "Format: " + COMMAND_WORD + " INDEX (must be a positive integer) [, INDEX]...\n"
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_UNSTAR_PERSON_SUCCESS = "Unstarred Person(s): %1$s";

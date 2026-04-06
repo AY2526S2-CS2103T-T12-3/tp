@@ -23,8 +23,8 @@ public class DeleteCommand extends Command {
     public static final String COMMAND_WORD = "delete";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes person(s) identified by the index number used in the displayed contact list.\n"
-            + "Parameters: INDEX (must be a positive integer) [, INDEX]...\n"
+            + ": Deletes person(s) identified by their index number in the displayed contact list.\n"
+            + "Format: " + COMMAND_WORD + " INDEX (must be a positive integer) [, INDEX]...\n"
             + "Example: " + COMMAND_WORD + " 1, 2";
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person(s): %1$s";

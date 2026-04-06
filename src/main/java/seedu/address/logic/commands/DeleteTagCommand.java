@@ -26,7 +26,7 @@ public class DeleteTagCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes tag(s) from one or more persons identified by their indices.\n"
-            + "Parameters: INDEX [,INDEX]... "
+            + "Format: " + COMMAND_WORD + " INDEX (must be a positive integer) [,INDEX]... "
             + PREFIX_SEPARATOR + "TAG [" + PREFIX_SEPARATOR + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1,2 "
             + PREFIX_SEPARATOR + "friend "

@@ -26,9 +26,10 @@ public class AddMeetingCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a meeting "
             + "to zero or more specified persons by their indices.\n"
-            + "Parameters: CONTACT_INDEX [,CONTACT_INDEX]... "
+            + "Format: " + COMMAND_WORD + " [CONTACT_INDEX] (must be a positive integer) [,CONTACT_INDEX]... "
             + PREFIX_MEETING_DESCRIPTION + "DESCRIPTION "
-            + PREFIX_MEETING_DATE + "DATE (must be in YYYY-MM-DD format)\n"
+            + PREFIX_MEETING_DATE + "DATE\n"
+            + "Note: DATE must be in YYYY-MM-DD format\n"
             + "Example: " + COMMAND_WORD + " 1,2 "
             + PREFIX_MEETING_DESCRIPTION + "Project discussion "
             + PREFIX_MEETING_DATE + "2026-03-25";

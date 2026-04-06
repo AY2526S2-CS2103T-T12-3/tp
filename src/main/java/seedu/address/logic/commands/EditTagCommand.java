@@ -24,19 +24,20 @@ import seedu.address.model.tag.Tag;
 public class EditTagCommand extends Command {
     public static final String COMMAND_WORD = "edittag";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Edits the specified tag for the person(s) "
-            + "identified by the index number(s) used in the displayed contact list, or globally.\n";
-
     public static final String MESSAGE_FORMAT =
             "Format: " + COMMAND_WORD + " "
-                    + "(INDICES OR 'all') "
+                    + "(INDICES (must be a positive integer) or 'all') "
                     + PREFIX_OLDTAG + "OLDTAG "
                     + PREFIX_NEWTAG + "NEWTAG\n"
                     + "Example: " + COMMAND_WORD + " "
                     + "1,2,3 "
                     + PREFIX_OLDTAG + "acquaintance "
                     + PREFIX_NEWTAG + "friend";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Edits the specified tag for the person(s) "
+            + "identified by their index number(s) in the displayed contact list, or globally using \"all\".\n"
+            + MESSAGE_FORMAT;
 
     public static final String MESSAGE_EDIT_TAG_SUCCESS_INDICES =
             "The tag %1$s has been changed to %2$s for the specified persons.";
@@ -104,8 +105,7 @@ public class EditTagCommand extends Command {
         }
 
         if (!isOldTagValid) {
-            throw new CommandException(
-                    "Error: The specified old tag (o/) does not exist in any of the specified contacts.");
+            throw new CommandException(MESSAGE_OLDTAG_INVALID);
         }
 
         for (Person person : personsToEdit) {

@@ -34,9 +34,10 @@ public class EditCommand extends Command {
     public static final String COMMAND_WORD = "edit";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Edits the details of the person identified by the index in the displayed person list.\n"
+            + ": Edits the details of a person identified by their index in the displayed contact list.\n"
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX (must be a positive integer) "
+            + "Format: " + COMMAND_WORD
+            + " INDEX "
             + "(" + PREFIX_NAME + "NAME) "
             + "(" + PREFIX_PHONE + "PHONE) "
             + "(" + PREFIX_EMAIL + "EMAIL) "

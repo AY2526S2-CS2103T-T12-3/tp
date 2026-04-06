@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -26,20 +27,20 @@ public class FindTagCommandParserTest {
     public void parse_invalidArgs_throwsParseException() {
         assertParseFailure(parser,
                 "1, 2, 3 / test",
-                "Error: Format is invalid.\n" + FindTagCommand.MESSAGE_FORMAT);
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindTagCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_invalidArgsSlash_throwsParseException() {
         assertParseFailure(parser,
                 "/",
-                FindTagCommand.MESSAGE_NO_TAGS);
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindTagCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_invalidArgsNoSlash_throwsParseException() {
         assertParseFailure(parser,
                 "friend",
-                FindTagCommand.MESSAGE_NO_TAGS);
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindTagCommand.MESSAGE_USAGE));
     }
 }

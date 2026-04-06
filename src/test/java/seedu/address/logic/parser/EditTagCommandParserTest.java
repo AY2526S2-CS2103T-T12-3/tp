@@ -39,6 +39,6 @@ public class EditTagCommandParserTest {
 
         assertParseFailure(parser,
                 userInput,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditTagCommand.MESSAGE_FORMAT));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditTagCommand.MESSAGE_USAGE));
     }
 }

@@ -26,26 +26,21 @@ public class FindMeetingCommand extends Command {
 
     public static final String COMMAND_WORD = "findmeeting";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Finds meetings whose fields match any of the given keywords (case-insensitive).\n"
-            + "Parameters: "
-            + "(" + PREFIX_MEETING_DESCRIPTION + "DESCRIPTION) "
-            + "(" + PREFIX_MEETING_DATE + "DATE) "
-            + "(" + PREFIX_CONTACT_INDICES + "CONTACT_INDEX [, CONTACT_INDEX]...)\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_MEETING_DESCRIPTION + "meeting "
-            + PREFIX_MEETING_DATE + "2026 "
-            + PREFIX_CONTACT_INDICES + "1,2,3";
-
     public static final String MESSAGE_FORMAT =
             "Format: " + COMMAND_WORD + " "
                     + "(" + PREFIX_MEETING_DESCRIPTION + "DESCRIPTION) "
                     + "(" + PREFIX_MEETING_DATE + "DATE) "
-                    + "(" + PREFIX_CONTACT_INDICES + "CONTACT_INDEX [, CONTACT_INDEX]...)\n"
+                    + "(" + PREFIX_CONTACT_INDICES + "CONTACT_INDEX (must be a positive integer) "
+                    + "[, CONTACT_INDEX]...)\n"
                     + "Example: " + COMMAND_WORD + " "
                     + PREFIX_MEETING_DESCRIPTION + "meeting "
                     + PREFIX_MEETING_DATE + "2026 "
                     + PREFIX_CONTACT_INDICES + "1,2,3";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Finds meetings whose fields match any of the given keywords"
+            + " (case-insensitive) in the current meeting list.\n"
+            + MESSAGE_FORMAT;
 
     public static final String MESSAGE_NO_PARAMS_FOUND =
             "No description, date or indices have been detected." + "\n" + MESSAGE_FORMAT;

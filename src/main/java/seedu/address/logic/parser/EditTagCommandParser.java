@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEWTAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_OLDTAG;
+import static seedu.address.logic.parser.ParserUtil.isPrefixPresent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,7 +31,7 @@ public class EditTagCommandParser implements Parser<EditTagCommand> {
         boolean isPreamblePresent = !argMultimap.getPreamble().isEmpty();
 
         if (isOldTagEmpty || isNewTagEmpty || !isPreamblePresent) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditTagCommand.MESSAGE_FORMAT));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditTagCommand.MESSAGE_USAGE));
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_OLDTAG, PREFIX_NEWTAG);
@@ -52,13 +53,4 @@ public class EditTagCommandParser implements Parser<EditTagCommand> {
 
         return new EditTagCommand(targetIndices, oldTag, newTag);
     }
-
-    /**
-     * Returns true if the prefix contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean isPrefixPresent(ArgumentMultimap argumentMultimap, Prefix prefix) {
-        return !argumentMultimap.getValue(prefix).isEmpty();
-    }
-
 }

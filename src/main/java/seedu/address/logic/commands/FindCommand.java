@@ -15,12 +15,15 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names contain any of"
-            + " the specified keywords (case-insensitive) on the current displayed contact list \n"
-            + "and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " alice bob charlie \n"
-            + "Example: " + COMMAND_WORD + " n/alice p/99 e/@email";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Searches in the displayed contact list for those"
+            + " that match any one of the given keywords.\n"
+            + "You can search using a global substring across name, phone, and email fields.\n"
+            + "Alternatively, you can specify fields to search.\n"
+            + "Global Find: Format: " + COMMAND_WORD + " SEARCH_SUBSTRING\n"
+            + "Example: " + COMMAND_WORD + " John\n"
+            + "Field-Specific Find: Format: " + COMMAND_WORD + " (n/NAME)... (p/PHONE)... (e/EMAIL)...\n"
+            + "Example: " + COMMAND_WORD + " n/John p/98765432 e/example@email.com\n"
+            + "Note: Search is case-insensitive.\n";
 
     private final PersonMatchesKeywordsPredicate predicate;
 

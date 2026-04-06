@@ -21,19 +21,18 @@ import seedu.address.model.tag.Tag;
 public class FindTagCommand extends Command {
     public static final String COMMAND_WORD = "findtag";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Finds contacts that contain any of the specified tags in the current displayed contact list.\n"
-            + "Parameters: " + PREFIX_SEPARATOR + "TAG ["
-            + PREFIX_SEPARATOR + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_SEPARATOR + "classmates "
-            + PREFIX_SEPARATOR + "family "
-            + PREFIX_SEPARATOR + "friends";
-
     public static final String MESSAGE_FORMAT =
             "Format: " + COMMAND_WORD + " "
                     + PREFIX_SEPARATOR + "TAG ["
                     + PREFIX_SEPARATOR + "TAG]...";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Finds contacts that contain any of the specified tags in the current displayed contact list.\n"
+            + MESSAGE_FORMAT + "\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_SEPARATOR + "classmates "
+            + PREFIX_SEPARATOR + "family "
+            + PREFIX_SEPARATOR + "friends";
 
     public static final String MESSAGE_FIND_TAG_SUCCESS =
             "Found all people in the current list with at least one of these tags: %1$s"
