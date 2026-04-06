@@ -57,6 +57,20 @@ public class MeetingDateTest {
     }
 
     @Test
+    public void comparisons() {
+        MeetingDate date1 = new MeetingDate(VALID_DATE_20260325);
+        MeetingDate date2 = new MeetingDate(VALID_DATE_20260401);
+
+        assertTrue(date1.isBefore(date2.getDate()));
+        assertTrue(date2.isAfter(date1.getDate()));
+
+        assertFalse(date1.isAfter(date2.getDate()));
+        assertFalse(date2.isBefore(date1.getDate()));
+
+        assertTrue(date1.compareTo(date2) < 0);
+    }
+
+    @Test
     public void equalsAndHashCode() {
         MeetingDate md1 = new MeetingDate(VALID_DATE_20260325);
         MeetingDate md2 = new MeetingDate(VALID_DATE_20260325);
