@@ -49,20 +49,21 @@ public class Person {
         this(new PersonId(), name, phone, email, tags);
     }
 
+    // Returns a defensive copy of the parameters.
     public PersonId getId() {
-        return id;
+        return new PersonId(id.toString());
     }
 
     public Name getName() {
-        return name;
+        return new Name(name.toString());
     }
 
     public Phone getPhone() {
-        return phone;
+        return phone == null ? null : new Phone(phone.toString());
     }
 
     public Email getEmail() {
-        return email;
+        return email == null ? null : new Email(email.toString());
     }
 
     /**
@@ -120,7 +121,8 @@ public class Person {
         }
 
         Person otherPerson = (Person) other;
-        return Objects.equals(name, otherPerson.name)
+        return Objects.equals(id, otherPerson.id)
+                && Objects.equals(name, otherPerson.name)
                 && Objects.equals(phone, otherPerson.phone)
                 && Objects.equals(email, otherPerson.email)
                 && Objects.equals(tags, otherPerson.tags);
@@ -142,5 +144,4 @@ public class Person {
                 .add("tags", tags)
                 .toString();
     }
-
 }

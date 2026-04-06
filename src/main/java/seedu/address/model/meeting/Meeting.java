@@ -42,16 +42,17 @@ public class Meeting {
         this.participantsID = new HashSet<>(participantsID);;
     }
 
+    // Returns a defensive copy of the parameters.
     public Description getDescription() {
-        return description;
+        return new Description(description.toString());
     }
 
     public MeetingDate getDate() {
-        return date;
+        return new MeetingDate(date.toString());
     }
 
     public Set<PersonId> getParticipantsIDs() {
-        return new HashSet<>(participantsID); // Returns a defensive copy of the set.
+        return new HashSet<>(participantsID);
     }
 
     /**
