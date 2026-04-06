@@ -1,5 +1,6 @@
 package seedu.address.ui.meeting;
 
+import java.time.LocalDate;
 import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
@@ -51,7 +52,7 @@ public class MeetingListPanel extends UiPart<Region> {
             Meeting m = meetingList.get(i);
 
             // When it finds a past meeting for the first time, put a separator.
-            if (!hasReachedPastMeetings && m.isPast()) {
+            if (!hasReachedPastMeetings && m.isBefore(LocalDate.now())) {
                 items.add(new SeparatorItem("Past Meetings"));
                 hasReachedPastMeetings = true;
             }
@@ -76,6 +77,7 @@ public class MeetingListPanel extends UiPart<Region> {
                 setText(null);
             } else {
                 setGraphic(item.getView());
+                setMouseTransparent(item.isMouseTransparent());
             }
         }
     }
