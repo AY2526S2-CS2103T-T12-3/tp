@@ -20,10 +20,14 @@ public class EditMeetingCommandParser implements Parser<EditMeetingCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the EditMeetingCommand
      * and returns an EditMeetingCommand object for execution.
+     *
      * @throws ParseException if the user input does not conform the expected format
      */
     @Override
     public EditMeetingCommand parse(String args) throws ParseException {
+        assert(args != null);
+        assert(args != "");
+
         requireNonNull(args);
 
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
@@ -34,10 +38,7 @@ public class EditMeetingCommandParser implements Parser<EditMeetingCommand> {
                 PREFIX_MEETING_DESCRIPTION, PREFIX_MEETING_DATE,
                 PREFIX_ADD_PERSON_TO_MEETING_INDEX, PREFIX_DELETE_PERSON_FROM_MEETING_INDEX);
 
-        EditMeetingDescriptor descriptor = new EditMeetingDescriptor();
-
         Index meetingIndex;
-
         try {
             meetingIndex = ParserUtil.parseIndex(argMultimap.getPreamble());
         } catch (ParseException pe) {
@@ -45,31 +46,47 @@ public class EditMeetingCommandParser implements Parser<EditMeetingCommand> {
                     EditMeetingCommand.MESSAGE_USAGE));
         }
 
+        EditMeetingDescriptor descriptor = setEditMeetingDescriptor(argMultimap);
+
+        return new EditMeetingCommand(meetingIndex, descriptor);
+    }
+
+    /**
+     * Parses the provided {@code ArgumentMultimap} and returns an {@code EditPersonDescriptor}
+     * containing the fields to edit.
+     *
+     * @param argMultimap The {@code ArgumentMultimap} containing user input arguments.
+     * @return An {@code EditMeetingDescriptor} populated with parsed values.
+     * @throws ParseException If no fields are provided for editing.
+     */
+    private EditMeetingDescriptor setEditMeetingDescriptor(ArgumentMultimap argMultimap)
+            throws ParseException {
+        EditMeetingDescriptor descriptor = new EditMeetingDescriptor();
+
         if (argMultimap.getValue(PREFIX_MEETING_DESCRIPTION).isPresent()) {
             descriptor.setDescription(ParserUtil.parseDescription(
                     argMultimap.getValue(PREFIX_MEETING_DESCRIPTION).get()));
         }
 
         if (argMultimap.getValue(PREFIX_MEETING_DATE).isPresent()) {
-            descriptor.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_MEETING_DATE).get()));
+            descriptor.setDate(ParserUtil.parseDate(
+                    argMultimap.getValue(PREFIX_MEETING_DATE).get()));
         }
 
         if (argMultimap.getValue(PREFIX_ADD_PERSON_TO_MEETING_INDEX).isPresent()) {
             descriptor.setPersonIndicesToAdd(ParserUtil.parseIndices(
-                    argMultimap.getValue(PREFIX_ADD_PERSON_TO_MEETING_INDEX).get(),
-                    EditMeetingCommand.MESSAGE_USAGE));
+                    argMultimap.getValue(PREFIX_ADD_PERSON_TO_MEETING_INDEX).get(), EditMeetingCommand.MESSAGE_USAGE));
         }
 
         if (argMultimap.getValue(PREFIX_DELETE_PERSON_FROM_MEETING_INDEX).isPresent()) {
             descriptor.setPersonIndicesToDelete(ParserUtil.parseIndices(
-                    argMultimap.getValue(PREFIX_DELETE_PERSON_FROM_MEETING_INDEX).get(),
-                    EditMeetingCommand.MESSAGE_USAGE));
+                    argMultimap.getValue(PREFIX_DELETE_PERSON_FROM_MEETING_INDEX).get(), EditMeetingCommand.MESSAGE_USAGE));
         }
 
         if (!descriptor.isAnyFieldEdited()) {
             throw new ParseException(EditMeetingCommand.MESSAGE_NOT_EDITED);
         }
 
-        return new EditMeetingCommand(meetingIndex, descriptor);
+        return descriptor;
     }
 }

@@ -22,6 +22,8 @@ public class DeleteMeetingCommandParser implements Parser<DeleteMeetingCommand> 
      */
     @Override
     public DeleteMeetingCommand parse(String args) throws ParseException {
+        assert(args != null);
+        assert(args != "");
 
         boolean areIndexesMissing = args.isEmpty();
 
