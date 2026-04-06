@@ -54,6 +54,10 @@ public class FindMeetingCommand extends Command {
     public FindMeetingCommand(List<String> descriptionKeywords,
                               List<String> dateKeywords,
                               Set<Index> personIndices) {
+        assert descriptionKeywords != null : "descriptionKeywords should not be null";
+        assert dateKeywords != null : "dateKeywords should not be null";
+        assert personIndices != null : "personIndices should not be null";
+
         this.descriptionKeywords = descriptionKeywords;
         this.dateKeywords = dateKeywords;
         this.personIndices = new HashSet<>(personIndices);

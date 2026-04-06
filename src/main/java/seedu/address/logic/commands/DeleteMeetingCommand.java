@@ -39,6 +39,7 @@ public class DeleteMeetingCommand extends Command {
      * @param meetingIndices The indices of the meetings to delete in the persons
      */
     public DeleteMeetingCommand(Set<Index> meetingIndices) {
+        assert meetingIndices != null : "meetingIndices should not be null";
         requireNonNull(meetingIndices);
 
         this.meetingIndices = new HashSet<>(meetingIndices);

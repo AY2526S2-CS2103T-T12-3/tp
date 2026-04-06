@@ -48,6 +48,10 @@ public class AddMeetingCommand extends Command {
      * @param date Date of the meeting (YYYY-MM-DD)
      */
     public AddMeetingCommand(Set<Index> indices, Description description, MeetingDate date) {
+        assert indices != null : "indices should not be null";
+        assert description != null : "description should not be null";
+        assert date != null : "date should not be null";
+
         requireNonNull(indices);
         requireNonNull(description);
         requireNonNull(date);

@@ -67,6 +67,9 @@ public class EditMeetingCommand extends Command {
      * @param editMeetingDescriptor The details to edit the meeting with
      */
     public EditMeetingCommand(Index meetingIndex, EditMeetingDescriptor editMeetingDescriptor) {
+        assert meetingIndex != null : "meetingIndex should not be null";
+        assert editMeetingDescriptor != null : "editMeetingDescriptor should not be null";
+
         requireNonNull(meetingIndex);
         requireNonNull(editMeetingDescriptor);
 

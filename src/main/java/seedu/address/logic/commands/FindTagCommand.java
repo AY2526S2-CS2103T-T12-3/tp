@@ -48,6 +48,9 @@ public class FindTagCommand extends Command {
      * @param tags The tags to filter the contact list by
      */
     public FindTagCommand(Set<Tag> tags) {
+        assert tags != null : "tags should not be null";
+        requireNonNull(tags);
+
         this.tags = new HashSet<>(tags);
     }
 
@@ -63,14 +66,8 @@ public class FindTagCommand extends Command {
                 .map(tag -> tag.tagName)
                 .collect(Collectors.joining(", "));
 
-        Predicate<Person> hasAnyTag = person -> {
-            for (Tag tag : tags) {
-                if (person.getTags().contains(tag)) {
-                    return true;
-                }
-            }
-            return false;
-        };
+        Predicate<Person> hasAnyTag =
+                person -> tags.stream().anyMatch(person.getTags()::contains);
 
         boolean doesAnyTagMatch = model.getFilteredPersonList()
                 .stream()

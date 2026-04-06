@@ -41,6 +41,8 @@ public class AddCommand extends Command {
      * Creates an AddCommand to add the specified {@code Person}
      */
     public AddCommand(Person person) {
+        assert person != null : "person should not be null";
+
         requireNonNull(person);
         toAdd = person;
     }

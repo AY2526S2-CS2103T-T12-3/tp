@@ -25,12 +25,16 @@ public class FindCommand extends Command {
     private final PersonMatchesKeywordsPredicate predicate;
 
     public FindCommand(PersonMatchesKeywordsPredicate predicate) {
+        assert predicate != null : "predicate should not be null";
+        requireNonNull(predicate);
+
         this.predicate = predicate;
     }
 
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+
         model.updateFilteredPersonListStacked(predicate);
         return new CommandResult(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
