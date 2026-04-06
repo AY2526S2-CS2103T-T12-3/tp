@@ -11,4 +11,9 @@ public interface ListItem {
      * Returns the view of this {@code ListItem}.
      */
     Region getView();
+
+    /**
+     * Returns true if the list item is NOT interactive.
+     */
+    boolean isMouseTransparent();
 }
