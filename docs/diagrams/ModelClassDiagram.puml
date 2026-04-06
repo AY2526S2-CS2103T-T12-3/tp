@@ -23,7 +23,7 @@ Class PersonId
 Class UniqueMeetingList
 Class Meeting
 Class Description
-Class Date
+Class MeetingDate
 
 Class I #FFFFFF
 }
@@ -51,7 +51,7 @@ Person *--> "0..1" Email
 Person *--> "*" Tag
 
 Meeting *--> "*" PersonId
-Meeting *--> "1" Date
+Meeting *--> "1" MeetingDate
 Meeting *--> "1" Description
 
 Person -[hidden]up--> I

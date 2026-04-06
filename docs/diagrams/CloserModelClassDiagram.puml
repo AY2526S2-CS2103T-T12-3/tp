@@ -18,7 +18,7 @@ Person *--> "0..1" Email
 Person *--> "*" Tag
 
 Meeting *--> "*" PersonId
-Meeting *--> "1" Date
+Meeting *--> "1" MeetingDate
 Meeting *--> "1" Description
 
 @enduml
