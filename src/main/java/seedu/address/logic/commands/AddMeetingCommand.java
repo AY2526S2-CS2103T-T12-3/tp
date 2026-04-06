@@ -2,6 +2,8 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,13 +25,14 @@ import seedu.address.model.person.PersonId;
 public class AddMeetingCommand extends Command {
     public static final String COMMAND_WORD = "addmeeting";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a meeting"
-            + " to zero or more of the specified person(s) by index.\n"
-            + "Parameters: "
-            + "[INDEX (must be a positive integer)]" + " [,INDEX]... "
-            + "d/DESCRIPTION "
-            + "dt/DATE (must be YYYY-MM-DD)\n"
-            + "Example: " + COMMAND_WORD + " 1,2 d/Project discussion dt/2026-03-25";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a meeting "
+            + "to zero or more specified persons by their indices.\n"
+            + "Parameters: INDEX [,INDEX]... "
+            + PREFIX_MEETING_DESCRIPTION + "DESCRIPTION "
+            + PREFIX_MEETING_DATE + "DATE (must be in YYYY-MM-DD format)\n"
+            + "Example: " + COMMAND_WORD + " 1,2 "
+            + PREFIX_MEETING_DESCRIPTION + "Project discussion "
+            + PREFIX_MEETING_DATE + "2026-03-25";
 
     public static final String MESSAGE_ADD_MEETING_SUCCESS = "Added meeting: %1$s";
     public static final String MESSAGE_INVALID_PERSON_INDEX = "Invalid person index provided.";

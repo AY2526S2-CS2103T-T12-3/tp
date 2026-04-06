@@ -27,12 +27,11 @@ public class AddTagCommand extends Command {
 
     public static final String COMMAND_WORD = "addtag";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds tags to the person(s) identified by the index "
-            + "numbers used in the displayed person list. Multiple persons can be specified, separated by comma (,)."
-            + "Multiple tags can be added, separated by a forward slash (/).\n"
-            + "Parameters: INDEX (must be a positive integer) "
-            + "[" + PREFIX_COMMA + "INDEX]... "
-            + "[" + PREFIX_SEPARATOR + "TAG]...\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Adds tags to one or more persons identified by their indices.\n"
+            + "Multiple persons can be specified using commas, and multiple tags using '/'.\n"
+            + "Parameters: INDEX" + PREFIX_COMMA + "INDEX... "
+            + PREFIX_SEPARATOR + "TAG [" + PREFIX_SEPARATOR + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1" + PREFIX_COMMA + "2 "
             + PREFIX_SEPARATOR + "Friend "
             + PREFIX_SEPARATOR + "Close";
