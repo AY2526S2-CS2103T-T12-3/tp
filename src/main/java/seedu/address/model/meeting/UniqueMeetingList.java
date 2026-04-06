@@ -20,7 +20,7 @@ public class UniqueMeetingList implements Iterable<Meeting> {
             FXCollections.unmodifiableObservableList(internalList);
 
     private void sortMeetings() {
-        FXCollections.sort(internalList, MeetingComparator.EARLIEST_DATE_FIRST);
+        FXCollections.sort(internalList, MeetingComparator.UPCOMING_THEN_PAST_ASCENDING_DATE);
     }
 
     /**
