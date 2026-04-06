@@ -33,7 +33,7 @@ public class UnstarCommand extends Command {
     public static final String MESSAGE_UNSTAR_PERSON_SUCCESS = "Unstarred Person(s): %1$s";
 
     public static final String MESSAGE_NO_VALID_PERSONS_UNSTAR =
-            "Error: All contacts provided are either already unstarred or invalid.";
+            "Error: All contacts provided are already unstarred.";
 
     private final Set<Index> targetIndices;
 
@@ -44,14 +44,45 @@ public class UnstarCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> lastShownList = model.getFilteredPersonList();
-
-        List<Person> personsToUnstar = new ArrayList<>();
 
         List<Index> sortedIndices = new ArrayList<>(targetIndices);
         sortedIndices.sort(Comparator.comparingInt(Index::getZeroBased));
 
-        for (Index index : sortedIndices) {
+        List<Person> personsToUnstar = getPersonsToUnstar(model, sortedIndices);
+        List<Person> unstarredPersons = setPersonsToUnstar(model, personsToUnstar);
+
+        String unstarredPersonsString = unstarredPersons.stream()
+                .map(person -> person.getName().fullName)
+                .collect(Collectors.joining(", "));
+
+        return new CommandResult(String.format(MESSAGE_UNSTAR_PERSON_SUCCESS, unstarredPersonsString));
+
+    }
+
+    public List<Person> setPersonsToUnstar(Model model, List<Person> personsToUnstar) throws CommandException {
+        for (Person personToUnstar : personsToUnstar) {
+            Set<Tag> newTags = new HashSet<>(personToUnstar.getTags());
+            newTags.remove(new Tag(Tag.STAR_TAG));
+
+            Person unstarredPerson = new Person(
+                    personToUnstar.getId(),
+                    personToUnstar.getName(),
+                    personToUnstar.getPhone(),
+                    personToUnstar.getEmail(),
+                    newTags
+            );
+
+            model.setPerson(personToUnstar, unstarredPerson);
+        }
+
+        return personsToUnstar;
+    }
+
+    private static List<Person> getPersonsToUnstar(Model model, List<Index> targetIndices) throws CommandException {
+        List<Person> lastShownList = model.getFilteredPersonList();
+        List<Person> personsToUnstar = new ArrayList<>();
+
+        for (Index index : targetIndices) {
             if (index.getZeroBased() >= lastShownList.size()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
             }
@@ -69,27 +100,7 @@ public class UnstarCommand extends Command {
             throw new CommandException(MESSAGE_NO_VALID_PERSONS_UNSTAR);
         }
 
-        for (Person personToUnstar : personsToUnstar) {
-            Set<Tag> newTags = new HashSet<>(personToUnstar.getTags());
-            newTags.remove(new Tag(Tag.STAR_TAG));
-
-            Person unstarredPerson = new Person(
-                    personToUnstar.getId(),
-                    personToUnstar.getName(),
-                    personToUnstar.getPhone(),
-                    personToUnstar.getEmail(),
-                    newTags
-            );
-
-            model.setPerson(personToUnstar, unstarredPerson);
-        }
-
-        String unstarredPersonsString = personsToUnstar.stream()
-                .map(person -> person.getName().fullName)
-                .collect(Collectors.joining(", "));
-
-        return new CommandResult(String.format(MESSAGE_UNSTAR_PERSON_SUCCESS, unstarredPersonsString));
-
+        return personsToUnstar;
     }
 
     @Override
