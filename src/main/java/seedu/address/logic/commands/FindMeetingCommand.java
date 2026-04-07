@@ -1,6 +1,9 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_INDICES;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,19 +26,21 @@ public class FindMeetingCommand extends Command {
 
     public static final String COMMAND_WORD = "findmeeting";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all meetings whose parameters contain any of "
-            + "the specified keywords (case-insensitive) on the current displayed list "
-            + "and displays them as a list with index numbers.\n"
-            + "Parameters: [d/ SEARCH SUBSTRING] [dt/ SEARCH SUBSTRING] [i/ PERSON INDICES]...\n"
-            + "Example: " + COMMAND_WORD + " d/ meeting dt/ 2026";
-
     public static final String MESSAGE_FORMAT =
-            "Format: findmeeting [d/ SEARCH SUBSTRING] [dt/ SEARCH SUBSTRING] [i/ PERSON INDICES]...\n"
-                    + "Example: "
-                    + COMMAND_WORD
-                    + " d/ meeting"
-                    + " dt/ 2026"
-                    + " i/ 1, 2, 3";
+            "Format: " + COMMAND_WORD + " "
+                    + "(" + PREFIX_MEETING_DESCRIPTION + "DESCRIPTION) "
+                    + "(" + PREFIX_MEETING_DATE + "DATE) "
+                    + "(" + PREFIX_CONTACT_INDICES + "CONTACT_INDEX (must be a positive integer) "
+                    + "[, CONTACT_INDEX]...)\n"
+                    + "Example: " + COMMAND_WORD + " "
+                    + PREFIX_MEETING_DESCRIPTION + "meeting "
+                    + PREFIX_MEETING_DATE + "2026 "
+                    + PREFIX_CONTACT_INDICES + "1,2,3";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Finds meetings whose fields match any of the given keywords"
+            + " (case-insensitive) in the current meeting list.\n"
+            + MESSAGE_FORMAT;
 
     public static final String MESSAGE_NO_PARAMS_FOUND =
             "No description, date or indices have been detected." + "\n" + MESSAGE_FORMAT;
@@ -47,13 +52,14 @@ public class FindMeetingCommand extends Command {
     /**
      * Instantiates a new FindMeetingCommand with the respective parameters.
      *
-     * @param descriptionKeywords the keywords corresponding to the meeting description.
-     * @param dateKeywords the keywords corresponding to the meeting date.
-     * @param personIndices the indices corresponding to the current person list's contact indices.
+     * @param descriptionKeywords The keywords corresponding to the meeting description.
+     * @param dateKeywords The keywords corresponding to the meeting date.
+     * @param personIndices The indices corresponding to the current contact list's indices.
      */
     public FindMeetingCommand(List<String> descriptionKeywords,
                               List<String> dateKeywords,
                               Set<Index> personIndices) {
+
         this.descriptionKeywords = descriptionKeywords;
         this.dateKeywords = dateKeywords;
         this.personIndices = new HashSet<>(personIndices);

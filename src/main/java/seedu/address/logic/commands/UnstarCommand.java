@@ -18,7 +18,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
 /**
- * Unstars the person(s) identified using their displayed indices from the current displayed list.
+ * Unstars the person(s) identified using their displayed indices from the current displayed contact list.
  * This is basically the same as removing a tag with the reserved 'STAR' keyword.
  */
 public class UnstarCommand extends Command {
@@ -26,14 +26,14 @@ public class UnstarCommand extends Command {
     public static final String COMMAND_WORD = "unstar";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Unstars / Unfavourites the person(s) identified by their indices used in the displayed person list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
+            + ": Unstars / Unfavourites the person(s) identified by their indices in the displayed contact list.\n"
+            + "Format: " + COMMAND_WORD + " INDEX (must be a positive integer) [, INDEX]...\n"
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_UNSTAR_PERSON_SUCCESS = "Unstarred Person(s): %1$s";
 
     public static final String MESSAGE_NO_VALID_PERSONS_UNSTAR =
-            "Error: All contacts provided are already unstarred.";
+            "Error: All people provided are already unstarred.";
 
     private final Set<Index> targetIndices;
 

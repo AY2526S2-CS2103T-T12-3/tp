@@ -150,7 +150,8 @@ public class ModelManager implements Model {
 
     /**
      * Updates the filter of the filtered person list to filter by all previous {@code predicate}
-     * @param predicate The new predicate to be appended to the existing predicates
+     *
+     * @param predicate The new predicate to be appended to the existing predicates.
      */
     @Override
     public void updateFilteredPersonListStacked(Predicate<Person> predicate) {
@@ -207,8 +208,9 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Updates the filter of the filtered meeting list to filter by all previous {@code predicate}
-     * @param predicate The new predicate to be appended to the existing predicates
+     * Updates the filter of the filtered meeting list to filter by all previous {@code predicate}.
+     *
+     * @param predicate The new predicate to be appended to the existing predicates.
      */
     @Override
     public void updateFilteredMeetingListStacked(Predicate<Meeting> predicate) {

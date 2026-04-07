@@ -110,7 +110,7 @@ public class AddMeetingCommandTest {
                 new Description(VALID_DESCRIPTION_PROJECT),
                 new MeetingDate(VALID_DATE_20260325));
 
-        assertCommandFailure(command, model, AddMeetingCommand.MESSAGE_INVALID_PERSON_INDEX);
+        assertCommandFailure(command, model, AddMeetingCommand.MESSAGE_INVALID_CONTACT_INDEX);
     }
 
     @Test

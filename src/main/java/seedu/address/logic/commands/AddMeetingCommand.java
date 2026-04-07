@@ -1,7 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,21 +19,23 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonId;
 
 /**
- * Adds a meeting to one or more persons in the address book.
+ * Adds a meeting to the meeting list.
  */
 public class AddMeetingCommand extends Command {
     public static final String COMMAND_WORD = "addmeeting";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a meeting"
-            + " to zero or more of the specified person(s) by index.\n"
-            + "Parameters: "
-            + "[INDEX (must be a positive integer)" + PREFIX_COMMA + "INDEX]... "
-            + "d/DESCRIPTION "
-            + "dt/DATE (must be YYYY-MM-DD)\n"
-            + "Example: " + COMMAND_WORD + " 1,2 d/Project discussion dt/2026-03-25";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a meeting "
+            + "to zero or more specified persons by their indices.\n"
+            + "Format: " + COMMAND_WORD + " [CONTACT_INDEX] (must be a positive integer) [,CONTACT_INDEX]... "
+            + PREFIX_MEETING_DESCRIPTION + "DESCRIPTION "
+            + PREFIX_MEETING_DATE + "DATE\n"
+            + "Note: DATE must be in YYYY-MM-DD format\n"
+            + "Example: " + COMMAND_WORD + " 1,2 "
+            + PREFIX_MEETING_DESCRIPTION + "Project discussion "
+            + PREFIX_MEETING_DATE + "2026-03-25";
 
     public static final String MESSAGE_ADD_MEETING_SUCCESS = "Added meeting: %1$s";
-    public static final String MESSAGE_INVALID_PERSON_INDEX = "Invalid person index provided.";
+    public static final String MESSAGE_INVALID_CONTACT_INDEX = "Invalid contact index provided.";
     public static final String MESSAGE_MEETING_ALREADY_EXISTS =
             "A meeting with the same description and date already exists";
 
@@ -41,11 +44,11 @@ public class AddMeetingCommand extends Command {
     private final MeetingDate date;
 
     /**
-     * Creates an AddMeetingCommand to add the specified {@code Meeting}
+     * Creates an AddMeetingCommand to add the specified {@code Meeting}.
      *
-     * @param indices Indexes of persons to add the meeting to
-     * @param description Description of the meeting
-     * @param date Date of the meeting (YYYY-MM-DD)
+     * @param indices Indexes of persons to add to the meeting.
+     * @param description Description of the meeting.
+     * @param date Date of the meeting (YYYY-MM-DD).
      */
     public AddMeetingCommand(Set<Index> indices, Description description, MeetingDate date) {
         requireNonNull(indices);
@@ -68,7 +71,7 @@ public class AddMeetingCommand extends Command {
         // Validate indices + collect IDs
         for (Index index : indices) {
             if (index.getZeroBased() >= lastShownList.size()) {
-                throw new CommandException(MESSAGE_INVALID_PERSON_INDEX);
+                throw new CommandException(MESSAGE_INVALID_CONTACT_INDEX);
             }
 
             Person personToAdd = lastShownList.get(index.getZeroBased());

@@ -18,7 +18,7 @@ public class UnstarCommandParser implements Parser<UnstarCommand> {
      * UnstarCommand
      * and returns a UnstarCommand object for execution.
      *
-     * @throws ParseException if the user input does not conform the expected format
+     * @throws ParseException if the user input does not conform the expected format.
      */
     public UnstarCommand parse(String args) throws ParseException {
         try {

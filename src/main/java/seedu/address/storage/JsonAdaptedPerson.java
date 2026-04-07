@@ -44,9 +44,12 @@ class JsonAdaptedPerson {
         this.name = name;
         this.phone = phone;
         this.email = email;
+
         if (tags != null) {
             this.tags.addAll(tags);
         }
+
+        assert this.tags != null : "tags should be initialized";
     }
 
     /**

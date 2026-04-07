@@ -18,7 +18,7 @@ public class StarCommandParser implements Parser<StarCommand> {
      * StarCommand
      * and returns a StarCommand object for execution.
      *
-     * @throws ParseException if the user input does not conform the expected format
+     * @throws ParseException if the user input does not conform the expected format.
      */
     public StarCommand parse(String args) throws ParseException {
         try {

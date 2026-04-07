@@ -4,8 +4,8 @@ import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_INDEX
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INVALID_INPUT_INDEX_NEGATIVE;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INVALID_INPUT_INDEX_NON_NUMERIC;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INVALID_INPUT_INDEX_ZERO;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_PERSON_TO_MEETING_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DELETE_PERSON_FROM_MEETING_INDEX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_CONTACT_TO_MEETING_INDEX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DELETE_CONTACT_FROM_MEETING_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
@@ -64,8 +64,8 @@ class EditMeetingCommandParserTest {
         String userInput = INDEX_SECOND_PERSON.getOneBased()
                 + " " + PREFIX_MEETING_DESCRIPTION + PROJECT_MEETING.getDescription()
                 + " " + PREFIX_MEETING_DATE + PROJECT_MEETING.getDate()
-                + " " + PREFIX_ADD_PERSON_TO_MEETING_INDEX + "3"
-                + " " + PREFIX_DELETE_PERSON_FROM_MEETING_INDEX + "1";
+                + " " + PREFIX_ADD_CONTACT_TO_MEETING_INDEX + "3"
+                + " " + PREFIX_DELETE_CONTACT_FROM_MEETING_INDEX + "1";
 
         EditMeetingDescriptor descriptor = new EditMeetingDescriptor();
         descriptor.setDescription(PROJECT_MEETING.getDescription());
