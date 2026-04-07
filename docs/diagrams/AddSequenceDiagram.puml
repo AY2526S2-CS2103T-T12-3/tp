@@ -1,0 +1,123 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box UI UI_COLOR_T1
+participant ":CommandBox" as CommandBox UI_COLOR
+end box
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":AddCommandParser" as AddCommandParser LOGIC_COLOR
+participant "a:AddCommand" as AddCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+participant "p:Person" as Person MODEL_COLOR
+participant "pid:PersonId" as PersonId MODEL_COLOR
+end box
+
+== User executes add command ==
+
+[-> CommandBox : enter: input (e.g. add n/David p/99999999)
+activate CommandBox
+
+CommandBox -> LogicManager : execute(input)
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand(input)
+activate AddressBookParser
+
+AddressBookParser -> AddCommandParser : parse(input)
+activate AddCommandParser
+
+note right of AddCommandParser
+Parsing Requirements
+Required:
+- Name present
+- At least one of phone or email
+
+Constraints:
+- Prefixes must be valid
+- Preamble must be empty
+- Field values must be valid
+
+Optional:
+- Tags
+end note
+
+== Person creation + validation ==
+
+alt parsing requirements not met
+    AddCommandParser --> AddressBookParser : throws ParseException
+    AddressBookParser --> LogicManager : throws ParseException
+    LogicManager --> CommandBox : show error message
+
+else valid input
+    create Person
+    AddCommandParser -> Person : new Person(...)
+    activate Person
+
+    create PersonId
+    Person -> PersonId : new PersonId()
+    activate PersonId
+    PersonId --> Person : pid
+    deactivate PersonId
+
+    Person --> AddCommandParser : p
+    deactivate Person
+
+    create AddCommand
+    AddCommandParser -> AddCommand : AddCommand(p)
+    activate AddCommand
+
+    AddCommand --> AddCommandParser : a
+    deactivate AddCommand
+
+    AddCommandParser --> AddressBookParser : a
+    deactivate AddCommandParser
+
+    AddressBookParser --> LogicManager : a
+    deactivate AddressBookParser
+    destroy AddCommandParser
+
+    LogicManager -> AddCommand : execute(m)
+    activate AddCommand
+
+    AddCommand -> Model : hasPerson(p)
+    activate Model
+    Model --> AddCommand : boolean
+    deactivate Model
+
+    note right of Model
+    hasPerson(Person person) returns true
+    if there exists a person with the same
+    name, phone, and email in the model's list of persons.
+    end note
+
+    alt hasPerson(p) returns true
+        AddCommand --> LogicManager : throws CommandException
+        LogicManager --> CommandBox : show duplicate error
+
+    else else
+        AddCommand -> Model : addPerson(p)
+        activate Model
+        Model --> AddCommand
+        deactivate Model
+
+        AddCommand --> LogicManager : CommandResult
+        deactivate AddCommand
+        LogicManager --> CommandBox : show success message
+        destroy AddCommand
+        deactivate LogicManager
+        deactivate CommandBox
+    end
+end
+
+
+deactivate LogicManager
+deactivate CommandBox
+
+@enduml
