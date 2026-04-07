@@ -533,15 +533,63 @@ Extensions:
 
 ### Glossary
 
+### Glossary
+
 * **Mainstream OS**: Windows, Linux, Unix, MacOS.
-* **Contact**: A person stored in the addressbook, typically a recruiter, company representative, or professional connection whom the student met during networking or career events.
-* **Tag**: A label assigned to a contact to categorize or organize them. Examples: ```Google```, ```SWE```, ```CareerFair2026```, ```Referral```. A contact may contain multiple tags.
-* **Multi-tagging**: The ability to assign multiple tags to a single contact so that the contact can be categorized under multiple attributes such as company, role, or networking event.
-* **Interaction Log**: A timestamped record of communication or interaction between the student and a contact. Examples include: interview, email, phone call, referral, career fair conversation.
-* **Interaction Notes**: A single record inside the interaction log, containing: interaction type, timestamp, optional notes.
-* **Meeting**: An upcoming event / meeting with a contact.
+
+* **Contact**: A person stored in the contact list, representing an individual such as a friend, colleague, or acquaintance.
+
+* **Tag**: A label assigned to a contact to categorize or organize them. Examples: `friends`, `cs`, `school`, `project`. A contact may have multiple tags.
+
+* **Meeting**: An event scheduled in the application, which may involve zero or more contacts. Each meeting contains details such as a description and a date.
+
+* **Contact List**: The collection of all contacts currently stored in the application.
+
+* **Displayed Contact List**: The current filtered view of contacts shown to the user (e.g., after using `find` or `findtag`).
+
+* **Meeting List**: The collection of all meetings stored in the application.
+
+* **Displayed Meeting List**: The current filtered view of meetings shown to the user (e.g., after using `findmeeting`).
+
+* **Index**: A number assigned to each item in a displayed list (contacts or meetings), used to reference that item in commands.
+
+* **Prefix**: A marker used in commands to indicate a specific field (e.g., `n/`, `p/`, `e/`, `t/`, `d/`, `dt/`).
 
 --------------------------------------------------------------------------------------------------------------------
+## Appendix: Effort
+
+### Overview
+
+This project required a moderate to high level of effort. Compared to AB3, which manages only a single entity type (Person), adding an additional entity type of Meetings
+required us to design and integrate a new set of features while ensuring compatibility with the existing system.
+
+### Extending the Architecture
+
+One major challenge was implementing support for multiple entity types within a structure originally designed for only one. This included:
+- Designing and implementing a new Meeting entity
+- Extending the model, logic, and storage components to support meetings
+- Creating a separate UI view for meetings and enabling seamless switching between Contacts and Meetings
+
+### Entity Relationships
+
+Another key challenge was creating references between entities, specifically linking contacts to meetings. Meetings can involve multiple contacts, which required us to:
+- Store and manage references to existing Person objects within Meeting objects, and ensure it remains consistent when contacts are edited or deleted
+- Adapt the storage layer so that these relationships can be saved and reconstructed accurately from JSON
+
+### Understanding and Adapting AB3
+
+A further difficulty was understanding and adapting the internal architecture of AB3. Much of the effort involved reverse-engineering how entities are handled across layers (Model, Logic, Storage), especially:
+- How data is parsed and validated
+- How commands interact with the model
+- How data is persisted in JSON format
+
+We had to replicate and adapt these mechanisms for the new Meeting entity, including modifying the JSON storage structure (`InternlinkData.json`) to support multiple entity types while maintaining data integrity.
+
+### Conclusion
+
+Overall, while AB3 provided a strong foundation, the effort required to extend it into a multi-entity system with additional UI functionality was considerable. As a team of four, we worked collaboratively to design, implement, and refine the application to the best of our abilities.
+
+---
 
 ## **Appendix: Instructions for manual testing**
 
@@ -558,7 +606,7 @@ testers are expected to do more *exploratory* testing.
 
    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts and meetings. The window size may not be optimum.
 
 1. Saving window preferences
 
@@ -567,29 +615,195 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+---
 
-### Deleting a person
+### Getting started
 
-1. Deleting a person while all persons are being shown
+1. Launch the application as seen above.
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+2. Use the help command: `help`  
+   Expected: A help message is displayed that provides a link to the user guide.
 
-   1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+---
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+### Adding and managing contacts
 
-1. _{ more test cases …​ }_
+1. Add a new contact with minimal required fields: `add n/Alice Tan p/91234567`  
+   Expected: A new contact named Alice Tan is added with the phone number shown.
+
+
+2. Try adding a contact without a name: `add p/91234567`  
+   Expected: Error message indicating invalid command format.
+
+
+3. Add another contact with tags: `add n/Bob Lee e/bob@example.com t/friend t/cs`  
+   Expected: Contact is added with email and tags.
+
+
+4. Edit an existing contact: `edit 1 p/98765432 e/alice@new.com`  
+   Expected: Contact 1’s phone and email are updated.
+
+
+5. Try editing without specifying any fields: `edit 1`  
+   Expected: Error message indicating that at least one field must be provided.
+
+---
+
+### Working with tags and favourites
+
+1. Add tags to multiple contacts: `addtag 1, 2 / friends / cs`  
+   Expected: Tags are added to both contacts.
+
+
+2. Attempt to use an invalid index: `addtag 0 / friends`  
+   Expected: Error message indicating invalid index.
+
+
+3. Rename a tag: `edittag 1, 2 o/cs n/computer science`  
+   Expected: Tag is updated for the specified contacts.
+
+
+4. Try editing a tag without specifying the old tag: `edittag 1, 2 n/computer science`  
+   Expected: Error message due to missing old tag.
+
+
+5. Remove a tag: `deletetag 1 / friends`  
+   Expected: Tag is removed from contact 1.
+
+
+6. Try an incorrectly formatted delete tag command: `deletetag / friends 1`  
+   Expected: Error message indicating invalid format.
+
+
+7. Mark a contact as starred: `star 2`  
+   Expected: Contact 2 is marked as starred.
+
+
+8. Try starring with an invalid index: `star 0`  
+   Expected: Error message indicating invalid index.
+
+
+9. Remove starred marking: `unstar 2`  
+   Expected: Contact 2 is no longer marked as starred.
+
+---
+
+### Searching and filtering contacts
+
+1. List all contacts: `list`  
+   Expected: Full contact list is displayed.
+
+
+2. Search for contacts globally: `find Alice`  
+   Expected: Contacts matching "Alice" are shown.
+
+
+3. Try searching without a keyword: `find`  
+   Expected: Error message indicating missing search term.
+
+
+4. Search using specific fields: `find n/Alice p/9876`  
+   Expected: Contacts matching the name or phone are shown.
+
+
+5. Try mixing global and field search: `find Alice n/Bob`  
+   Expected: Error message due to invalid command format.
+
+
+6. Search by tags: `findtag / friends`  
+   Expected: Contacts with the tag are displayed.
+
+
+7. Try searching without specifying tags: `findtag`  
+   Expected: Error message indicating missing tags.
+
+---
+
+### Managing meetings
+
+1. Click the tab to switch from the Contacts view to the Meetings view.
+
+
+2. Create a meeting with contacts: `addmeeting 1, 2 d/Project meeting dt/2026-05-26`  
+   Expected: Meeting is added with the given details.
+
+
+3. Try using an invalid date format: `addmeeting d/Project meeting dt/26-05-2026`  
+   Expected: Error message indicating invalid date format.
+
+
+4. Edit the meeting: `editmeeting 1 d/Updated meeting dt/2026-06-01`  
+   Expected: Meeting details are updated.
+
+
+5. Try editing with an invalid date: `editmeeting 1 dt/01-06-2026`  
+   Expected: Error message indicating invalid date format.
+
+
+6. List all meetings: `listmeeting`  
+   Expected: All meetings are displayed.
+
+
+7. Search for meetings: `findmeeting d/project`  
+   Expected: Matching meetings are shown.
+
+
+8. Try searching with an invalid date: `findmeeting dt/01-06-2026`  
+   Expected: Error message indicating invalid date format.
+
+
+9. Delete a meeting: `deletemeeting 1`  
+   Expected: Meeting at index 1 is deleted.
+
+
+10. Try deleting with an invalid index: `deletemeeting 999`  
+    Expected: Error message indicating invalid index.
+
+---
+
+### Cleaning up
+
+1. Delete a contact: `delete 1`  
+   Expected: Contact at index 1 is removed.
+
+
+2. Try deleting with an invalid index: `delete 999`  
+   Expected: Error message indicating invalid index.
+
+
+3. Clear all data: `clear`  
+   Expected: All contacts and meetings are removed.
+
+
+4. Exit the application: `exit`  
+   Expected: Application closes successfully.
+
+---
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+#### Missing file test
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+1. Close the application.
 
-1. _{ more test cases …​ }_
+
+2. Delete `data/InternlinkData.json`.
+
+
+3. Re-launch the application.
+
+Expected: The application starts with sample data and logs that the file is missing.
+
+#### Corrupted file test
+
+1. Close the application.
+
+
+2. Open `data/InternlinkData.json` and introduce invalid JSON (e.g. remove a closing bracket).
+
+
+3. Re-launch the application.
+
+Expected: The application detects the corrupted file, clears all data, and starts with an empty dataset,
+logging that the datafile cannot be read.
