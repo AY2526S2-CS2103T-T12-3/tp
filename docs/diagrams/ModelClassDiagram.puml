@@ -18,12 +18,12 @@ Class Email
 Class Name
 Class Phone
 Class Tag
-Class ID
+Class PersonId
 
 Class UniqueMeetingList
 Class Meeting
 Class Description
-Class Date
+Class MeetingDate
 
 Class I #FFFFFF
 }
@@ -44,23 +44,21 @@ AddressBook *--> "1" UniquePersonList
 AddressBook *--> "1" UniqueMeetingList
 UniquePersonList --> "~* all" Person
 UniqueMeetingList --> "~* all" Meeting
-Person *--> Name
-Person *--> Phone
-Person *--> Email
+Person *--> "1" PersonId
+Person *--> "1" Name
+Person *--> "0..1" Phone
+Person *--> "0..1" Email
 Person *--> "*" Tag
-Person *--> ID
 
-Meeting *--> "*" ID
-Meeting *--> Date
-Meeting *--> Description
+Meeting *--> "*" PersonId
+Meeting *--> "1" MeetingDate
+Meeting *--> "1" Description
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I
 Person -[hidden]right-->Meeting
 
 Name -[hidden]right-> Phone
-Tag -[hidden]right-> ID
-
 
 ModelManager --> "~* filtered" Person
 @enduml

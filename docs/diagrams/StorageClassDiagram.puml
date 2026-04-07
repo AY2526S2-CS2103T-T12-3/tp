@@ -20,6 +20,7 @@ Class JsonAddressBookStorage
 Class JsonSerializableAddressBook
 Class JsonAdaptedMeeting
 Class JsonAdaptedPerson
+Class JsonAdaptedMeeting
 Class JsonAdaptedTag
 }
 
@@ -38,6 +39,7 @@ Storage -right-|> AddressBookStorage
 JsonUserPrefsStorage .up.|> UserPrefsStorage
 JsonAddressBookStorage .up.|> AddressBookStorage
 JsonAddressBookStorage ..> JsonSerializableAddressBook
+JsonSerializableAddressBook --> "*" JsonAdaptedMeeting
 JsonSerializableAddressBook --> "*" JsonAdaptedPerson
 JsonSerializableAddressBook --> "*" JsonAdaptedMeeting
 JsonAdaptedPerson --> "*" JsonAdaptedTag
