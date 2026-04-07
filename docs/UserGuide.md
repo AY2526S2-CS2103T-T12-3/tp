@@ -171,33 +171,33 @@ Alternatively, to get started, you can try out some of the suggested commands he
 
 > ⚠️ **Caution:** Reducing the window size may affect the display of information.
 
--------------------------------------------------------------------------------
-| 📇 Contacts View                                                            |
--------------------------------------------------------------------------------
-| Purpose:                                                                    |
-| Manage and browse contacts.                                                 |
-|                                                                             |
-| Key Components:                                                             |
-| - Command Box: Used to enter commands                                       |
-| - Command Result Display: Shows feedback/results after commands             |
-| - Contact List: Displays contacts with indices for easy reference           |
-| - Tab Button (Go to Meetings): Switches to Meetings View                    |
--------------------------------------------------------------------------------
+### 📇 Contacts View
+![Contacts Page](images/contacts_annotated.png)
 
--------------------------------------------------------------------------------
-| 📅 Meetings View                                                            |
--------------------------------------------------------------------------------
-| Purpose:                                                                    |
-| Manage and track meetings.                                                  |
-|                                                                             |
-| Key Components:                                                             |
-| - Command Box: Used to input meeting-related commands                       |
-| - Command Result Display: Displays confirmation/error messages              |
-| - Upcoming Meetings: Lists all future meetings                              |
-| - Past Meetings: Lists meetings that have already occurred                  |
-| - Tab Button (Go to Contacts): Switches back to Contacts View               |
--------------------------------------------------------------------------------
+| Component               | Description                                         |
+|------------------------|-----------------------------------------------------|
+| Command Box            | Used to enter commands                              |
+| Command Result Display | Shows feedback or results after executing a command |
+| Contact List           | Displays contacts with indices for easy reference   |
+| Tab Button             | Switches to the Meetings Page                       |
 
+### Meetings Page
+![Meetings Page](images/meeting_annotated.png)
+
+| Component               | Description                                            |
+|------------------------|--------------------------------------------------------|
+| Command Box            | Used to input meeting-related commands                 |
+| Command Result Display | Displays confirmation or error messages                |
+| Upcoming Meetings      | Lists all future meetings with associated participants |
+| Past Meetings          | Lists meetings that have already occurred              |
+| Tab Button             | Switches back to the Contacts Page                     |
+
+---
+
+> 💡 **Tip:** Need to use a command that references both meetings and contacts?
+Don’t worry — the command box is not cleared when switching between pages, so you
+ can switch as many times as needed while entering your command.
+> 
 [Back to Table of Contents](#table-of-contents)
 
 ## Features
