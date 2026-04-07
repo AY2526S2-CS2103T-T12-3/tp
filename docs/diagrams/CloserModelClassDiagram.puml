@@ -1,0 +1,24 @@
+@startuml
+!include style.puml
+
+skinparam arrowThickness 1.1
+skinparam arrowColor MODEL_COLOR
+skinparam classBackgroundColor MODEL_COLOR
+
+AddressBook *--> "1" UniquePersonList
+AddressBook *--> "1" UniqueMeetingList
+
+UniquePersonList --> "*" Person
+UniqueMeetingList --> "*" Meeting
+
+Person *--> "1" PersonId
+Person *--> "1" Name
+Person *--> "0..1" Phone
+Person *--> "0..1" Email
+Person *--> "*" Tag
+
+Meeting *--> "*" PersonId
+Meeting *--> "1" MeetingDate
+Meeting *--> "1" Description
+
+@enduml
