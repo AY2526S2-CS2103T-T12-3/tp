@@ -1,7 +1,5 @@
-–-
-layout: default.md
-title: Internlink User Guide
----
+# Internlink User Guide
+Hello fellow students, welcome to our Internlink User Guide!
 
 ### Table of Contents
 <!-- TOC -->
