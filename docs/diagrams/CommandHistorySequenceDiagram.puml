@@ -1,0 +1,61 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box CommandBox LOGIC_COLOR_T1
+participant "c:CommandBox" as CommandBox LOGIC_COLOR
+participant ":CommandHistory" as CommandHistory LOGIC_COLOR
+end box
+
+
+
+note left of CommandBox : User types "list" \nand presses enter
+
+[-> CommandBox : handleCommandEntered()
+activate CommandBox
+
+CommandBox -> CommandHistory : add("list")
+
+CommandBox -> CommandBox : setText("")
+activate CommandBox
+deactivate CommandBox
+deactivate CommandBox
+
+note left of CommandBox : Then, user types "find a" \nand runs prevCommand()
+
+[-> CommandBox : prevCommand()
+activate CommandBox
+
+CommandBox -> CommandHistory : prevCommand("find a")
+activate CommandHistory
+
+note right of CommandHistory : "find a" is saved as \nthe current draft
+
+CommandHistory --> CommandBox : "list"
+deactivate CommandHistory
+
+CommandBox -> CommandBox : setText("list")
+activate CommandBox
+deactivate CommandBox
+
+deactivate CommandBox
+
+note left of CommandBox : Now text field contains "list"
+
+[-> CommandBox : nextCommand()
+activate CommandBox
+
+CommandBox -> CommandHistory : nextCommand("list")
+activate CommandHistory
+
+CommandHistory --> CommandBox : "find a"
+deactivate CommandHistory
+
+CommandBox -> CommandBox : setText("find a")
+activate CommandBox
+deactivate CommandBox
+
+deactivate CommandBox
+
+note left of CommandBox : Now text field contains "find a"
+@enduml
