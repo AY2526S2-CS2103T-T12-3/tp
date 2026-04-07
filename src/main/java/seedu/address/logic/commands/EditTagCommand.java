@@ -81,7 +81,7 @@ public class EditTagCommand extends Command {
     }
 
     /**
-     * Returns the final set of person indices to be operated on in the edittag command.
+     * Returns the final set of person indices to be operated on in the EditTagCommand.
      *
      * @param lastShownList The currently displayed contact list.
      * @param targetIndices The set of indices initially passed into the command.
