@@ -49,7 +49,7 @@ public class EditTagCommandTest {
 
         EditTagCommand editTagCommand = new EditTagCommand(targetIndices, oldTag, newTag);
 
-        assertCommandFailure(editTagCommand, model, "Error: " + Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        assertCommandFailure(editTagCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
     @Test

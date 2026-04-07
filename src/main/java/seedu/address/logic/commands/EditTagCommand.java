@@ -71,8 +71,31 @@ public class EditTagCommand extends Command {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        boolean isOldTagValid = false;
+        Set<Index> resolvedIndices = getResolvedIndices(lastShownList, targetIndices);
 
+        editSpecifiedPersons(model, lastShownList, resolvedIndices);
+
+        if (resolvedIndices.size() == lastShownList.size()) {
+            // global edit
+            return new CommandResult(
+                    String.format(MESSAGE_EDIT_TAG_SUCCESS_GLOBAL, oldTag.toString(), newTag.toString()));
+        }
+
+        return new CommandResult(String.format(
+                MESSAGE_EDIT_TAG_SUCCESS_INDICES,
+                oldTag.toString(),
+                newTag.toString()));
+    }
+
+    /**
+     * Returns the final set of person indices to be operated on in the EditTagCommand.
+     *
+     * @param lastShownList The currently displayed contact list.
+     * @param targetIndices The set of indices initially passed into the command.
+     * @return The final set of person indices to be operated on.
+     */
+    private static Set<Index> getResolvedIndices(List<Person> lastShownList, Set<Index> targetIndices)
+            throws CommandException {
         Set<Index> resolvedIndices = new HashSet<>(); // targetIndices is final, so extra safety to not modify it
 
         if (targetIndices.isEmpty()) {
@@ -84,15 +107,29 @@ public class EditTagCommand extends Command {
             resolvedIndices = new HashSet<>(targetIndices);
         }
 
-        // First checks if all indices are valid.
+        // checks for any invalid indices
         for (Index index : resolvedIndices) {
             if (index.getZeroBased() >= lastShownList.size()) {
-                throw new CommandException("Error: " + Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
             }
         }
 
-        // Snapshot all target persons BEFORE any edits
+        return resolvedIndices;
+    }
+
+    /**
+     * Edits the tags for the specified persons based on their given indices.
+     *
+     * @param model The model used in the command.
+     * @param lastShownList The currently displayed contact list.
+     * @param resolvedIndices The set of person indices to be operated on.
+     * @throws CommandException if none of the given contacts contain the specified old tag.
+     */
+    private void editSpecifiedPersons(Model model, List<Person> lastShownList, Set<Index> resolvedIndices)
+            throws CommandException {
+        boolean isOldTagValid = false;
         List<Person> personsToEdit = new ArrayList<>();
+
         for (Index index : resolvedIndices) {
             personsToEdit.add(lastShownList.get(index.getZeroBased()));
         }
@@ -114,17 +151,6 @@ public class EditTagCommand extends Command {
             Person editedPerson = createPersonWithEditedTags(person, oldTag, newTag);
             model.setPerson(person, editedPerson);
         }
-
-        if (resolvedIndices.size() == lastShownList.size()) {
-            // global edit
-            return new CommandResult(
-                    String.format(MESSAGE_EDIT_TAG_SUCCESS_GLOBAL, oldTag.toString(), newTag.toString()));
-        }
-
-        return new CommandResult(String.format(
-                MESSAGE_EDIT_TAG_SUCCESS_INDICES,
-                oldTag.toString(),
-                newTag.toString()));
     }
 
     /**

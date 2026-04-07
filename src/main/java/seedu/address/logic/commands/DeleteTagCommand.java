@@ -60,22 +60,11 @@ public class DeleteTagCommand extends Command {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        Boolean hasAtLeastOneValidTag = false;
+        boolean hasAtLeastOneValidTag = false;
 
-        // First checks if all indices are valid. If at least 1 is invalid, cancel the operation.
-        for (Index index : targetIndices) {
-            if (index.getZeroBased() >= lastShownList.size()) {
-                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-            }
-        }
+        List<Person> personsToEdit = getPersonsToEdit(lastShownList, targetIndices);
 
-        // Snapshot all target persons BEFORE any edits
-        List<Person> personsToEdit = new ArrayList<>();
-        for (Index index : targetIndices) {
-            personsToEdit.add(lastShownList.get(index.getZeroBased()));
-        }
-
-        // Delete the tags from each specified person object using the snapshotted list
+        // delete the tags from each specified person object
         for (Person person : personsToEdit) {
             // edits the tags in each person and sets the edited person
             if (!Collections.disjoint(person.getTags(), tags)) {
@@ -90,6 +79,31 @@ public class DeleteTagCommand extends Command {
         }
 
         return new CommandResult(String.format(MESSAGE_DELETE_TAG_SUCCESS, tags));
+    }
+
+    /**
+     * Returns the list of persons to edit and delete tags from.
+     *
+     * @param lastShownList The currently displayed contact list.
+     * @param targetIndices The set of target indices representing persons to be edited.
+     * @return The list of persons to edit.
+     * @throws CommandException if an invalid person index (i.e. negative, zero, or out of bounds) is provided.
+     */
+    private static List<Person> getPersonsToEdit(List<Person> lastShownList, Set<Index> targetIndices)
+            throws CommandException {
+        // checks for any invalid indices
+        for (Index index : targetIndices) {
+            if (index.getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            }
+        }
+
+        List<Person> personsToEdit = new ArrayList<>();
+        for (Index index : targetIndices) {
+            personsToEdit.add(lastShownList.get(index.getZeroBased()));
+        }
+
+        return personsToEdit;
     }
 
     /**
