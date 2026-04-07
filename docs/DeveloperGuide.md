@@ -186,7 +186,29 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-WIP: Fill in information here
+## Adding a person: `add`
+The `add` command is used to insert a new person into the contacts list. The name field (`n/NAME`) must always be provided, while at least one contact detail—either phone (`p/PHONE`) or email (`e/EMAIL`)—is required. Tags (`t/TAG`) are optional.
+
+Input processing is performed by `AddCommandParser`, which tokenizes the user input and ensures that the following conditions are met:
+
+- Name is present
+- At least one of phone or email is provided
+- Required prefixes (e.g. `n/`, `p/`, `e/`, `t/`) are valid
+- Preamble is empty
+- All field values are valid
+
+If any of these checks fail, a `ParseException` is thrown.
+
+Once the input is successfully parsed, a `Person` object is instantiated. As part of its construction, a `PersonId` is generated automatically, ensuring that each person has a unique identifier.
+
+When the command is executed, `AddCommand` invokes `Model#hasPerson(Person)` to determine if the person already exists in the contacts list. A duplicate is defined as a person with the same name, phone, and email as an existing entry.
+
+- If a duplicate is detected, a `CommandException` is raised
+- Otherwise, the person is added via `Model#addPerson(Person)` and a `CommandResult` is returned
+
+The following sequence diagram illustrates the flow of parsing and execution for the `add` command.
+
+![Sequence diagram of add](images/AddSequenceDiagram.png)
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
