@@ -298,8 +298,7 @@ Usage:
 * **Up** arrow: Previous command
 * **Down** arrow: Next command
 
-> 💡 **Tip:** Need to make some updates to your contact list?
-> Use the arrow keys to reuse previous commands and save time!
+> 💡 **Tip:** Need to make some updates to your contact list? Use the arrow keys to reuse previous commands and save time!
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -327,7 +326,7 @@ An added contact is automatically be sorted into your list by alphabetical order
 
 > 💡 **Tip:** In a rush? Just provide a *name* and *one other contact detail* (phone number/email) to add the contact. You can fill in the rest later with the [`edit` command](#editing-a-contact--edit)
 
-> 💡 **Tip:** Confused about the difference between `( )` and `[ ]` in the command? Refer to the [Notes about Command format](#notes-about-command-format) section for a detailed explanation.
+> 💡 **Tip:** Confused about the difference between `( )` and `[ ]` in the command? Refer to the [Notes about Command Format](#notes-about-command-format) section for a detailed explanation.
 
 **Examples:**
 - `add n/John Doe e/johndoe@example.com` adds a new contact with name `John Doe` and email `johndoe@example.com`.
@@ -371,7 +370,7 @@ edit INDEX (n/NAME) (p/PHONE) (e/EMAIL) (t/TAG)…
 
 > 💡 **Tip:** Need to remove all tags from a contact at once? Use `t/` without specifying any tags to do so.
 
-> 💡 **Tip:** Confused about the difference between `( )` and `[ ]` in the command? Refer to the [Notes about Command format](#notes-about-command-format) section for a detailed explanation.
+> 💡 **Tip:** Confused about the difference between `( )` and `[ ]` in the command? Refer to the [Notes about Command Format](#notes-about-command-format) section for a detailed explanation.
 
 **Examples:**
 *  `edit 1 p/91234567 e/johndoe@example.com` edits the phone number and email of the 1st contact to be `91234567` and `johndoe@example.com` respectively.
@@ -640,7 +639,7 @@ editmeeting MEETING_INDEX (d/DESCRIPTION) (dt/DATE) (add/CONTACT_INDEX [, CONTAC
 > - If a participant is **already in the meeting** and their INDEX appears in both `add/` and `del/`, they will be **removed**.
 > - If a participant is **not in the meeting** and their INDEX appears in both `add/` and `del/`, that person will **not be added** to the meeting.
 
-> 💡 **Tip:** Confused about the difference between `( )` and `[ ]` in the command? Refer to the [Notes about Command format](#notes-about-command-format) section for a detailed explanation.
+> 💡 **Tip:** Confused about the difference between `( )` and `[ ]` in the command? Refer to the [Notes about Command Format](#notes-about-command-format) section for a detailed explanation.
 
 **Examples:**
 * `editmeeting 2 dt/2026-05-01 d/Project meeting` edits the meeting at index `2` in the displayed meeting list, changing the description to `Project meeting` and date to `2026-05-01`.
