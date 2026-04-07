@@ -85,7 +85,7 @@ The `UI` component:
 * listens for changes to `Model` data so that the UI can be updated with the modified data.
 * switches between different views (`PersonListPanel` and `MeetingListPanel`) based on user interaction.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
-* depends on some classes in the `Model` component, as it displays `Person` and `Meeting` objects residing in the `Model`.
+* depends on the `Model` component, as some `UI` component (like `MeetingItem`) needs to find the `Person` referred by a `ParticipantID`.
 
 ### Logic component
 
