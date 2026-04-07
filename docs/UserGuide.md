@@ -1,5 +1,8 @@
-# Internlink User Guide
-Hello fellow students, welcome to our Internlink User Guide!
+---
+layout: page
+title: User Guide
+---
+Hello fellow students, welcome to Internlink's User Guide!
 
 ### Table of Contents
 <!-- TOC -->
