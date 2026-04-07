@@ -26,14 +26,14 @@ public class StarCommand extends Command {
     public static final String COMMAND_WORD = "star";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Stars / Favourites the person(s) identified by their indices used in the displayed person list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
+            + ": Stars / Favourites the person(s) identified by their indices in the displayed contact list.\n"
+            + "Format: " + COMMAND_WORD + " INDEX (must be a positive integer) [, INDEX]...\n"
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_STAR_PERSON_SUCCESS = "Starred Person(s): %1$s";
 
     public static final String MESSAGE_NO_VALID_PERSONS_STAR =
-            "Error: All contacts provided are already starred.";
+            "Error: All people provided are already starred.";
 
     private final Set<Index> targetIndices;
 

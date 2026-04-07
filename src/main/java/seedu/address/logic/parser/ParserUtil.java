@@ -28,6 +28,14 @@ public class ParserUtil {
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
 
     /**
+     * Returns true if the prefix contains empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
+    public static boolean isPrefixPresent(ArgumentMultimap argumentMultimap, Prefix prefix) {
+        return argumentMultimap.getValue(prefix).isPresent();
+    }
+
+    /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
      * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
@@ -46,17 +54,22 @@ public class ParserUtil {
      * Whitespace around each index will be trimmed before parsing.
      * If duplicate indices are provided, it will be ignored.
      *
-     * @param indicesString A string containing indices separated by commas.
-     * @return A {@code Set<Index>} containing all valid parsed indices.
+     * @param indicesString String containing indices separated by commas.
+     * @param usageMessage Usage message to show if parsing fails.
+     * @return Set of parsed indices.
      * @throws ParseException If any index is invalid or does not conform to the expected format.
      */
     public static Set<Index> parseIndices(String indicesString, String usageMessage) throws ParseException {
+        requireNonNull(indicesString);
+        requireNonNull(usageMessage);
+
         String[] indices = indicesString.split(PREFIX_COMMA.toString());
 
         Set<Index> indexSet = new HashSet<>();
         try {
             for (String index : indices) {
-                indexSet.add(ParserUtil.parseIndex(index.trim()));
+                String trimmedIndex = index.trim();
+                indexSet.add(ParserUtil.parseIndex(trimmedIndex));
             }
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, usageMessage), pe);
@@ -64,6 +77,7 @@ public class ParserUtil {
 
         return indexSet;
     }
+
 
     /**
      * Parses a {@code String name} into a {@code Name}.
@@ -82,13 +96,17 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String description} into a {@code Description}.
-     * Leading and trailing whitespaces will be trimmed.
+     * Leading and trailing whitespaces are trimmed.
      *
-     * @throws ParseException if the given {@code description} is invalid.
+     * @param description Description string to parse.
+     * @return Parsed {@code Description}.
+     * @throws ParseException If the given {@code description} is invalid.
      */
     public static Description parseDescription(String description) throws ParseException {
         requireNonNull(description);
+
         String trimmedDescription = description.trim();
+
         if (!Description.isValidDescription(trimmedDescription)) {
             throw new ParseException(Description.MESSAGE_DESCRIPTION_CONSTRAINTS);
         }
@@ -96,14 +114,17 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String date} into a {@code Date}.
-     * Leading and trailing whitespaces will be trimmed.
+     * Parses a {@code String date} into a {@code MeetingDate}.
+     * Leading and trailing whitespaces are trimmed.
      *
-     * @throws ParseException if the given {@code date} is invalid.
+     * @param date Date string to parse.
+     * @return Parsed {@code MeetingDate}.
+     * @throws ParseException If the given {@code date} is invalid.
      */
     public static MeetingDate parseDate(String date) throws ParseException {
         requireNonNull(date);
         String trimmedDate = date.trim();
+
         if (!MeetingDate.isValidDateString(trimmedDate)) {
             throw new ParseException(MeetingDate.MESSAGE_DATE_CONSTRAINTS);
         }
@@ -173,8 +194,6 @@ public class ParserUtil {
      * {@code Set<Tag>} containing zero tags.
      */
     public static Optional<Set<Tag>> parseTagsOptional(Collection<String> tags) throws ParseException {
-        assert tags != null;
-
         if (tags.isEmpty()) {
             return Optional.empty();
         }

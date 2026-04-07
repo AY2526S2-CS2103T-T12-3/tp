@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.DeleteTagCommand.MESSAGE_DELETE_TAG_SUCCESS;
+import static seedu.address.logic.commands.DeleteTagCommand.MESSAGE_NO_VALID_TAGS;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -60,7 +61,7 @@ public class DeleteTagCommandTest {
 
         assertCommandFailure(deleteTagCommand,
                 model,
-                "Error: None of the specified tags exist in any of the specified contacts.");
+                MESSAGE_NO_VALID_TAGS);
     }
 
     @Test

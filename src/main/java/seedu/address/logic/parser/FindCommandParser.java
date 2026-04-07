@@ -18,10 +18,9 @@ import seedu.address.model.person.PersonMatchesKeywordsPredicate;
 public class FindCommandParser implements Parser<FindCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the
-     * FindCommand
-     * and returns a FindCommand object for execution.
+     * FindCommand and returns a FindCommand object for execution.
      *
-     * @throws ParseException if the user input does not conform the expected format
+     * @throws ParseException if the user input does not conform the expected format.
      */
     public FindCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL);

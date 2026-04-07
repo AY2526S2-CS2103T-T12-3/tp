@@ -33,7 +33,7 @@ public class PersonIdTest {
     @Test
     public void constructor_validId_success() {
         PersonId id = new PersonId(ID_1);
-        assertTrue(id.getId().equals(UUID.fromString(ID_1)));
+        assertTrue(id.getUuid().equals(UUID.fromString(ID_1)));
         assertTrue(id.toString().equals(ID_1));
     }
 
@@ -42,8 +42,8 @@ public class PersonIdTest {
         PersonId id1 = new PersonId();
         PersonId id2 = new PersonId();
         // not null
-        assertTrue(id1.getId() != null);
-        assertTrue(id2.getId() != null);
+        assertTrue(id1.getUuid() != null);
+        assertTrue(id2.getUuid() != null);
         // very low chance of equality
         assertFalse(id1.equals(id2));
     }

@@ -21,18 +21,17 @@ import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
 /**
- * Edits the details of an existing person in the address book.
+ * Edits the details of an existing person in the contact list.
  */
 public class AddTagCommand extends Command {
 
     public static final String COMMAND_WORD = "addtag";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds tags to the person(s) identified by the index "
-            + "numbers used in the displayed person list. Multiple persons can be specified, separated by comma (,)."
-            + "Multiple tags can be added, separated by a forward slash (/).\n"
-            + "Parameters: INDEX (must be a positive integer) "
-            + "[" + PREFIX_COMMA + "INDEX]... "
-            + "[" + PREFIX_SEPARATOR + "TAG]...\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Adds tags to one or more persons identified by their indices.\n"
+            + "Multiple persons can be specified using commas, and multiple tags using '/'.\n"
+            + "Format: " + COMMAND_WORD + " INDEX (must be a positive integer) [,INDEX]... "
+            + PREFIX_SEPARATOR + "TAG [" + PREFIX_SEPARATOR + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1" + PREFIX_COMMA + "2 "
             + PREFIX_SEPARATOR + "Friend "
             + PREFIX_SEPARATOR + "Close";
@@ -44,8 +43,10 @@ public class AddTagCommand extends Command {
     private final Set<Tag> tags;
 
     /**
-     * @param targetIndices of the persons in the filtered person list to add tags to
-     * @param tags the collection of tags to be added
+     * Creates an AddTagCommand to add the specified {@code Tag}s to the specified {@code Person}s.
+     *
+     * @param targetIndices Indices of the persons in the current contact list to add tags to.
+     * @param tags The collection of tags to be added.
      */
     public AddTagCommand(Collection<Index> targetIndices, Collection<Tag> tags) {
         requireAllNonNull(targetIndices, tags);

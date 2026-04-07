@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEWTAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_OLDTAG;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,31 +18,36 @@ import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
 /**
- * Edits the specified tag for the persons identified using their displayed indices from the address book, or globally.
+ * Edits the specified tag for the persons identified
+ * using their displayed indices from the contact list, or globally.
  */
 public class EditTagCommand extends Command {
     public static final String COMMAND_WORD = "edittag";
 
+    public static final String MESSAGE_FORMAT =
+            "Format: " + COMMAND_WORD + " "
+                    + "(INDICES (must be a positive integer) or 'all') "
+                    + PREFIX_OLDTAG + "OLDTAG "
+                    + PREFIX_NEWTAG + "NEWTAG\n"
+                    + "Example: " + COMMAND_WORD + " "
+                    + "1,2,3 "
+                    + PREFIX_OLDTAG + "acquaintance "
+                    + PREFIX_NEWTAG + "friend";
+
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the specified tag for the person(s) "
-            + "identified by the index number(s) used in the displayed person list, or globally.\n";
-
-    public static final String MESSAGE_FORMAT =
-            "(Format: edittag [INDICES or 'all'] o/ OLDTAG n/ NEWTAG] ...)\n"
-                    + "Example: "
-                    + COMMAND_WORD
-                    + " 1, 2, 3"
-                    + " o/ acquaintance"
-                    + " n/ friend";
+            + "identified by their index number(s) in the displayed contact list, "
+            + "or globally in the current displayed contact list using \"all\".\n"
+            + MESSAGE_FORMAT;
 
     public static final String MESSAGE_EDIT_TAG_SUCCESS_INDICES =
-            "The tag %1$s has been changed to %2$s for the specified contacts.";
+            "The tag %1$s has been changed to %2$s for the specified persons.";
 
     public static final String MESSAGE_EDIT_TAG_SUCCESS_GLOBAL =
-            "The tag %1$s has been changed to %2$s for all contacts.";
+            "The tag %1$s has been changed to %2$s for all persons.";
 
     public static final String MESSAGE_OLDTAG_INVALID =
-            "Error: The specified old tag (o/) does not exist in any of the specified contacts.";
+            "Error: The specified old tag (o/) does not exist in any of the specified persons.";
 
     private Tag oldTag;
     private Tag newTag;
@@ -64,8 +71,31 @@ public class EditTagCommand extends Command {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        boolean isOldTagValid = false;
+        Set<Index> resolvedIndices = getResolvedIndices(lastShownList, targetIndices);
 
+        editSpecifiedPersons(model, lastShownList, resolvedIndices);
+
+        if (resolvedIndices.size() == lastShownList.size()) {
+            // global edit
+            return new CommandResult(
+                    String.format(MESSAGE_EDIT_TAG_SUCCESS_GLOBAL, oldTag.toString(), newTag.toString()));
+        }
+
+        return new CommandResult(String.format(
+                MESSAGE_EDIT_TAG_SUCCESS_INDICES,
+                oldTag.toString(),
+                newTag.toString()));
+    }
+
+    /**
+     * Returns the final set of person indices to be operated on in the EditTagCommand.
+     *
+     * @param lastShownList The currently displayed contact list.
+     * @param targetIndices The set of indices initially passed into the command.
+     * @return The final set of person indices to be operated on.
+     */
+    private static Set<Index> getResolvedIndices(List<Person> lastShownList, Set<Index> targetIndices)
+            throws CommandException {
         Set<Index> resolvedIndices = new HashSet<>(); // targetIndices is final, so extra safety to not modify it
 
         if (targetIndices.isEmpty()) {
@@ -77,15 +107,29 @@ public class EditTagCommand extends Command {
             resolvedIndices = new HashSet<>(targetIndices);
         }
 
-        // First checks if all indices are valid.
+        // checks for any invalid indices
         for (Index index : resolvedIndices) {
             if (index.getZeroBased() >= lastShownList.size()) {
-                throw new CommandException("Error: " + Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
             }
         }
 
-        // Snapshot all target persons BEFORE any edits
+        return resolvedIndices;
+    }
+
+    /**
+     * Edits the tags for the specified persons based on their given indices.
+     *
+     * @param model The model used in the command.
+     * @param lastShownList The currently displayed contact list.
+     * @param resolvedIndices The set of person indices to be operated on.
+     * @throws CommandException if none of the given contacts contain the specified old tag.
+     */
+    private void editSpecifiedPersons(Model model, List<Person> lastShownList, Set<Index> resolvedIndices)
+            throws CommandException {
+        boolean isOldTagValid = false;
         List<Person> personsToEdit = new ArrayList<>();
+
         for (Index index : resolvedIndices) {
             personsToEdit.add(lastShownList.get(index.getZeroBased()));
         }
@@ -99,8 +143,7 @@ public class EditTagCommand extends Command {
         }
 
         if (!isOldTagValid) {
-            throw new CommandException(
-                    "Error: The specified old tag (o/) does not exist in any of the specified contacts.");
+            throw new CommandException(MESSAGE_OLDTAG_INVALID);
         }
 
         for (Person person : personsToEdit) {
@@ -108,17 +151,6 @@ public class EditTagCommand extends Command {
             Person editedPerson = createPersonWithEditedTags(person, oldTag, newTag);
             model.setPerson(person, editedPerson);
         }
-
-        if (resolvedIndices.size() == lastShownList.size()) {
-            // global edit
-            return new CommandResult(
-                    String.format(MESSAGE_EDIT_TAG_SUCCESS_GLOBAL, oldTag.toString(), newTag.toString()));
-        }
-
-        return new CommandResult(String.format(
-                MESSAGE_EDIT_TAG_SUCCESS_INDICES,
-                oldTag.toString(),
-                newTag.toString()));
     }
 
     /**

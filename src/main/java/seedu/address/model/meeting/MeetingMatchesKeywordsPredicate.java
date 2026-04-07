@@ -16,11 +16,11 @@ public class MeetingMatchesKeywordsPredicate implements Predicate<Meeting> {
     private final Set<PersonId> idsToMatch;
 
     /**
-     * Constructor for MeetingMatchesKeywordsPredicate class
+     * Constructor for MeetingMatchesKeywordsPredicate class.
      *
-     * @param descriptionKeywords substring to match for Meeting descriptions
-     * @param dateKeywords substring to match for Meeting dates
-     * @param idsToMatch set to match for Meeting participant {@code PersonId}s
+     * @param descriptionKeywords substring to match for Meeting descriptions.
+     * @param dateKeywords substring to match for Meeting dates.
+     * @param idsToMatch set to match for Meeting participant {@code PersonId}s.
      */
     public MeetingMatchesKeywordsPredicate(List<String> descriptionKeywords,
                                            List<String> dateKeywords,

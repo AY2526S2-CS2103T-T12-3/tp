@@ -1,9 +1,9 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_INDICES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PERSON_INDICES;
 
 import java.util.HashSet;
 import java.util.List;
@@ -15,19 +15,20 @@ import seedu.address.logic.commands.FindMeetingCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
- * Parses input arguments and creates a new FindMeetingCommand object
+ * Parses input arguments and creates a new FindMeetingCommand object.
  */
 public class FindMeetingCommandParser implements Parser<FindMeetingCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the FindMeetingCommand
      * and returns a FindMeetingCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
+     *
+     * @throws ParseException if the user input does not conform the expected format.
      */
     public FindMeetingCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args,
-                        PREFIX_MEETING_DESCRIPTION, PREFIX_MEETING_DATE, PREFIX_PERSON_INDICES);
+                        PREFIX_MEETING_DESCRIPTION, PREFIX_MEETING_DATE, PREFIX_CONTACT_INDICES);
 
         String preamble = argMultimap.getPreamble().trim();
 
@@ -39,7 +40,7 @@ public class FindMeetingCommandParser implements Parser<FindMeetingCommand> {
                 .stream()
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());;
-        List<String> personIndicesList = argMultimap.getAllValues(PREFIX_PERSON_INDICES);
+        List<String> personIndicesList = argMultimap.getAllValues(PREFIX_CONTACT_INDICES);
 
         Set<Index> personIndices = new HashSet<>();
 

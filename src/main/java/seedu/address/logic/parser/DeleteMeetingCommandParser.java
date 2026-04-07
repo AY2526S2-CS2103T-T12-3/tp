@@ -18,11 +18,10 @@ public class DeleteMeetingCommandParser implements Parser<DeleteMeetingCommand> 
      * Parses the given {@code String} of arguments in the context of the DeleteMeetingCommand
      * and returns an DeleteMeetingCommand object for execution.
      *
-     * @throws ParseException if the user input does not conform the expected format
+     * @throws ParseException if the user input does not conform the expected format.
      */
     @Override
     public DeleteMeetingCommand parse(String args) throws ParseException {
-
         boolean areIndexesMissing = args.isEmpty();
 
         if (areIndexesMissing) {

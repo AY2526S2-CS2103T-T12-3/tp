@@ -35,7 +35,7 @@ public class MeetingDate implements Comparable<MeetingDate> {
     public static boolean isValidDateString(String test) {
         requireNonNull(test);
         try {
-            LocalDate.parse(test); // validates both format + real date
+            LocalDate.parse(test);
             return true;
         } catch (DateTimeParseException e) {
             return false;
@@ -61,7 +61,7 @@ public class MeetingDate implements Comparable<MeetingDate> {
 
     @Override
     public String toString() {
-        return date.toString(); // yyyy-MM-dd
+        return date.toString();
     }
 
     @Override

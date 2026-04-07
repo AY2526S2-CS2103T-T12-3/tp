@@ -3,9 +3,9 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_INDICES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PERSON_INDICES;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -32,7 +32,7 @@ public class FindMeetingCommandParserTest {
     public void parse_prefixPresentButEmptyArg_throwsParseException() {
         String userInput = " " + PREFIX_MEETING_DESCRIPTION
                 + " " + PREFIX_MEETING_DATE
-                + " " + PREFIX_PERSON_INDICES;
+                + " " + PREFIX_CONTACT_INDICES;
         assertParseFailure(parser, userInput,
                 String.format(FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND, FindMeetingCommand.MESSAGE_USAGE));
     }
@@ -72,8 +72,8 @@ public class FindMeetingCommandParserTest {
                 Collections.emptyList(),
                 Set.of(Index.fromOneBased(1)));
 
-        String userInput1 = " " + PREFIX_PERSON_INDICES + "1";
-        String userInput2 = " " + PREFIX_PERSON_INDICES + " " + "1";
+        String userInput1 = " " + PREFIX_CONTACT_INDICES + "1";
+        String userInput2 = " " + PREFIX_CONTACT_INDICES + " " + "1";
 
         assertParseSuccess(parser, userInput1, expected);
         assertParseSuccess(parser, userInput2, expected);

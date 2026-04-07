@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SEPARATOR;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,19 +19,23 @@ import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
 /**
- * Deletes the specified tags from the persons identified using their displayed indices from the address book.
+ * Deletes the specified tags from the persons identified using their displayed indices from the contact list.
  */
 public class DeleteTagCommand extends Command {
     public static final String COMMAND_WORD = "deletetag";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the specified tag(s) from the person(s) "
-            + "identified by the index number(s) used in the displayed person list.\n";
+            + ": Deletes tag(s) from one or more persons identified by their indices.\n"
+            + "Format: " + COMMAND_WORD + " INDEX (must be a positive integer) [,INDEX]... "
+            + PREFIX_SEPARATOR + "TAG [" + PREFIX_SEPARATOR + "TAG]...\n"
+            + "Example: " + COMMAND_WORD + " 1,2 "
+            + PREFIX_SEPARATOR + "friend "
+            + PREFIX_SEPARATOR + "colleague";
 
     public static final String MESSAGE_DELETE_TAG_SUCCESS = "Removed tags %1$s from specified persons";
     public static final String MESSAGE_NO_TAGS = "At least one tag must be provided.";
     public static final String MESSAGE_NO_VALID_TAGS =
-            "Error: None of the specified tags exist in any of the specified contacts.";
+            "Error: None of the specified tags exist in any of the specified persons.";
 
     private final Set<Index> targetIndices;
     private final Set<Tag> tags;
@@ -55,22 +60,11 @@ public class DeleteTagCommand extends Command {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        Boolean hasAtLeastOneValidTag = false;
+        boolean hasAtLeastOneValidTag = false;
 
-        // First checks if all indices are valid. If at least 1 is invalid, cancel the operation.
-        for (Index index : targetIndices) {
-            if (index.getZeroBased() >= lastShownList.size()) {
-                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-            }
-        }
+        List<Person> personsToEdit = getPersonsToEdit(lastShownList, targetIndices);
 
-        // Snapshot all target persons BEFORE any edits
-        List<Person> personsToEdit = new ArrayList<>();
-        for (Index index : targetIndices) {
-            personsToEdit.add(lastShownList.get(index.getZeroBased()));
-        }
-
-        // Delete the tags from each specified person object using the snapshotted list
+        // delete the tags from each specified person object
         for (Person person : personsToEdit) {
             // edits the tags in each person and sets the edited person
             if (!Collections.disjoint(person.getTags(), tags)) {
@@ -85,6 +79,31 @@ public class DeleteTagCommand extends Command {
         }
 
         return new CommandResult(String.format(MESSAGE_DELETE_TAG_SUCCESS, tags));
+    }
+
+    /**
+     * Returns the list of persons to edit and delete tags from.
+     *
+     * @param lastShownList The currently displayed contact list.
+     * @param targetIndices The set of target indices representing persons to be edited.
+     * @return The list of persons to edit.
+     * @throws CommandException if an invalid person index (i.e. negative, zero, or out of bounds) is provided.
+     */
+    private static List<Person> getPersonsToEdit(List<Person> lastShownList, Set<Index> targetIndices)
+            throws CommandException {
+        // checks for any invalid indices
+        for (Index index : targetIndices) {
+            if (index.getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            }
+        }
+
+        List<Person> personsToEdit = new ArrayList<>();
+        for (Index index : targetIndices) {
+            personsToEdit.add(lastShownList.get(index.getZeroBased()));
+        }
+
+        return personsToEdit;
     }
 
     /**

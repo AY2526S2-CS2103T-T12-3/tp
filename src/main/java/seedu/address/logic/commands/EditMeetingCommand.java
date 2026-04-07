@@ -1,11 +1,11 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.commands.AddMeetingCommand.MESSAGE_INVALID_PERSON_INDEX;
+import static seedu.address.logic.commands.AddMeetingCommand.MESSAGE_INVALID_CONTACT_INDEX;
 import static seedu.address.logic.commands.AddMeetingCommand.MESSAGE_MEETING_ALREADY_EXISTS;
 import static seedu.address.logic.commands.DeleteMeetingCommand.MESSAGE_INVALID_MEETING_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_PERSON_TO_MEETING_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DELETE_PERSON_FROM_MEETING_INDEX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_CONTACT_TO_MEETING_INDEX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DELETE_CONTACT_FROM_MEETING_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 
@@ -29,28 +29,30 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonId;
 
 /**
- * Edits the details of existing meetings in the address book.
+ * Edits the details of existing meetings in the meeting list.
  */
 public class EditMeetingCommand extends Command {
 
     public static final String COMMAND_WORD = "editmeeting";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the meeting identified "
-            + "by the index number used in the displayed meeting list.\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Edits the details of the meeting identified by its index in the displayed meeting list.\n"
             + "Existing values will be overwritten by the input values.\n"
-            + "Participants can be added or deleted based on their positions in the contact list.\n"
-            + "E.g " + PREFIX_ADD_PERSON_TO_MEETING_INDEX
-            + "2 will add the second person in the current contact list to the meeting. \n"
-            + "Parameters: INDEX (must be a positive integer) "
-            + "[" + PREFIX_MEETING_DESCRIPTION + "DESCRIPTION] "
-            + "[" + PREFIX_MEETING_DATE + "DATE] "
-            + "[" + PREFIX_ADD_PERSON_TO_MEETING_INDEX + "PERSON_INDEX [, PERSON_INDEX]...] "
-            + "[" + PREFIX_DELETE_PERSON_FROM_MEETING_INDEX + "PERSON_INDEX [, PERSON_INDEX]...]\n"
+            + "Participants can be added or removed using their indices in the contact list.\n"
+            + "E.g. " + PREFIX_ADD_CONTACT_TO_MEETING_INDEX + "2 adds the 2nd person to the meeting.\n"
+            + "Format: " + COMMAND_WORD + " MEETING_INDEX (must be a positive integer)"
+            + "(" + PREFIX_MEETING_DESCRIPTION + "DESCRIPTION) "
+            + "(" + PREFIX_MEETING_DATE + "DATE) "
+            + "(" + PREFIX_ADD_CONTACT_TO_MEETING_INDEX
+            + "CONTACT_INDEX (must be a positive integer) [, CONTACT_INDEX]...) "
+            + "(" + PREFIX_DELETE_CONTACT_FROM_MEETING_INDEX
+            + "CONTACT_INDEX (must be a positive integer) [, CONTACT_INDEX]...)\n"
+            + "Note: Date must be in YYYY-MM-DD format.\n"
             + "Example: " + COMMAND_WORD + " 2 "
             + PREFIX_MEETING_DESCRIPTION + "Team Sync "
             + PREFIX_MEETING_DATE + "2026-04-01 "
-            + PREFIX_ADD_PERSON_TO_MEETING_INDEX + "3, 5 "
-            + PREFIX_DELETE_PERSON_FROM_MEETING_INDEX + "2";
+            + PREFIX_ADD_CONTACT_TO_MEETING_INDEX + "3,5 "
+            + PREFIX_DELETE_CONTACT_FROM_MEETING_INDEX + "2";
 
     public static final String MESSAGE_EDIT_MEETING_SUCCESS = "Edited meeting: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
@@ -63,8 +65,8 @@ public class EditMeetingCommand extends Command {
     /**
      * Creates an EditMeetingCommand to edit the specified {@code Meeting}.
      *
-     * @param meetingIndex The index of the meeting in the list to edit
-     * @param editMeetingDescriptor The details to edit the meeting with
+     * @param meetingIndex The index of the meeting in the list to edit.
+     * @param editMeetingDescriptor The details to edit the meeting with.
      */
     public EditMeetingCommand(Index meetingIndex, EditMeetingDescriptor editMeetingDescriptor) {
         requireNonNull(meetingIndex);
@@ -103,7 +105,7 @@ public class EditMeetingCommand extends Command {
      * Creates and returns a {@code Meeting} with the details of {@code meetingToEdit}
      * edited with {@code editMeetingDescriptor}.
      *
-     * @throws CommandException If a participant being removed is not in the meeting
+     * @throws CommandException If a participant being removed is not in the meeting.
      */
     private static Meeting createEditedMeeting(Meeting meetingToEdit,
                                                EditMeetingCommand.EditMeetingDescriptor editMeetingDescriptor)
@@ -176,7 +178,7 @@ public class EditMeetingCommand extends Command {
         public EditMeetingDescriptor() {}
 
         /**
-         * Copy constructor.
+         * Copies constructor.
          */
         public EditMeetingDescriptor(EditMeetingDescriptor toCopy) {
             setDescription(toCopy.description);
@@ -203,8 +205,8 @@ public class EditMeetingCommand extends Command {
          * participant IDs using the provided {@code model}. The resulting IDs are stored
          * internally as {@code peopleToAddId} and {@code peopleToDeleteId}.
          *
-         * @param model The {@code Model} containing the list of persons to resolve indices from
-         * @throws CommandException Thrown if any index is out of bounds of the person list
+         * @param model The {@code Model} containing the list of persons to resolve indices from.
+         * @throws CommandException Thrown if any index is out of bounds of the person list.
          */
         public void resolveParticipantIds(Model model) throws CommandException {
             List<Person> persons = model.getFilteredPersonList();
@@ -217,10 +219,10 @@ public class EditMeetingCommand extends Command {
          * Resolves a set of {@code Index} objects to their corresponding participant {@code PersonId}s
          * from the given list of {@code persons}.
          *
-         * @param indices The set of indices representing positions in {@code persons}; may be {@code null}
-         * @param persons The list of persons to resolve the IDs from
-         * @return A set of resolved participant {@code PersonId}s, or {@code null} if {@code indices} is {@code null}
-         * @throws CommandException If any index is invalid (i.e., out of bounds of {@code persons})
+         * @param indices The set of indices representing positions in {@code persons}; may be {@code null}.
+         * @param persons The list of persons to resolve the IDs from.
+         * @return A set of resolved participant {@code PersonId}s, or {@code null} if {@code indices} is {@code null}.
+         * @throws CommandException If any index is invalid (i.e., out of bounds of {@code persons}).
          */
         private Set<PersonId> resolveIndicesToIds(Set<Index> indices, List<Person> persons)
                 throws CommandException {
@@ -231,7 +233,7 @@ public class EditMeetingCommand extends Command {
             Set<PersonId> resolvedIds = new HashSet<>();
             for (Index index : indices) {
                 if (index.getZeroBased() >= persons.size()) {
-                    throw new CommandException(MESSAGE_INVALID_PERSON_INDEX);
+                    throw new CommandException(MESSAGE_INVALID_CONTACT_INDEX);
                 }
                 resolvedIds.add(persons.get(index.getZeroBased()).getId());
             }

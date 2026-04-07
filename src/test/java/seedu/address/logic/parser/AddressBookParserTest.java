@@ -10,7 +10,7 @@ import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SET
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_DATE_20260325;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_DESC_PROJECT;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_INDEX_SINGLE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PERSON_INDICES;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_INDICES;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
@@ -150,7 +150,7 @@ public class AddressBookParserTest {
                 FindMeetingCommand.COMMAND_WORD
                 + INPUT_DESC_PROJECT
                 + INPUT_DATE_20260325
-                + " " + PREFIX_PERSON_INDICES + INPUT_INDEX_SINGLE);
+                + " " + PREFIX_CONTACT_INDICES + INPUT_INDEX_SINGLE);
 
         assertEquals(new FindMeetingCommand(
                 List.of(VALID_DESCRIPTION_PROJECT),

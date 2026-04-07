@@ -22,9 +22,9 @@ import seedu.address.model.person.PersonId;
 @JsonRootName(value = "addressbook")
 class JsonSerializableAddressBook {
     public static final String MESSAGE_INVALID_PERSON =
-            "Invalid person at index %d: %s";
+            "Invalid person at index %d: %s, skipping person.";
     public static final String MESSAGE_INVALID_MEETING =
-            "Invalid meeting at index %d: %s";
+            "Invalid meeting at index %d: %s, skipping meeting.";
     public static final String MESSAGE_DUPLICATE_PERSON =
             "%s already exists in the address book, skipping person.";
     public static final String MESSAGE_DUPLICATE_MEETING =
@@ -99,7 +99,7 @@ class JsonSerializableAddressBook {
                 }
 
                 addressBook.addPerson(person);
-            } catch (IllegalValueException e) {
+            } catch (IllegalValueException | IllegalArgumentException e) {
                 // Log invalid person with index and exception message
                 logger.warning(String.format(MESSAGE_INVALID_PERSON, i, e.getMessage()));
             }
@@ -128,7 +128,7 @@ class JsonSerializableAddressBook {
                 }
 
                 addressBook.addMeeting(meeting);
-            } catch (IllegalValueException e) {
+            } catch (IllegalValueException | IllegalArgumentException e) {
                 // Log invalid meeting with index and exception message
                 logger.warning(String.format(MESSAGE_INVALID_MEETING, i, e.getMessage()));
             }
