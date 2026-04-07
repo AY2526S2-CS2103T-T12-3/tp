@@ -146,7 +146,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.remove(key);
     }
 
-    /** Returns the person with the given PersonId. Throws {@code PersonNotFoundException} if not found. */
+    /**
+     *  Returns the person with the given PersonId. Throws {@code PersonNotFoundException} if not found.
+     */
     public Person getPerson(PersonId id) throws PersonNotFoundException {
         return persons.asUnmodifiableObservableList()
                 .stream()
@@ -214,7 +216,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         return meetings.asUnmodifiableObservableList();
     }
 
-    /** Throws an error if any of the ID in the meeting's participant set does not exist in the address book. */
+    /**
+     * Throws an error if any of the ID in the meeting's participant set does not exist in the address book.
+     */
     private void verifyParticipantsExist(Meeting meeting) throws PersonNotFoundException {
         for (PersonId id : meeting.getParticipantsIDs()) {
             getPerson(id);

@@ -52,9 +52,9 @@ public class FindMeetingCommand extends Command {
     /**
      * Instantiates a new FindMeetingCommand with the respective parameters.
      *
-     * @param descriptionKeywords the keywords corresponding to the meeting description.
-     * @param dateKeywords the keywords corresponding to the meeting date.
-     * @param personIndices the indices corresponding to the current person list's indices.
+     * @param descriptionKeywords The keywords corresponding to the meeting description.
+     * @param dateKeywords The keywords corresponding to the meeting date.
+     * @param personIndices The indices corresponding to the current contact list's indices.
      */
     public FindMeetingCommand(List<String> descriptionKeywords,
                               List<String> dateKeywords,

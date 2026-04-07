@@ -47,7 +47,7 @@ public class FindTagCommand extends Command {
     /**
      * Acts as the constructor for FindTagCommand.
      *
-     * @param tags The tags to filter the contact list by
+     * @param tags The tags to filter the contact list by.
      */
     public FindTagCommand(Set<Tag> tags) {
         requireNonNull(tags);

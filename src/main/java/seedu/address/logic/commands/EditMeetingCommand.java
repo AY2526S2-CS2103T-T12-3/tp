@@ -36,7 +36,7 @@ public class EditMeetingCommand extends Command {
     public static final String COMMAND_WORD = "editmeeting";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Edits the details of the meeting identified by their index in the displayed meeting list.\n"
+            + ": Edits the details of the meeting identified by its index in the displayed meeting list.\n"
             + "Existing values will be overwritten by the input values.\n"
             + "Participants can be added or removed using their indices in the contact list.\n"
             + "E.g. " + PREFIX_ADD_CONTACT_TO_MEETING_INDEX + "2 adds the 2nd person to the meeting.\n"
@@ -65,8 +65,8 @@ public class EditMeetingCommand extends Command {
     /**
      * Creates an EditMeetingCommand to edit the specified {@code Meeting}.
      *
-     * @param meetingIndex The index of the meeting in the list to edit
-     * @param editMeetingDescriptor The details to edit the meeting with
+     * @param meetingIndex The index of the meeting in the list to edit.
+     * @param editMeetingDescriptor The details to edit the meeting with.
      */
     public EditMeetingCommand(Index meetingIndex, EditMeetingDescriptor editMeetingDescriptor) {
         requireNonNull(meetingIndex);
@@ -105,7 +105,7 @@ public class EditMeetingCommand extends Command {
      * Creates and returns a {@code Meeting} with the details of {@code meetingToEdit}
      * edited with {@code editMeetingDescriptor}.
      *
-     * @throws CommandException If a participant being removed is not in the meeting
+     * @throws CommandException If a participant being removed is not in the meeting.
      */
     private static Meeting createEditedMeeting(Meeting meetingToEdit,
                                                EditMeetingCommand.EditMeetingDescriptor editMeetingDescriptor)
@@ -178,7 +178,7 @@ public class EditMeetingCommand extends Command {
         public EditMeetingDescriptor() {}
 
         /**
-         * Copy constructor.
+         * Copies constructor.
          */
         public EditMeetingDescriptor(EditMeetingDescriptor toCopy) {
             setDescription(toCopy.description);
@@ -205,8 +205,8 @@ public class EditMeetingCommand extends Command {
          * participant IDs using the provided {@code model}. The resulting IDs are stored
          * internally as {@code peopleToAddId} and {@code peopleToDeleteId}.
          *
-         * @param model The {@code Model} containing the list of persons to resolve indices from
-         * @throws CommandException Thrown if any index is out of bounds of the person list
+         * @param model The {@code Model} containing the list of persons to resolve indices from.
+         * @throws CommandException Thrown if any index is out of bounds of the person list.
          */
         public void resolveParticipantIds(Model model) throws CommandException {
             List<Person> persons = model.getFilteredPersonList();
@@ -219,10 +219,10 @@ public class EditMeetingCommand extends Command {
          * Resolves a set of {@code Index} objects to their corresponding participant {@code PersonId}s
          * from the given list of {@code persons}.
          *
-         * @param indices The set of indices representing positions in {@code persons}; may be {@code null}
-         * @param persons The list of persons to resolve the IDs from
-         * @return A set of resolved participant {@code PersonId}s, or {@code null} if {@code indices} is {@code null}
-         * @throws CommandException If any index is invalid (i.e., out of bounds of {@code persons})
+         * @param indices The set of indices representing positions in {@code persons}; may be {@code null}.
+         * @param persons The list of persons to resolve the IDs from.
+         * @return A set of resolved participant {@code PersonId}s, or {@code null} if {@code indices} is {@code null}.
+         * @throws CommandException If any index is invalid (i.e., out of bounds of {@code persons}).
          */
         private Set<PersonId> resolveIndicesToIds(Set<Index> indices, List<Person> persons)
                 throws CommandException {

@@ -81,7 +81,7 @@ public class Person {
 
     /**
      * Returns true if both persons are the same.
-     * Two persons are considered the same if they have the same name, phone, and email
+     * Two persons are considered the same if they have the same name, phone, and email.
      */
     public boolean isSamePerson(Person otherPerson) {
         if (otherPerson == this) {

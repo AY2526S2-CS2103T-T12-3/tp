@@ -21,7 +21,7 @@ public class EditMeetingCommandParser implements Parser<EditMeetingCommand> {
      * Parses the given {@code String} of arguments in the context of the EditMeetingCommand
      * and returns an EditMeetingCommand object for execution.
      *
-     * @throws ParseException if the user input does not conform the expected format
+     * @throws ParseException if the user input does not conform the expected format.
      */
     @Override
     public EditMeetingCommand parse(String args) throws ParseException {

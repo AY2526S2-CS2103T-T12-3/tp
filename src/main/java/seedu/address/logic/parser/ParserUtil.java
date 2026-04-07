@@ -54,10 +54,10 @@ public class ParserUtil {
      * Whitespace around each index will be trimmed before parsing.
      * If duplicate indices are provided, it will be ignored.
      *
-     * @param indicesString String containing indices separated by commas
-     * @param usageMessage Usage message to show if parsing fails
-     * @return Set of parsed indices
-     * @throws ParseException if any index is invalid or does not conform to the expected format
+     * @param indicesString String containing indices separated by commas.
+     * @param usageMessage Usage message to show if parsing fails.
+     * @return Set of parsed indices.
+     * @throws ParseException If any index is invalid or does not conform to the expected format.
      */
     public static Set<Index> parseIndices(String indicesString, String usageMessage) throws ParseException {
         requireNonNull(indicesString);
@@ -98,9 +98,9 @@ public class ParserUtil {
      * Parses a {@code String description} into a {@code Description}.
      * Leading and trailing whitespaces are trimmed.
      *
-     * @param description Description string to parse
-     * @return Parsed {@code Description}
-     * @throws ParseException if the given {@code description} is invalid
+     * @param description Description string to parse.
+     * @return Parsed {@code Description}.
+     * @throws ParseException If the given {@code description} is invalid.
      */
     public static Description parseDescription(String description) throws ParseException {
         requireNonNull(description);
@@ -117,9 +117,9 @@ public class ParserUtil {
      * Parses a {@code String date} into a {@code MeetingDate}.
      * Leading and trailing whitespaces are trimmed.
      *
-     * @param date Date string to parse
-     * @return Parsed {@code MeetingDate}
-     * @throws ParseException if the given {@code date} is invalid
+     * @param date Date string to parse.
+     * @return Parsed {@code MeetingDate}.
+     * @throws ParseException If the given {@code date} is invalid.
      */
     public static MeetingDate parseDate(String date) throws ParseException {
         requireNonNull(date);

@@ -5,9 +5,9 @@ import java.util.Comparator;
 import seedu.address.model.tag.Tag;
 
 /**
- * Comparator for Persons in UniquePersonList
- * Starred Contacts will show at the front of the list
- * Contacts will be sorted in alphabetical order
+ * Comparator for Persons in UniquePersonList.
+ * Starred Contacts will show at the front of the list.
+ * Contacts will be sorted in alphabetical order.
  */
 public class PersonComparator {
     public static final Comparator<Person> STAR_FIRST_ALPHABETICAL =

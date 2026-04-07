@@ -36,7 +36,8 @@ public class EditTagCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the specified tag for the person(s) "
-            + "identified by their index number(s) in the displayed contact list, or globally using \"all\".\n"
+            + "identified by their index number(s) in the displayed contact list, "
+            + "or globally in the current displayed contact list using \"all\".\n"
             + MESSAGE_FORMAT;
 
     public static final String MESSAGE_EDIT_TAG_SUCCESS_INDICES =

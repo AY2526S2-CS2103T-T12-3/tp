@@ -33,9 +33,9 @@ public class DeleteMeetingCommand extends Command {
     private final Set<Index> meetingIndices;
 
     /**
-     * Creates an DeleteMeetingCommand to delete the specified {@code Meeting}s
+     * Creates an DeleteMeetingCommand to delete the specified {@code Meeting}s.
      *
-     * @param meetingIndices The indices of the meetings to delete in the persons
+     * @param meetingIndices The indices of the meetings to delete in the persons.
      */
     public DeleteMeetingCommand(Set<Index> meetingIndices) {
         requireNonNull(meetingIndices);

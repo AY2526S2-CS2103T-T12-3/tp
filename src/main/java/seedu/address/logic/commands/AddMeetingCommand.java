@@ -44,11 +44,11 @@ public class AddMeetingCommand extends Command {
     private final MeetingDate date;
 
     /**
-     * Creates an AddMeetingCommand to add the specified {@code Meeting}
+     * Creates an AddMeetingCommand to add the specified {@code Meeting}.
      *
-     * @param indices Indexes of persons to add to the meeting
-     * @param description Description of the meeting
-     * @param date Date of the meeting (YYYY-MM-DD)
+     * @param indices Indexes of persons to add to the meeting.
+     * @param description Description of the meeting.
+     * @param date Date of the meeting (YYYY-MM-DD).
      */
     public AddMeetingCommand(Set<Index> indices, Description description, MeetingDate date) {
         requireNonNull(indices);

@@ -81,7 +81,9 @@ public interface Model {
      */
     void setPerson(Person target, Person editedPerson);
 
-    /** Finds the person with the given PersonId. */
+    /**
+     * Finds the person with the given PersonId.
+     * */
     Person getPerson(PersonId id);
 
     /** Returns an unmodifiable view of the filtered person list */
@@ -130,13 +132,15 @@ public interface Model {
 
     /**
      * Updates the filter of the filtered meeting list to filter by the given {@code predicate}.
-     * @throws NullPointerException if {@code predicate} is null.
+     *
+     * @throws NullPointerException If {@code predicate} is null.
      */
     void updateFilteredMeetingList(Predicate<Meeting> predicate);
 
     /**
-     * Updates the filter of the filtered meeting list to filter by all previous {@code predicate}
-     * @param predicate new predicate to be stacked with the other predicates
+     * Updates the filter of the filtered meeting list to filter by all previous {@code predicate}.
+     *
+     * @param predicate The new predicate to be stacked with the other predicates.
      */
     void updateFilteredMeetingListStacked(Predicate<Meeting> predicate);
 }

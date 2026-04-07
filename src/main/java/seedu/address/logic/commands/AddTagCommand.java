@@ -45,8 +45,8 @@ public class AddTagCommand extends Command {
     /**
      * Creates an AddTagCommand to add the specified {@code Tag}s to the specified {@code Person}s.
      *
-     * @param targetIndices Indices of the persons in the current contact list to add tags to
-     * @param tags The collection of tags to be added
+     * @param targetIndices Indices of the persons in the current contact list to add tags to.
+     * @param tags The collection of tags to be added.
      */
     public AddTagCommand(Collection<Index> targetIndices, Collection<Tag> tags) {
         requireAllNonNull(targetIndices, tags);
