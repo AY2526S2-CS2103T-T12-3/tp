@@ -1,5 +1,5 @@
 –-
-layout: page
+layout: default.md
 title: Internlink User Guide
 ---
 # Internlink User Guide
@@ -103,6 +103,7 @@ This guide is written for students who have at least some experience with using 
 **For Advanced users**
 
 * You can jump to the [Command Summary](#command-summary) for a quick summary of all the commands and their formats.
+</div>
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -585,7 +586,7 @@ addmeeting [CONTACT_INDEX] [, CONTACT_INDEX]... d/DESCRIPTION dt/DATE
 * `addmeeting d/ Casual Icebreaker dt/ 2026-05-26` schedules a meeting with description `Casual icebreaker` and date `2026-03-26`, with no people.
 
 > 💡 **Tip:** Not sure who is attending the meeting yet? 
-> You can create the meeting in advance without adding any participants and update it later with the [`editmeeting` command](editmeeting).
+> You can create the meeting in advance without adding any participants and update it later with the [`editmeeting` command](#editing-a-meeting--editmeeting).
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -636,7 +637,7 @@ editmeeting MEETING_INDEX (d/DESCRIPTION) (dt/DATE) (add/CONTACT_INDEX [, CONTAC
     - Adds the contact at index `5` in the **displayed contact list**
     - Removes the contact at index `1` in the **displayed contact list**
 
-> 💡 **Tip:** Need to add multiple participants with similar traits? Use the [`find` command](##locating-contacts-globally-global-find) to filter the contact list—this groups them together and updates their indices, making it easier to reference and add them.
+> 💡 **Tip:** Need to add multiple participants with similar traits? Use the [`find` command](#locating-contacts-globally-global-find) to filter the contact list—this groups them together and updates their indices, making it easier to reference and add them.
 > 
 [Back to Table of Contents](#table-of-contents)
 
@@ -686,11 +687,9 @@ findmeeting (d/DESCRIPTION) (dt/DATE) (i/CONTACT_INDEX [, CONTACT_INDEX]...)
   - contain all of contacts `1`, `2` and `3` from the displayed contact list.
 
 > 💡 **Tip:** Need to restore the full meeting list after using `findmeeting`?
-Use the [`listmeeting` command](listing-all-meetings-listmeeting) to clear all filters and display all meetings again.
+Use the [`listmeeting` command](#listing-all-meetings--listmeeting) to clear all filters and display all meetings again.
 
 [Back to Table of Contents](#table-of-contents)
-
-</div>
 
 ### Features – Managing data
 
