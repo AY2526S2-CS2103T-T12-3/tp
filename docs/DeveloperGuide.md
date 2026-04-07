@@ -87,6 +87,33 @@ The `UI` component:
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
 * depends on the `Model` component, as some `UI` component (like `MeetingItem`) needs to find the `Person` referred by a `ParticipantID`.
 
+The `CommandHistory` component:
+
+* keeps track of commands that the user have entered in the `CommandHistory`.
+* allows the user to shift through their previously entered commands via `prevCommand()` and `nextCommand()`.
+* Usage:
+  1. Add commands into the history using `add()`. Internally, this also resets the index to point at the end of the list.
+  2. Go to the previous command using `prevCommand()`. Note that the current draft needs to be passed in. This is because the `CommandHistory` keeps track of the user draft (the text that the user is currently editing). Internally, this method simply shifts the index to the previous command.
+  3. Go to the next command using `nextCommand()`. The current draft needs to be passed in as well. Internally, this method simply shifts the index to the next command and returns the command at that position OR the draft if `index == list.size()`.
+* Example usage:
+  ```
+  CommandHistory ch = new CommandHistory();
+  
+  // Assume the user has entered these two commands.
+  ch.add("first command");
+  ch.add("second command");
+  
+  // userDraft is the text in the CommandBox.
+  String userDraft = "draft command";
+  
+  userDraft = ch.prevCommand(userDraft); // userDraft becomes "second command".
+  userDraft = ch.prevCommand(userDraft); // userDraft becomes "first command".
+  userDraft = ch.nextCommand(userDraft); // userDraft becomes "second command".
+  userDraft = ch.nextCommand(userDraft); // userDraft becomes "draft command".
+  ```
+* `CommandHistory` sequence diagram:
+  <img src="images/CommandHistorySequenceDiagram.png" width="300" />
+
 ### Logic component
 
 **API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)

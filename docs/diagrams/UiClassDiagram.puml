@@ -12,12 +12,17 @@ Class MainWindow
 Class HelpWindow
 Class ResultDisplay
 Class MeetingListPanel
+Class "<<interface>>\nListItem" as ListItem
+Class MeetingItem
+Class SeparatorItem
 Class MeetingCard
+Class Separator
 Class PersonListPanel
 Class PersonCard
 Class ParticipantCard
 Class StatusBarFooter
 Class CommandBox
+Class CommandHistory
 }
 
 package Model <<Rectangle>> {
@@ -41,24 +46,33 @@ MainWindow *-down-> "1" StatusBarFooter
 MainWindow --> "0..1" HelpWindow
 
 PersonListPanel -down-> "*" PersonCard
-MeetingListPanel -[hidden]> PersonListPanel
-MeetingListPanel -down-> "*" MeetingCard
-ParticipantCard -[hidden]> PersonCard
+PersonCard -[hidden]> Separator
+PersonListPanel-[hidden]> MeetingListPanel
+
+MeetingListPanel -down-> "*" ListItem
+MeetingItem .up.|> ListItem
+MeetingItem -down-> "1" MeetingCard
+SeparatorItem .up.|> ListItem
+SeparatorItem -down-> "1" Separator
+SeparatorItem -[hidden]> MeetingItem
 MeetingCard -down-> "*" ParticipantCard
 
-MainWindow -left-|> UiPart
+CommandBox --> "1" CommandHistory
 
+MainWindow -left-|> UiPart
 ResultDisplay --|> UiPart
 CommandBox --|> UiPart
 PersonListPanel --|> UiPart
+MeetingListPanel --|>  UiPart
 PersonCard --|> UiPart
 ParticipantCard --|> UiPart
 MeetingCard --|> UiPart
+Separator --|> UiPart
 StatusBarFooter --|> UiPart
 HelpWindow --|> UiPart
 
-PersonCard ..> Model
-MeetingCard ..> Model
+MeetingListPanel ..> Model
+MeetingItem --> Model
 UiManager -right-> Logic
 MainWindow -left-> Logic
 
