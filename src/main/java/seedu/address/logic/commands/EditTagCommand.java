@@ -24,15 +24,15 @@ import seedu.address.model.tag.Tag;
 public class EditTagCommand extends Command {
     public static final String COMMAND_WORD = "edittag";
 
-    public static final String MESSAGE_FORMAT =
-            "Format: " + COMMAND_WORD + " "
-                    + "(INDICES (must be a positive integer) or 'all') "
-                    + PREFIX_OLDTAG + "OLDTAG "
-                    + PREFIX_NEWTAG + "NEWTAG\n"
-                    + "Example: " + COMMAND_WORD + " "
-                    + "1,2,3 "
-                    + PREFIX_OLDTAG + "acquaintance "
-                    + PREFIX_NEWTAG + "friend";
+    public static final String MESSAGE_FORMAT = "Formats:\n"
+                    + "1. " + COMMAND_WORD + " INDEX[,INDEX]... "
+                    + PREFIX_OLDTAG + "OLD_TAG "
+                    + PREFIX_NEWTAG + "NEW_TAG\n"
+                    + "Note: INDEX must be a positive integer\n"
+                    + "2. " + COMMAND_WORD + " all "
+                    + PREFIX_OLDTAG + "OLD_TAG "
+                    + PREFIX_NEWTAG + "NEW_TAG\n"
+                    + "Note: Use 'all' to apply to all entries\n";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the specified tag for the person(s) "

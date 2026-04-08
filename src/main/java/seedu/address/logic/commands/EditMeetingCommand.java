@@ -48,6 +48,7 @@ public class EditMeetingCommand extends Command {
             + "(" + PREFIX_DELETE_CONTACT_FROM_MEETING_INDEX
             + "CONTACT_INDEX (must be a positive integer) [, CONTACT_INDEX]...)\n"
             + "Note: Date must be in YYYY-MM-DD format.\n"
+            + "Note: MEETING_INDEX and CONTACT_INDEX must be a positive integer\n"
             + "Example: " + COMMAND_WORD + " 2 "
             + PREFIX_MEETING_DESCRIPTION + "Team Sync "
             + PREFIX_MEETING_DATE + "2026-04-01 "
