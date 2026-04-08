@@ -646,100 +646,100 @@ testers are expected to do more *exploratory* testing.
 1. Launch the application as seen above.
 
 
-2. Use the help command: `help`  
+2. Use the help command: `help`
    Expected: A help message is displayed that provides a link to the user guide.
 
 ---
 
 ### Adding and managing contacts
 
-1. Add a new contact with minimal required fields: `add n/Alice Tan p/91234567`  
+1. Add a new contact with minimal required fields: `add n/Alice Tan p/91234567`
    Expected: A new contact named Alice Tan is added with the phone number shown.
 
 
-2. Try adding a contact without a name: `add p/91234567`  
+2. Try adding a contact without a name: `add p/91234567`
    Expected: Error message indicating invalid command format.
 
 
-3. Add another contact with tags: `add n/Bob Lee e/bob@example.com t/friend t/cs`  
+3. Add another contact with tags: `add n/Bob Lee e/bob@example.com t/friend t/cs`
    Expected: Contact is added with email and tags.
 
 
-4. Edit an existing contact: `edit 1 p/98765432 e/alice@new.com`  
+4. Edit an existing contact: `edit 1 p/98765432 e/alice@new.com`
    Expected: Contact 1’s phone and email are updated.
 
 
-5. Try editing without specifying any fields: `edit 1`  
+5. Try editing without specifying any fields: `edit 1`
    Expected: Error message indicating that at least one field must be provided.
 
 ---
 
 ### Working with tags and favourites
 
-1. Add tags to multiple contacts: `addtag 1, 2 / friends / cs`  
+1. Add tags to multiple contacts: `addtag 1, 2 / friends / cs`
    Expected: Tags are added to both contacts.
 
 
-2. Attempt to use an invalid index: `addtag 0 / friends`  
+2. Attempt to use an invalid index: `addtag 0 / friends`
    Expected: Error message indicating invalid index.
 
 
-3. Rename a tag: `edittag 1, 2 o/cs n/computer science`  
+3. Rename a tag: `edittag 1, 2 o/cs n/computer science`
    Expected: Tag is updated for the specified contacts.
 
 
-4. Try editing a tag without specifying the old tag: `edittag 1, 2 n/computer science`  
+4. Try editing a tag without specifying the old tag: `edittag 1, 2 n/computer science`
    Expected: Error message due to missing old tag.
 
 
-5. Remove a tag: `deletetag 1 / friends`  
+5. Remove a tag: `deletetag 1 / friends`
    Expected: Tag is removed from contact 1.
 
 
-6. Try an incorrectly formatted delete tag command: `deletetag / friends 1`  
+6. Try an incorrectly formatted delete tag command: `deletetag / friends 1`
    Expected: Error message indicating invalid format.
 
 
-7. Mark a contact as starred: `star 2`  
+7. Mark a contact as starred: `star 2`
    Expected: Contact 2 is marked as starred.
 
 
-8. Try starring with an invalid index: `star 0`  
+8. Try starring with an invalid index: `star 0`
    Expected: Error message indicating invalid index.
 
 
-9. Remove starred marking: `unstar 2`  
+9. Remove starred marking: `unstar 2`
    Expected: Contact 2 is no longer marked as starred.
 
 ---
 
 ### Searching and filtering contacts
 
-1. List all contacts: `list`  
+1. List all contacts: `list`
    Expected: Full contact list is displayed.
 
 
-2. Search for contacts globally: `find Alice`  
+2. Search for contacts globally: `find Alice`
    Expected: Contacts matching "Alice" are shown.
 
 
-3. Try searching without a keyword: `find`  
+3. Try searching without a keyword: `find`
    Expected: Error message indicating missing search term.
 
 
-4. Search using specific fields: `find n/Alice p/9876`  
+4. Search using specific fields: `find n/Alice p/9876`
    Expected: Contacts matching the name or phone are shown.
 
 
-5. Try mixing global and field search: `find Alice n/Bob`  
+5. Try mixing global and field search: `find Alice n/Bob`
    Expected: Error message due to invalid command format.
 
 
-6. Search by tags: `findtag / friends`  
+6. Search by tags: `findtag / friends`
    Expected: Contacts with the tag are displayed.
 
 
-7. Try searching without specifying tags: `findtag`  
+7. Try searching without specifying tags: `findtag`
    Expected: Error message indicating missing tags.
 
 ---
@@ -749,58 +749,58 @@ testers are expected to do more *exploratory* testing.
 1. Click the tab to switch from the Contacts view to the Meetings view.
 
 
-2. Create a meeting with contacts: `addmeeting 1, 2 d/Project meeting dt/2026-05-26`  
+2. Create a meeting with contacts: `addmeeting 1, 2 d/Project meeting dt/2026-05-26`
    Expected: Meeting is added with the given details.
 
 
-3. Try using an invalid date format: `addmeeting d/Project meeting dt/26-05-2026`  
+3. Try using an invalid date format: `addmeeting d/Project meeting dt/26-05-2026`
    Expected: Error message indicating invalid date format.
 
 
-4. Edit the meeting: `editmeeting 1 d/Updated meeting dt/2026-06-01`  
+4. Edit the meeting: `editmeeting 1 d/Updated meeting dt/2026-06-01`
    Expected: Meeting details are updated.
 
 
-5. Try editing with an invalid date: `editmeeting 1 dt/01-06-2026`  
+5. Try editing with an invalid date: `editmeeting 1 dt/01-06-2026`
    Expected: Error message indicating invalid date format.
 
 
-6. List all meetings: `listmeeting`  
+6. List all meetings: `listmeeting`
    Expected: All meetings are displayed.
 
 
-7. Search for meetings: `findmeeting d/project`  
+7. Search for meetings: `findmeeting d/project`
    Expected: Matching meetings are shown.
 
 
-8. Try searching with an invalid date: `findmeeting dt/01-06-2026`  
+8. Try searching with an invalid date: `findmeeting dt/01-06-2026`
    Expected: Error message indicating invalid date format.
 
 
-9. Delete a meeting: `deletemeeting 1`  
+9. Delete a meeting: `deletemeeting 1`
    Expected: Meeting at index 1 is deleted.
 
 
-10. Try deleting with an invalid index: `deletemeeting 999`  
+10. Try deleting with an invalid index: `deletemeeting 999`
     Expected: Error message indicating invalid index.
 
 ---
 
 ### Cleaning up
 
-1. Delete a contact: `delete 1`  
+1. Delete a contact: `delete 1`
    Expected: Contact at index 1 is removed.
 
 
-2. Try deleting with an invalid index: `delete 999`  
+2. Try deleting with an invalid index: `delete 999`
    Expected: Error message indicating invalid index.
 
 
-3. Clear all data: `clear`  
+3. Clear all data: `clear`
    Expected: All contacts and meetings are removed.
 
 
-4. Exit the application: `exit`  
+4. Exit the application: `exit`
    Expected: Application closes successfully.
 
 ---
