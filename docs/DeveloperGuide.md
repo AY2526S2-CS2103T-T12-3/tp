@@ -414,7 +414,7 @@ Use case ends.
 1. User requests to find meetings and provides search inputs (e.g. description, date, or participant indices).
 2. InternLink evaluates the current meeting list based on the provided inputs:
     - If participant indices are provided, meetings containing all specified participants are considered matches.
-    - If description or date prefixes are provided (e.g. `d/`, `dt/`), meetings whose fields contain the specified substrings are considered matches.
+    - If description or date prefixes are provided (e.g. `d/`, `dt/`), meetings whose specified fields contain the given substrings are considered matches.
 3. InternLink filters the meeting list to include meetings that match any of the specified prefixes.
 4. InternLink displays the filtered list of meetings.
 
@@ -681,7 +681,7 @@ testers are expected to do more *exploratory* testing.
 
 
 2. Attempt to use an invalid index: `addtag 0 / friends`
-   Expected: Error message indicating invalid index.
+   Expected: Error message indicating invalid format (must be positive integer).
 
 
 3. Rename a tag: `edittag 1, 2 o/cs n/computer science`
@@ -705,7 +705,7 @@ testers are expected to do more *exploratory* testing.
 
 
 8. Try starring with an invalid index: `star 0`
-   Expected: Error message indicating invalid index.
+   Expected: Error message indicating invalid format (must be positive integer).
 
 
 9. Remove starred marking: `unstar 2`
@@ -724,23 +724,29 @@ testers are expected to do more *exploratory* testing.
 
 
 3. Try searching without a keyword: `find`
-   Expected: Error message indicating missing search term.
+   Expected: Error message indicating invalid format.
 
 
-4. Search using specific fields: `find n/Alice p/9876`
+4. Restore the original list with `list`.
+
+
+5. Search using specific fields: `find n/Alice p/9876`
    Expected: Contacts matching the name or phone are shown.
 
 
-5. Try mixing global and field search: `find Alice n/Bob`
-   Expected: Error message due to invalid command format.
+6. Try mixing global and field search: `find Alice n/Bob`
+   Expected: Error message due to mixing types of searches.
 
 
-6. Search by tags: `findtag / friends`
+7. Restore the original list with `list`.
+
+
+8. Search by tags: `findtag / friends`
    Expected: Contacts with the tag are displayed.
 
 
-7. Try searching without specifying tags: `findtag`
-   Expected: Error message indicating missing tags.
+9. Try searching without specifying tags: `findtag`
+   Expected: Error message indicating invalid format.
 
 ---
 
@@ -769,38 +775,37 @@ testers are expected to do more *exploratory* testing.
    Expected: All meetings are displayed.
 
 
-7. Search for meetings: `findmeeting d/project`
+7. Search for meetings: `findmeeting d/updated`
    Expected: Matching meetings are shown.
 
 
-8. Try searching with an invalid date: `findmeeting dt/01-06-2026`
-   Expected: Error message indicating invalid date format.
-
-
-9. Delete a meeting: `deletemeeting 1`
+8. Delete a meeting: `deletemeeting 1`
    Expected: Meeting at index 1 is deleted.
 
 
-10. Try deleting with an invalid index: `deletemeeting 999`
+9. Try deleting with an invalid index: `deletemeeting 999`
     Expected: Error message indicating invalid index.
 
 ---
 
 ### Cleaning up
 
-1. Delete a contact: `delete 1`
+1. Click the tab to switch from the Meetings view back to the Contacts view.
+
+
+2. Delete a contact: `delete 1`
    Expected: Contact at index 1 is removed.
 
 
-2. Try deleting with an invalid index: `delete 999`
+3. Try deleting with an invalid index: `delete 999`
    Expected: Error message indicating invalid index.
 
 
-3. Clear all data: `clear`
+4. Clear all data: `clear`
    Expected: All contacts and meetings are removed.
 
 
-4. Exit the application: `exit`
+5. Exit the application: `exit`
    Expected: Application closes successfully.
 
 ---
@@ -817,7 +822,12 @@ testers are expected to do more *exploratory* testing.
 
 3. Re-launch the application.
 
-Expected: The application starts with sample data and logs that the file is missing.
+Expected: The application starts with sample data and logs that the datafile is missing.
+
+
+4. Add a person: `add n/Alice Tan p/91234567`
+
+Expected: The datafile will reappear at the same location with the sample data and the added person inside.
 
 #### Corrupted file test
 
@@ -830,4 +840,5 @@ Expected: The application starts with sample data and logs that the file is miss
 3. Re-launch the application.
 
 Expected: The application detects the corrupted file, clears all data, and starts with an empty dataset,
-logging that the datafile cannot be read.
+logging that the datafile cannot be read. The `data/InternlinkData.json` file should remain untouched until
+a command is inputted in the application.
