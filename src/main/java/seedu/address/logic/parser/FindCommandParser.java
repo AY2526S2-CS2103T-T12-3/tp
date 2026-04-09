@@ -45,9 +45,16 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
     /**
-     * Validates prefixed search input:
-     * - global and prefixed search cannot be mixed
-     * - prefixed fields must not be blank
+     * Validates prefixed search input.
+     * Prevents mixing global search and prefixed search.
+     * Ensures that any prefix present is not followed only by blank values.
+     *
+     * @param args          user input
+     * @param preamble      global keywords
+     * @param nameKeywords  name keywords
+     * @param phoneKeywords phone keywords
+     * @param emailKeywords email keywords
+     * @throws ParseException
      */
     private void validatePrefixedSearch(String args, String preamble,
             List<String> nameKeywords,
@@ -69,7 +76,11 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
     /**
-     * Validates that a prefixed field is not blank.
+     * Validates that a supplied prefixed field contains at least one non-blank value.
+     *
+     * @param hasPrefix true if have prefix, false if not
+     * @param keywords  keywords parsed from user input
+     * @throws ParseException if the prefix was supplied but its values are blank.
      */
     private void validateFieldInput(boolean hasPrefix, List<String> keywords) throws ParseException {
         if (hasPrefix && containsOnlyBlankValues(keywords)) {
@@ -79,7 +90,13 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
     /**
-     * Creates the predicate for the find command.
+     * Creates the predicate for the find command
+     *
+     * @param preamble      global keywords
+     * @param nameKeywords  name keywords
+     * @param phoneKeywords phone keywords
+     * @param emailKeywords email keywords
+     * @return A PersonMatchesKeywordsPredicate
      */
     private PersonMatchesKeywordsPredicate createPredicate(String preamble,
             List<String> nameKeywords,
@@ -97,14 +114,20 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
     /**
-     * Normalizes internal whitespace in a string.
+     * Trims the input and collapses consecutive whitespace into a single space.
+     *
+     * @param input user input for global search
+     * @return the normalized string
      */
     private String normalizeWhitespace(String input) {
         return input.trim().replaceAll("\\s+", " ");
     }
 
     /**
-     * Returns true if all values are blank after trimming.
+     * Returns true if the list is empty, or if all values are blank after trimming.
+     *
+     * @param values values in prefixed search
+     * @return true if no meaningful values, false otherwise
      */
     private boolean containsOnlyBlankValues(List<String> values) {
         return values.isEmpty() || values.stream().allMatch(value -> value.trim().isEmpty());
