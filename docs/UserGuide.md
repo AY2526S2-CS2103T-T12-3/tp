@@ -149,12 +149,11 @@ Alternatively, to get started, you can try out some of the suggested commands he
 
 * `list` : Lists all contacts.
 
-
 * `add n/John Doe p/98765432 e/johnd@example.com` : Adds a contact named John Doe to the contact list, with phone number `98765432` and email `johnd@example.com`.
 
+* `addmeeting 1,2,3 d/Project meeting dt/2026-04-10` : Creates a meeting titled "Project meeting" on 10 April 2026 with the persons at index 1, 2, and 3 as participants.
 
-* `delete 1` : Deletes the 1st contact shown in the displayed contact list.
-
+* `delete 1` : Deletes the 1st contact shown in the displayed contact list. This will also delete the person from all meetings they were a part of.
 
 * `clear` : Deletes all contacts.
 
@@ -340,7 +339,9 @@ An added contact is automatically be sorted into your list by alphabetical order
 delete INDEX [, INDEX]...
 ```
 
-**Description:** You can use this command to delete the contact at the specified `INDEX` number(s) from the displayed contact list. The details of the deleted contact(s) can also be seen in the command result box once completed.
+**Description:** You can use this command to delete the contact at the specified `INDEX` number(s) from the displayed contact list. 
+The details of the deleted contact(s) can also be seen in the command result box once completed. 
+Deleted persons will also be removed from meetings that they were a part of.
 
 ![delete message](images/deletecommand.png)
 
