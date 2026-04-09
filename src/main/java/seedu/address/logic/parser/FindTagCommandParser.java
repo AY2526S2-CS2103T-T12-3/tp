@@ -3,10 +3,12 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SEPARATOR;
+import static seedu.address.logic.parser.ParserUtil.isPrefixPresent;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import seedu.address.logic.commands.AddTagCommand;
 import seedu.address.logic.commands.FindTagCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
@@ -27,18 +29,21 @@ public class FindTagCommandParser implements Parser<FindTagCommand> {
 
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_SEPARATOR);
 
-        boolean isArgumentEmpty = args.trim().isEmpty();
+        boolean areSeparatorsMissing = !isPrefixPresent(argMultimap, PREFIX_SEPARATOR);
+
         boolean isPreambleEmpty = argMultimap.getPreamble().isEmpty();
+
+        if (areSeparatorsMissing || !isPreambleEmpty) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindTagCommand.MESSAGE_USAGE));
+        }
 
         Set<Tag> tags = new HashSet<>();
         ParserUtil.parseTagsOptional(argMultimap.getAllValues(PREFIX_SEPARATOR)).ifPresent(tags::addAll);
 
-        if (isArgumentEmpty || !isPreambleEmpty || tags.isEmpty()) {
-            // invalid format as there should be nothing before the first slash
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindTagCommand.MESSAGE_USAGE));
+        if (tags.isEmpty()) {
+            throw new ParseException(AddTagCommand.MESSAGE_NO_TAGS);
         }
 
         return new FindTagCommand(tags);
     }
 }
-

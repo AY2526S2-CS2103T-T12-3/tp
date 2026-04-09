@@ -44,7 +44,8 @@ public class FindMeetingCommandParser implements Parser<FindMeetingCommand> {
 
         if (descriptionKeywords.isEmpty() && dateKeywords.isEmpty() && personIndices.isEmpty()) {
             throw new ParseException(
-                    String.format(FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND, FindMeetingCommand.MESSAGE_USAGE));
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                            FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND + FindMeetingCommand.MESSAGE_USAGE));
         }
 
         if (!preamble.isEmpty()) {
