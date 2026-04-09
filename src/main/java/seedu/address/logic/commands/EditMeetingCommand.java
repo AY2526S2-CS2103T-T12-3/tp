@@ -90,7 +90,6 @@ public class EditMeetingCommand extends Command {
             throw new CommandException(String.format(MESSAGE_INVALID_MEETING_INDEX, meetingIndex.getOneBased()));
         }
         Meeting meetingToEdit = lastShownMeetingList.get(meetingIndex.getZeroBased());
-
         Meeting editedMeeting = createEditedMeeting(meetingToEdit, editMeetingDescriptor);
 
         try {
@@ -99,8 +98,8 @@ public class EditMeetingCommand extends Command {
             throw new CommandException(MESSAGE_MEETING_ALREADY_EXISTS);
         }
 
-        return new CommandResult(String.format(MESSAGE_EDIT_MEETING_SUCCESS,
-                editedMeeting));
+        String passedDateNotification = editedMeeting.getDate().getPassedDateNotification();
+        return new CommandResult(String.format(MESSAGE_EDIT_MEETING_SUCCESS + passedDateNotification, editedMeeting));
     }
 
     /**

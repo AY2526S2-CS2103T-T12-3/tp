@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SET_SINGLE;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_DATE_20260325;
@@ -69,7 +69,7 @@ public class AddressBookParserTest {
 
         AddMeetingCommand expectedCommand = new AddMeetingCommand(VALID_INDEX_SET_SINGLE,
                 new Description(VALID_DESCRIPTION_PROJECT),
-                new MeetingDate(VALID_DATE_20260325));
+                new MeetingDate(VALID_DATE_20270325));
         assertEquals(expectedCommand, command);
     }
 
@@ -154,7 +154,7 @@ public class AddressBookParserTest {
 
         assertEquals(new FindMeetingCommand(
                 List.of(VALID_DESCRIPTION_PROJECT),
-                List.of(VALID_DATE_20260325.toString()),
+                List.of(VALID_DATE_20270325.toString()),
                 Set.of(Index.fromOneBased(1))), command);
     }
 

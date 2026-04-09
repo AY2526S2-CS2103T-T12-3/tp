@@ -47,7 +47,7 @@ public class Description {
             return false;
         }
         Description otherDescription = (Description) other;
-        return description.equals(otherDescription.description);
+        return description.equalsIgnoreCase(otherDescription.description);
     }
 
     @Override

@@ -38,7 +38,10 @@ public class AddMeetingCommand extends Command {
     public static final String MESSAGE_ADD_MEETING_SUCCESS = "Added meeting: %1$s";
     public static final String MESSAGE_INVALID_CONTACT_INDEX = "Invalid contact index provided.";
     public static final String MESSAGE_MEETING_ALREADY_EXISTS =
-            "A meeting with the same description and date already exists";
+            "A meeting with the same description (case-insensitive) and date already exists.\n"
+                    + "Note: For description, leading/trailing spaces are ignored, "
+                    + "but internal spacing differences are considered distinct. "
+                    + "(e.g \"Meet later\" and \"Meet   later\" are considered different.)";
 
     private final Set<Index> indices;
     private final Description description;
@@ -85,7 +88,9 @@ public class AddMeetingCommand extends Command {
         } catch (DuplicateMeetingException e) {
             throw new CommandException(MESSAGE_MEETING_ALREADY_EXISTS);
         }
-        return new CommandResult(String.format(MESSAGE_ADD_MEETING_SUCCESS, meeting));
+
+        String passedDateNotification = date.getPassedDateNotification();
+        return new CommandResult(String.format(MESSAGE_ADD_MEETING_SUCCESS + passedDateNotification, meeting));
     }
 
     @Override

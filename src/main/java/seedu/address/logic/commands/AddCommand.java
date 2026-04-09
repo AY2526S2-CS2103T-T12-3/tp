@@ -33,7 +33,11 @@ public class AddCommand extends Command {
             + PREFIX_TAG + "owesMoney";
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the contact list";
+    public static final String MESSAGE_DUPLICATE_PERSON =
+            "A person with the same name (case-insensitive), phone number, and email already exists.\n"
+                    + "Note: For name, leading/trailing spaces are ignored, "
+                    + "but internal spacing differences are considered distinct. "
+                    + "(e.g \"John Doe\" and \"John  Doe\" are considered different.)";
 
     private final Person toAdd;
 

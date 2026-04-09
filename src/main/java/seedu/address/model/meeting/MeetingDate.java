@@ -59,6 +59,17 @@ public class MeetingDate implements Comparable<MeetingDate> {
         return this.date.compareTo(o.getDate());
     }
 
+    /**
+     * Returns the string {@code (past date)} if {@code date} is before system date.
+     * Otherwise, returns an empty string.
+     */
+    public String getPassedDateNotification() {
+        if (this.date.isBefore(LocalDate.now())) {
+            return " (past date)";
+        }
+        return "";
+    }
+
     @Override
     public String toString() {
         return date.toString();

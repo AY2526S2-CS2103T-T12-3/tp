@@ -1,8 +1,8 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260401;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270325;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270401;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_TEAM;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SET_SINGLE;
@@ -26,8 +26,8 @@ public class AddMeetingCommandParserTest {
     public static final String INPUT_DESC_PROJECT = " " + PREFIX_MEETING_DESCRIPTION + VALID_DESCRIPTION_PROJECT;
     public static final String INPUT_DESC_TEAM = " " + PREFIX_MEETING_DESCRIPTION + VALID_DESCRIPTION_TEAM;
 
-    public static final String INPUT_DATE_20260325 = " " + PREFIX_MEETING_DATE + VALID_DATE_20260325;
-    public static final String INPUT_DATE_20260401 = " " + PREFIX_MEETING_DATE + VALID_DATE_20260401;
+    public static final String INPUT_DATE_20260325 = " " + PREFIX_MEETING_DATE + VALID_DATE_20270325;
+    public static final String INPUT_DATE_20260401 = " " + PREFIX_MEETING_DATE + VALID_DATE_20270401;
 
     public static final String INVALID_INPUT_DESCRIPTION = " " + PREFIX_MEETING_DESCRIPTION + "";
     public static final String INVALID_INPUT_DATE = " " + PREFIX_MEETING_DATE + "25-03-2026";
@@ -47,7 +47,7 @@ public class AddMeetingCommandParserTest {
                 new AddMeetingCommand(
                         VALID_INDEX_SET_SINGLE,
                         new Description(VALID_DESCRIPTION_PROJECT),
-                        new MeetingDate(VALID_DATE_20260325)));
+                        new MeetingDate(VALID_DATE_20270325)));
     }
 
     @Test
@@ -55,7 +55,7 @@ public class AddMeetingCommandParserTest {
         AddMeetingCommand expectedCommand = new AddMeetingCommand(
                 VALID_INDICES_SET_MULTIPLE,
                 new Description(VALID_DESCRIPTION_TEAM),
-                new MeetingDate(VALID_DATE_20260401));
+                new MeetingDate(VALID_DATE_20270401));
         assertParseSuccess(parser, INPUT_INDICES_MULTIPLE + INPUT_DESC_TEAM + INPUT_DATE_20260401,
                 expectedCommand);
     }
@@ -66,7 +66,7 @@ public class AddMeetingCommandParserTest {
         AddMeetingCommand expectedCommand = new AddMeetingCommand(
                 new HashSet<>(),
                 new Description(VALID_DESCRIPTION_TEAM),
-                new MeetingDate(VALID_DATE_20260401));
+                new MeetingDate(VALID_DATE_20270401));
         assertParseSuccess(parser, INPUT_DESC_TEAM + INPUT_DATE_20260401, expectedCommand);
     }
 

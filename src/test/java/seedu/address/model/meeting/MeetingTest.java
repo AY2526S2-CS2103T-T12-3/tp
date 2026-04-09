@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.AddMeetingCommandTest.INVALID_DESCRIPTION;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260401;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270325;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270401;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_TEAM;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -28,7 +28,7 @@ public class MeetingTest {
     @Test
     public void constructor_nullDescription_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () ->
-                new MeetingBuilder().withDescription(null).withDate(VALID_DATE_20260325)
+                new MeetingBuilder().withDescription(null).withDate(VALID_DATE_20270325)
                         .withParticipants(VALID_IDS).build());
     }
 
@@ -43,18 +43,18 @@ public class MeetingTest {
     public void constructor_invalidDescription_throwsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () ->
                 new MeetingBuilder().withDescription(INVALID_DESCRIPTION)
-                        .withDate(VALID_DATE_20260325).withParticipants(VALID_IDS).build());
+                        .withDate(VALID_DATE_20270325).withParticipants(VALID_IDS).build());
     }
 
     @Test
     public void constructor_validMeeting_success() {
         Meeting meeting = new MeetingBuilder()
                 .withDescription(VALID_DESCRIPTION_PROJECT)
-                .withDate(VALID_DATE_20260325)
+                .withDate(VALID_DATE_20270325)
                 .withParticipants(VALID_IDS)
                 .build();
         assertEquals(new Description(VALID_DESCRIPTION_PROJECT), meeting.getDescription());
-        assertEquals(new MeetingDate(VALID_DATE_20260325), meeting.getDate());
+        assertEquals(new MeetingDate(VALID_DATE_20270325), meeting.getDate());
 
         Set<String> actualIds = meeting.getParticipantsIDs().stream()
                 .map(PersonId::toString)
@@ -65,18 +65,18 @@ public class MeetingTest {
 
     @Test
     public void dateComparisons() {
-        MeetingDate date1 = new MeetingDate(VALID_DATE_20260325);
-        MeetingDate date2 = new MeetingDate(VALID_DATE_20260401);
+        MeetingDate date1 = new MeetingDate(VALID_DATE_20270325);
+        MeetingDate date2 = new MeetingDate(VALID_DATE_20270401);
 
         Meeting m1 = new MeetingBuilder()
                 .withDescription(VALID_DESCRIPTION_PROJECT)
-                .withDate(VALID_DATE_20260325)
+                .withDate(VALID_DATE_20270325)
                 .withParticipants(VALID_IDS)
                 .build();
 
         Meeting m2 = new MeetingBuilder()
                 .withDescription(VALID_DESCRIPTION_TEAM)
-                .withDate(VALID_DATE_20260401)
+                .withDate(VALID_DATE_20270401)
                 .withParticipants(VALID_IDS)
                 .build();
 
@@ -91,32 +91,32 @@ public class MeetingTest {
     public void toStringMethod() {
         Meeting meeting = new MeetingBuilder()
                 .withDescription(VALID_DESCRIPTION_PROJECT)
-                .withDate(VALID_DATE_20260325)
+                .withDate(VALID_DATE_20270325)
                 .withParticipants(VALID_IDS)
                 .build();
-        assertEquals(VALID_DESCRIPTION_PROJECT + " on " + VALID_DATE_20260325, meeting.toString());
+        assertEquals(VALID_DESCRIPTION_PROJECT + " on " + VALID_DATE_20270325, meeting.toString());
     }
 
     @Test
     public void equals() {
         Meeting meeting1 = new MeetingBuilder()
                 .withDescription(VALID_DESCRIPTION_PROJECT)
-                .withDate(VALID_DATE_20260325)
+                .withDate(VALID_DATE_20270325)
                 .withParticipants(VALID_IDS)
                 .build();
         Meeting meeting2 = new MeetingBuilder()
                 .withDescription(VALID_DESCRIPTION_PROJECT)
-                .withDate(VALID_DATE_20260325)
+                .withDate(VALID_DATE_20270325)
                 .withParticipants(VALID_IDS)
                 .build();
         Meeting meetingDiffDescription = new MeetingBuilder()
                 .withDescription(VALID_DESCRIPTION_TEAM)
-                .withDate(VALID_DATE_20260325)
+                .withDate(VALID_DATE_20270325)
                 .withParticipants(VALID_IDS)
                 .build();
         Meeting meetingDiffDate = new MeetingBuilder()
                 .withDescription(VALID_DESCRIPTION_PROJECT)
-                .withDate(VALID_DATE_20260401)
+                .withDate(VALID_DATE_20270401)
                 .withParticipants(VALID_IDS)
                 .build();
 

@@ -2,7 +2,7 @@ package seedu.address.model.person;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ID_1;
@@ -27,7 +27,7 @@ public class PersonIdTest {
     @Test
     public void constructor_invalidId_throwsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> new PersonId(VALID_DESCRIPTION_PROJECT));
-        assertThrows(IllegalArgumentException.class, () -> new PersonId(VALID_DATE_20260325));
+        assertThrows(IllegalArgumentException.class, () -> new PersonId(VALID_DATE_20270325));
     }
 
     @Test

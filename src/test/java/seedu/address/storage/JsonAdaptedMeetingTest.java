@@ -2,7 +2,7 @@ package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.AddMeetingCommandTest.INVALID_DATE_WRONG_FORMAT;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
 import static seedu.address.storage.JsonAdaptedPersonTest.VALID_MEETINGS;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -37,7 +37,7 @@ public class JsonAdaptedMeetingTest {
     @Test
     public void toModelType_nullDescription_throwsIllegalValueException() {
         JsonAdaptedMeeting meeting = new JsonAdaptedMeeting(null,
-                VALID_DATE_20260325.toString(), VALID_IDS);
+                VALID_DATE_20270325.toString(), VALID_IDS);
         assertThrows(IllegalValueException.class, meeting::toModelType);
     }
 
@@ -52,7 +52,7 @@ public class JsonAdaptedMeetingTest {
     public void toModelType_invalidIDs_ignored() throws Exception {
         JsonAdaptedMeeting meetingWithInvalidIds = new JsonAdaptedMeeting(
                 VALID_DESCRIPTION_PROJECT,
-                VALID_DATE_20260325,
+                VALID_DATE_20270325,
                 INVALID_IDS
         );
 

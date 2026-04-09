@@ -1,8 +1,8 @@
 package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260401;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270325;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270401;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_TEAM;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
@@ -44,8 +44,8 @@ class JsonAdaptedPersonTest {
 
     // Dummy meetings for testing
     public static final List<JsonAdaptedMeeting> VALID_MEETINGS = List.of(
-            new JsonAdaptedMeeting(VALID_DESCRIPTION_PROJECT, VALID_DATE_20260325.toString(), VALID_IDS),
-            new JsonAdaptedMeeting(VALID_DESCRIPTION_TEAM, VALID_DATE_20260401.toString(), VALID_IDS)
+            new JsonAdaptedMeeting(VALID_DESCRIPTION_PROJECT, VALID_DATE_20270325.toString(), VALID_IDS),
+            new JsonAdaptedMeeting(VALID_DESCRIPTION_TEAM, VALID_DATE_20270401.toString(), VALID_IDS)
     );
 
     // Valid cases

@@ -3,7 +3,7 @@ package seedu.address.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalMeetings.COFFEE_MEETING;
@@ -159,7 +159,7 @@ public class AddressBookTest {
         // Create a meeting referencing the removed person's PersonId
         Meeting meetingWithNonexistentPerson = new MeetingBuilder()
                 .withDescription(VALID_DESCRIPTION_PROJECT)
-                .withDate(VALID_DATE_20260325)
+                .withDate(VALID_DATE_20270325)
                 .withParticipants(Set.of(firstPerson.getId().toString()))
                 .build();
 

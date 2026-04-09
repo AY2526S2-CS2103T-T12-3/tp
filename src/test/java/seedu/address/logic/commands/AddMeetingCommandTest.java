@@ -28,8 +28,8 @@ import seedu.address.testutil.MeetingBuilder;
 public class AddMeetingCommandTest {
     public static final String VALID_DESCRIPTION_PROJECT = "Project discussion";
     public static final String VALID_DESCRIPTION_TEAM = "Team Meeting";
-    public static final String VALID_DATE_20260325 = "2026-03-25";
-    public static final String VALID_DATE_20260401 = "2026-04-01";
+    public static final String VALID_DATE_20270325 = "2027-03-25";
+    public static final String VALID_DATE_20270401 = "2027-04-01";
     public static final Set<Index> VALID_INDEX_SET_SINGLE = Set.of(INDEX_FIRST_PERSON);
     public static final Set<Index> VALID_INDICES_SET_MULTIPLE = Set.of(
             INDEX_FIRST_PERSON, INDEX_SECOND_PERSON, INDEX_THIRD_PERSON
@@ -46,7 +46,7 @@ public class AddMeetingCommandTest {
         Set<Index> indices = VALID_INDEX_SET_SINGLE;
         AddMeetingCommand command = new AddMeetingCommand(indices,
                 new Description(VALID_DESCRIPTION_PROJECT),
-                new MeetingDate(VALID_DATE_20260325));
+                new MeetingDate(VALID_DATE_20270325));
 
         // Original target person
         Person targetPerson = model.getFilteredPersonList()
@@ -58,7 +58,7 @@ public class AddMeetingCommandTest {
         // Meeting using MeetingBuilder
         Meeting meeting = new MeetingBuilder()
                 .withDescription(VALID_DESCRIPTION_PROJECT)
-                .withDate(VALID_DATE_20260325)
+                .withDate(VALID_DATE_20270325)
                 .withParticipants(participantIds)
                 .build();
 
@@ -75,7 +75,7 @@ public class AddMeetingCommandTest {
     public void execute_multipleIndices_success() {
         AddMeetingCommand command = new AddMeetingCommand(VALID_INDICES_SET_MULTIPLE,
                 new Description(VALID_DESCRIPTION_TEAM),
-                new MeetingDate(VALID_DATE_20260401));
+                new MeetingDate(VALID_DATE_20270401));
 
         // Collect participant IDs from all target persons
         Set<String> participantIds = Set.of(
@@ -87,7 +87,7 @@ public class AddMeetingCommandTest {
         // Meeting using MeetingBuilder
         Meeting meeting = new MeetingBuilder()
                 .withDescription(VALID_DESCRIPTION_TEAM)
-                .withDate(VALID_DATE_20260401)
+                .withDate(VALID_DATE_20270401)
                 .withParticipants(participantIds)
                 .build();
 
@@ -108,7 +108,7 @@ public class AddMeetingCommandTest {
 
         AddMeetingCommand command = new AddMeetingCommand(outOfBoundsIndices,
                 new Description(VALID_DESCRIPTION_PROJECT),
-                new MeetingDate(VALID_DATE_20260325));
+                new MeetingDate(VALID_DATE_20270325));
 
         assertCommandFailure(command, model, AddMeetingCommand.MESSAGE_INVALID_CONTACT_INDEX);
     }
@@ -120,10 +120,10 @@ public class AddMeetingCommandTest {
 
         AddMeetingCommand firstCommand = new AddMeetingCommand(firstIndices,
                 new Description(VALID_DESCRIPTION_PROJECT),
-                new MeetingDate(VALID_DATE_20260325));
+                new MeetingDate(VALID_DATE_20270325));
         AddMeetingCommand secondCommand = new AddMeetingCommand(secondIndices,
                 new Description(VALID_DESCRIPTION_TEAM),
-                new MeetingDate(VALID_DATE_20260401));
+                new MeetingDate(VALID_DATE_20270401));
 
         // same object -> returns true
         assertEquals(firstCommand, firstCommand);
@@ -131,7 +131,7 @@ public class AddMeetingCommandTest {
         // same values -> returns true
         AddMeetingCommand firstCommandCopy = new AddMeetingCommand(firstIndices,
                 new Description(VALID_DESCRIPTION_PROJECT),
-                new MeetingDate(VALID_DATE_20260325));
+                new MeetingDate(VALID_DATE_20270325));
         assertEquals(firstCommand, firstCommandCopy);
 
         // different types -> returns false

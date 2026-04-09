@@ -3,7 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_INDEX_SET_SINGLE;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -97,7 +97,7 @@ public class FindMeetingCommandTest {
 
         Meeting meeting = new MeetingBuilder()
                 .withDescription(VALID_DESCRIPTION_PROJECT)
-                .withDate(VALID_DATE_20260325)
+                .withDate(VALID_DATE_20270325)
                 .withParticipants(participantIds)
                 .build();
 

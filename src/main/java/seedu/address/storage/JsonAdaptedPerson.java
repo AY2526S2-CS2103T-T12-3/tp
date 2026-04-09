@@ -87,7 +87,7 @@ class JsonAdaptedPerson {
         // If IllegalArgumentException returned, call constructor that generates new ID
         final PersonId modelId;
         try {
-            modelId = new PersonId(id);
+            modelId = new PersonId(id.trim());
         } catch (IllegalArgumentException e) {
             return new Person(modelName, modelPhone, modelEmail, modelTags);
         }
@@ -107,7 +107,7 @@ class JsonAdaptedPerson {
         if (!Name.isValidName(name)) {
             throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
         }
-        return new Name(name);
+        return new Name(name.trim());
     }
 
     /**
@@ -121,7 +121,7 @@ class JsonAdaptedPerson {
             if (!Phone.isValidPhone(phone)) {
                 throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
             }
-            return new Phone(phone);
+            return new Phone(phone.trim());
         }
         return null;
     }
@@ -137,7 +137,7 @@ class JsonAdaptedPerson {
             if (!Email.isValidEmail(email)) {
                 throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
             }
-            return new Email(email);
+            return new Email(email.trim());
         }
         return null;
     }

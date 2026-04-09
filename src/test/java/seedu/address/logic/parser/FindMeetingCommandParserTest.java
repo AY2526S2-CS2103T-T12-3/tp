@@ -1,7 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20260325;
+import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_INDICES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
@@ -55,11 +55,11 @@ public class FindMeetingCommandParserTest {
     public void parse_datePrefix_returnsFindMeetingCommand() {
         FindMeetingCommand expected = new FindMeetingCommand(
                 Collections.emptyList(),
-                List.of(VALID_DATE_20260325.toString()),
+                List.of(VALID_DATE_20270325.toString()),
                 Collections.emptySet());
 
-        String userInput1 = " " + PREFIX_MEETING_DATE + VALID_DATE_20260325;
-        String userInput2 = " " + PREFIX_MEETING_DATE + " " + VALID_DATE_20260325;
+        String userInput1 = " " + PREFIX_MEETING_DATE + VALID_DATE_20270325;
+        String userInput2 = " " + PREFIX_MEETING_DATE + " " + VALID_DATE_20270325;
 
         assertParseSuccess(parser, userInput1, expected);
         assertParseSuccess(parser, userInput2, expected);
@@ -83,17 +83,17 @@ public class FindMeetingCommandParserTest {
     public void parse_multiplePrefixes_returnsFindMeetingCommand() {
         FindMeetingCommand expected = new FindMeetingCommand(
                 List.of(VALID_DESCRIPTION_PROJECT),
-                List.of(VALID_DATE_20260325.toString()),
+                List.of(VALID_DATE_20270325.toString()),
                 Collections.emptySet());
 
         String userInput1 = " " + PREFIX_MEETING_DESCRIPTION + VALID_DESCRIPTION_PROJECT
-                + " " + PREFIX_MEETING_DATE + VALID_DATE_20260325;
+                + " " + PREFIX_MEETING_DATE + VALID_DATE_20270325;
         String userInput2 = " " + PREFIX_MEETING_DESCRIPTION + " " + VALID_DESCRIPTION_PROJECT
-                + " " + PREFIX_MEETING_DATE + VALID_DATE_20260325;
+                + " " + PREFIX_MEETING_DATE + VALID_DATE_20270325;
         String userInput3 = " " + PREFIX_MEETING_DESCRIPTION + VALID_DESCRIPTION_PROJECT
-                + " " + PREFIX_MEETING_DATE + " " + VALID_DATE_20260325;
+                + " " + PREFIX_MEETING_DATE + " " + VALID_DATE_20270325;
         String userInput4 = " " + PREFIX_MEETING_DESCRIPTION + " " + VALID_DESCRIPTION_PROJECT
-                + " " + PREFIX_MEETING_DATE + " " + VALID_DATE_20260325;
+                + " " + PREFIX_MEETING_DATE + " " + VALID_DATE_20270325;
 
         assertParseSuccess(parser, userInput1, expected);
         assertParseSuccess(parser, userInput2, expected);
