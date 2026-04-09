@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MEETING_TYPE;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.util.Set;
@@ -31,8 +32,7 @@ public class DeleteMeetingCommandParser implements Parser<DeleteMeetingCommand> 
         }
 
         // Parse meeting indices
-        Set<Index> meetingIndices = ParserUtil.parseIndices(
-                args,
+        Set<Index> meetingIndices = ParserUtil.parseIndices(args, MEETING_TYPE,
                 DeleteMeetingCommand.MESSAGE_USAGE);
 
         return new DeleteMeetingCommand(meetingIndices);

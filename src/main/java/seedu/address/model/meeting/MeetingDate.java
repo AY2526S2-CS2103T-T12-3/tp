@@ -13,7 +13,7 @@ import java.time.format.DateTimeParseException;
 public class MeetingDate implements Comparable<MeetingDate> {
     public static final String MESSAGE_DATE_NON_NULL =
             "Meeting date must not be null";
-    public static final String MESSAGE_DATE_FORMAT_WRONG =
+    public static final String MESSAGE_DATE_WRONG_FORMAT =
             "Meeting date must be in yyyy-MM-dd format.";
     public static final String MESSAGE_INVALID_DATE =
             "Meeting date must be a valid calendar date.";
@@ -27,7 +27,7 @@ public class MeetingDate implements Comparable<MeetingDate> {
      */
     public MeetingDate(String dateString) {
         requireNonNull(dateString, MESSAGE_DATE_NON_NULL);
-        checkArgument(isValidDateFormat(dateString), MESSAGE_DATE_FORMAT_WRONG);
+        checkArgument(isValidDateFormat(dateString), MESSAGE_DATE_WRONG_FORMAT);
         checkArgument(isValidDate(dateString), MESSAGE_INVALID_DATE);
         this.date = LocalDate.parse(dateString);
     }

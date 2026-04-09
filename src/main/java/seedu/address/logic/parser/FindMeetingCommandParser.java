@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.CONTACT_TYPE;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_INDICES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
@@ -45,7 +46,8 @@ public class FindMeetingCommandParser implements Parser<FindMeetingCommand> {
         Set<Index> personIndices = new HashSet<>();
 
         if (!personIndicesList.isEmpty() && !personIndicesList.get(0).isEmpty()) {
-            personIndices = ParserUtil.parseIndices(personIndicesList.get(0), FindMeetingCommand.MESSAGE_USAGE);
+            personIndices = ParserUtil.parseIndices(personIndicesList.get(0),
+                    CONTACT_TYPE, FindMeetingCommand.MESSAGE_USAGE);
         }
 
         String trimmedArgs = args.trim();
@@ -64,5 +66,4 @@ public class FindMeetingCommandParser implements Parser<FindMeetingCommand> {
                 dateKeywords,
                 personIndices);
     }
-
 }

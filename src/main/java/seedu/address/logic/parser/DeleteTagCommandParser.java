@@ -1,6 +1,8 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.CONTACT_TYPE;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SEPARATOR;
 
 import java.util.HashSet;
@@ -26,7 +28,14 @@ public class DeleteTagCommandParser implements Parser<DeleteTagCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_SEPARATOR);
 
-        Set<Index> indices = ParserUtil.parseIndices(argMultimap.getPreamble(), DeleteTagCommand.MESSAGE_USAGE);
+        boolean areSeperatorsMissing = argMultimap.getPreamble().isEmpty();
+
+        if (areSeperatorsMissing) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteTagCommand.MESSAGE_USAGE));
+        }
+
+        Set<Index> indices = ParserUtil.parseIndices(argMultimap.getPreamble(),
+                CONTACT_TYPE, DeleteTagCommand.MESSAGE_USAGE);
 
         Set<Tag> tags = new HashSet<>();
         ParserUtil.parseTagsOptional(argMultimap.getAllValues(PREFIX_SEPARATOR)).ifPresent(tags::addAll);
