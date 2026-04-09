@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_INDICES;
@@ -19,12 +20,20 @@ import seedu.address.logic.commands.FindMeetingCommand;
 
 public class FindMeetingCommandParserTest {
 
+    public static final String NON_EMPTY_PREAMBLE = " hi d/ Casual icebreaker";
+
     private FindMeetingCommandParser parser = new FindMeetingCommandParser();
 
     @Test
     public void parse_emptyArg_throwsParseException() {
         assertParseFailure(parser, "     ",
                 String.format(String.format(FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND)));
+    }
+
+    @Test
+    public void parse_nonEmptyPreamble_throwsParseException() {
+        assertParseFailure(parser, NON_EMPTY_PREAMBLE,
+                String.format(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindMeetingCommand.MESSAGE_USAGE)));
     }
 
     @Test
