@@ -6,58 +6,57 @@ Hello fellow students, welcome to Internlink's User Guide!
 
 ### Table of Contents
 <!-- TOC -->
-  * [Table of Contents](#table-of-contents)
-  * [Introduction](#introduction)
-  * [What is Internlink?](#what-is-internlink)
-    * [Who this guide is for](#who-this-guide-is-for)
-  * [Using this Guide](#using-this-guide)
-  * [Getting Started](#getting-started)
-    * [1. Getting the correct Java version](#1-getting-the-correct-java-version)
-      * [Checking your Java version](#checking-your-java-version)
-    * [2. Downloading Internlink](#2-downloading-internlink)
-    * [3. Running Internlink](#3-running-internlink)
-  * [User Interface](#user-interface)
-    * [Contacts View](#contacts-view)
-    * [Meetings Page](#meetings-page)
-  * [Features](#features)
-    * [Guide to Command Format](#guide-to-command-format)
-    * [Notes about Command Format](#notes-about-command-format)
-    * [General features](#general-features)
-      * [Viewing help : `help`](#viewing-help--help)
-      * [Clearing all entries : `clear`](#clearing-all-entries--clear)
-      * [Exiting the program : `exit`](#exiting-the-program--exit)
-      * [Accessing previous commands using arrow keys](#accessing-previous-commands-using-arrow-keys)
-    * [Managing contact information](#managing-contact-information)
-      * [Adding a contact : `add`](#adding-a-contact--add)
-      * [Deleting a contact : `delete`](#deleting-a-contact--delete)
-      * [Editing a contact : `edit`](#editing-a-contact--edit)
-    * [Mass-tagging features](#mass-tagging-features)
-      * [Adding tags to one or more contacts : `addtag`](#adding-tags-to-one-or-more-contacts--addtag)
-      * [Deleting tags from one or more contacts : `deletetag`](#deleting-tags-from-one-or-more-contacts--deletetag)
-      * [Editing existing tags : `edittag`](#editing-existing-tags--edittag)
-    * [Using stars (favourites)](#using-stars-favourites)
-      * [Starring contacts : `star`](#starring-contacts--star)
-      * [Unstarring contacts : `unstar`](#unstarring-contacts--unstar)
-    * [Filtering the contact list](#filtering-the-contact-list)
-      * [Listing all contacts : `list`](#listing-all-contacts--list)
-      * [Finding contact information](#finding-contact-information)
-      * [Locating contacts globally: global `find`](#locating-contacts-globally-global-find)
-      * [Locating contacts by specific fields: field `find`](#locating-contacts-by-specific-fields-field-find)
-      * [Finding contacts by tags : `findtag`](#finding-contacts-by-tags--findtag)
-    * [Managing meeting information](#managing-meeting-information)
-      * [Adding a meeting : `addmeeting`](#adding-a-meeting--addmeeting)
-      * [Deleting a meeting : `deletemeeting`](#deleting-a-meeting--deletemeeting)
-      * [Editing a meeting : `editmeeting`](#editing-a-meeting--editmeeting)
-    * [Filtering the meeting list](#filtering-the-meeting-list)
-      * [Listing all meetings : `listmeeting`](#listing-all-meetings--listmeeting)
-      * [Finding a meeting : `findmeeting`](#finding-a-meeting--findmeeting)
-    * [Managing data](#managing-data)
-      * [Saving the data](#saving-the-data)
-      * [Editing the data file](#editing-the-data-file)
-  * [FAQ](#faq)
-  * [Known issues](#known-issues)
-  * [Command summary](#command-summary)
-  * [Glossary](#glossary)
+- [Introduction](#introduction)
+- [What is Internlink?](#what-is-internlink)
+  - [Who this guide is for](#who-this-guide-is-for)
+- [Using this Guide](#using-this-guide)
+- [Getting Started](#getting-started)
+  - [1. Getting the correct Java version](#1-getting-the-correct-java-version)
+  - [**Checking your Java version:**](#checking-your-java-version)
+  - [2. Downloading Internlink](#2-downloading-internlink)
+  - [3. Running Internlink](#3-running-internlink)
+- [User Interface](#user-interface)
+  - [Contacts View](#contacts-view)
+  - [Meetings Page](#meetings-page)
+- [Features](#features)
+  - [Guide to Command Format](#guide-to-command-format)
+  - [Notes about Command Format](#notes-about-command-format)
+- [General features](#general-features)
+  - [Viewing help : `help`](#viewing-help--help)
+  - [Clearing all entries : `clear`](#clearing-all-entries--clear)
+  - [Exiting the program : `exit`](#exiting-the-program--exit)
+  - [Accessing previous commands using arrow keys](#accessing-previous-commands-using-arrow-keys)
+- [Managing contact information](#managing-contact-information)
+  - [Adding a contact : `add`](#adding-a-contact--add)
+  - [Deleting a contact : `delete`](#deleting-a-contact--delete)
+  - [Editing a contact : `edit`](#editing-a-contact--edit)
+- [Mass-tagging features](#mass-tagging-features)
+  - [Adding tags to one or more contacts : `addtag`](#adding-tags-to-one-or-more-contacts--addtag)
+  - [Deleting tags from one or more contacts : `deletetag`](#deleting-tags-from-one-or-more-contacts--deletetag)
+  - [Editing existing tags : `edittag`](#editing-existing-tags--edittag)
+- [Using stars (favourites)](#using-stars-favourites)
+  - [Starring contacts : `star`](#starring-contacts--star)
+  - [Unstarring contacts : `unstar`](#unstarring-contacts--unstar)
+- [Filtering the contact list](#filtering-the-contact-list)
+  - [Listing all contacts : `list`](#listing-all-contacts--list)
+  - [Finding contact information](#finding-contact-information)
+  - [Locating contacts globally: global `find`](#locating-contacts-globally-global-find)
+  - [Locating contacts by specific fields: field `find`](#locating-contacts-by-specific-fields-field-find)
+  - [Finding contacts by tags : `findtag`](#finding-contacts-by-tags--findtag)
+- [Managing meeting information](#managing-meeting-information)
+  - [Adding a meeting : `addmeeting`](#adding-a-meeting--addmeeting)
+  - [Deleting a meeting : `deletemeeting`](#deleting-a-meeting--deletemeeting)
+  - [Editing a meeting : `editmeeting`](#editing-a-meeting--editmeeting)
+- [Filtering the meeting list](#filtering-the-meeting-list)
+  - [Listing all meetings : `listmeeting`](#listing-all-meetings--listmeeting)
+  - [Finding a meeting : `findmeeting`](#finding-a-meeting--findmeeting)
+- [Managing data](#managing-data)
+  - [Saving the data](#saving-the-data)
+  - [Editing the data file](#editing-the-data-file)
+- [FAQ](#faq)
+- [Known issues](#known-issues)
+- [Command summary](#command-summary)
+- [Glossary](#glossary)
 <!-- TOC -->
 
 ------------------------------------------------------------------------------
@@ -193,7 +192,7 @@ Alternatively, to get started, you can try out some of the suggested commands he
 > 💡 **Tip:** Need to use a command that references both meetings and contacts?
 Don’t worry — the command box is not cleared when switching between pages, so you
  can switch as many times as needed while entering your command.
-> 
+>
 [Back to Table of Contents](#table-of-contents)
 
 ## Features
@@ -203,11 +202,11 @@ The command format consists of three main parts:
 
 | Component    | Example       | Description                                     |
 |--------------|---------------|-------------------------------------------------|
-| Command Word | `add`         | Specifies the action to perform                 |
+| Command Word | `find`         | Specifies the action to perform                 |
 | Prefix       | `n/`          | Indicates which field is being set (e.g., name) |
 | Parameter    | `George Best` | The value provided by the user                  |
 
-For example, `add n/George Best` is a valid command formed using these three components.
+For example, `find n/George Best` is a valid command formed using these three components.
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -317,6 +316,8 @@ add n/NAME (p/PHONE_NUMBER) (e/EMAIL) [t/TAG]...
 
 An added contact is automatically be sorted into your list by alphabetical order.
 
+Try `add n/Betsy Crowe p/12345678 e/betsycrowe@example.com t/friend t/criminal` <br>
+Output: <br>
 ![add message](images/addcommand.png)
 
 > 💡 **Tip:** In a rush? Just provide a *name* and *one other contact detail* (phone number/email) to add the contact. You can fill in the rest later with the [`edit` command](#editing-a-contact--edit)
@@ -339,10 +340,12 @@ An added contact is automatically be sorted into your list by alphabetical order
 delete INDEX [, INDEX]...
 ```
 
-**Description:** You can use this command to delete the contact at the specified `INDEX` number(s) from the displayed contact list. 
-The details of the deleted contact(s) can also be seen in the command result box once completed. 
+**Description:** You can use this command to delete the contact at the specified `INDEX` number(s) from the displayed contact list.
+The details of the deleted contact(s) can also be seen in the command result box once completed.
 Deleted persons will also be removed from meetings that they were a part of.
 
+Try `delete 1` <br>
+Output: <br>
 ![delete message](images/deletecommand.png)
 
 **Examples:**
@@ -360,6 +363,8 @@ edit INDEX (n/NAME) (p/PHONE) (e/EMAIL) (t/TAG)…
 
 **Description:** You can use this command to edit the contact at the specified `INDEX` in the displayed contact list with all the new information given. The details of the edited contact can also be seen in the command result box once completed.
 
+Try `edit 1 p/91234567 e/johndoe@example.com` <br>
+Output: <br>
 ![edit message](images/editcommand.png)
 
 * At least one of the optional fields must be provided.
@@ -389,6 +394,8 @@ addtag INDEX [,INDEX]... / TAG [/ TAG]...
 
 **Description:** You can use this command to add the specified `TAG`s to the contacts at the specified `INDEX` numbers in the displayed contact list. It supports multi-index and multi-tag input, letting you add multiple tags to multiple people in a single command.
 
+Try `addtag 1 / cs / friends` <br>
+Output: <br>
 ![addtag message](images/addtagcommand.png)
 
 **Examples:**
@@ -408,6 +415,8 @@ deletetag INDEX [,INDEX]...  / TAG [/ TAG]...
 
 **Description:** You can use this command to delete the specified `TAG`s from the contacts at the specified `INDEX` numbers in the **displayed contact list**.  It supports multi-index and multi-tag input, letting you delete multiple tags from multiple people in a single command.
 
+Try `deletetag 1 / cs / friends` <br>
+Output: <br>
 ![deletetag message](images/deletetagcommand.png)
 
 > ❗ **Note:** At least one of the `TAG`s must be already tagged on one of the specified contacts, otherwise the command will fail. Invalid tags will be ignored.
@@ -436,7 +445,12 @@ edittag all o/ OLDTAG n/ NEWTAG
 
 >💡 **Tip:** Made a typo in a tag? Use `all` in this command to rename it for every contact it's added to.
 
+Try `editag 1 o/ cs n/ computer science` <br>
+Output: <br>
 ![edittag message indices](images/edittagcommandindices.png)
+
+Try `editag all o/ friends n/ classmates` <br>
+Output: <br>
 ![edittag message global](images/edittagcommandglobal.png)
 
 > ❗ **Note:** As long as one of the specified contacts has the given `OLDTAG`, the command will be recognized as valid.
@@ -467,6 +481,8 @@ star INDEX [, INDEX]...
 
 **Description:** You can use this command to star/favourite the contact(s) at the specified `INDEX` number(s) in the displayed contact list by adding the `STAR` label to them.
 
+Try `star 2` <br>
+Output: <br>
 ![star message](images/starcommand.png)
 
 **Examples:**
@@ -484,6 +500,8 @@ unstar INDEX [, INDEX]...
 
 **Description:** You can use this command to unstar/unfavourite the contact(s) at the specified `INDEX` number(s) in the displayed contact list by removing the `STAR` label from them.
 
+Try `unstar 1` <br>
+Output: <br>
 ![unstar message](images/unstarcommand.png)
 
 **Examples:**
@@ -524,6 +542,8 @@ find SEARCH SUBSTRING
 
 **Description:** You can use this command to search the displayed contact list using all fields except tags (name, phone, email) to match with the given keyword.
 
+Try `find billy` <br>
+Output: <br>
 ![result of `find billy`](images/findcommandglobal.png)
 
 * Search keywords are **not separated by spaces**. e.g. `find alex john` searches for `alex john` as a combined keyword.
@@ -546,6 +566,8 @@ find (n/NAME)... (p/PHONE)... (e/EMAIL)...
 
 **Description:** You can use this command to search the displayed contact list using specific fields except tags (name, phone, email) and only search within that field. However, **field find cannot be used with global find concurrently.**
 
+Try `find p/1` <br>
+Output: <br>
 ![result of `find p/1`](images/findcommandfield.png)
 
 * To search for multiple keywords in the same field, you must enter the prefix before each keyword. This is because field find treats the entire input after the prefix as a single search keyword, similar to global find.
@@ -565,11 +587,14 @@ findtag / TAG [/ TAG]...
 
 **Description:** You can use this command to find contacts with specific tags, for easier management.
 
-![result of `findtag / classmates / cs](images/findtagcommand.png)
+Try `findtag / classmates / cs` <br>
+Output: <br>
+![result of `findtag / classmates / cs`](images/findtagcommand.png)
 
 * `findtag` operates on the **displayed contact list**.
 * All contacts containing **at least one** of the given tags will be filtered (i.e. `OR` search).
 * As long as one of the given tags exist in the displayed contact list, `findtag` will successfully execute. Invalid tags will be ignored.
+* `findtag` is case-sensitive
 
 **Examples:**
 * `findtag / classmates` filters all contacts that contain the `classmates` tag.
@@ -594,6 +619,8 @@ addmeeting [CONTACT_INDEX] [, CONTACT_INDEX]... d/DESCRIPTION dt/DATE
 
 **Description:** You can use this command to schedule and add a meeting with zero or more people based on their indices shown in the displayed contact list. This command will also show the details of the meeting scheduled in the command result panel.
 
+Try `addmeeting 1,2 d/ Casual Icebreaker dt/ 2026-05-26` <br>
+Output: <br>
 ![result of `addmeeting d/ Casual Icebreaker dt/ 2026-05-26`](images/addmeetingcommand.png)
 
 > ❗ **Note:** DATE must be in the `YYYY-MM-DD` format (e.g. `2024-03-15`).
@@ -604,7 +631,7 @@ addmeeting [CONTACT_INDEX] [, CONTACT_INDEX]... d/DESCRIPTION dt/DATE
 * `addmeeting 1, 2 d/ Casual Icebreaker dt/ 2026-05-26` schedules a meeting with description `Casual icebreaker` and date `2026-03-26`, with the first 2 contacts in the displayed contact list.
 * `addmeeting d/ Casual Icebreaker dt/ 2026-05-26` schedules a meeting with description `Casual icebreaker` and date `2026-03-26`, with no people.
 
-> 💡 **Tip:** Not sure who is attending the meeting yet? 
+> 💡 **Tip:** Not sure who is attending the meeting yet?
 > You can create the meeting in advance without adding any participants and update it later with the [`editmeeting` command](#editing-a-meeting--editmeeting).
 
 [Back to Table of Contents](#table-of-contents)
@@ -618,6 +645,8 @@ deletemeeting MEETING_INDEX [, MEETING_INDEX]...
 
 **Description:** You can use this command to delete meetings based on their index shown in the displayed meeting list. This command will also show the details of the meetings deleted in the command result panel.
 
+Try `deletemeeting 1` <br>
+Output: <br>
 ![result of `deletemeeting 1`](images/deletemeetingcommand.png)
 
 **Examples:**
@@ -637,6 +666,8 @@ editmeeting MEETING_INDEX (d/DESCRIPTION) (dt/DATE) (add/CONTACT_INDEX [, CONTAC
 
 **Description:** You can use this command to edit a meeting’s details (e.g. description, date, contacts involved) based on its index in the displayed meeting list. The updated meeting details will be shown in the command result panel.
 
+Try `editmeeting 1 d/Casual icebreaker add/5 del/1` <br>
+Output: <br>
 ![result of `editmeeting 1 d/Casual icebreaker add/5 del/1`](images/editmeetingcommand.png)
 
 > ❗ **Note:** DATE must be in the `YYYY-MM-DD` format (e.g. `2024-03-15`).
@@ -657,7 +688,7 @@ editmeeting MEETING_INDEX (d/DESCRIPTION) (dt/DATE) (add/CONTACT_INDEX [, CONTAC
     - Removes the contact at index `1` in the **displayed contact list**
 
 > 💡 **Tip:** Need to add multiple participants with similar traits? Use the [`find` command](#locating-contacts-globally-global-find) to filter the contact list—this groups them together and updates their indices, making it easier to reference and add them.
-> 
+>
 [Back to Table of Contents](#table-of-contents)
 
 ## Filtering the meeting list
@@ -686,9 +717,11 @@ findmeeting (d/DESCRIPTION) (dt/DATE) (i/CONTACT_INDEX [, CONTACT_INDEX]...)
 
 **Description:** You can use this command to find meetings that match the given substrings in their fields. The displayed meeting list will be filtered to show only meetings that match the given criteria.
 
+Try `findmeeting casual` <br>
+Output: <br>
 ![result of `findmeeting casual`](images/findmeetingcommand.png)
 
-> ❗ **Note:** DATE must be in the `YYYY-MM-DD` format (e.g. `2024-03-15`).
+> ❗ **Note:** Date should be in YYYY-MM-DD format (e.g. `2024-03-15`) but the search keyword need not be a complete date (i.e. something like YYYY-MM is still valid). This is because dates for meetings are stored in the YYYY-MM-DD format, so keep that in mind if inputting the search keyword for it.
 
 > ❗ **Note:** Only meetings including **all specified contact indices** will be matched.
 
@@ -739,6 +772,7 @@ the data of your previous Internlink home folder (the location of `Internlink.js
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 3. Currently, certain error messages (such as the error message `add` displays for using the wrong email format) might require scrolling the command result box horizontally or vertically, which might negatively affect ease of reading. One way to fix this is to enlarge the app window as much as possible so the text can display cleanly across each output line.
+4. Editing a person's information does not update their information in the `Meetings` tab unless you click on the meeting card with the edited person individually.
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -796,4 +830,3 @@ The terms are displayed in alphabetical order for ease of searching.
 
 
 [Back to Table of Contents](#table-of-contents)
-
