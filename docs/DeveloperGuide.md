@@ -393,6 +393,12 @@ Use case ends.
         Use case resumes at step 1.
 
 
+* 6a. The edited meeting has a date that is before the device's time.
+   * 6a1. Internlink reports the successful editing of contact / meeting, and notes the date has passed.
+
+      Use case ends.
+
+
 **Use case: UC6 - Find contacts**
 
 **MSS:**
@@ -575,7 +581,7 @@ Use case ends.
 2. Should be able to hold up to 1000 contacts without a noticeable sluggishness in performance for typical usage.
 3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 4. Search and filtering operations (including multi-tag filtering) should complete within 1 second for up to 100 contacts.
-5. The system should load the application within 2 seconds with 1000 contacts.
+5. The system should load the application within 2 seconds with 1000 total contacts and meetings.
 6. Each contact should be able to support up to 20 tags.
 7. The application should automatically save changes after every successful command.
 8. The application should prevent data corruption even if the program closes unexpectedly.

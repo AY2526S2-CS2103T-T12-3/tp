@@ -391,6 +391,8 @@ addtag INDEX [,INDEX]... / TAG [/ TAG]...
 * `addtag 5 / classmates` adds the `classmates` tag to contact index 5.
 * `addtag 1, 2, 3 / friends / cs` adds the `friends` and `cs` tags to contact indices 1, 2 and 3.
 
+> ❗ **Note:** If a `TAG` already exist for a contact, that `TAG` will not be duplicated.
+
 [Back to Table of Contents](#table-of-contents)
 
 ### Deleting tags from one or more contacts : `deletetag`
@@ -400,11 +402,11 @@ addtag INDEX [,INDEX]... / TAG [/ TAG]...
 deletetag INDEX [,INDEX]...  / TAG [/ TAG]...
 ```
 
-**Description:** You can use this command to delete the specified `TAG`s from the contacts at the specified `INDEX` numbers in the displayed contact list.  It supports multi-index and multi-tag input, letting you delete multiple tags from multiple people in a single command.
+**Description:** You can use this command to delete the specified `TAG`s from the contacts at the specified `INDEX` numbers in the **displayed contact list**.  It supports multi-index and multi-tag input, letting you delete multiple tags from multiple people in a single command.
 
 ![deletetag message](images/deletetagcommand.png)
 
-* At least one of the `TAG`s must be already tagged on one of the specified contacts, otherwise the command will fail. Invalid tags will be ignored.
+> ❗ **Note:** At least one of the `TAG`s must be already tagged on one of the specified contacts, otherwise the command will fail. Invalid tags will be ignored.
 
 **Examples:**
 * `deletetag 5 / classmates` deletes the `classmates` tag from contact index 5.
@@ -415,18 +417,26 @@ deletetag INDEX [,INDEX]...  / TAG [/ TAG]...
 ### Editing existing tags : `edittag`
 
 **Format:**
+
+**Edit tags (selected contacts):**
 ```
-edittag (INDICES OR 'all') o/ OLDTAG n/ NEWTAG
+edittag INDEX, [INDEX]... o/ OLDTAG n/ NEWTAG
 ```
 
-**Description:** You can use this command to edit the specified existing/old tag for the specified contacts at the specified `INDEX` numbers in the displayed contact list to the given new tag, or all contacts in the displayed list in the case of `all`.
+**Edit tag (all contacts):**
+```
+edittag all o/ OLDTAG n/ NEWTAG
+```
+
+**Description:** You can use this command to edit the specified existing/old tag for the specified contacts at the specified `INDEX` numbers in the **displayed contact list** to the given new tag, or for all contacts in the displayed list in the case of `all`.
+
+>💡 **Tip:** Made a typo in a tag? Use `all` in this command to rename it for every contact it's added to.
 
 ![edittag message indices](images/edittagcommandindices.png)
 ![edittag message global](images/edittagcommandglobal.png)
 
-* Using the `all` keyword instead of specific indices will do a global edit (in the displayed contact list) of the given `OLDTAG`, while inputting specific indices only edits them for the given contacts.
-* As long as one of the specified contacts has the given `OLDTAG`, the command will be recognized as valid.
-* `edittag` operates on the displayed contact list, not the entire contact list.
+> ❗ **Note:** As long as one of the specified contacts has the given `OLDTAG`, the command will be recognized as valid.
+Contacts without the `OLDTAG` will be ignored.
 
 **Examples:**
 * `edittag 1, 2, 3 o/ cs n/ computer science` edits the tag `cs` for contacts 1, 2 and 3, and changes it to `computer science`.
@@ -440,7 +450,7 @@ edittag (INDICES OR 'all') o/ OLDTAG n/ NEWTAG
 You can mark important contacts as favourites to easily identify and have them always appear at the top of your contact list.
 This is especially useful for keeping track of frequently contacted people or high-priority connections.
 
-> 💡 **Tip:** The examples given for `star` and `unstar` use the [`find`](#locating-contacts-globally-global-find) command as well. Click on "find" in the previous sentence to find out what it does!
+> 💡 **Tip:** In the examples, `star` and `unstar` are used together with the [`find` command](#locating-contacts-globally-global-find) to make looking for specific contacts to star easier.
 
 > 💡 **Tip:** The `STAR` (case-sensitive) label used in `star` and `unstar` is actually a tag with the name `STAR`. As such, contacts can also be starred/unstarred using [tagging features](#mass-tagging-features) such as `addtag` and `deletetag`!
 
@@ -743,7 +753,8 @@ the data of your previous Internlink home folder (the location of `Internlink.js
 | **Field Find**      | `find (n/NAME) (p/PHONE) (e/EMAIL)...`<br> e.g. `find n/ david p/ 9927 e/ charlotte`                                                                                                                           |
 | **Add tags**        | `addtag INDEX [, INDEX...] / TAG [/ TAG]`<br> e.g. `addtag 1, 2 / friends / cs`                                                                                                                                |
 | **Delete tags**     | `deletetag INDEX [, INDEX...] / TAG [/ TAG]`<br> e.g. `deletetag 1, 2 / friends / cs`                                                                                                                          |
-| **Edit tags**       | `edittag (INDICES OR 'all') o/ OLDTAG n/ NEWTAG`<br> e.g. `edittag 1, 2, 3 o/ cs n/ computer science`                                                                                                          |
+| **Edit tag**        | `edittag INDEX[,INDEX]... o/ OLDTAG n/ NEWTAG`<br>e.g. `edittag 1,2,3 o/ cs n/ computer science`                                                                                                               |
+| **Edit tag (global)**| `edittag all o/ OLDTAG n/ NEWTAG`<br>e.g. `edittag all o/ cs n/ computer science`                                                                                                                              |
 | **Find tags**       | `findtag / TAG [/ TAG]...`<br> e.g. `findtag / schoolB / schoolC`                                                                                                                                              |
 | **Star**            | `star INDEX [, INDEX]...`<br> e.g. `star 2`                                                                                                                                                                    |
 | **Unstar**          | `unstar INDEX [, INDEX]...`<br> e.g. `unstar 2`                                                                                                                                                                |
