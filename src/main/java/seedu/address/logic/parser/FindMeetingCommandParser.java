@@ -26,43 +26,49 @@ public class FindMeetingCommandParser implements Parser<FindMeetingCommand> {
      * @throws ParseException If the user input does not conform the expected format.
      */
     public FindMeetingCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args,
-                        PREFIX_MEETING_DESCRIPTION, PREFIX_MEETING_DATE, PREFIX_CONTACT_INDICES);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
+                args, PREFIX_MEETING_DESCRIPTION, PREFIX_MEETING_DATE, PREFIX_CONTACT_INDICES);
 
         String preamble = argMultimap.getPreamble().trim();
 
-        List<String> descriptionKeywords = argMultimap.getAllValues(PREFIX_MEETING_DESCRIPTION)
-                .stream()
+        List<String> descriptionKeywords = argMultimap.getAllValues(PREFIX_MEETING_DESCRIPTION).stream()
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());
-        List<String> dateKeywords = argMultimap.getAllValues(PREFIX_MEETING_DATE)
-                .stream()
+        List<String> dateKeywords = argMultimap.getAllValues(PREFIX_MEETING_DATE).stream()
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());
         List<String> personIndicesList = argMultimap.getAllValues(PREFIX_CONTACT_INDICES);
 
-        Set<Index> personIndices = new HashSet<>();
-
-        if (!personIndicesList.isEmpty() && !personIndicesList.get(0).isEmpty()) {
-            personIndices = ParserUtil.parseIndices(personIndicesList.get(0), FindMeetingCommand.MESSAGE_USAGE);
-        }
-
-        String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty() || !preamble.isEmpty()) {
-            // there should be nothing before the first prefix (d/)
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindMeetingCommand.MESSAGE_USAGE));
-        }
+        Set<Index> personIndices = getPersonIndices(personIndicesList);
 
         if (descriptionKeywords.isEmpty() && dateKeywords.isEmpty() && personIndices.isEmpty()) {
             throw new ParseException(
                     String.format(FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND, FindMeetingCommand.MESSAGE_USAGE));
         }
 
-        return new FindMeetingCommand(descriptionKeywords,
-                dateKeywords,
-                personIndices);
+        if (!preamble.isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindMeetingCommand.MESSAGE_USAGE));
+        }
+
+        return new FindMeetingCommand(descriptionKeywords, dateKeywords, personIndices);
     }
 
+    /**
+     * Returns the set of person indices to be searched for.
+     *
+     * @param personIndicesList The list of person indices parsed from the argument string.
+     * @return The set of person indices to be searched for.
+     * @throws ParseException if any index is invalid or does not conform to the expected format.
+     */
+    private static Set<Index> getPersonIndices(List<String> personIndicesList)
+            throws ParseException {
+        Set<Index> personIndices = new HashSet<>();
+
+        if (!personIndicesList.isEmpty() && !personIndicesList.get(0).isEmpty()) {
+            personIndices = ParserUtil.parseIndices(personIndicesList.get(0), FindMeetingCommand.MESSAGE_USAGE);
+        }
+
+        return personIndices;
+    }
 }

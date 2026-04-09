@@ -20,11 +20,19 @@ import seedu.address.logic.commands.FindMeetingCommand;
 
 public class FindMeetingCommandParserTest {
 
+    public static final String NON_EMPTY_PREAMBLE = " hi d/ Casual icebreaker";
+
     private FindMeetingCommandParser parser = new FindMeetingCommandParser();
 
     @Test
     public void parse_emptyArg_throwsParseException() {
         assertParseFailure(parser, "     ",
+                String.format(String.format(FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND)));
+    }
+
+    @Test
+    public void parse_nonEmptyPreamble_throwsParseException() {
+        assertParseFailure(parser, NON_EMPTY_PREAMBLE,
                 String.format(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindMeetingCommand.MESSAGE_USAGE)));
     }
 
