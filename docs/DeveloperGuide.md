@@ -186,7 +186,39 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-WIP: Fill in information here
+### Add tag command
+<img src="images/AddTagCommandSequenceDiagram.png" width="550">
+
+1. `AddTagCommandParser` parses the indices of people to add tags to as well as the tags to add to those people.
+
+     1a. The indices must refer to valid person(s) in the current `model.getFilteredList()`.
+  
+     1b. The tags must not contain invalid characters.
+
+     1c. The corresponding `AddTagCommand` is created.
+2. `AddTagCommand` fetches each person with the corresponding indices from the `Model`'s `filteredList`.
+3. For each fetched person, add all the tags to them. A person ignores tags that they already have.
+4. Edit these persons into the model.
+5. Output the `CommandResult`.
+
+### Add meeting command
+<img src="images/AddMeetingCommandSequenceDiagram.png" width="550">
+
+1. `AddMeetingCommandParser` parses the indices of participants, the description, and the date of the `Meeting`.
+
+    1a. The indices must refer to valid person(s) in the current `model.getFilteredList()`.
+
+    1b. The description must not contain invalid characters.
+
+    1c. The date must be in yyyy-MM-dd format (e.g. 2026-08-15).
+
+    1d. The corresponding `AddMeetingCommand` is created.
+2. `AddMeetingCommand` fetches each person with the corresponding indices from the `Model`'s `filteredList`.
+3. For each fetched person, get his/her ID and accumulate those into a set.
+4. Create a `Meeting` with those participant IDs, description, and date.
+5. Add the meeting into the `model`. If the meeting is a duplicate, this operation will fail.
+6. Output the `CommandResult`.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
