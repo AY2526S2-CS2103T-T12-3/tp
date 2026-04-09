@@ -202,11 +202,11 @@ The command format consists of three main parts:
 
 | Component    | Example       | Description                                     |
 |--------------|---------------|-------------------------------------------------|
-| Command Word | `add`         | Specifies the action to perform                 |
+| Command Word | `find`         | Specifies the action to perform                 |
 | Prefix       | `n/`          | Indicates which field is being set (e.g., name) |
 | Parameter    | `George Best` | The value provided by the user                  |
 
-For example, `add n/George Best` is a valid command formed using these three components.
+For example, `find n/George Best` is a valid command formed using these three components.
 
 [Back to Table of Contents](#table-of-contents)
 
