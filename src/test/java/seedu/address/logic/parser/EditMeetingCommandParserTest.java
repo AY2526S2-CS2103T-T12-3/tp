@@ -1,5 +1,7 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MEETING_TYPE;
+import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_DESC_PROJECT;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INPUT_INDEX_SINGLE;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INVALID_INPUT_INDEX_NEGATIVE;
 import static seedu.address.logic.parser.AddMeetingCommandParserTest.INVALID_INPUT_INDEX_NON_NUMERIC;
@@ -10,6 +12,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
@@ -32,9 +35,7 @@ class EditMeetingCommandParserTest {
     @Test
     void parse_missingParts_failure() {
         // no index specified
-        assertParseFailure(parser, PREFIX_MEETING_DESCRIPTION
-                + PROJECT_MEETING.getDescription().toString(),
-                MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, INPUT_DESC_PROJECT, MESSAGE_INVALID_FORMAT);
 
         // no fields specified
         assertParseFailure(parser, INPUT_INDEX_SINGLE, EditMeetingCommand.MESSAGE_NOT_EDITED);
@@ -47,15 +48,15 @@ class EditMeetingCommandParserTest {
     void parse_invalidPreamble_failure() {
         // negative index
         assertParseFailure(parser, INVALID_INPUT_INDEX_NEGATIVE + PREFIX_MEETING_DESCRIPTION
-                + PROJECT_MEETING.getDescription(), MESSAGE_INVALID_FORMAT);
+                + PROJECT_MEETING.getDescription().description, String.format(MESSAGE_INVALID_INDEX, MEETING_TYPE));
 
         // zero index
         assertParseFailure(parser, INVALID_INPUT_INDEX_ZERO + PREFIX_MEETING_DESCRIPTION
-                + PROJECT_MEETING.getDescription(), MESSAGE_INVALID_FORMAT);
+                + PROJECT_MEETING.getDescription().description, String.format(MESSAGE_INVALID_INDEX, MEETING_TYPE));
 
         // non-integer index
         assertParseFailure(parser, INVALID_INPUT_INDEX_NON_NUMERIC + PREFIX_MEETING_DESCRIPTION
-                + PROJECT_MEETING.getDescription(), MESSAGE_INVALID_FORMAT);
+                + PROJECT_MEETING.getDescription().description, String.format(MESSAGE_INVALID_INDEX, MEETING_TYPE));
     }
 
     @Test

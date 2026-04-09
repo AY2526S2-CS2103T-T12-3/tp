@@ -25,7 +25,8 @@ import seedu.address.model.tag.Tag;
  */
 public class ParserUtil {
 
-    public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_INDEX =
+            "%s index must be a non-zero unsigned integer.";
 
     /**
      * Returns true if the prefix contains empty {@code Optional} values in the given
@@ -36,15 +37,28 @@ public class ParserUtil {
     }
 
     /**
-     * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
-     * trimmed.
-     * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
+     * Parses {@code oneBasedIndex} into an {@code Index} and returns it.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @param oneBasedIndex The input string representing a one-based index.
+     * @param indexType The type of index being parsed (e.g., "Contact", "Meeting"),
+     *                  used to customise the invalid index error message.
+     * @param commandFormat The command usage message to display if the input is blank.
+     * @return The corresponding {@code Index} object parsed from the input.
+     * @throws ParseException If the input is blank, or if the specified index is invalid.
      */
-    public static Index parseIndex(String oneBasedIndex) throws ParseException {
+    public static Index parseIndex(String oneBasedIndex, String indexType, String commandFormat)
+            throws ParseException {
         String trimmedIndex = oneBasedIndex.trim();
-        if (!StringUtil.isNonZeroUnsignedInteger(trimmedIndex)) {
-            throw new ParseException(MESSAGE_INVALID_INDEX);
+
+        if (trimmedIndex.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, commandFormat));
         }
+
+        if (!StringUtil.isNonZeroUnsignedInteger(trimmedIndex)) {
+            throw new ParseException(String.format(MESSAGE_INVALID_INDEX, indexType));
+        }
+
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
     }
 
@@ -52,27 +66,25 @@ public class ParserUtil {
      * Parses a comma-separated string of indices into a {@code Set<Index>}.
      * Each index must be a non-zero unsigned integer (e.g., "1,2,3").
      * Whitespace around each index will be trimmed before parsing.
-     * If duplicate indices are provided, it will be ignored.
+     * If duplicate indices are provided, they will be ignored.
      *
      * @param indicesString String containing indices separated by commas.
-     * @param usageMessage Usage message to show if parsing fails.
-     * @return Set of parsed indices.
+     * @param indexType The type of index being parsed (e.g., "Contact", "Meeting").
+     * @param usageMessage The usage message to display if any {@code Index} input is empty after trimming.
+     * @return Set of parsed {@code Index}.
      * @throws ParseException If any index is invalid or does not conform to the expected format.
      */
-    public static Set<Index> parseIndices(String indicesString, String usageMessage) throws ParseException {
+    public static Set<Index> parseIndices(String indicesString, String indexType, String usageMessage)
+            throws ParseException {
+
         requireNonNull(indicesString);
         requireNonNull(usageMessage);
 
         String[] indices = indicesString.split(PREFIX_COMMA.toString());
-
         Set<Index> indexSet = new HashSet<>();
-        try {
-            for (String index : indices) {
-                String trimmedIndex = index.trim();
-                indexSet.add(ParserUtil.parseIndex(trimmedIndex));
-            }
-        } catch (ParseException pe) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, usageMessage), pe);
+
+        for (String index : indices) {
+            indexSet.add(ParserUtil.parseIndex(index, indexType, usageMessage));
         }
 
         return indexSet;
@@ -124,9 +136,14 @@ public class ParserUtil {
         requireNonNull(date);
         String trimmedDate = date.trim();
 
-        if (!MeetingDate.isValidDateString(trimmedDate)) {
-            throw new ParseException(MeetingDate.MESSAGE_DATE_CONSTRAINTS);
+        if (!MeetingDate.isValidDateFormat(trimmedDate)) {
+            throw new ParseException(MeetingDate.MESSAGE_DATE_WRONG_FORMAT);
         }
+
+        if (!MeetingDate.isValidDate(trimmedDate)) {
+            throw new ParseException(MeetingDate.MESSAGE_INVALID_DATE);
+        }
+
         return new MeetingDate(trimmedDate);
     }
 

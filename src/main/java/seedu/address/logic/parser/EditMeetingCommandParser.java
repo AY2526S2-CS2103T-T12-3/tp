@@ -1,6 +1,8 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.CONTACT_TYPE;
+import static seedu.address.logic.Messages.MEETING_TYPE;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_CONTACT_TO_MEETING_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DELETE_CONTACT_FROM_MEETING_INDEX;
@@ -31,17 +33,17 @@ public class EditMeetingCommandParser implements Parser<EditMeetingCommand> {
                 args, PREFIX_MEETING_DESCRIPTION, PREFIX_MEETING_DATE,
                 PREFIX_ADD_CONTACT_TO_MEETING_INDEX, PREFIX_DELETE_CONTACT_FROM_MEETING_INDEX);
 
-        argMultimap.verifyNoDuplicatePrefixesFor(
-                PREFIX_MEETING_DESCRIPTION, PREFIX_MEETING_DATE,
-                PREFIX_ADD_CONTACT_TO_MEETING_INDEX, PREFIX_DELETE_CONTACT_FROM_MEETING_INDEX);
-
-        Index meetingIndex;
-        try {
-            meetingIndex = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (ParseException pe) {
+        if (args.trim().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     EditMeetingCommand.MESSAGE_USAGE));
         }
+
+        Index meetingIndex = ParserUtil.parseIndex(argMultimap.getPreamble(),
+                MEETING_TYPE, EditMeetingCommand.MESSAGE_USAGE);
+
+        argMultimap.verifyNoDuplicatePrefixesFor(
+                PREFIX_MEETING_DESCRIPTION, PREFIX_MEETING_DATE,
+                PREFIX_ADD_CONTACT_TO_MEETING_INDEX, PREFIX_DELETE_CONTACT_FROM_MEETING_INDEX);
 
         EditMeetingDescriptor descriptor = setEditMeetingDescriptor(argMultimap);
 
@@ -71,13 +73,14 @@ public class EditMeetingCommandParser implements Parser<EditMeetingCommand> {
 
         if (argMultimap.getValue(PREFIX_ADD_CONTACT_TO_MEETING_INDEX).isPresent()) {
             descriptor.setPersonIndicesToAdd(ParserUtil.parseIndices(
-                    argMultimap.getValue(PREFIX_ADD_CONTACT_TO_MEETING_INDEX).get(), EditMeetingCommand.MESSAGE_USAGE));
+                    argMultimap.getValue(PREFIX_ADD_CONTACT_TO_MEETING_INDEX).get(),
+                    CONTACT_TYPE, EditMeetingCommand.MESSAGE_USAGE));
         }
 
         if (argMultimap.getValue(PREFIX_DELETE_CONTACT_FROM_MEETING_INDEX).isPresent()) {
             descriptor.setPersonIndicesToDelete(ParserUtil.parseIndices(
                     argMultimap.getValue(PREFIX_DELETE_CONTACT_FROM_MEETING_INDEX).get(),
-                    EditMeetingCommand.MESSAGE_USAGE));
+                    CONTACT_TYPE, EditMeetingCommand.MESSAGE_USAGE));
         }
 
         if (!descriptor.isAnyFieldEdited()) {

@@ -42,18 +42,18 @@ public class MeetingDateTest {
     }
 
     @Test
-    public void isValidDateString() {
+    public void isValidDate() {
         // null should throw
-        assertThrows(NullPointerException.class, () -> MeetingDate.isValidDateString(null));
+        assertThrows(NullPointerException.class, () -> MeetingDate.isValidDate(null));
 
         // invalid
-        assertFalse(MeetingDate.isValidDateString("")); // empty
-        assertFalse(MeetingDate.isValidDateString(VALID_DESCRIPTION_TEAM)); // not a date
-        assertFalse(MeetingDate.isValidDateString(INVALID_DATE_NON_EXISTENT)); // invalid calendar date
+        assertFalse(MeetingDate.isValidDate("")); // empty
+        assertFalse(MeetingDate.isValidDate(VALID_DESCRIPTION_TEAM)); // not a date
+        assertFalse(MeetingDate.isValidDate(INVALID_DATE_NON_EXISTENT)); // invalid calendar date
 
         // valid
-        assertTrue(MeetingDate.isValidDateString(VALID_DATE_20270325));
-        assertTrue(MeetingDate.isValidDateString("2024-02-29")); // leap year
+        assertTrue(MeetingDate.isValidDate(VALID_DATE_20270325));
+        assertTrue(MeetingDate.isValidDate("2024-02-29")); // leap year
     }
 
     @Test

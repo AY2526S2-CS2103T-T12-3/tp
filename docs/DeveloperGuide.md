@@ -742,6 +742,8 @@ Use case ends.
     * 2c1. InternLink ignores those contacts and updates only the valid ones.
 
         Use case resumes at step 3.
+
+
 ### Non-Functional Requirements
 
 1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -880,7 +882,7 @@ testers are expected to do more *exploratory* testing.
 
 
 2. Attempt to use an invalid index: `addtag 0 / friends`
-   Expected: Error message indicating invalid format (must be positive integer).
+   Expected: Error message indicating invalid contact index.
 
 
 3. Rename a tag: `edittag 1, 2 o/cs n/computer science`
@@ -904,7 +906,7 @@ testers are expected to do more *exploratory* testing.
 
 
 8. Try starring with an invalid index: `star 0`
-   Expected: Error message indicating invalid format (must be positive integer).
+   Expected: Error message indicating invalid index.
 
 
 9. Remove starred marking: `unstar 2`
@@ -983,7 +985,7 @@ testers are expected to do more *exploratory* testing.
 
 
 9. Try deleting with an invalid index: `deletemeeting 999`
-    Expected: Error message indicating invalid index.
+    Expected: Error message indicating invalid meeting index.
 
 ---
 

@@ -13,8 +13,10 @@ import java.time.format.DateTimeParseException;
 public class MeetingDate implements Comparable<MeetingDate> {
     public static final String MESSAGE_DATE_NON_NULL =
             "Meeting date must not be null";
-    public static final String MESSAGE_DATE_CONSTRAINTS =
-            "Meeting date must be in yyyy-MM-dd format, and must be a valid calendar date.";
+    public static final String MESSAGE_DATE_WRONG_FORMAT =
+            "Meeting date must be in yyyy-MM-dd format.";
+    public static final String MESSAGE_INVALID_DATE =
+            "Meeting date must be a valid calendar date.";
 
     public final LocalDate date;
 
@@ -25,14 +27,22 @@ public class MeetingDate implements Comparable<MeetingDate> {
      */
     public MeetingDate(String dateString) {
         requireNonNull(dateString, MESSAGE_DATE_NON_NULL);
-        checkArgument(isValidDateString(dateString), MESSAGE_DATE_CONSTRAINTS);
+        checkArgument(isValidDateFormat(dateString), MESSAGE_DATE_WRONG_FORMAT);
+        checkArgument(isValidDate(dateString), MESSAGE_INVALID_DATE);
         this.date = LocalDate.parse(dateString);
     }
 
     /**
-     * Returns true if a given string is a valid date in yyyy-MM-dd format.
+     * Returns true if a given string is in yyyy-MM-dd format.
      */
-    public static boolean isValidDateString(String test) {
+    public static boolean isValidDateFormat(String date) {
+        return date.matches("\\d{4}-\\d{2}-\\d{2}");
+    }
+
+    /**
+     * Returns true if a given string represents a valid date in the calendar.
+     */
+    public static boolean isValidDate(String test) {
         requireNonNull(test);
         try {
             LocalDate.parse(test);

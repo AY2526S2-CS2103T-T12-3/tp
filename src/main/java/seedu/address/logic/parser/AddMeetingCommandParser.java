@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MEETING_TYPE;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
@@ -30,7 +31,7 @@ public class AddMeetingCommandParser implements Parser<AddMeetingCommand> {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
                 PREFIX_MEETING_DESCRIPTION, PREFIX_MEETING_DATE);
 
-        boolean isIndexMissing = argMultimap.getPreamble().isEmpty();
+        boolean areIndexesMissing = argMultimap.getPreamble().isEmpty();
         boolean isDescriptionMissing = !isPrefixPresent(argMultimap, PREFIX_MEETING_DESCRIPTION);
         boolean isDateMissing = !isPrefixPresent(argMultimap, PREFIX_MEETING_DATE);
 
@@ -41,8 +42,9 @@ public class AddMeetingCommandParser implements Parser<AddMeetingCommand> {
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_MEETING_DESCRIPTION, PREFIX_MEETING_DATE);
 
         Set<Index> indices = new HashSet<>();
-        if (!isIndexMissing) {
-            indices = ParserUtil.parseIndices(argMultimap.getPreamble(), AddMeetingCommand.MESSAGE_USAGE);
+        if (!areIndexesMissing) {
+            indices = ParserUtil.parseIndices(argMultimap.getPreamble(),
+                    MEETING_TYPE, AddMeetingCommand.MESSAGE_USAGE);
         }
 
         Description parsedDescription = ParserUtil.parseDescription(

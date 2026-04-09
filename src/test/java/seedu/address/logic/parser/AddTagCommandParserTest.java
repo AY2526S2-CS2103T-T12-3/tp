@@ -1,10 +1,12 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.CONTACT_TYPE;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SEPARATOR;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 
@@ -41,7 +43,7 @@ public class AddTagCommandParserTest {
         assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
 
         // only add tag separator written
-        assertParseFailure(parser, PREFIX_SEPARATOR.toString(), MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, " " + PREFIX_SEPARATOR, MESSAGE_INVALID_FORMAT);
 
         // only space and tag separator written
         assertParseFailure(parser, EMPTY_TAG_INPUT, MESSAGE_INVALID_FORMAT);
@@ -56,13 +58,16 @@ public class AddTagCommandParserTest {
     @Test
     public void parse_invalidPreamble_failure() {
         // negative index
-        assertParseFailure(parser, "-5" + VALID_TAG_INPUT_ONE, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "-5" + VALID_TAG_INPUT_ONE,
+                String.format(MESSAGE_INVALID_INDEX, CONTACT_TYPE));
 
         // zero index
-        assertParseFailure(parser, "0" + VALID_TAG_INPUT_ONE, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "0" + VALID_TAG_INPUT_ONE,
+                String.format(MESSAGE_INVALID_INDEX, CONTACT_TYPE));
 
         // invalid arguments being parsed as preamble
-        assertParseFailure(parser, "1 some random string" + VALID_TAG_INPUT_ONE, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1 some random string" + VALID_TAG_INPUT_ONE,
+                String.format(MESSAGE_INVALID_INDEX, CONTACT_TYPE));
     }
 
     @Test

@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MEETING_TYPE;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270401;
@@ -11,6 +12,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
+import static seedu.address.model.meeting.Description.MESSAGE_DESCRIPTION_CONSTRAINTS;
+import static seedu.address.model.meeting.MeetingDate.MESSAGE_DATE_WRONG_FORMAT;
 
 import java.util.HashSet;
 
@@ -30,7 +34,7 @@ public class AddMeetingCommandParserTest {
     public static final String INPUT_DATE_20260401 = " " + PREFIX_MEETING_DATE + VALID_DATE_20270401;
 
     public static final String INVALID_INPUT_DESCRIPTION = " " + PREFIX_MEETING_DESCRIPTION + "";
-    public static final String INVALID_INPUT_DATE = " " + PREFIX_MEETING_DATE + "25-03-2026";
+    public static final String INVALID_INPUT_DATE_WRONG_FORMAT = " " + PREFIX_MEETING_DATE + "25-03-2026";
 
     public static final String INPUT_INDEX_SINGLE = " 1";
     public static final String INPUT_INDICES_MULTIPLE = " 1, 2, 3";
@@ -89,27 +93,27 @@ public class AddMeetingCommandParserTest {
     public void parse_invalidIndex_failure() {
         // zero
         assertParseFailure(parser, INVALID_INPUT_INDEX_ZERO + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_INDEX, MEETING_TYPE));
 
         // negative
         assertParseFailure(parser, INVALID_INPUT_INDEX_NEGATIVE + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_INDEX, MEETING_TYPE));
 
         // non-numeric
         assertParseFailure(parser, INVALID_INPUT_INDEX_NON_NUMERIC + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_INDEX, MEETING_TYPE));
     }
 
     @Test
     public void parse_invalidDescription_failure() {
-        assertParseFailure(parser, VALID_INDEX_SET_SINGLE + INVALID_INPUT_DESCRIPTION + INPUT_DATE_20260325,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, INPUT_INDICES_MULTIPLE + INVALID_INPUT_DESCRIPTION + INPUT_DATE_20260325,
+                MESSAGE_DESCRIPTION_CONSTRAINTS);
     }
 
     @Test
     public void parse_invalidDate_failure() {
-        assertParseFailure(parser, VALID_INDEX_SET_SINGLE + INPUT_DESC_PROJECT + INVALID_INPUT_DATE,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, INPUT_INDICES_MULTIPLE + INPUT_DESC_PROJECT
+                        + INVALID_INPUT_DATE_WRONG_FORMAT, MESSAGE_DATE_WRONG_FORMAT);
     }
 
     @Test
@@ -117,7 +121,7 @@ public class AddMeetingCommandParserTest {
         // extra preamble before any prefixes
         assertParseFailure(parser, "randomPreamble "
                         + VALID_INDEX_SET_SINGLE + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_INDEX, MEETING_TYPE));
     }
 
     @Test
