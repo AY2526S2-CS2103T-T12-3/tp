@@ -34,7 +34,7 @@ class JsonSerializableAddressBook {
     public static final String MESSAGE_DUPLICATE_ID =
             "%s has an ID that already exists in the address book, skipping person.";
     public static final String MESSAGE_MEETING_WITH_INVALID_PARTICIPANT =
-            "Meeting \"%s\" has invalid participant ID \"%s\", skipping meeting.";
+            "Meeting \"%s\" has nonexistent participant ID \"%s\", skipping meeting.";
 
     private static final Logger logger = LogsCenter.getLogger(JsonSerializableAddressBook.class);
 
