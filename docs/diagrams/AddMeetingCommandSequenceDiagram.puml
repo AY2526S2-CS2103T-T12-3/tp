@@ -1,0 +1,104 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":AddMeetingCommandParser" as AddMeetingCommandParser LOGIC_COLOR
+participant "a:AddMeetingCommand" as AddMeetingCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "meeting:Meeting" as Meeting MODEL_COLOR
+participant "m:Model" as Model MODEL_COLOR
+participant "list:List<Person>" as List MODEL_COLOR
+participant "p:Person" as Person MODEL_COLOR
+end box
+
+[-> LogicManager : execute("addmeeting 1,2\nd/Coffee Meeting\ndt/2026-04-08")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("addmeeting 1,2\nd/Coffee Meeting\ndt/2026-04-08")
+activate AddressBookParser
+
+create AddMeetingCommandParser
+AddressBookParser -> AddMeetingCommandParser
+activate AddMeetingCommandParser
+
+AddMeetingCommandParser --> AddressBookParser
+deactivate AddMeetingCommandParser
+
+AddressBookParser -> AddMeetingCommandParser : parse("1,2\nd/Coffee Meeting\ndt/2026-04-08")
+activate AddMeetingCommandParser
+
+create AddMeetingCommand
+AddMeetingCommandParser -> AddMeetingCommand
+activate AddMeetingCommand
+
+AddMeetingCommand --> AddMeetingCommandParser : a
+deactivate AddMeetingCommand
+
+AddMeetingCommandParser --> AddressBookParser : a
+deactivate AddMeetingCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+AddMeetingCommandParser -[hidden]-> AddressBookParser
+destroy AddMeetingCommandParser
+
+AddressBookParser --> LogicManager : a
+deactivate AddressBookParser
+
+LogicManager -> AddMeetingCommand : execute()
+activate AddMeetingCommand
+
+AddMeetingCommand -> Model : getFilteredPersonList()
+activate Model
+
+Model --> AddMeetingCommand : list
+deactivate Model
+
+loop TRANSPARENT_COLOR for each Index i to be added to meeting
+
+AddMeetingCommand -> List : get(i)
+activate List
+
+List --> AddMeetingCommand : p
+deactivate List
+
+AddMeetingCommand -> Person : getId()
+activate Person
+Person --> AddMeetingCommand : id
+deactivate Person
+
+AddMeetingCommand -> AddMeetingCommand : addParticipant(id)
+activate AddMeetingCommand
+deactivate AddMeetingCommand
+end
+
+create Meeting
+AddMeetingCommand -> Meeting
+activate Meeting
+
+Meeting --> AddMeetingCommand : meeting
+deactivate Meeting
+
+AddMeetingCommand -> Model : addMeeting(meeting)
+activate Model
+
+Model --> AddMeetingCommand
+deactivate Model
+
+create CommandResult
+AddMeetingCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> AddMeetingCommand
+deactivate CommandResult
+
+AddMeetingCommand --> LogicManager : r
+deactivate AddMeetingCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

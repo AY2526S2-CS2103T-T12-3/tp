@@ -1,7 +1,9 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -32,7 +34,7 @@ class JsonSerializableAddressBook {
     public static final String MESSAGE_DUPLICATE_ID =
             "%s has an ID that already exists in the address book, skipping person.";
     public static final String MESSAGE_MEETING_WITH_INVALID_PARTICIPANT =
-            "Meeting \"%s\" has invalid participant ID \"%s\", skipping meeting.";
+            "Meeting \"%s\" has nonexistent participant ID \"%s\", skipping meeting.";
 
     private static final Logger logger = LogsCenter.getLogger(JsonSerializableAddressBook.class);
 
@@ -122,12 +124,9 @@ class JsonSerializableAddressBook {
                     continue;
                 }
 
-                // Skip the entire meeting if any participant is not in contacts.
-                if (hasParticipantNotInContacts(meeting, addressBook)) {
-                    continue;
-                }
+                Meeting meetingWithValidParticipants = filterValidParticipants(meeting, addressBook);
 
-                addressBook.addMeeting(meeting);
+                addressBook.addMeeting(meetingWithValidParticipants);
             } catch (IllegalValueException | IllegalArgumentException e) {
                 // Log invalid meeting with index and exception message
                 logger.warning(String.format(MESSAGE_INVALID_MEETING, i, e.getMessage()));
@@ -136,20 +135,24 @@ class JsonSerializableAddressBook {
     }
 
     /**
-     * Returns true if the meeting has a participant not in the {@code UniquePersonList}.
-     * Logs a warning if such a participant is found and immediately returns true.
+     * Returns a new meeting with a (potentially) modified participant set.
+     * The new participant set contains only persons that exist in the {@code addressBook}.
+     * Logs a warning if for each participant that does not exist in the {@code addressBook}.
      */
-    private boolean hasParticipantNotInContacts(Meeting meeting, AddressBook addressBook) {
-        for (PersonId participantId : meeting.getParticipantsIDs()) {
-            if (!addressBook.hasSameID(participantId)) {
+    private Meeting filterValidParticipants(Meeting meeting, AddressBook addressBook) {
+        Set<PersonId> validParticipants = new HashSet<>();
+
+        for (PersonId id : meeting.getParticipantsIDs()) {
+            if (addressBook.hasSameID(id)) {
+                validParticipants.add(id);
+            } else {
+                // Skip participants that are not in the contacts.
                 logger.warning(String.format(
                         MESSAGE_MEETING_WITH_INVALID_PARTICIPANT,
-                        meeting.toString(), participantId.toString()));
-
-                // Found an invalid participant, stop checking further
-                return true;
+                        meeting.toString(), id.toString()));
             }
         }
-        return false;
+
+        return new Meeting(meeting.getDescription(), meeting.getDate(), validParticipants);
     }
 }

@@ -1,0 +1,90 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":AddTagCommandParser" as AddTagCommandParser LOGIC_COLOR
+participant "a:AddTagCommand" as AddTagCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+participant "list:List<Person>" as List MODEL_COLOR
+end box
+
+[-> LogicManager : execute("addtag 1,2\n/Friend /Close")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("addtag 1,2\n/Friend /Close")
+activate AddressBookParser
+
+create AddTagCommandParser
+AddressBookParser -> AddTagCommandParser
+activate AddTagCommandParser
+
+AddTagCommandParser --> AddressBookParser
+deactivate AddTagCommandParser
+
+AddressBookParser -> AddTagCommandParser : parse("1,2\n/Friend /Close")
+activate AddTagCommandParser
+
+create AddTagCommand
+AddTagCommandParser -> AddTagCommand
+activate AddTagCommand
+
+AddTagCommand --> AddTagCommandParser : a
+deactivate AddTagCommand
+
+AddTagCommandParser --> AddressBookParser : a
+deactivate AddTagCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+AddTagCommandParser -[hidden]-> AddressBookParser
+destroy AddTagCommandParser
+
+AddressBookParser --> LogicManager : a
+deactivate AddressBookParser
+
+LogicManager -> AddTagCommand : execute()
+activate AddTagCommand
+
+AddTagCommand -> Model : getFilteredPersonList()
+activate Model
+
+Model --> AddTagCommand : list
+deactivate Model
+
+loop TRANSPARENT_COLOR for each Index i of persons to add tags to
+
+AddTagCommand -> List : get(i)
+activate List
+
+List --> AddTagCommand : person
+deactivate List
+
+AddTagCommand -> AddTagCommand : createPersonWithAddedTags(person, tags);
+activate AddTagCommand
+AddTagCommand --> AddTagCommand : pEdited
+deactivate AddTagCommand
+
+AddTagCommand -> Model : setPerson(person, pEdited);
+activate Model
+
+Model --> AddTagCommand
+deactivate Model
+end
+create CommandResult
+AddTagCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> AddTagCommand
+deactivate CommandResult
+
+AddTagCommand --> LogicManager : r
+deactivate AddTagCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

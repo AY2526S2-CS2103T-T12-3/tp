@@ -1,5 +1,6 @@
 package seedu.address.storage;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.AddMeetingCommandTest.INVALID_DATE_WRONG_FORMAT;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270325;
@@ -23,6 +24,7 @@ public class JsonAdaptedMeetingTest {
 
     public static final Set<String> VALID_IDS = Set.of(VALID_ID_1, VALID_ID_2);
     public static final Set<String> INVALID_IDS = Set.of(INVALID_ID_1, INVALID_ID_2);
+    public static final Set<String> PARTIALLY_INVALID_IDS = Set.of(INVALID_ID_1, VALID_ID_1);
 
     @Test
     public void toModelType_validMeetings_success() throws Exception {
@@ -60,6 +62,21 @@ public class JsonAdaptedMeetingTest {
 
         // Check that invalid IDs were ignored and meeting still has 0 participants
         assertTrue(modelMeeting.getParticipantsIDs().isEmpty());
+    }
+
+    @Test
+    public void toModelType_partiallyInvalidIDs_ignored() throws Exception {
+        JsonAdaptedMeeting meetingWithInvalidIds = new JsonAdaptedMeeting(
+                VALID_DESCRIPTION_PROJECT,
+                VALID_DATE_20270325,
+                PARTIALLY_INVALID_IDS
+        );
+
+        Meeting modelMeeting = meetingWithInvalidIds.toModelType();
+
+        // Check that invalid IDs were ignored but valid ones were accepted.
+        assertEquals(1, modelMeeting.getParticipantsIDs().size());
+        assertEquals(VALID_ID_1, modelMeeting.getParticipantsIDs().iterator().next().toString());
     }
 
     @Test

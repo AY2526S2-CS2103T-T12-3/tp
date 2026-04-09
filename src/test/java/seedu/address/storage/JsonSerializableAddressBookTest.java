@@ -7,6 +7,7 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +15,7 @@ import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.AddressBook;
 import seedu.address.model.meeting.Meeting;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonId;
 import seedu.address.testutil.TypicalPersons;
 
 public class JsonSerializableAddressBookTest {
@@ -26,6 +28,12 @@ public class JsonSerializableAddressBookTest {
 
     private static final Path INVALID_PERSON_FILE =
             TEST_DATA_FOLDER.resolve("invalidPersonAddressBook.json");
+
+    private static final Path INVALID_MEETING_FILE =
+            TEST_DATA_FOLDER.resolve("invalidMeetingAddressBook.json");
+
+    private static final Path INVALID_MEETING_PARTICIPANT_FILE =
+            TEST_DATA_FOLDER.resolve("invalidMeetingParticipantAddressBook.json");
 
     private static final Path DUPLICATE_PERSON_FILE =
             TEST_DATA_FOLDER.resolve("duplicatePersonAddressBook.json");
@@ -52,6 +60,31 @@ public class JsonSerializableAddressBookTest {
         AddressBook result = dataFromFile.toModelType();
 
         assertEquals(0, result.getPersonList().size());
+    }
+
+    @Test
+    public void toModelType_invalidMeetingIgnored_success() throws Exception {
+        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(
+                INVALID_MEETING_FILE, JsonSerializableAddressBook.class).get();
+
+        AddressBook result = assertDoesNotThrow(dataFromFile::toModelType);
+
+        assertEquals(0, result.getMeetingList().size());
+    }
+
+    @Test
+    public void toModelType_invalidMeetingParticipantIgnored_success() throws Exception {
+        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(
+                INVALID_MEETING_PARTICIPANT_FILE, JsonSerializableAddressBook.class).get();
+
+        AddressBook result = assertDoesNotThrow(dataFromFile::toModelType);
+
+        Set<PersonId> participantSet = result.getMeetingList().get(0).getParticipantsIDs();
+        PersonId firstParticipantId = participantSet.iterator().next();
+
+        // The invalid ID should be thrown away, but the meeting should remain.
+        assertEquals(1, participantSet.size());
+        assertEquals(TypicalPersons.ID_2, firstParticipantId.toString());
     }
 
     @Test

@@ -33,6 +33,8 @@
 
 !define USER_COLOR #000000
 
+!define TRANSPARENT_COLOR #00000000
+
 skinparam Package {
     BackgroundColor #FFFFFF
     BorderThickness 1

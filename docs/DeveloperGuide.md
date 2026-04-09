@@ -186,7 +186,7 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-## Adding a person: `add`
+### Adding a person: `add`
 The `add` command is used to insert a new person into the contacts list. The name field (`n/NAME`) must always be provided, while at least one contact detail—either phone (`p/PHONE`) or email (`e/EMAIL`)—is required. Tags (`t/TAG`) are optional.
 
 Input processing is performed by `AddCommandParser`, which tokenizes the user input and ensures that the following conditions are met:
@@ -210,9 +210,8 @@ The following sequence diagram illustrates the flow of parsing and execution for
 
 ![Sequence diagram of add](images/AddSequenceDiagram.png)
 
-
-## Editing a person: `edit`
-The `edit` command is used to edit an already existing preson in the contacts list. The user specifies the index of the person to edit, together with one or more fields to be updated.
+### Editing a person: `edit`
+The `edit` command is used to edit an existing person in the contacts list. The user specifies the index of the person to edit, together with one or more fields to be updated.
 
 Any field of a person can be modified using `edit` -- `n/NAME`, `p/PHONE`, `e/EMAIL@EMAIL.COM`, `t/TAG`.
 
@@ -250,7 +249,7 @@ The following sequence diagram illustrates the flow of parsing and execution for
 ![Sequence diagram of edit](images/EditCommandSequenceDiagram.png)
 
 
-## Finding a Person: `find`
+### Finding a Person: `find`
 The find command allows the user to search for persons whose fields match given keywords. In the implementation, there are two types of find operations that reuse the same predicate `find`.
 
 1. Global find
@@ -291,6 +290,69 @@ This predicate is then passed into a `FindCommand`, which updates the model’s 
 The following sequence diagram illustrates the flow of parsing and execution for the `find` command.
 ![Sequence diagram of find - logic](images/FindCommandSequenceDiagramLogic.png)
 ![Sequence diagram of find - model](images/FindCommandSequenceDiagramModel.png)
+
+
+### Adding a Tag: `addtag`
+
+The `addtag` command is used to assign tags into one or more persons in the contacts list.
+The index(es) (`INDEX [,INDEX...]`) and tags (`/TAG [/TAG...]`) must always be provided.
+
+Input processing is performed by `AddTagCommandParser`, which tokenizes the user input and ensures that the following conditions are met:
+
+- Preamble contains at least 1 index
+- At least 1 tag is included in the command
+- All field values are valid
+
+If any of these checks fail, a `ParseException` is thrown.
+
+Once the input is successfully parsed, an `AddTagCommand` instance is created with the set of tags to add and the indices of persons to add to.
+
+The command checks the following conditions:
+
+- If any of the indices are invalid, a `CommandException` is raised
+- If no tags are provided, a `CommandException` is raised
+
+When `AddTagCommand` is executed, it gets all the persons referred by the indices,
+edits their tags, and calls `Model#setPerson(person, personWithAddedTags)` to edit the address book.
+
+The following sequence diagram illustrates the flow of parsing and execution for the `addtag` command.
+
+![Sequence diagram of addtag](images/AddTagCommandSequenceDiagram.png)
+
+
+### Adding a Meeting: `addmeeting`
+
+The `addmeeting` command is used to add a meeting into the address book.
+The meeting description (`d/DESCRIPTION`) and date (`dt/DATE`) must always be provided. Participant indices (`[INDEX,...]`) are optional.
+The meeting can initially have no participants and edited later using `editmeeting`.
+For the purpose of a `Meeting`, a "participant" is defined as a `Person` whose ID is included in the `Meeting`.
+
+Input processing is performed by `AddMeetingCommandParser`, which tokenizes the user input and ensures that the following conditions are met:
+
+- Description field exists
+- Date field exists
+- All field values are valid
+
+If any of these checks fail, a `ParseException` is thrown.
+
+Once the input is successfully parsed, an `AddMeetingCommand` instance is created with the set of participant's indices.
+
+The command checks the following conditions:
+
+- If any of the indices are invalid, a `CommandException` is raised
+- If no description is provided, a `CommandException` is raised
+- If no date is provided, a `CommandException` is raised
+
+Before the meeting is added, `Model#hasMeeting(Meeting)` will be called to ensure that the meeting has not already existed in the address book.
+A meeting is considered a duplicate if it has the same description and date as another meeting.
+**Participants alone do not differentiate two meetings**.
+
+When `AddMeetingCommand` is executed, it gets all the persons referred by the indices, gets their IDs, and adds them into the participant set.
+It then calls `Model#addMeeting(Meeting)` to add the meeting to the address book.
+
+The following sequence diagram illustrates the flow of parsing and execution for the `addmeeting` command.
+
+![Sequence diagram of addmeeting](images/AddMeetingCommandSequenceDiagram.png)
 
 --------------------------------------------------------------------------------------------------------------------
 
