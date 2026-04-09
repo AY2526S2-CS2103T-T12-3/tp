@@ -44,7 +44,7 @@ public class FindMeetingCommand extends Command {
             + MESSAGE_FORMAT;
 
     public static final String MESSAGE_NO_PARAMS_FOUND =
-            "No description, date or indices have been detected." + "\n" + MESSAGE_FORMAT;
+            "No description, date or indices have been detected." + "\n" + MESSAGE_USAGE;
 
     private final List<String> descriptionKeywords;
     private final List<String> dateKeywords;

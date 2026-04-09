@@ -28,7 +28,7 @@ public class FindMeetingCommandParserTest {
     public void parse_emptyArg_throwsParseException() {
         assertParseFailure(parser, "     ",
                 String.format(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                        FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND + FindMeetingCommand.MESSAGE_USAGE)));
+                        FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND)));
     }
 
     @Test
@@ -44,7 +44,7 @@ public class FindMeetingCommandParserTest {
                 + " " + PREFIX_CONTACT_INDICES;
         assertParseFailure(parser, userInput,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                        FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND + FindMeetingCommand.MESSAGE_USAGE));
+                        FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND));
     }
 
     @Test
