@@ -35,7 +35,7 @@ public class FindTagCommand extends Command {
             + PREFIX_SEPARATOR + "friends";
 
     public static final String MESSAGE_FIND_TAG_SUCCESS =
-            "Found all people in the current list with at least one of these tags: %1$s"
+            "Found all people in the current list with at least one of these tags (case-insensitive): %1$s"
             + "\n"
             + "%2$s persons listed!";
     public static final String MESSAGE_NO_TAGS = "At least one tag must be provided." + "\n" + MESSAGE_FORMAT;
@@ -68,7 +68,9 @@ public class FindTagCommand extends Command {
                 .collect(Collectors.joining(", "));
 
         Predicate<Person> hasAnyTag =
-                person -> tags.stream().anyMatch(person.getTags()::contains);
+                person -> tags.stream()
+                        .anyMatch(tag -> person.getTags().stream().
+                                anyMatch(personTag -> personTag.tagName.equalsIgnoreCase(tag.tagName)));
 
         boolean doesAnyTagMatch = model.getFilteredPersonList()
                 .stream()
