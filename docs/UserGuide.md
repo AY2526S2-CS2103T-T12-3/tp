@@ -717,9 +717,9 @@ findmeeting (d/DESCRIPTION) (dt/DATE) (i/CONTACT_INDEX [, CONTACT_INDEX]...)
 
 **Description:** You can use this command to find meetings that match the given substrings in their fields. The displayed meeting list will be filtered to show only meetings that match the given criteria.
 
-Try `findmeeting casual` <br>
+Try `findmeeting d/casual` <br>
 Output: <br>
-![result of `findmeeting casual`](images/findmeetingcommand.png)
+![result of `findmeeting d/casual`](images/findmeetingcommand.png)
 
 > ❗ **Note:** Date should be in YYYY-MM-DD format (e.g. `2024-03-15`) but the search keyword need not be a complete date (i.e. something like YYYY-MM is still valid). This is because dates for meetings are stored in the YYYY-MM-DD format, so keep that in mind if inputting the search keyword for it.
 
