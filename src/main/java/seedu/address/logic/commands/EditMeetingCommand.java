@@ -33,7 +33,7 @@ import seedu.address.model.person.PersonId;
  */
 public class EditMeetingCommand extends Command {
 
-    public static final String COMMAND_WORD = "editmeeting";
+    public static final String COMMAND_WORD = "editmeet";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the details of the meeting identified by its index in the displayed meeting list.\n"

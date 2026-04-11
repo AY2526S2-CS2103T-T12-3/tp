@@ -22,7 +22,7 @@ import seedu.address.model.person.PersonId;
  * Adds a meeting to the meeting list.
  */
 public class AddMeetingCommand extends Command {
-    public static final String COMMAND_WORD = "addmeeting";
+    public static final String COMMAND_WORD = "addmeet";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a meeting "
             + "to zero or more specified persons by their indices in the displayed contact list.\n"
