@@ -546,6 +546,8 @@ list
 find SEARCH SUBSTRING
 ```
 
+> 💡 **Tip:** Unsure of what `SUBSTRING` means? Check out its definition in the [glossary](#glossary)!
+
 **Description:** You can use this command to search the displayed contact list using all fields except tags (name, phone, email) to match with the given keyword.
 
 Try `find billy` <br>
@@ -560,7 +562,6 @@ Output: <br>
 * `find Bernice Yu` returns `Bernice Yu` in all fields except tags, but does not return `Yu` assuming that is an existing contact in the list.
 
 > 💡 **Tip:** Global find’s functionality is stringent, but an easy way to do searches for different terms separately is to use the `list` command in between searches to reset the contact list back to the full one. e.g. `find alex` → `list` → `find john`
-> 💡 **Tip:** Unsure of what `SUBSTRING` means? Check out its definition in the [glossary](#glossary)!
 > 💡 **Tip:** If you're looking to find out how to find `alex` and `john` separately as specific fields (e.g. names), visit the field `find` section right below!
 
 [Back to Table of Contents](#table-of-contents)
@@ -593,6 +594,8 @@ Output: <br>
 findtag / TAG SUBSTRING [/ TAG SUBSTRING]...
 ```
 
+> 💡 **Tip:** Unsure of what `SUBSTRING` means? Check out its definition in the [glossary](#glossary)!
+
 **Description:** You can use this command to find contacts with specific tag substrings, for easier management.
 
 Try `findtag / classmates / cs` <br>
@@ -607,8 +610,6 @@ Output: <br>
 **Examples:**
 * `findtag / classmate` filters all contacts that contain the `classmates` tag, since `classmates` contains the word `classmate` in it.
 * `findtag / schoolB / schoolC` filters all contacts that contain at least one of the `schoolB` or `schoolC` tags, or any other relevant tags that contain `schoolB` or `schoolC`.
-
-> 💡 **Tip:** Unsure of what `SUBSTRING` means? Check out its definition in the [glossary](#glossary)! 
 
 [Back to Table of Contents](#table-of-contents)
 
