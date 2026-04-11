@@ -44,12 +44,12 @@ Hello fellow students, welcome to Internlink's User Guide!
   - [Locating contacts by specific fields: field `find`](#locating-contacts-by-specific-fields-field-find)
   - [Finding contacts by tags : `findtag`](#finding-contacts-by-tags--findtag)
 - [Managing meeting information](#managing-meeting-information)
-  - [Adding a meeting : `addmeeting`](#adding-a-meeting--addmeeting)
-  - [Deleting a meeting : `deletemeeting`](#deleting-a-meeting--deletemeeting)
-  - [Editing a meeting : `editmeeting`](#editing-a-meeting--editmeeting)
+  - [Adding a meeting : `addmeet`](#adding-a-meeting--addmeet)
+  - [Deleting a meeting : `deletemeet`](#deleting-a-meeting--deletemeet)
+  - [Editing a meeting : `editmeet`](#editing-a-meeting--editmeet)
 - [Showing and finding meetings](#showing-and-finding-meetings)
-  - [Listing all meetings : `listmeeting`](#listing-all-meetings--listmeeting)
-  - [Finding a meeting : `findmeeting`](#finding-a-meeting--findmeeting)
+  - [Listing all meetings : `listmeet`](#listing-all-meetings--listmeet)
+  - [Finding a meeting : `findmeet`](#finding-a-meeting--findmeet)
 - [Managing data](#managing-data)
   - [Saving the data](#saving-the-data)
   - [Editing the data file](#editing-the-data-file)
@@ -202,13 +202,14 @@ The command format consists of three main parts:
 
 | Component    | Example       | Description                                     |
 |--------------|---------------|-------------------------------------------------|
-| Command Word | `find`         | Specifies the action to perform                 |
+| Command Word | `find`        | Specifies the action to perform                 |
 | Prefix       | `n/`          | Indicates which field is being set (e.g., name) |
 | Parameter    | `George Best` | The value provided by the user                  |
 
 For example, `find n/George Best` is a valid command formed using these three components.
 
-> ❗ **Note:** Some parameters may not be accompanied by a prefix. For example, in `addtag`, the `INDEX` parameter is inputted right after the command word. Additionally, `/` is also considered a prefix. Not all commands strictly follow the Command Word → Prefix → Parameter format exactly.
+> ❗ **Note:** Some parameters may not be accompanied by a prefix. For example, in `addtag`, the `INDEX` parameter is inputted right after the command word. Additionally, `/` (which tends to appear in [tag-related commands](#mass-tagging-features)) is also considered a prefix. <br> <br>
+> Not all commands strictly follow the Command Word → Prefix → Parameter format exactly.
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -300,7 +301,7 @@ Usage:
 
 ## Managing contact information
 
-> ❗ **Note:** Internlink does not allow duplicate contacts. A contact is considered a duplicate only if the *name, phone number, and email* all match an existing entry.<br><br> 
+> ❗ **Note:** Internlink does not allow duplicate contacts. A contact is considered a duplicate only if the *name and (phone number OR email)* match an existing entry.<br><br> 
 > Additionally, checks for name and email are *case-insensitive* (e.g. `John Doe` and `john doe` are considered the same name).<br><br>
 > If you try to create a duplicate contact, the following error message will be shown in the command result box:<br>
 > `A person with the same name (case-insensitive), phone number, and email (case-insensitive) already exists.`<br>
@@ -309,6 +310,7 @@ Usage:
 > ❗ **Note:** If a command requires an INDEX, but is given one that does not correspond to an existing contact’s index in the list, the following error message will be shown in the command result box:
 > `The person index provided is invalid`.
 
+> 💡 **Tip:** A comprehensive description of the specific limitations and requirements of the `NAME`, `PHONE` and `EMAIL` parameters are described in the [glossary](#glossary). 
 ### Adding a contact : `add`
 
 **Format:**
@@ -453,7 +455,7 @@ Try `edittag 1 o/ cs n/ computer science` <br>
 Output: <br>
 ![edittag message indices](images/edittagcommandindices.png)
 
-Try `editag all o/ friends n/ classmates` <br>
+Try `edittag all o/ friends n/ classmates` <br>
 Output: <br>
 ![edittag message global](images/edittagcommandglobal.png)
 
@@ -558,6 +560,8 @@ Output: <br>
 * `find Bernice Yu` returns `Bernice Yu` in all fields except tags, but does not return `Yu` assuming that is an existing contact in the list.
 
 > 💡 **Tip:** Global find’s functionality is stringent, but an easy way to do searches for different terms separately is to use the `list` command in between searches to reset the contact list back to the full one. e.g. `find alex` → `list` → `find john`
+> 💡 **Tip:** Unsure of what `SUBSTRING` means? Check out its definition in the [glossary](#glossary)!
+> 💡 **Tip:** If you're looking to find out how to find `alex` and `john` separately as specific fields (e.g. names), visit the field `find` section right below!
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -586,23 +590,25 @@ Output: <br>
 
 **Format:**
 ```
-findtag / TAG [/ TAG]...
+findtag / TAG SUBSTRING [/ TAG SUBSTRING]...
 ```
 
-**Description:** You can use this command to find contacts with specific tags, for easier management.
+**Description:** You can use this command to find contacts with specific tag substrings, for easier management.
 
 Try `findtag / classmates / cs` <br>
 Output: <br>
 ![result of `findtag / classmates / cs`](images/findtagcommand.png)
 
 * `findtag` operates on the **displayed contact list**.
-* All contacts containing **at least one** of the given tags will be filtered (i.e. `OR` search).
-* As long as one of the given tags exist in the displayed contact list, `findtag` will successfully execute. Invalid tags will be ignored.
+* All contacts containing **at least one** of the given tag substrings will be filtered (i.e. `OR` search).
+* As long as one of the given tag substrings exist in the displayed contact list, `findtag` will successfully execute. Invalid tag substrings will be ignored.
 * `findtag` is case-insensitive.
 
 **Examples:**
-* `findtag / classmates` filters all contacts that contain the `classmates` tag.
-* `findtag / schoolB / schoolC` filters all contacts that contain at least one of the `schoolB` or `schoolC` tags.
+* `findtag / classmate` filters all contacts that contain the `classmates` tag, since `classmates` contains the word `classmate` in it.
+* `findtag / schoolB / schoolC` filters all contacts that contain at least one of the `schoolB` or `schoolC` tags, or any other relevant tags that contain `schoolB` or `schoolC`.
+
+> 💡 **Tip:** Unsure of what `SUBSTRING` means? Check out its definition in the [glossary](#glossary)! 
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -614,65 +620,65 @@ Output: <br>
 > ❗ **Note:** If a command requires a `MEETING_INDEX`, but is given one that does not correspond to an existing meeting’s index in the list, the following error message will be shown in the command result box:
 > `Invalid meeting index provided: MEETING_INDEX`.
 
-### Adding a meeting : `addmeeting`
+### Adding a meeting : `addmeet`
 
 **Format:**
 ```
-addmeeting [CONTACT_INDEX] [, CONTACT_INDEX]... d/DESCRIPTION dt/DATE
+addmeet [CONTACT_INDEX] [, CONTACT_INDEX]... d/DESCRIPTION dt/DATE
 ```
 
 **Description:** You can use this command to schedule and add a meeting with zero or more people based on their indices shown in the displayed contact list. This command will also show the details of the meeting scheduled in the command result panel.
 
-Try `addmeeting 1,2 d/Casual Icebreaker dt/2026-05-26` <br>
+Try `addmeet 1,2 d/Casual Icebreaker dt/2026-05-26` <br>
 Output: <br>
-![result of `addmeeting d/Casual Icebreaker dt/2026-05-26`](images/addmeetingcommand.png)
+![result of `addmeet d/Casual Icebreaker dt/2026-05-26`](images/addmeetingcommand.png)
 
 > ❗ **Note:** DATE must be in the `YYYY-MM-DD` format (e.g. `2024-03-15`).
 
 > 💡 **Tip:** If you can’t find a contact, use the [`find` command](#locating-contacts-globally-global-find) to filter the list. This will update the indices based on the results.
 
 **Examples:**
-* `addmeeting 1, 2 d/Casual Icebreaker dt/2026-03-26` schedules a meeting with description `Casual icebreaker` and date `2026-03-26`, with the first 2 contacts in the displayed contact list.
-* `addmeeting d/Casual Icebreaker dt/2026-03-26` schedules a meeting with description `Casual icebreaker` and date `2026-03-26`, with no people.
+* `addmeet 1, 2 d/Casual Icebreaker dt/2026-03-26` schedules a meeting with description `Casual icebreaker` and date `2026-03-26`, with the first 2 contacts in the displayed contact list.
+* `addmeet d/Casual Icebreaker dt/2026-03-26` schedules a meeting with description `Casual icebreaker` and date `2026-03-26`, with no people.
 
 > 💡 **Tip:** Not sure who is attending the meeting yet?
-> You can create the meeting in advance without adding any participants and update it later with the [`editmeeting` command](#editing-a-meeting--editmeeting).
+> You can create the meeting in advance without adding any participants and update it later with the [`editmeet` command](#editing-a-meeting--editmeet).
 
 [Back to Table of Contents](#table-of-contents)
 
-### Deleting a meeting : `deletemeeting`
+### Deleting a meeting : `deletemeet`
 
 **Format:**
 ```
-deletemeeting MEETING_INDEX [, MEETING_INDEX]...
+deletemeet MEETING_INDEX [, MEETING_INDEX]...
 ```
 
 **Description:** You can use this command to delete meetings based on their index shown in the displayed meeting list. This command will also show the details of the meetings deleted in the command result panel.
 
-Try `deletemeeting 1` <br>
+Try `deletemeet 1` <br>
 Output: <br>
-![result of `deletemeeting 1`](images/deletemeetingcommand.png)
+![result of `deletemeet 1`](images/deletemeetingcommand.png)
 
 **Examples:**
-* `deletemeeting 1` deletes the meeting with index 1 in the displayed meeting list
-* `deletemeeting 2, 3` deletes the meeting with indices 2 and 3 in the displayed meeting list
+* `deletemeet 1` deletes the meeting with index 1 in the displayed meeting list
+* `deletemeet 2, 3` deletes the meetings with indices 2 and 3 in the displayed meeting list
 
-> 💡 **Tip:** Need to delete multiple meetings with similar traits? Use the [`findmeeting` command](#finding-a-meeting--findmeeting) to filter the list—this groups them together and updates their indices, making it easy to delete them.
+> 💡 **Tip:** Need to delete multiple meetings with similar traits? Use the [`findmeet` command](#finding-a-meeting--findmeet) to filter the list — this groups them together and updates their indices, making it easy to delete them.
 
 [Back to Table of Contents](#table-of-contents)
 
-### Editing a meeting : `editmeeting`
+### Editing a meeting : `editmeet`
 
 Format:
 ```
-editmeeting MEETING_INDEX (d/DESCRIPTION) (dt/DATE) (add/CONTACT_INDEX [, CONTACT_INDEX]...) (del/CONTACT_INDEX [, CONTACT_INDEX]...)
+editmeet MEETING_INDEX (d/DESCRIPTION) (dt/DATE) (add/CONTACT_INDEX [, CONTACT_INDEX]...) (del/CONTACT_INDEX [, CONTACT_INDEX]...)
 ```
 
 **Description:** You can use this command to edit a meeting’s details (e.g. description, date, contacts involved) based on its index in the displayed meeting list. The updated meeting details will be shown in the command result panel.
 
-Try `editmeeting 1 d/Casual icebreaker add/5 del/1` <br>
+Try `editmeet 1 d/Casual icebreaker add/5 del/1` <br>
 Output: <br>
-![result of `editmeeting 1 d/Casual icebreaker add/5 del/1`](images/editmeetingcommand.png)
+![result of `editmeet 1 d/Casual icebreaker add/5 del/1`](images/editmeetingcommand.png)
 
 > ❗ **Note:** DATE must be in the `YYYY-MM-DD` format (e.g. `2024-03-15`).
 
@@ -684,64 +690,65 @@ Output: <br>
 > 💡 **Tip:** Confused about the difference between `( )` and `[ ]` in the command? Refer to the [Notes about Command Format](#notes-about-command-format) section for a detailed explanation.
 
 **Examples:**
-* `editmeeting 2 dt/2026-05-01 d/Project meeting` edits the meeting at index `2` in the displayed meeting list, changing the description to `Project meeting` and date to `2026-05-01`.
-* `editmeeting 1 d/Casual icebreaker add/5 del/1`
+* `editmeet 2 dt/2026-05-01 d/Project meeting` edits the meeting at index `2` in the displayed meeting list, changing the description to `Project meeting` and date to `2026-05-01`.
+* `editmeet 1 d/Casual icebreaker add/5 del/1`
     - Edits the meeting at index `1` in the displayed meeting list
     - Updates the description to `Casual icebreaker`
     - Adds the contact at index `5` in the **displayed contact list**
     - Removes the contact at index `1` in the **displayed contact list**
 
-> 💡 **Tip:** Need to add multiple participants with similar traits? Use the [`find` command](#locating-contacts-globally-global-find) to filter the contact list—this groups them together and updates their indices, making it easier to reference and add them.
+> 💡 **Tip:** Need to add multiple participants with similar traits? Use the [`find` command](#locating-contacts-globally-global-find) to filter the contact list — this groups them together and updates their indices, making it easier to reference and add them.
 >
 [Back to Table of Contents](#table-of-contents)
 
 ## Showing and finding meetings
 
-### Listing all meetings : `listmeeting`
+### Listing all meetings : `listmeet`
 
 **Format:**
 ```
-listmeeting
+listmeet
 ```
 
 **Description:** You can use this command to show the entire meeting list that is stored in Internlink's data.
 
-![result of `listmeeting`](images/listmeetingcommand.png)
+![result of `listmeet`](images/listmeetingcommand.png)
 
 > 💡 **Tip:** Similar to `list`, this command is essential to clearing all current filters and obtain the full meeting list.
 
 [Back to Table of Contents](#table-of-contents)
 
-### Finding a meeting : `findmeeting`
+### Finding a meeting : `findmeet`
 
 **Format:**
 ```
-findmeeting (d/DESCRIPTION) (dt/DATE) (i/CONTACT_INDEX [, CONTACT_INDEX]...)
+findmeet (d/DESCRIPTION) (dt/DATE) (i/CONTACT_INDEX [, CONTACT_INDEX]...)
 ```
 
 **Description:** You can use this command to find meetings that match the given substrings in their fields. The displayed meeting list will be filtered to show only meetings that match the given criteria.
 
-Try `findmeeting d/casual` <br>
+Try `findmeet d/casual` <br>
 Output: <br>
-![result of `findmeeting d/casual`](images/findmeetingcommand.png)
+![result of `findmeet d/casual`](images/findmeetingcommand.png)
 
 > ❗ **Note:** Date should be in YYYY-MM-DD format (e.g. `2024-03-15`) but the search keyword need not be a complete date (i.e. something like YYYY-MM is still valid). This is because dates for meetings are stored in the YYYY-MM-DD format, so keep that in mind if inputting the search keyword for it.
 
-> ❗ **Note:** Only meetings including **all specified contact indices** will be matched.
+> ❗ **Note:** Meetings including **at least one of the specified contact indices** will be matched.
 
-* Meetings are shown if they match **DESCRIPTION**, **DATE**, or  include **all specified contact indices**.
+* Meetings are shown if they match **DESCRIPTION**, **DATE**, or  include **at least one specified contact index**.
 * Search parameters are case-insensitive.
 * The contact indices refer to indices from the **displayed contact list**.
+* Only one of each prefix is allowed (i.e. commands such as `findmeet d/ casual d/ project` are invalid).
 
 **Examples:**
-* `findmeeting d/project` searches for all meetings that contain `project` in their description.
-* `findmeeting d/meeting dt/2026 i/1,2,3` searches for all meetings that either:
+* `findmeet d/project` searches for all meetings that contain `project` in their description.
+* `findmeet d/meeting dt/2026 i/1,2,3` searches for all meetings that either:
   - contain `meeting` in their description OR
   - contain `2026` in their date OR
-  - contain all of contacts `1`, `2` and `3` from the displayed contact list.
+  - contain at least one of contacts `1`, `2` and `3` from the displayed contact list.
 
 > 💡 **Tip:** Need to restore the full meeting list after using `findmeeting`?
-Use the [`listmeeting` command](#listing-all-meetings--listmeeting) to clear all filters and display all meetings again.
+Use the [`listmeet` command](#listing-all-meetings--listmeet) to clear all filters and display all meetings again.
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -784,29 +791,29 @@ the data of your previous Internlink home folder (the location of `InternlinkDat
 
 ## Command summary
 
-| Action              | Format, Examples                                                                                                                                                                                               |
-|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Help**            | `help`                                                                                                                                                                                                         |
-| **Add contact**     | `add n/NAME (p/PHONE_NUMBER) (e/EMAIL) [t/TAG]…​` <br> e.g. `add n/James Ho p/22224444 e/jamesho@example.com t/friend t/colleague`                                                                             |
-| **Delete contact**  | `delete INDEX [, INDEX]...`<br> e.g. `delete 3`                                                                                                                                                                |
-| **Edit contact**    | `edit INDEX (n/NAME) (p/PHONE_NUMBER) (e/EMAIL) (t/TAG)…​`<br> e.g.`edit 2 n/James Lee e/jameslee@example.com`                                                                                                 |
-| **List contacts**   | `list`                                                                                                                                                                                                         |
-| **Global Find**     | `find <SEARCH SUBSTRING>`<br> e.g. `find alex david`                                                                                                                                                           |
-| **Field Find**      | `find (n/NAME) (p/PHONE) (e/EMAIL)...`<br> e.g. `find n/ david p/ 9927 e/ charlotte`                                                                                                                           |
-| **Add tags**        | `addtag INDEX [, INDEX...] / TAG [/ TAG]`<br> e.g. `addtag 1, 2 / friends / cs`                                                                                                                                |
-| **Delete tags**     | `deletetag INDEX [, INDEX...] / TAG [/ TAG]`<br> e.g. `deletetag 1, 2 / friends / cs`                                                                                                                          |
-| **Edit tag**        | `edittag INDEX[, INDEX]... o/ OLDTAG n/ NEWTAG`<br>e.g. `edittag 1,2,3 o/ cs n/ computer science`                                                                                                              |
-| **Edit tag (global)**| `edittag all o/ OLDTAG n/ NEWTAG`<br>e.g. `edittag all o/ cs n/ computer science`                                                                                                                              |
-| **Find tags**       | `findtag / TAG [/ TAG]...`<br> e.g. `findtag / schoolB / schoolC`                                                                                                                                              |
-| **Star**            | `star INDEX [, INDEX]...`<br> e.g. `star 2`                                                                                                                                                                    |
-| **Unstar**          | `unstar INDEX [, INDEX]...`<br> e.g. `unstar 2`                                                                                                                                                                |
-| **Add meetings**    | `addmeeting [CONTACT_INDEX] [, CONTACT_INDEX]... d/DESCRIPTION dt/DATE `<br> e.g. `addmeeting 1, 2 d/ Casual icebreaker dt/ 2026-03-26`                                                                        |
-| **Delete meetings** | `deletemeeting INDEX [, INDEX]...`<br> e.g. `deletemeeting 1`                                                                                                                                                  |
-| **Edit meetings**   | `editmeeting MEETING_INDEX (d/DESCRIPTION) (dt/DATE) (add/CONTACT_INDEX [, CONTACT_INDEX]...) (del/CONTACT_INDEX [, CONTACT_INDEX]...)`<br> e.g. `editmeeting 1 d/Casual icebreaker dt/2026-05-01 add/5 del/1` |
-| **List meetings**   | `listmeeting`                                                                                                                                                                                                  |
-| **Find meetings**   | `findmeeting (d/DESCRIPTION) (dt/DATE) (i/CONTACT_INDEX [, CONTACT_INDEX]...)`<br> e.g. `findmeeting d/meeting dt/2026 i/1,2,3`                                                                                |
-| **Clear**           | `clear`                                                                                                                                                                                                        |
-| **Exit**            | `exit`                                                                                                                                                                                                         |
+| Action                | Format, Examples                                                                                                                                                                                            |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Help**              | `help`                                                                                                                                                                                                      |
+| **Add contact**       | `add n/NAME (p/PHONE_NUMBER) (e/EMAIL) [t/TAG]…​` <br> e.g. `add n/James Ho p/22224444 e/jamesho@example.com t/friend t/colleague`                                                                          |
+| **Delete contact**    | `delete INDEX [, INDEX]...`<br> e.g. `delete 3`                                                                                                                                                             |
+| **Edit contact**      | `edit INDEX (n/NAME) (p/PHONE_NUMBER) (e/EMAIL) (t/TAG)…​`<br> e.g.`edit 2 n/James Lee e/jameslee@example.com`                                                                                              |
+| **List contacts**     | `list`                                                                                                                                                                                                      |
+| **Global Find**       | `find <SEARCH SUBSTRING>`<br> e.g. `find alex david`                                                                                                                                                        |
+| **Field Find**        | `find (n/NAME) (p/PHONE) (e/EMAIL)...`<br> e.g. `find n/ david p/ 9927 e/ charlotte`                                                                                                                        |
+| **Add tags**          | `addtag INDEX [, INDEX...] / TAG [/ TAG]`<br> e.g. `addtag 1, 2 / friends / cs`                                                                                                                             |
+| **Delete tags**       | `deletetag INDEX [, INDEX...] / TAG [/ TAG]`<br> e.g. `deletetag 1, 2 / friends / cs`                                                                                                                       |
+| **Edit tag**          | `edittag INDEX[, INDEX]... o/ OLDTAG n/ NEWTAG`<br>e.g. `edittag 1,2,3 o/ cs n/ computer science`                                                                                                           |
+| **Edit tag (global)** | `edittag all o/ OLDTAG n/ NEWTAG`<br>e.g. `edittag all o/ cs n/ computer science`                                                                                                                           |
+| **Find tags**         | `findtag / TAG SUBSTRING [/ TAG SUBSTRING]...`<br> e.g. `findtag / schoolB / schoolC`                                                                                                                       |
+| **Star**              | `star INDEX [, INDEX]...`<br> e.g. `star 2`                                                                                                                                                                 |
+| **Unstar**            | `unstar INDEX [, INDEX]...`<br> e.g. `unstar 2`                                                                                                                                                             |
+| **Add meetings**      | `addmeet [CONTACT_INDEX] [, CONTACT_INDEX]... d/DESCRIPTION dt/DATE `<br> e.g. `addmeeting 1, 2 d/ Casual icebreaker dt/ 2026-03-26`                                                                        |
+| **Delete meetings**   | `deletemeet INDEX [, INDEX]...`<br> e.g. `deletemeeting 1`                                                                                                                                                  |
+| **Edit meetings**     | `editmeet MEETING_INDEX (d/DESCRIPTION) (dt/DATE) (add/CONTACT_INDEX [, CONTACT_INDEX]...) (del/CONTACT_INDEX [, CONTACT_INDEX]...)`<br> e.g. `editmeeting 1 d/Casual icebreaker dt/2026-05-01 add/5 del/1` |
+| **List meetings**     | `listmeet`                                                                                                                                                                                                  |
+| **Find meetings**     | `findmeet (d/DESCRIPTION) (dt/DATE) (i/CONTACT_INDEX [, CONTACT_INDEX]...)`<br> e.g. `findmeeting d/meeting dt/2026 i/1,2,3`                                                                                |
+| **Clear**             | `clear`                                                                                                                                                                                                     |
+| **Exit**              | `exit`                                                                                                                                                                                                      |
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -814,28 +821,28 @@ the data of your previous Internlink home folder (the location of `InternlinkDat
 
 The terms are displayed in alphabetical order for ease of searching.
 
-| **Term**                       | **Explanation**                                                                                                                                                                                                                            |
-|--------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Alphanumeric                   | Consists of numbers and/or alphabets only.                                                                                                                                                                                                 |
-| CLI (Command-Line Interface)   | A text-based interface where you type commands to interact with the app.                                                                                                                                                                   |
-| Command                        | An instruction entered by the user (e.g., `add`, `edit`, `delete`).                                                                                                                                                                        |
-| Contact/Person                 | An entry in the contact list, which can contain several fields: name, phone number, email and tags. Persons with the same name AND either the same phone number or email are considered duplicates of each other.                          |
-| Displayed contact list         | The current state of the contact list, whether full or filtered by commands such as `find` or `findtag`.                                                                                                                                   |
-| Displayed meeting list         | The current state of the meeting list, whether full or filtered by `findmeeting`.                                                                                                                                                          |
-| Email                          | The email address of a person. Emails must consist of a name part and domain part. The domain part must contain *at least 2* domain labels separated by periods (e.g. in `johndoe@example.com`, `example` and `com` are the domain labels) |
-| Entire contact list            | The full, unfiltered contact list.                                                                                                                                                                                                         |
-| Entire meeting list            | The full, unfiltered meeting list.                                                                                                                                                                                                         |
-| Field                          | A specific piece of information in a contact’s/meeting's information (e.g. name, phone number, meeting description).                                                                                                                       |
-| GUI (Graphical User Interface) | The visual interface that shows panels, buttons, and text boxes.                                                                                                                                                                           |
-| Index                          | The number showing a contact’s/meeting's position in the displayed contact/meeting list. Used in commands like `edit`, `delete` and `editmeeting`.                                                                                         |
-| Integer                        | A whole number (no decimals). In Internlink, indexes must be positive integers such as 1, 2, 3, etc.                                                                                                                                       |
-| Meeting                        | An entry in the meeting list, which can contain several fields: description, date and contact indices of involved contacts.                                                                                                                |
-| Name                           | The name of a person. Names must start with an alphanumeric character, and can contain spaces and special characters excluding the first character of the name (e.g `!Rachel` is an invalid name, but `Aaron Tan (Dr.)` is valid)          |
-| Phone number                   | The phone number of a person. Phone numbers must be 8 digits long.                                                                                                                                                                         |                                                                                                                                                                                                               
-| Prefix                         | A short label before a field to identify it in a command (e.g., `n/` for name, `p/` for phone).                                                                                                                                            |
-| Star                           | Pin/favourite a person to show up at the top of the list above regular contacts.                                                                                                                                                           |
-| Tag                            | A label attached to a contact, used for categorising or leaving brief notes about them (e.g. `friends`, `classmates`, `computing`). Tags can be alphanumeric, contain spaces and special characters, except for the backslash (`/`)        |
-| Unstar                         | Unpin/unfavourite a person, making them a regular contact in the list order.                                                                                                                                                               |
-
+| **Term**                       | **Explanation**                                                                                                                                                                                                                              |
+|--------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Alphanumeric                   | Consists of numbers and/or alphabets only.                                                                                                                                                                                                   |
+| CLI (Command-Line Interface)   | A text-based interface where you type commands to interact with the app.                                                                                                                                                                     |
+| Command                        | An instruction entered by the user (e.g., `add`, `edit`, `delete`).                                                                                                                                                                          |
+| Contact/Person                 | An entry in the contact list, which can contain several fields: name, phone number, email and tags. Persons with the same name AND either the same phone number or email are considered duplicates of each other.                            |
+| Displayed contact list         | The current state of the contact list, whether full or filtered by commands such as `find` or `findtag`.                                                                                                                                     |
+| Displayed meeting list         | The current state of the meeting list, whether full or filtered by `findmeet`.                                                                                                                                                               |
+| Email                          | The email address of a person. Emails must consist of a name part and domain part. The domain part must contain *at least 2* domain labels separated by periods (e.g. in `johndoe@example.com`, `example` and `com` are the domain labels).  |
+| Entire contact list            | The full, unfiltered contact list.                                                                                                                                                                                                           |
+| Entire meeting list            | The full, unfiltered meeting list.                                                                                                                                                                                                           |
+| Field                          | A specific piece of information in a contact’s/meeting's information (e.g. name, phone number, meeting description).                                                                                                                         |
+| GUI (Graphical User Interface) | The visual interface that shows panels, buttons, and text boxes.                                                                                                                                                                             |
+| Index                          | The number showing a contact’s/meeting's position in the displayed contact/meeting list. Used in commands like `edit`, `delete` and `editmeet`.                                                                                              |
+| Integer                        | A whole number (no decimals). In Internlink, indexes must be positive integers such as 1, 2, 3, etc.                                                                                                                                         |
+| Meeting                        | An entry in the meeting list, which can contain several fields: description, date and contact indices of involved contacts.                                                                                                                  |
+| Name                           | The name of a person. Names must start with an alphanumeric character, and can contain spaces and special characters excluding the first character of the name (e.g `!Rachel` is an invalid name, but `Aaron Tan (Dr.)` is valid)            |
+| Phone number                   | The phone number of a person. Phone numbers must be 8 digits long.                                                                                                                                                                           |                                                                                                                                                                                                               
+| Prefix                         | A short label before a field to identify it in a command (e.g., `n/` for name, `p/` for phone).                                                                                                                                              |
+| Star                           | The act of pinning a person to show up at the top of the list above regular contacts.                                                                                                                                                        |
+| Substring                      | In the context of Internlink, substrings are defined as a sequence of characters that is part of, or equal to, a longer string. For example, `john` is a substring of `John Doe`.                                                            |
+| Tag                            | A label attached to a contact, used for categorising or leaving brief notes about them (e.g. `friends`, `classmates`, `computing`). Tags can be alphanumeric, contain spaces and special characters, except for the forward slash (`/`)      |
+| Unstar                         | The act of unpinning a person, making them a regular contact in the list order.                                                                                                                                                              |
 
 [Back to Table of Contents](#table-of-contents)
