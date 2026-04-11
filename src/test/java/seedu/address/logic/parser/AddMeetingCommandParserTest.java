@@ -1,6 +1,6 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MEETING_TYPE;
+import static seedu.address.logic.Messages.CONTACT_TYPE;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270401;
@@ -93,15 +93,15 @@ public class AddMeetingCommandParserTest {
     public void parse_invalidIndex_failure() {
         // zero
         assertParseFailure(parser, INVALID_INPUT_INDEX_ZERO + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
-                String.format(MESSAGE_INVALID_INDEX, MEETING_TYPE));
+                String.format(MESSAGE_INVALID_INDEX, CONTACT_TYPE));
 
         // negative
         assertParseFailure(parser, INVALID_INPUT_INDEX_NEGATIVE + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
-                String.format(MESSAGE_INVALID_INDEX, MEETING_TYPE));
+                String.format(MESSAGE_INVALID_INDEX, CONTACT_TYPE));
 
         // non-numeric
         assertParseFailure(parser, INVALID_INPUT_INDEX_NON_NUMERIC + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
-                String.format(MESSAGE_INVALID_INDEX, MEETING_TYPE));
+                String.format(MESSAGE_INVALID_INDEX, CONTACT_TYPE));
     }
 
     @Test
@@ -121,7 +121,7 @@ public class AddMeetingCommandParserTest {
         // extra preamble before any prefixes
         assertParseFailure(parser, "randomPreamble "
                         + VALID_INDEX_SET_SINGLE + INPUT_DESC_PROJECT + INPUT_DATE_20260325,
-                String.format(MESSAGE_INVALID_INDEX, MEETING_TYPE));
+                String.format(MESSAGE_INVALID_INDEX, CONTACT_TYPE));
     }
 
     @Test
