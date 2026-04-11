@@ -11,7 +11,7 @@ public class Tag {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Tags names should be alphanumeric and may contain spaces "
-                    + "and special characters except for the forward slash { / }.";
+                    + "and special characters, except for the forward slash { / }.";
     public static final String VALIDATION_REGEX = "[\\p{Alnum} \\p{Punct}&&[^/]]+";
 
     public static final String STAR_TAG = "STAR";
