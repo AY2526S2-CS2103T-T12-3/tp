@@ -21,7 +21,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
 /**
- * Edits the details of an existing person in the contact list.
+ * Adds tags (case-insensitive) to people in the contact list.
  */
 public class AddTagCommand extends Command {
 
