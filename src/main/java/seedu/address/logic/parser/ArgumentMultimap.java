@@ -75,4 +75,11 @@ public class ArgumentMultimap {
             throw new ParseException(Messages.getErrorMessageForDuplicatePrefixes(duplicatedPrefixes));
         }
     }
+
+    /**
+     * Returns true if the given prefix appeared in the input, even if its value is empty.
+     */
+    public boolean containsPrefix(Prefix prefix) {
+        return argMultimap.containsKey(prefix);
+    }
 }
