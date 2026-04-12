@@ -33,7 +33,7 @@ public class DeleteMeetingCommandParser implements Parser<DeleteMeetingCommand> 
 
         // Parse meeting indices
         Set<Index> meetingIndices = ParserUtil.parseIndices(args, MEETING_TYPE,
-                DeleteMeetingCommand.MESSAGE_USAGE);
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteMeetingCommand.MESSAGE_USAGE));
 
         return new DeleteMeetingCommand(meetingIndices);
     }

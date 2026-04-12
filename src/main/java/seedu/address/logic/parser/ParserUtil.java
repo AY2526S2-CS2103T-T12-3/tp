@@ -1,7 +1,6 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_COMMA;
 
 import java.util.Collection;
@@ -43,16 +42,16 @@ public class ParserUtil {
      * @param oneBasedIndex The input string representing a one-based index.
      * @param indexType The type of index being parsed (e.g., "Contact", "Meeting"),
      *                  used to customise the invalid index error message.
-     * @param commandFormat The command usage message to display if the input is blank.
+     * @param message The message to display if the input is blank.
      * @return The corresponding {@code Index} object parsed from the input.
      * @throws ParseException If the input is blank, or if the specified index is invalid.
      */
-    public static Index parseIndex(String oneBasedIndex, String indexType, String commandFormat)
+    public static Index parseIndex(String oneBasedIndex, String indexType, String message)
             throws ParseException {
         String trimmedIndex = oneBasedIndex.trim();
 
         if (trimmedIndex.isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, commandFormat));
+            throw new ParseException(message);
         }
 
         if (!StringUtil.isNonZeroUnsignedInteger(trimmedIndex)) {
@@ -70,21 +69,21 @@ public class ParserUtil {
      *
      * @param indicesString String containing indices separated by commas.
      * @param indexType The type of index being parsed (e.g., "Contact", "Meeting").
-     * @param usageMessage The usage message to display if any {@code Index} input is empty after trimming.
+     * @param message The message to display if any {@code Index} input is empty after trimming.
      * @return Set of parsed {@code Index}.
      * @throws ParseException If any index is invalid or does not conform to the expected format.
      */
-    public static Set<Index> parseIndices(String indicesString, String indexType, String usageMessage)
+    public static Set<Index> parseIndices(String indicesString, String indexType, String message)
             throws ParseException {
 
         requireNonNull(indicesString);
-        requireNonNull(usageMessage);
+        requireNonNull(message);
 
         String[] indices = indicesString.split(PREFIX_COMMA.toString());
         Set<Index> indexSet = new HashSet<>();
 
         for (String index : indices) {
-            indexSet.add(ParserUtil.parseIndex(index, indexType, usageMessage));
+            indexSet.add(ParserUtil.parseIndex(index, indexType, message));
         }
 
         return indexSet;

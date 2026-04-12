@@ -44,7 +44,7 @@ public class AddMeetingCommandParser implements Parser<AddMeetingCommand> {
         Set<Index> indices = new HashSet<>();
         if (!areIndexesMissing) {
             indices = ParserUtil.parseIndices(argMultimap.getPreamble(),
-                    CONTACT_TYPE, AddMeetingCommand.MESSAGE_USAGE);
+                    CONTACT_TYPE, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddMeetingCommand.MESSAGE_USAGE));
         }
 
         Description parsedDescription = ParserUtil.parseDescription(

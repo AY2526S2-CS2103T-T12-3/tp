@@ -8,7 +8,6 @@ import static seedu.address.logic.parser.ParserUtil.isPrefixPresent;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.logic.commands.AddTagCommand;
 import seedu.address.logic.commands.FindTagCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
@@ -41,7 +40,7 @@ public class FindTagCommandParser implements Parser<FindTagCommand> {
         ParserUtil.parseTagsOptional(argMultimap.getAllValues(PREFIX_SEPARATOR)).ifPresent(tags::addAll);
 
         if (tags.isEmpty()) {
-            throw new ParseException(AddTagCommand.MESSAGE_NO_TAGS);
+            throw new ParseException(FindTagCommand.MESSAGE_NO_TAGS);
         }
 
         return new FindTagCommand(tags);

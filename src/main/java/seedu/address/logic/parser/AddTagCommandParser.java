@@ -36,7 +36,7 @@ public class AddTagCommandParser implements Parser<AddTagCommand> {
         }
 
         Set<Index> indices = ParserUtil.parseIndices(argMultimap.getPreamble(),
-                CONTACT_TYPE, AddTagCommand.MESSAGE_USAGE);
+                CONTACT_TYPE, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddTagCommand.MESSAGE_USAGE));
 
         Set<Tag> tags = new HashSet<>();
         ParserUtil.parseTagsOptional(argMultimap.getAllValues(PREFIX_SEPARATOR)).ifPresent(tags::addAll);

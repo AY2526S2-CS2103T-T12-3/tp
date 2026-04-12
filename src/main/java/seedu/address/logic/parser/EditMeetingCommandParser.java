@@ -42,7 +42,7 @@ public class EditMeetingCommandParser implements Parser<EditMeetingCommand> {
         validateAtLeastOnePrefixPresent(argMultimap);
 
         Index meetingIndex = ParserUtil.parseIndex(argMultimap.getPreamble(),
-                MEETING_TYPE, EditMeetingCommand.MESSAGE_USAGE);
+                MEETING_TYPE, String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditMeetingCommand.MESSAGE_USAGE));
 
         argMultimap.verifyNoDuplicatePrefixesFor(
                 PREFIX_MEETING_DESCRIPTION, PREFIX_MEETING_DATE,

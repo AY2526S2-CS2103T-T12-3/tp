@@ -36,7 +36,7 @@ public class DeleteTagCommandParser implements Parser<DeleteTagCommand> {
         }
 
         Set<Index> indices = ParserUtil.parseIndices(argMultimap.getPreamble(),
-                CONTACT_TYPE, DeleteTagCommand.MESSAGE_USAGE);
+                CONTACT_TYPE, String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteTagCommand.MESSAGE_USAGE));
 
         Set<Tag> tags = new HashSet<>();
         ParserUtil.parseTagsOptional(argMultimap.getAllValues(PREFIX_SEPARATOR)).ifPresent(tags::addAll);

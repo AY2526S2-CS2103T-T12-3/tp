@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.CONTACT_TYPE;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -35,7 +36,10 @@ public class EditCommandParser implements Parser<EditCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_TAG);
 
-        Index index = ParserUtil.parseIndex(argMultimap.getPreamble(), CONTACT_TYPE, EditCommand.MESSAGE_USAGE);
+        validateAtLeastOnePrefixPresent(argMultimap);
+
+        Index index = ParserUtil.parseIndex(argMultimap.getPreamble(), CONTACT_TYPE,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL);
 
@@ -93,5 +97,23 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
         Collection<String> tagSet = tags.size() == 1 && tags.contains("") ? Collections.emptySet() : tags;
         return Optional.of(ParserUtil.parseTags(tagSet));
+    }
+
+    /**
+     * Ensures that at least one prefix for the fields to edit is provided in the input.
+     *
+     * @param argMultimap The parsed user input.
+     * @throws ParseException If no prefixes for the fields are given in the user input.
+     */
+    private static void validateAtLeastOnePrefixPresent(ArgumentMultimap argMultimap) throws ParseException {
+        boolean isNamePrefixMissing = !argMultimap.containsPrefix(PREFIX_NAME);
+        boolean isPhonePrefixMissing = !argMultimap.containsPrefix(PREFIX_PHONE);
+        boolean isEmailPrefixMissing = !argMultimap.containsPrefix(PREFIX_EMAIL);
+        boolean isTagPrefixMissing = !argMultimap.containsPrefix(PREFIX_TAG);
+
+
+        if (isNamePrefixMissing && isPhonePrefixMissing && isEmailPrefixMissing && isTagPrefixMissing) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }
     }
 }
