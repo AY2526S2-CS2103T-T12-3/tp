@@ -28,8 +28,7 @@ public class AddTagCommand extends Command {
     public static final String COMMAND_WORD = "addtag";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Adds tags (case-insensitive) to one or more persons identified "
-            + "by their indices in the displayed contact list.\n"
+            + ": Adds tags to one or more persons identified by their indices in the displayed contact list.\n"
             + "Multiple persons can be specified using commas, and multiple tags using '/'.\n"
             + "Format: " + COMMAND_WORD + " INDEX [,INDEX]... "
             + PREFIX_SEPARATOR + "TAG [" + PREFIX_SEPARATOR + "TAG]...\n"
@@ -40,15 +39,19 @@ public class AddTagCommand extends Command {
 
     public static final String MESSAGE_ADD_TAG_SUCCESS = "Added the following tags: %1$s.";
     public static final String MESSAGE_NO_TAGS = "At least one tag must be provided.";
+    public static final String MESSAGE_NO_NEW_TAGS_TO_ADD =
+            "Error: All of the specified tags already exists for all of the specified persons.";
 
     private final Set<Index> targetIndices;
     private final Set<Tag> tags;
 
     /**
-     * Creates an AddTagCommand to add the specified {@code Tag}s to the specified {@code Person}s.
+     * Creates an AddTagCommand to add the specified {@code Tag}s to the specified
+     * {@code Person}s.
      *
-     * @param targetIndices Indices of the persons in the current contact list to add tags to.
-     * @param tags The collection of tags to be added.
+     * @param targetIndices Indices of the persons in the current contact list to
+     *                      add tags to.
+     * @param tags          The collection of tags to be added.
      */
     public AddTagCommand(Collection<Index> targetIndices, Collection<Tag> tags) {
         requireAllNonNull(targetIndices, tags);
@@ -58,10 +61,13 @@ public class AddTagCommand extends Command {
     }
 
     /**
-     * Convenience wrapper for {@code AddTagCommand(Collection<Index>, Collection<Tag>)} that wraps the {@code index}
+     * Convenience wrapper for
+     * {@code AddTagCommand(Collection<Index>, Collection<Tag>)} that wraps the
+     * {@code index}
      * in a set.
+     *
      * @param index of the person in the filtered person list to add tags to
-     * @param tags the collection of tags to be added
+     * @param tags  the collection of tags to be added
      */
     public AddTagCommand(Index index, Collection<Tag> tags) {
         requireAllNonNull(index, tags);
@@ -80,7 +86,8 @@ public class AddTagCommand extends Command {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        // First checks if all indices are valid. If at least 1 is invalid, cancel the operation.
+        // First checks if all indices are valid. If at least 1 is invalid, cancel the
+        // operation.
         for (Index index : targetIndices) {
             if (index.getZeroBased() >= lastShownList.size()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
@@ -91,6 +98,12 @@ public class AddTagCommand extends Command {
         List<Person> personsToEdit = new ArrayList<>();
         for (Index index : targetIndices) {
             personsToEdit.add(lastShownList.get(index.getZeroBased()));
+        }
+
+        // Return duplicate tag exception if all people contain all tags to add
+        if (personsToEdit.stream()
+                .allMatch(person -> person.getTags().containsAll(tags))) {
+            throw new CommandException(MESSAGE_NO_NEW_TAGS_TO_ADD);
         }
 
         // Add the tags to each specified person object using the snapshotted list
@@ -118,8 +131,7 @@ public class AddTagCommand extends Command {
                 personToEdit.getName(),
                 personToEdit.getPhone(),
                 personToEdit.getEmail(),
-                updatedTags
-        );
+                updatedTags);
     }
 
     @Override
