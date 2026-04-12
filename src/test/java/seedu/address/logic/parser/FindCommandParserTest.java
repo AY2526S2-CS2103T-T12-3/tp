@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_BLANK_FIND_FIELD_INPUT;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_MIX_GLOBAL_AND_PREFIX_SEARCH;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -150,5 +151,18 @@ public class FindCommandParserTest {
 
         assertParseFailure(parser, " p/1234 n/   ",
                 String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_mixGlobalAndPrefix_throwsParseException() {
+        assertParseFailure(parser, " Alice n/Alice", MESSAGE_MIX_GLOBAL_AND_PREFIX_SEARCH);
+    }
+
+    @Test
+    public void parse_prefixInPreamble_notCountedAsPrefixSearch() {
+        FindCommand expected = new FindCommand(
+                new PersonMatchesKeywordsPredicate(List.of("Aaron/Tan"), List.of(), List.of(), List.of()));
+        // n/ part of the preamble, not considered a prefix.
+        assertParseSuccess(parser, " Aaron/Tan", expected);
     }
 }
