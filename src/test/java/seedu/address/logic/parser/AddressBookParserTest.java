@@ -155,7 +155,7 @@ public class AddressBookParserTest {
         assertEquals(new FindMeetingCommand(
                 List.of(VALID_DESCRIPTION_PROJECT),
                 List.of(VALID_DATE_20270325.toString()),
-                Set.of(Index.fromOneBased(1))), command);
+                List.of(Set.of(Index.fromOneBased(1)))), command);
     }
 
     @Test

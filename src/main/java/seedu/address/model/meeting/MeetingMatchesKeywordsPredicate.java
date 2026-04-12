@@ -13,41 +13,42 @@ public class MeetingMatchesKeywordsPredicate implements Predicate<Meeting> {
 
     private final List<String> descriptionKeywords;
     private final List<String> dateKeywords;
-    private final Set<PersonId> idsToMatch;
+    private final List<Set<PersonId>> idGroupsToMatch;
 
     /**
      * Constructor for MeetingMatchesKeywordsPredicate class.
      *
-     * @param descriptionKeywords Substring to match for Meeting descriptions.
-     * @param dateKeywords Substring to match for Meeting dates.
-     * @param idsToMatch Set of {@code PersonId}s to match for Meeting participants.
+     * @param descriptionKeywords Substrings to match for meeting descriptions.
+     * @param dateKeywords Substrings to match for meeting dates.
+     * @param idGroupsToMatch List of {@code PersonId} groups to match for meeting participants.
+     *                        A meeting matches if it contains all ids in any one group.
      */
     public MeetingMatchesKeywordsPredicate(List<String> descriptionKeywords,
                                            List<String> dateKeywords,
-                                           Set<PersonId> idsToMatch) {
+                                           List<Set<PersonId>> idGroupsToMatch) {
         this.descriptionKeywords = descriptionKeywords;
         this.dateKeywords = dateKeywords;
-        this.idsToMatch = idsToMatch;
+        this.idGroupsToMatch = idGroupsToMatch;
     }
 
     @Override
     public boolean test(Meeting meeting) {
         String description = meeting.getDescription().description.toLowerCase();
-        String date = meeting.getDate().toString();
-        Set<PersonId> participantIDs = meeting.getParticipantsIDs();
+        String date = meeting.getDate().toString().toLowerCase();
+        Set<PersonId> participantIds = meeting.getParticipantsIDs();
 
-        boolean doAnyKeywordsMatchDescription = descriptionKeywords
-                .stream()
+        boolean doAnyKeywordsMatchDescription = descriptionKeywords.stream()
                 .anyMatch(substring -> description.contains(substring.toLowerCase()));
 
-        boolean doAnyKeywordsMatchDate = dateKeywords
-                .stream()
+        boolean doAnyKeywordsMatchDate = dateKeywords.stream()
                 .anyMatch(substring -> date.contains(substring.toLowerCase()));
 
-        boolean doesMeetingContainAllPersonIds = !idsToMatch.isEmpty()
-                && participantIDs.containsAll(idsToMatch);
+        boolean doesMeetingMatchAnyIdGroup = idGroupsToMatch.stream()
+                .anyMatch(participantIds::containsAll);
 
-        return doAnyKeywordsMatchDescription || doAnyKeywordsMatchDate || doesMeetingContainAllPersonIds;
+        return doAnyKeywordsMatchDescription
+                || doAnyKeywordsMatchDate
+                || doesMeetingMatchAnyIdGroup;
     }
 
     @Override
@@ -63,7 +64,6 @@ public class MeetingMatchesKeywordsPredicate implements Predicate<Meeting> {
         MeetingMatchesKeywordsPredicate otherPredicate = (MeetingMatchesKeywordsPredicate) other;
         return descriptionKeywords.equals(otherPredicate.descriptionKeywords)
                 && dateKeywords.equals(otherPredicate.dateKeywords)
-                && idsToMatch.equals(otherPredicate.idsToMatch);
+                && idGroupsToMatch.equals(otherPredicate.idGroupsToMatch);
     }
-
 }

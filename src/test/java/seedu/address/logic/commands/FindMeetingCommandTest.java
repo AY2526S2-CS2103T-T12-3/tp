@@ -40,19 +40,19 @@ public class FindMeetingCommandTest {
         List<String> descriptionKeywords2 = new ArrayList<>();
         descriptionKeywords2.add("hi");
         List<String> dateKeywords = Collections.emptyList();
-        Set<Index> personIndices = Collections.emptySet();
+        List<Set<Index>> personIndexGroups = Collections.emptyList();
 
         FindMeetingCommand findMeetingFirstCommand =
-                new FindMeetingCommand(descriptionKeywords1, dateKeywords, personIndices);
+                new FindMeetingCommand(descriptionKeywords1, dateKeywords, personIndexGroups);
         FindMeetingCommand findMeetingSecondCommand =
-                new FindMeetingCommand(descriptionKeywords2, dateKeywords, personIndices);
+                new FindMeetingCommand(descriptionKeywords2, dateKeywords, personIndexGroups);
 
         // same object -> returns true
         assertTrue(findMeetingFirstCommand.equals(findMeetingFirstCommand));
 
         // same values -> returns true
         FindMeetingCommand findMeetingFirstCommandCopy =
-                new FindMeetingCommand(descriptionKeywords1, dateKeywords, personIndices);
+                new FindMeetingCommand(descriptionKeywords1, dateKeywords, personIndexGroups);
         assertTrue(findMeetingFirstCommand.equals(findMeetingFirstCommandCopy));
 
         // different types -> returns false
@@ -71,11 +71,15 @@ public class FindMeetingCommandTest {
 
         List<String> descriptionKeywords = Collections.emptyList();
         List<String> dateKeywords = Collections.emptyList();
-        Set<Index> personIndices = Collections.emptySet();
-        Set<PersonId> idsToMatch = Collections.emptySet();
+        List<Set<Index>> personIndexGroups = Collections.emptyList();
+        List<Set<PersonId>> idGroupsToMatch = Collections.emptyList();
+
         MeetingMatchesKeywordsPredicate predicate =
-                new MeetingMatchesKeywordsPredicate(descriptionKeywords, dateKeywords, idsToMatch);
-        FindMeetingCommand command = new FindMeetingCommand(descriptionKeywords, dateKeywords, personIndices);
+                new MeetingMatchesKeywordsPredicate(descriptionKeywords, dateKeywords, idGroupsToMatch);
+
+        FindMeetingCommand command =
+                new FindMeetingCommand(descriptionKeywords, dateKeywords, personIndexGroups);
+
         expectedModel.updateFilteredMeetingList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Collections.emptyList(), model.getFilteredMeetingList());
@@ -86,8 +90,8 @@ public class FindMeetingCommandTest {
         String expectedMessage = String.format(Messages.MESSAGE_MEETINGS_LISTED_OVERVIEW, 1);
         List<String> descriptionKeywords = new ArrayList<>();
         List<String> dateKeywords = Collections.emptyList();
-        Set<Index> personIndices = Collections.emptySet();
-        Set<PersonId> idsToMatch = Collections.emptySet();
+        List<Set<Index>> personIndexGroups = Collections.emptyList();
+        List<Set<PersonId>> idGroupsToMatch = Collections.emptyList();
 
         Set<Index> indices = VALID_INDEX_SET_SINGLE;
 
@@ -106,9 +110,10 @@ public class FindMeetingCommandTest {
         model.addMeeting(meeting);
 
         MeetingMatchesKeywordsPredicate predicate =
-                new MeetingMatchesKeywordsPredicate(descriptionKeywords, dateKeywords, idsToMatch);
+                new MeetingMatchesKeywordsPredicate(descriptionKeywords, dateKeywords, idGroupsToMatch);
 
-        FindMeetingCommand command = new FindMeetingCommand(descriptionKeywords, dateKeywords, personIndices);
+        FindMeetingCommand command =
+                new FindMeetingCommand(descriptionKeywords, dateKeywords, personIndexGroups);
 
         expectedModel.updateFilteredMeetingList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -119,13 +124,16 @@ public class FindMeetingCommandTest {
         List<String> descriptionKeywords = new ArrayList<>();
         descriptionKeywords.add("hi");
         List<String> dateKeywords = Collections.emptyList();
-        Set<Index> personIndices = Collections.emptySet();
+        List<Set<Index>> personIndexGroups = Collections.emptyList();
+
         FindMeetingCommand findMeetingCommand =
-                new FindMeetingCommand(descriptionKeywords, dateKeywords, personIndices);
+                new FindMeetingCommand(descriptionKeywords, dateKeywords, personIndexGroups);
+
         String expected = FindMeetingCommand.class.getCanonicalName()
                 + "{descriptionKeywords=" + descriptionKeywords + ", "
                 + "dateKeywords=" + dateKeywords + ", "
-                + "personIndices=" + personIndices + "}";
+                + "personIndexGroups=" + personIndexGroups + "}";
+
         assertEquals(expected, findMeetingCommand.toString());
     }
 }

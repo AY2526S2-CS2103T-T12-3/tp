@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_INDICES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,7 +21,7 @@ import seedu.address.model.person.PersonId;
 
 /**
  * Finds and lists all meetings in the displayed meeting list whose specific
- * parameters contains any of the argument keywords. Keyword matching is case-insensitive.
+ * fields match any of the given inputs.
  */
 public class FindMeetingCommand extends Command {
 
@@ -28,42 +29,52 @@ public class FindMeetingCommand extends Command {
 
     public static final String MESSAGE_FORMAT =
             "Format: " + COMMAND_WORD + " "
-                    + "(" + PREFIX_MEETING_DESCRIPTION + "DESCRIPTION) "
-                    + "(" + PREFIX_MEETING_DATE + "DATE) "
+                    + "(" + PREFIX_MEETING_DESCRIPTION + "DESCRIPTION)... "
+                    + "(" + PREFIX_MEETING_DATE + "DATE)... "
                     + "(" + PREFIX_CONTACT_INDICES + "CONTACT_INDEX "
-                    + "[,CONTACT_INDEX]...)\n"
+                    + "[,CONTACT_INDEX]...)...\n"
                     + "Note: CONTACT_INDEX must be a positive integer\n"
+                    + "Note: Indices within a single i/ (e.g. i/1,2,3) are treated as AND — "
+                    + "the meeting must include all specified contacts\n"
+                    + "Multiple i/ prefixes (e.g. i/1 i/2,3) are treated as OR — "
+                    + "the meeting matches if it satisfies any one of the i/ prefixes\n"
                     + "Example: " + COMMAND_WORD + " "
                     + PREFIX_MEETING_DESCRIPTION + "meeting "
                     + PREFIX_MEETING_DATE + "2026 "
+                    + PREFIX_CONTACT_INDICES + "1 "
                     + PREFIX_CONTACT_INDICES + "1,2,3";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Finds meetings whose specified fields have any of the given substrings"
-            + " (case-insensitive) in the displayed meeting list.\n"
+            + ": Finds meetings in the displayed meeting list by matching the given inputs "
+            + "against the specified fields. A meeting is included if any specified field matches.\n"
+            + "Description and date fields are matched using case-insensitive substrings, "
+            + "and indices are matched by if the meetings contains the specified contact indices as participants.\n"
             + MESSAGE_FORMAT;
 
     public static final String MESSAGE_NO_PARAMS_FOUND =
-            "No description, date or indices have been detected." + "\n" + MESSAGE_USAGE;
+            "No description, date or indices have been detected.\n" + MESSAGE_USAGE;
 
     private final List<String> descriptionKeywords;
     private final List<String> dateKeywords;
-    private final Set<Index> personIndices;
+    private final List<Set<Index>> personIndexGroups;
 
     /**
      * Instantiates a new FindMeetingCommand with the respective parameters.
      *
      * @param descriptionKeywords The keywords corresponding to the meeting description.
      * @param dateKeywords The keywords corresponding to the meeting date.
-     * @param personIndices The indices corresponding to the current contact list's indices.
+     * @param personIndexGroups The groups of indices corresponding to the current contact list's indices.
+     *                          Indices within a group are matched using AND, while groups are matched using OR.
      */
     public FindMeetingCommand(List<String> descriptionKeywords,
                               List<String> dateKeywords,
-                              Set<Index> personIndices) {
-
+                              List<Set<Index>> personIndexGroups) {
         this.descriptionKeywords = descriptionKeywords;
         this.dateKeywords = dateKeywords;
-        this.personIndices = new HashSet<>(personIndices);
+        this.personIndexGroups = new ArrayList<>();
+        for (Set<Index> group : personIndexGroups) {
+            this.personIndexGroups.add(new HashSet<>(group));
+        }
     }
 
     @Override
@@ -71,16 +82,22 @@ public class FindMeetingCommand extends Command {
         requireNonNull(model);
         List<Person> personList = model.getFilteredPersonList();
 
-        Set<PersonId> personIdsToMatch = new HashSet<>();
-        for (Index index : personIndices) {
-            if (index.getZeroBased() >= personList.size()) {
-                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        List<Set<PersonId>> personIdGroupsToMatch = new ArrayList<>();
+        for (Set<Index> indexGroup : personIndexGroups) {
+            Set<PersonId> personIdsInGroup = new HashSet<>();
+
+            for (Index index : indexGroup) {
+                if (index.getZeroBased() >= personList.size()) {
+                    throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+                }
+                personIdsInGroup.add(personList.get(index.getZeroBased()).getId());
             }
-            personIdsToMatch.add(personList.get(index.getZeroBased()).getId());
+
+            personIdGroupsToMatch.add(personIdsInGroup);
         }
 
         MeetingMatchesKeywordsPredicate predicate =
-                new MeetingMatchesKeywordsPredicate(descriptionKeywords, dateKeywords, personIdsToMatch);
+                new MeetingMatchesKeywordsPredicate(descriptionKeywords, dateKeywords, personIdGroupsToMatch);
 
         model.updateFilteredMeetingListStacked(predicate);
         return new CommandResult(
@@ -93,7 +110,6 @@ public class FindMeetingCommand extends Command {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof FindMeetingCommand)) {
             return false;
         }
@@ -102,7 +118,7 @@ public class FindMeetingCommand extends Command {
 
         return descriptionKeywords.equals(otherFindMeetingCommand.descriptionKeywords)
                 && dateKeywords.equals(otherFindMeetingCommand.dateKeywords)
-                && personIndices.equals(otherFindMeetingCommand.personIndices);
+                && personIndexGroups.equals(otherFindMeetingCommand.personIndexGroups);
     }
 
     @Override
@@ -110,7 +126,7 @@ public class FindMeetingCommand extends Command {
         return new ToStringBuilder(this)
                 .add("descriptionKeywords", descriptionKeywords)
                 .add("dateKeywords", dateKeywords)
-                .add("personIndices", personIndices)
+                .add("personIndexGroups", personIndexGroups)
                 .toString();
     }
 }

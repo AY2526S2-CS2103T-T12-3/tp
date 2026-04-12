@@ -6,7 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_INDICES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -40,9 +40,9 @@ public class FindMeetingCommandParser implements Parser<FindMeetingCommand> {
                 .collect(Collectors.toList());
         List<String> personIndicesList = argMultimap.getAllValues(PREFIX_CONTACT_INDICES);
 
-        Set<Index> personIndices = getPersonIndices(personIndicesList);
+        List<Set<Index>> personIndexGroups = getPersonIndexGroups(personIndicesList);
 
-        if (descriptionKeywords.isEmpty() && dateKeywords.isEmpty() && personIndices.isEmpty()) {
+        if (descriptionKeywords.isEmpty() && dateKeywords.isEmpty() && personIndexGroups.isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                             FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND));
@@ -53,25 +53,31 @@ public class FindMeetingCommandParser implements Parser<FindMeetingCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindMeetingCommand.MESSAGE_USAGE));
         }
 
-        return new FindMeetingCommand(descriptionKeywords, dateKeywords, personIndices);
+        return new FindMeetingCommand(descriptionKeywords, dateKeywords, personIndexGroups);
     }
 
     /**
-     * Returns the set of person indices to be searched for.
+     * Parses the list of raw index strings into groups of {@code Index}.
+     * Each element in {@code personIndicesList} corresponds to one {@code i/} prefix.
+     * Within each element, comma-separated values are treated as a single group (AND).
+     * Multiple groups represent OR conditions.
      *
-     * @param personIndicesList The list of person indices parsed from the argument string.
-     * @return The set of person indices to be searched for.
-     * @throws ParseException if any index is invalid or does not conform to the expected format.
+     * @param personIndicesList List of raw index strings from input
+     * @return List of index groups
+     * @throws ParseException if any index is invalid or does not conform to expected format
      */
-    private static Set<Index> getPersonIndices(List<String> personIndicesList)
+    private static List<Set<Index>> getPersonIndexGroups(List<String> personIndicesList)
             throws ParseException {
-        Set<Index> personIndices = new HashSet<>();
+        List<Set<Index>> personIndexGroups = new ArrayList<>();
 
-        if (!personIndicesList.isEmpty() && !personIndicesList.get(0).isEmpty()) {
-            personIndices = ParserUtil.parseIndices(personIndicesList.get(0),
-                    CONTACT_TYPE, FindMeetingCommand.MESSAGE_USAGE);
+        for (String indicesGroup : personIndicesList) {
+            if (!indicesGroup.isEmpty()) {
+                Set<Index> parsedGroup = ParserUtil.parseIndices(
+                        indicesGroup, CONTACT_TYPE, FindMeetingCommand.MESSAGE_USAGE);
+                personIndexGroups.add(parsedGroup);
+            }
         }
 
-        return personIndices;
+        return personIndexGroups;
     }
 }

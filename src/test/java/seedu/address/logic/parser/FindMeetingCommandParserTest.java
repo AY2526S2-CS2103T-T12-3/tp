@@ -27,14 +27,15 @@ public class FindMeetingCommandParserTest {
     @Test
     public void parse_emptyArg_throwsParseException() {
         assertParseFailure(parser, "     ",
-                String.format(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                        FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND)));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND));
     }
 
     @Test
     public void parse_nonEmptyPreamble_throwsParseException() {
         assertParseFailure(parser, NON_EMPTY_PREAMBLE,
-                String.format(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindMeetingCommand.MESSAGE_USAGE)));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        FindMeetingCommand.MESSAGE_USAGE));
     }
 
     @Test
@@ -52,7 +53,7 @@ public class FindMeetingCommandParserTest {
         FindMeetingCommand expected = new FindMeetingCommand(
                 List.of(VALID_DESCRIPTION_PROJECT),
                 Collections.emptyList(),
-                Collections.emptySet());
+                Collections.emptyList());
 
         String userInput1 = " " + PREFIX_MEETING_DESCRIPTION + VALID_DESCRIPTION_PROJECT;
         String userInput2 = " " + PREFIX_MEETING_DESCRIPTION + " " + VALID_DESCRIPTION_PROJECT;
@@ -66,7 +67,7 @@ public class FindMeetingCommandParserTest {
         FindMeetingCommand expected = new FindMeetingCommand(
                 Collections.emptyList(),
                 List.of(VALID_DATE_20270325.toString()),
-                Collections.emptySet());
+                Collections.emptyList());
 
         String userInput1 = " " + PREFIX_MEETING_DATE + VALID_DATE_20270325;
         String userInput2 = " " + PREFIX_MEETING_DATE + " " + VALID_DATE_20270325;
@@ -80,7 +81,7 @@ public class FindMeetingCommandParserTest {
         FindMeetingCommand expected = new FindMeetingCommand(
                 Collections.emptyList(),
                 Collections.emptyList(),
-                Set.of(Index.fromOneBased(1)));
+                List.of(Set.of(Index.fromOneBased(1))));
 
         String userInput1 = " " + PREFIX_CONTACT_INDICES + "1";
         String userInput2 = " " + PREFIX_CONTACT_INDICES + " " + "1";
@@ -94,7 +95,7 @@ public class FindMeetingCommandParserTest {
         FindMeetingCommand expected = new FindMeetingCommand(
                 List.of(VALID_DESCRIPTION_PROJECT),
                 List.of(VALID_DATE_20270325.toString()),
-                Collections.emptySet());
+                Collections.emptyList());
 
         String userInput1 = " " + PREFIX_MEETING_DESCRIPTION + VALID_DESCRIPTION_PROJECT
                 + " " + PREFIX_MEETING_DATE + VALID_DATE_20270325;
@@ -110,5 +111,4 @@ public class FindMeetingCommandParserTest {
         assertParseSuccess(parser, userInput3, expected);
         assertParseSuccess(parser, userInput4, expected);
     }
-
 }

@@ -13,7 +13,7 @@ We are a team based in the [School of Computing, National University of Singapor
 [[github](https://github.com/Raylong268)]
 
 * Role: Team Lead
-* Responsibilities: Model
+* Responsibilities: Model, Documentation
 
 ### Devon Sebastian Koswara
 
@@ -31,7 +31,7 @@ We are a team based in the [School of Computing, National University of Singapor
 [[github](http://github.com/darrenlhs)]
 
 * Role: Developer
-* Responsibilities: Testing, Deliverables and deadlines
+* Responsibilities: Model, Documentation
 
 ### Sarina Ke
 
@@ -40,7 +40,7 @@ We are a team based in the [School of Computing, National University of Singapor
 [[github](http://github.com/sarinake)]
 
 * Role: Developer
-* Responsibilities: Documentation, Deliverables and Deadlines
+* Responsibilities: Testing, Deliverables and Deadlines
 
 ### Yujia Wang
 
@@ -49,4 +49,4 @@ We are a team based in the [School of Computing, National University of Singapor
 [[github](http://github.com/yujiawang-0)]
 
 * Role: Developer
-* Responsibilities: Documentation, Scheduling and tracking
+* Responsibilities:  Model, Code quality
