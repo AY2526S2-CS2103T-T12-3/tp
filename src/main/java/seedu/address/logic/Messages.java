@@ -16,6 +16,7 @@ public class Messages {
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
     public static final String MESSAGE_BLANK_FIND_FIELD_INPUT = "Input for find fields cannot be empty! \n%1$s";
     public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid";
+    public static final String MESSAGE_MIX_GLOBAL_AND_PREFIX_SEARCH = "Cannot mix global search with prefixed search.";
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
     public static final String MESSAGE_MEETINGS_LISTED_OVERVIEW = "%1$d meetings listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
