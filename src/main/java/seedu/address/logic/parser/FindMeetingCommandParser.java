@@ -5,6 +5,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_INDICES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
+import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +74,7 @@ public class FindMeetingCommandParser implements Parser<FindMeetingCommand> {
         for (String indicesGroup : personIndicesList) {
             if (!indicesGroup.isEmpty()) {
                 Set<Index> parsedGroup = ParserUtil.parseIndices(indicesGroup, CONTACT_TYPE,
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindMeetingCommand.MESSAGE_USAGE));
+                        String.format(MESSAGE_INVALID_INDEX, CONTACT_TYPE));
                 personIndexGroups.add(parsedGroup);
             }
         }
