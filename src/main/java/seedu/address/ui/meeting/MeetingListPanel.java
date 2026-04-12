@@ -61,6 +61,7 @@ public class MeetingListPanel extends UiPart<Region> {
         }
 
         meetingListView.setItems(items);
+        meetingListView.refresh();
     }
 
     /**
