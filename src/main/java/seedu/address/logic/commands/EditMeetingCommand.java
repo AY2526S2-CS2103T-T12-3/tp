@@ -46,9 +46,9 @@ public class EditMeetingCommand extends Command {
             + "(" + PREFIX_MEETING_DESCRIPTION + "DESCRIPTION) "
             + "(" + PREFIX_MEETING_DATE + "DATE) "
             + "(" + PREFIX_ADD_CONTACT_TO_MEETING_INDEX
-            + "CONTACT_INDEX [, CONTACT_INDEX]...) "
+            + "CONTACT_INDEX [,CONTACT_INDEX]...) "
             + "(" + PREFIX_DELETE_CONTACT_FROM_MEETING_INDEX
-            + "CONTACT_INDEX [, CONTACT_INDEX]...)\n"
+            + "CONTACT_INDEX [,CONTACT_INDEX]...)\n"
             + "Note: Date must be in YYYY-MM-DD format.\n"
             + "Note: MEETING_INDEX and CONTACT_INDEX must be a positive integer\n"
             + "Note: The same CONTACT_INDEX cannot appear in both add/ and del/, "

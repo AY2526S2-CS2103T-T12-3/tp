@@ -150,7 +150,7 @@ Alternatively, to get started, you can try out some of the suggested commands he
 
 * `add n/John Doe p/98765432 e/johnd@example.com` : Adds a contact named John Doe to the contact list, with phone number `98765432` and email `johnd@example.com`.
 
-* `addmeeting 1,2,3 d/Project meeting dt/2026-04-10` : Creates a meeting titled "Project meeting" on 10 April 2026 with the persons at index 1, 2, and 3 as participants.
+* `addmeet 1,2,3 d/Project meeting dt/2026-04-10` : Creates a meeting titled "Project meeting" on 10 April 2026 with the persons at index 1, 2, and 3 as participants.
 
 * `delete 1` : Deletes the 1st contact shown in the displayed contact list. This will also delete the person from all meetings they were a part of.
 
@@ -239,7 +239,7 @@ For example, `find n/George Best` is a valid command formed using these three co
 
 * If you are using a PDF version of this document, be careful when copying and pasting multi-line commands, as spaces surrounding line-breaks may be left out when copying over to the application.
 
-> ❗ **Note:** In the feature sections below, **"displayed contact list"** refers to the contact list in its current state (whether full or filtered via commands like `find` and `findtag`), while **"entire contact list"** always refers to the full unfiltered list.
+> ❗ **Note:** In the feature sections below, **"displayed contact list"** refers to the contact list in its current state (whether full or filtered via commands like `find` and `findtag`), while **"entire contact list"** always refers to the full unfiltered list. You may refer to their definitions easily through the [glossary](#glossary)!
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -343,7 +343,7 @@ Output: <br>
 
 **Format:**
 ```
-delete INDEX [, INDEX]...
+delete INDEX [,INDEX]...
 ```
 
 **Description:** You can use this command to delete the contact at the specified `INDEX` number(s) from the displayed contact list.
@@ -395,18 +395,18 @@ Internlink introduces 3 new tag-related functions that all allow operation on on
 
 **Format:**
 ```
-addtag INDEX [,INDEX]... / TAG [/ TAG]...
+addtag INDEX [,INDEX]... /TAG [/TAG]...
 ```
 
 **Description:** You can use this command to add the specified `TAG`s to the contacts at the specified `INDEX` numbers in the displayed contact list. It supports multi-index and multi-tag input, letting you add multiple tags to multiple people in a single command.
 
-Try `addtag 1 / cs / friends` <br>
+Try `addtag 1 /cs /friends` <br>
 Output: <br>
 ![addtag message](images/addtagcommand.png)
 
 **Examples:**
-* `addtag 5 / classmates` adds the `classmates` tag to contact index 5.
-* `addtag 1, 2, 3 / friends / cs` adds the `friends` and `cs` tags to contact indices 1, 2 and 3.
+* `addtag 5 /classmates` adds the `classmates` tag to contact index 5.
+* `addtag 1,2,3 /friends /cs` adds the `friends` and `cs` tags to contact indices 1, 2 and 3.
 
 > ❗ **Note:** If a `TAG` already exist for a contact, that `TAG` will not be duplicated.
 
@@ -416,20 +416,20 @@ Output: <br>
 
 **Format:**
 ```
-deletetag INDEX [, INDEX]...  / TAG [/ TAG]...
+deletetag INDEX [,INDEX]...  /TAG [/TAG]...
 ```
 
 **Description:** You can use this command to delete the specified `TAG`s from the contacts at the specified `INDEX` numbers in the **displayed contact list**.  It supports multi-index and multi-tag input, letting you delete multiple tags from multiple people in a single command.
 
-Try `deletetag 1 / cs / friends` <br>
+Try `deletetag 1 /cs /friends` <br>
 Output: <br>
 ![deletetag message](images/deletetagcommand.png)
 
 > ❗ **Note:** At least one of the `TAG`s must be already tagged on one of the specified contacts, otherwise the command will fail. Invalid tags will be ignored.
 
 **Examples:**
-* `deletetag 5 / classmates` deletes the `classmates` tag from contact index 5.
-* `deletetag 1, 2, 3 / friends / cs` deletes the `friends` and `cs` tags from contact indices 1, 2 and 3.
+* `deletetag 5 /classmates` deletes the `classmates` tag from contact index 5.
+* `deletetag 1,2,3 /friends /cs` deletes the `friends` and `cs` tags from contact indices 1, 2 and 3.
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -439,23 +439,23 @@ Output: <br>
 
 **Edit tags (selected contacts):**
 ```
-edittag INDEX, [INDEX]... o/ OLDTAG n/ NEWTAG
+edittag INDEX [,INDEX]... o/OLD_TAG n/NEW_TAG
 ```
 
 **Edit tag (all contacts):**
 ```
-edittag all o/ OLDTAG n/ NEWTAG
+edittag all o/OLD_TAG n/NEW_TAG
 ```
 
 **Description:** You can use this command to edit the specified existing/old tag for the specified contacts at the specified `INDEX` numbers in the **displayed contact list** to the given new tag, or for all contacts in the displayed list in the case of `all`.
 
 >💡 **Tip:** Made a typo in a tag? Use `all` in this command to rename it for every contact it's added to.
 
-Try `edittag 1 o/ cs n/ computer science` <br>
+Try `edittag 1 o/cs n/computer science` <br>
 Output: <br>
 ![edittag message indices](images/edittagcommandindices.png)
 
-Try `edittag all o/ friends n/ classmates` <br>
+Try `edittag all o/friends n/classmates` <br>
 Output: <br>
 ![edittag message global](images/edittagcommandglobal.png)
 
@@ -463,8 +463,8 @@ Output: <br>
 Contacts without the `OLDTAG` will be ignored.
 
 **Examples:**
-* `edittag 1, 2, 3 o/ cs n/ computer science` edits the tag `cs` for contacts 1, 2 and 3, and changes it to `computer science`.
-* `edittag all o/ cs n/ computer science` edits the tag `cs` for all contacts in the displayed contact list, and changes it to `computer science`.
+* `edittag 1,2,3 o/cs n/computer science` edits the tag `cs` for contacts 1, 2 and 3, and changes it to `computer science`.
+* `edittag all o/cs n/computer science` edits the tag `cs` for all contacts in the displayed contact list, and changes it to `computer science`.
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -482,7 +482,7 @@ This is especially useful for keeping track of frequently contacted people or hi
 
 **Format:**
 ```
-star INDEX [, INDEX]...
+star INDEX [,INDEX]...
 ```
 
 **Description:** You can use this command to star/favourite the contact(s) at the specified `INDEX` number(s) in the displayed contact list by adding the `STAR` label to them.
@@ -501,7 +501,7 @@ Output: <br>
 
 **Format:**
 ```
-unstar INDEX [, INDEX]...
+unstar INDEX [,INDEX]...
 ```
 
 **Description:** You can use this command to unstar/unfavourite the contact(s) at the specified `INDEX` number(s) in the displayed contact list by removing the `STAR` label from them.
@@ -591,16 +591,16 @@ Output: <br>
 
 **Format:**
 ```
-findtag / TAG SUBSTRING [/ TAG SUBSTRING]...
+findtag /TAG SUBSTRING [/TAG SUBSTRING]...
 ```
 
 > 💡 **Tip:** Unsure of what `SUBSTRING` means? Check out its definition in the [glossary](#glossary)!
 
 **Description:** You can use this command to find contacts with specific tag substrings, for easier management.
 
-Try `findtag / classmates / cs` <br>
+Try `findtag /classmates /cs` <br>
 Output: <br>
-![result of `findtag / classmates / cs`](images/findtagcommand.png)
+![result of `findtag /classmates /cs`](images/findtagcommand.png)
 
 * `findtag` operates on the **displayed contact list**.
 * All contacts containing **at least one** of the given tag substrings will be filtered (i.e. `OR` search).
@@ -608,8 +608,8 @@ Output: <br>
 * `findtag` is case-insensitive.
 
 **Examples:**
-* `findtag / classmate` filters all contacts that contain the `classmates` tag, since `classmates` contains the word `classmate` in it.
-* `findtag / schoolB / schoolC` filters all contacts that contain at least one of the `schoolB` or `schoolC` tags, or any other relevant tags that contain `schoolB` or `schoolC`.
+* `findtag /classmate` filters all contacts that contain the `classmates` tag, since `classmates` contains the word `classmate` in it.
+* `findtag /schoolB /schoolC` filters all contacts that contain at least one of the `schoolB` or `schoolC` tags, or any other relevant tags that contain `schoolB` or `schoolC`.
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -625,7 +625,7 @@ Output: <br>
 
 **Format:**
 ```
-addmeet [CONTACT_INDEX] [, CONTACT_INDEX]... d/DESCRIPTION dt/DATE
+addmeet [CONTACT_INDEX] [,CONTACT_INDEX]... d/DESCRIPTION dt/DATE
 ```
 
 **Description:** You can use this command to schedule and add a meeting with zero or more people based on their indices shown in the displayed contact list. This command will also show the details of the meeting scheduled in the command result panel.
@@ -639,7 +639,7 @@ Output: <br>
 > 💡 **Tip:** If you can’t find a contact, use the [`find` command](#locating-contacts-globally-global-find) to filter the list. This will update the indices based on the results.
 
 **Examples:**
-* `addmeet 1, 2 d/Casual Icebreaker dt/2026-03-26` schedules a meeting with description `Casual icebreaker` and date `2026-03-26`, with the first 2 contacts in the displayed contact list.
+* `addmeet 1,2 d/Casual Icebreaker dt/2026-03-26` schedules a meeting with description `Casual icebreaker` and date `2026-03-26`, with the first 2 contacts in the displayed contact list.
 * `addmeet d/Casual Icebreaker dt/2026-03-26` schedules a meeting with description `Casual icebreaker` and date `2026-03-26`, with no people.
 
 > 💡 **Tip:** Not sure who is attending the meeting yet?
@@ -651,7 +651,7 @@ Output: <br>
 
 **Format:**
 ```
-deletemeet MEETING_INDEX [, MEETING_INDEX]...
+deletemeet MEETING_INDEX [,MEETING_INDEX]...
 ```
 
 **Description:** You can use this command to delete meetings based on their index shown in the displayed meeting list. This command will also show the details of the meetings deleted in the command result panel.
@@ -662,7 +662,7 @@ Output: <br>
 
 **Examples:**
 * `deletemeet 1` deletes the meeting with index 1 in the displayed meeting list
-* `deletemeet 2, 3` deletes the meetings with indices 2 and 3 in the displayed meeting list
+* `deletemeet 2,3` deletes the meetings with indices 2 and 3 in the displayed meeting list
 
 > 💡 **Tip:** Need to delete multiple meetings with similar traits? Use the [`findmeet` command](#finding-a-meeting--findmeet) to filter the list — this groups them together and updates their indices, making it easy to delete them.
 
@@ -672,7 +672,7 @@ Output: <br>
 
 Format:
 ```
-editmeet MEETING_INDEX (d/DESCRIPTION) (dt/DATE) (add/CONTACT_INDEX [, CONTACT_INDEX]...) (del/CONTACT_INDEX [, CONTACT_INDEX]...)
+editmeet MEETING_INDEX (d/DESCRIPTION) (dt/DATE) (add/CONTACT_INDEX [,CONTACT_INDEX]...) (del/CONTACT_INDEX [,CONTACT_INDEX]...)
 ```
 
 **Description:** You can use this command to edit a meeting’s details (e.g. description, date, contacts involved) based on its index in the displayed meeting list. The updated meeting details will be shown in the command result panel.
@@ -723,7 +723,7 @@ listmeet
 
 **Format:**
 ```
-findmeet (d/DESCRIPTION) (dt/DATE) (i/CONTACT_INDEX [, CONTACT_INDEX]...)
+findmeet (d/DESCRIPTION) (dt/DATE) (i/CONTACT_INDEX [,CONTACT_INDEX]...)
 ```
 
 **Description:** You can use this command to find meetings that match the given substrings in their fields. The displayed meeting list will be filtered to show only meetings that match the given criteria.
@@ -734,22 +734,25 @@ Output: <br>
 
 > ❗ **Note:** Date should be in YYYY-MM-DD format (e.g. `2024-03-15`) but the search keyword need not be a complete date (i.e. something like YYYY-MM is still valid). This is because dates for meetings are stored in the YYYY-MM-DD format, so keep that in mind if inputting the search keyword for it.
 
-> ❗ **Note:** Meetings including **at least one of the specified contact indices** will be matched.
+> ❗ **Note:** Meetings including **all specified contact indices within a single `i/`** will be matched.
 
-* Meetings are shown if they match **DESCRIPTION**, **DATE**, or  include **at least one specified contact index**.
+* Meetings are shown if they match **DESCRIPTION**, **DATE**, or  include **all specified indices within a single `i/`**.
 * Search parameters are case-insensitive.
 * The contact indices refer to indices from the **displayed contact list**.
-* Only one of each prefix is allowed (i.e. commands such as `findmeet d/ casual d/ project` are invalid).
+* Within EACH 'i/', it is an `AND` search between the specified indices (e.g. `findmeet i/1,2,3` will filter any meetings that contain ALL of the contact indices 1, 2 and 3).
+* Multiple prefixes are allowed, and including multiple of them will conduct an `OR` search between them (e.g. `findmeet i/1 i/2,3` will filter any meetings that either contain contact index 1 OR both contact indices 2 and 3).
 
 **Examples:**
 * `findmeet d/project` searches for all meetings that contain `project` in their description.
 * `findmeet d/meeting dt/2026 i/1,2,3` searches for all meetings that either:
   - contain `meeting` in their description OR
   - contain `2026` in their date OR
-  - contain at least one of contacts `1`, `2` and `3` from the displayed contact list.
+  - contain all of the contact indices `1`, `2` and `3` from the displayed contact list.
 
-> 💡 **Tip:** Need to restore the full meeting list after using `findmeeting`?
+> 💡 **Tip:** Need to restore the full meeting list after using `findmeet`?
 Use the [`listmeet` command](#listing-all-meetings--listmeet) to clear all filters and display all meetings again.
+ 
+> 💡 **Tip:** <br>Want to find meetings where a specific person is present? Use `findmeet i/1`. <br><br>Want to find meetings where a specific group of people are all present together? Use `findmeet i/1,2,3`. <br><br>Want to find meetings involving *either* of two different groups? Use `findmeet i/1,2 i/3,4`.
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -792,29 +795,29 @@ the data of your previous Internlink home folder (the location of `InternlinkDat
 
 ## Command summary
 
-| Action                | Format, Examples                                                                                                                                                                                            |
-|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Help**              | `help`                                                                                                                                                                                                      |
-| **Add contact**       | `add n/NAME (p/PHONE_NUMBER) (e/EMAIL) [t/TAG]…​` <br> e.g. `add n/James Ho p/22224444 e/jamesho@example.com t/friend t/colleague`                                                                          |
-| **Delete contact**    | `delete INDEX [, INDEX]...`<br> e.g. `delete 3`                                                                                                                                                             |
-| **Edit contact**      | `edit INDEX (n/NAME) (p/PHONE_NUMBER) (e/EMAIL) (t/TAG)…​`<br> e.g.`edit 2 n/James Lee e/jameslee@example.com`                                                                                              |
-| **List contacts**     | `list`                                                                                                                                                                                                      |
-| **Global Find**       | `find <SEARCH SUBSTRING>`<br> e.g. `find alex david`                                                                                                                                                        |
-| **Field Find**        | `find (n/NAME) (p/PHONE) (e/EMAIL)...`<br> e.g. `find n/ david p/ 9927 e/ charlotte`                                                                                                                        |
-| **Add tags**          | `addtag INDEX [, INDEX...] / TAG [/ TAG]`<br> e.g. `addtag 1, 2 / friends / cs`                                                                                                                             |
-| **Delete tags**       | `deletetag INDEX [, INDEX...] / TAG [/ TAG]`<br> e.g. `deletetag 1, 2 / friends / cs`                                                                                                                       |
-| **Edit tag**          | `edittag INDEX[, INDEX]... o/ OLDTAG n/ NEWTAG`<br>e.g. `edittag 1,2,3 o/ cs n/ computer science`                                                                                                           |
-| **Edit tag (global)** | `edittag all o/ OLDTAG n/ NEWTAG`<br>e.g. `edittag all o/ cs n/ computer science`                                                                                                                           |
-| **Find tags**         | `findtag / TAG SUBSTRING [/ TAG SUBSTRING]...`<br> e.g. `findtag / schoolB / schoolC`                                                                                                                       |
-| **Star**              | `star INDEX [, INDEX]...`<br> e.g. `star 2`                                                                                                                                                                 |
-| **Unstar**            | `unstar INDEX [, INDEX]...`<br> e.g. `unstar 2`                                                                                                                                                             |
-| **Add meetings**      | `addmeet [CONTACT_INDEX] [, CONTACT_INDEX]... d/DESCRIPTION dt/DATE `<br> e.g. `addmeeting 1, 2 d/ Casual icebreaker dt/ 2026-03-26`                                                                        |
-| **Delete meetings**   | `deletemeet INDEX [, INDEX]...`<br> e.g. `deletemeeting 1`                                                                                                                                                  |
-| **Edit meetings**     | `editmeet MEETING_INDEX (d/DESCRIPTION) (dt/DATE) (add/CONTACT_INDEX [, CONTACT_INDEX]...) (del/CONTACT_INDEX [, CONTACT_INDEX]...)`<br> e.g. `editmeeting 1 d/Casual icebreaker dt/2026-05-01 add/5 del/1` |
-| **List meetings**     | `listmeet`                                                                                                                                                                                                  |
-| **Find meetings**     | `findmeet (d/DESCRIPTION) (dt/DATE) (i/CONTACT_INDEX [, CONTACT_INDEX]...)`<br> e.g. `findmeeting d/meeting dt/2026 i/1,2,3`                                                                                |
-| **Clear**             | `clear`                                                                                                                                                                                                     |
-| **Exit**              | `exit`                                                                                                                                                                                                      |
+| Action                 | Format, Examples                                                                                                                                                                                    |
+|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Help**               | `help`                                                                                                                                                                                              |
+| **Add contact**        | `add n/NAME (p/PHONE_NUMBER) (e/EMAIL) [t/TAG]…​` <br> e.g. `add n/James Ho p/22224444 e/jamesho@example.com t/friend t/colleague`                                                                  |
+| **Delete contact**     | `delete INDEX [,INDEX]...`<br> e.g. `delete 3`                                                                                                                                                      |
+| **Edit contact**       | `edit INDEX (n/NAME) (p/PHONE_NUMBER) (e/EMAIL) (t/TAG)…​`<br> e.g.`edit 2 n/James Lee e/jameslee@example.com`                                                                                      |
+| **List contacts**      | `list`                                                                                                                                                                                              |
+| **Global Find**        | `find <SEARCH SUBSTRING>`<br> e.g. `find alex david`                                                                                                                                                |
+| **Field Find**         | `find (n/NAME) (p/PHONE) (e/EMAIL)...`<br> e.g. `find n/david p/9927 e/charlotte`                                                                                                                   |
+| **Add tags**           | `addtag INDEX [,INDEX...] /TAG [/TAG]`<br> e.g. `addtag 1,2 /friends /cs`                                                                                                                           |
+| **Delete tags**        | `deletetag INDEX [,INDEX...] /TAG [/TAG]`<br> e.g. `deletetag 1,2 /friends /cs`                                                                                                                     |
+| **Edit tag (indices)** | `edittag INDEX [,INDEX]... o/OLD_TAG n/NEW_TAG`<br>e.g. `edittag 1,2,3 o/cs n/computer science`                                                                                                     |
+| **Edit tag (global)**  | `edittag all o/OLD_TAG n/NEW_TAG`<br>e.g. `edittag all o/cs n/computer science`                                                                                                                     |
+| **Find tags**          | `findtag /TAG SUBSTRING [/TAG SUBSTRING]...`<br> e.g. `findtag /schoolB /schoolC`                                                                                                                   |
+| **Star**               | `star INDEX [,INDEX]...`<br> e.g. `star 2`                                                                                                                                                          |
+| **Unstar**             | `unstar INDEX [,INDEX]...`<br> e.g. `unstar 2`                                                                                                                                                      |
+| **Add meetings**       | `addmeet [CONTACT_INDEX] [,CONTACT_INDEX]... d/DESCRIPTION dt/DATE `<br> e.g. `addmeet 1,2 d/Casual icebreaker dt/2026-03-26`                                                                       |
+| **Delete meetings**    | `deletemeet INDEX [,INDEX]...`<br> e.g. `deletemeet 1`                                                                                                                                              |
+| **Edit meetings**      | `editmeet MEETING_INDEX (d/DESCRIPTION) (dt/DATE) (add/CONTACT_INDEX [,CONTACT_INDEX]...) (del/CONTACT_INDEX [,CONTACT_INDEX]...)`<br> e.g. `editmeet 1 d/Casual icebreaker dt/2026-05-01 add/5 del/1` |
+| **List meetings**      | `listmeet`                                                                                                                                                                                          |
+| **Find meetings**      | `findmeet (d/DESCRIPTION) (dt/DATE) (i/CONTACT_INDEX [,CONTACT_INDEX]...)`<br> e.g. `findmeet d/meeting dt/2026 i/1,2,3`                                                                            |
+| **Clear**              | `clear`                                                                                                                                                                                             |
+| **Exit**               | `exit`                                                                                                                                                                                              |
 
 [Back to Table of Contents](#table-of-contents)
 

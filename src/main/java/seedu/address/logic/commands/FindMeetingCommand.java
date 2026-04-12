@@ -31,7 +31,7 @@ public class FindMeetingCommand extends Command {
                     + "(" + PREFIX_MEETING_DESCRIPTION + "DESCRIPTION) "
                     + "(" + PREFIX_MEETING_DATE + "DATE) "
                     + "(" + PREFIX_CONTACT_INDICES + "CONTACT_INDEX "
-                    + "[, CONTACT_INDEX]...)\n"
+                    + "[,CONTACT_INDEX]...)\n"
                     + "Note: CONTACT_INDEX must be a positive integer\n"
                     + "Example: " + COMMAND_WORD + " "
                     + PREFIX_MEETING_DESCRIPTION + "meeting "
