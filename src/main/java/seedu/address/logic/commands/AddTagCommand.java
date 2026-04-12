@@ -21,14 +21,15 @@ import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
 /**
- * Edits the details of an existing person in the contact list.
+ * Adds tags (case-insensitive) to people in the contact list.
  */
 public class AddTagCommand extends Command {
 
     public static final String COMMAND_WORD = "addtag";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Adds tags to one or more persons identified by their indices in the displayed contact list.\n"
+            + ": Adds tags (case-insensitive) to one or more persons identified "
+            + "by their indices in the displayed contact list.\n"
             + "Multiple persons can be specified using commas, and multiple tags using '/'.\n"
             + "Format: " + COMMAND_WORD + " INDEX [,INDEX]... "
             + PREFIX_SEPARATOR + "TAG [" + PREFIX_SEPARATOR + "TAG]...\n"

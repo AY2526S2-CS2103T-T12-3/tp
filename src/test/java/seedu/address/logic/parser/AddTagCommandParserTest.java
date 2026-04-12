@@ -24,7 +24,7 @@ public class AddTagCommandParserTest {
     private static final String VALID_TAG_ONE = "One";
     private static final String VALID_TAG_TWO = "Two";
     private static final String EMPTY_TAG = "";
-    private static final String INVALID_TAG = "hubby*"; // '*' not allowed in tags
+    private static final String INVALID_TAG = "/hubby"; // '*' not allowed in tags
 
     private static final String VALID_TAG_INPUT_ONE = " " + PREFIX_SEPARATOR + VALID_TAG_ONE;
     private static final String VALID_TAG_INPUT_TWO = " " + PREFIX_SEPARATOR + VALID_TAG_TWO;

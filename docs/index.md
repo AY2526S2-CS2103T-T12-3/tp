@@ -1,6 +1,6 @@
 ---
 layout: page
-title: InternLink
+title: Internlink
 ---
 
 [![CI Status](https://github.com/AY2526S2-CS2103T-T12-3/tp/workflows/Java%20CI/badge.svg)](https://github.com/AY2526S2-CS2103T-T12-3/tp/actions)

@@ -18,7 +18,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
 /**
- * Edits the specified tag for the persons identified
+ * Edits the specified tag (case-insensitive) for the persons identified
  * using their indices from the displayed contact list, or globally.
  */
 public class EditTagCommand extends Command {
@@ -35,7 +35,7 @@ public class EditTagCommand extends Command {
                     + "Note: Use 'all' to apply to all entries\n";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Edits the specified tag for the person(s) "
+            + ": Edits the specified tag (case-insensitive) for the person(s) "
             + "identified by their index number(s) in the displayed contact list.\n"
             + "You can also edit the tag globally in the displayed contact list using \"all\".\n"
             + MESSAGE_FORMAT;

@@ -1,6 +1,6 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MEETING_TYPE;
+import static seedu.address.logic.Messages.CONTACT_TYPE;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DESCRIPTION;
@@ -44,7 +44,7 @@ public class AddMeetingCommandParser implements Parser<AddMeetingCommand> {
         Set<Index> indices = new HashSet<>();
         if (!areIndexesMissing) {
             indices = ParserUtil.parseIndices(argMultimap.getPreamble(),
-                    MEETING_TYPE, AddMeetingCommand.MESSAGE_USAGE);
+                    CONTACT_TYPE, AddMeetingCommand.MESSAGE_USAGE);
         }
 
         Description parsedDescription = ParserUtil.parseDescription(

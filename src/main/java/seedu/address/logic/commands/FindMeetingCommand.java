@@ -25,7 +25,7 @@ import seedu.address.model.person.PersonId;
  */
 public class FindMeetingCommand extends Command {
 
-    public static final String COMMAND_WORD = "findmeeting";
+    public static final String COMMAND_WORD = "findmeet";
 
     public static final String MESSAGE_FORMAT =
             "Format: " + COMMAND_WORD + " "

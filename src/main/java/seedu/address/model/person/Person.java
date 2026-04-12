@@ -94,7 +94,7 @@ public class Person {
     }
 
     /**
-     * Returns true if both persons have same name, phone and email.
+     * Returns true if both persons have same name, and either their phone numbers or emails are equal
      */
     public boolean hasSameDetails(Person otherPerson) {
         assert otherPerson != null : "otherPerson should not be null";
@@ -108,8 +108,7 @@ public class Person {
         boolean isEmailEqual = isEmailBothNull || isEmailBothNonNullAndEqual;
 
         return otherPerson.getName().equals(getName())
-                && isPhoneEqual
-                && isEmailEqual;
+                && (isPhoneEqual || isEmailEqual);
     }
 
     /**

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
@@ -33,7 +34,7 @@ import seedu.address.model.person.PersonId;
  */
 public class EditMeetingCommand extends Command {
 
-    public static final String COMMAND_WORD = "editmeeting";
+    public static final String COMMAND_WORD = "editmeet";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the details of the meeting identified by its index in the displayed meeting list.\n"
@@ -45,11 +46,13 @@ public class EditMeetingCommand extends Command {
             + "(" + PREFIX_MEETING_DESCRIPTION + "DESCRIPTION) "
             + "(" + PREFIX_MEETING_DATE + "DATE) "
             + "(" + PREFIX_ADD_CONTACT_TO_MEETING_INDEX
-            + "CONTACT_INDEX [, CONTACT_INDEX]...) "
+            + "CONTACT_INDEX [,CONTACT_INDEX]...) "
             + "(" + PREFIX_DELETE_CONTACT_FROM_MEETING_INDEX
-            + "CONTACT_INDEX [, CONTACT_INDEX]...)\n"
+            + "CONTACT_INDEX [,CONTACT_INDEX]...)\n"
             + "Note: Date must be in YYYY-MM-DD format.\n"
             + "Note: MEETING_INDEX and CONTACT_INDEX must be a positive integer\n"
+            + "Note: The same CONTACT_INDEX cannot appear in both add/ and del/, "
+            + "as a person cannot be added and removed in the same command. (e.g. editmeeting 1 add/3 del/3)\n"
             + "Example: " + COMMAND_WORD + " 2 "
             + PREFIX_MEETING_DESCRIPTION + "Team Sync "
             + PREFIX_MEETING_DATE + "2026-04-01 "
@@ -60,6 +63,9 @@ public class EditMeetingCommand extends Command {
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_PERSON_NOT_IN_MEETING =
             "Invalid contact index provided: At least one participant to be removed is not in the meeting.";
+    public static final String MESSAGE_OVERLAPPING_CONTACT_INDICES =
+            "The following contact indices overlap in both add/ and del/: %s.\n"
+            + "A person cannot be both added and removed in the same " + COMMAND_WORD + " command.";
 
     private final Index meetingIndex;
     private final EditMeetingDescriptor editMeetingDescriptor;
@@ -84,6 +90,7 @@ public class EditMeetingCommand extends Command {
 
         List<Meeting> lastShownMeetingList = model.getFilteredMeetingList();
 
+        editMeetingDescriptor.validateNoOverlappingIndices();
         editMeetingDescriptor.resolveParticipantIds(model);
 
         if (meetingIndex.getZeroBased() >= lastShownMeetingList.size()) {
@@ -199,6 +206,28 @@ public class EditMeetingCommand extends Command {
                     description, date, participantsID,
                     personIndicesToAdd, personIndicesToDelete,
                     idsToAdd, idsToDelete);
+        }
+
+        /**
+         * Ensures that no contact index is in both the add and delete indices sets.
+         *
+         * @throws CommandException If overlapping indices are found.
+         */
+        public void validateNoOverlappingIndices() throws CommandException {
+            if (personIndicesToAdd == null || personIndicesToDelete == null) {
+                return;
+            }
+
+            Set<Index> overlappingIndices = new HashSet<>(personIndicesToAdd);
+            overlappingIndices.retainAll(personIndicesToDelete);
+
+            if (!overlappingIndices.isEmpty()) {
+                String overlappingIndicesStr = overlappingIndices.stream()
+                        .map(index ->String.valueOf(index.getOneBased()))
+                        .sorted().collect(Collectors.joining(", "));
+
+                throw new CommandException(String.format(MESSAGE_OVERLAPPING_CONTACT_INDICES, overlappingIndicesStr));
+            }
         }
 
         /**

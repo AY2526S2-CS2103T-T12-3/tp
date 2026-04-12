@@ -15,7 +15,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
 /**
- * Finds for the specified tags in the displayed contact list
+ * Finds for the specified tags substrings in the displayed contact list
  * and displays the resulting contact list.
  */
 public class FindTagCommand extends Command {
@@ -23,11 +23,11 @@ public class FindTagCommand extends Command {
 
     public static final String MESSAGE_FORMAT =
             "Format: " + COMMAND_WORD + " "
-                    + PREFIX_SEPARATOR + "TAG ["
-                    + PREFIX_SEPARATOR + "TAG]...";
+                    + PREFIX_SEPARATOR + "TAG_SUBSTRING ["
+                    + PREFIX_SEPARATOR + "TAG_SUBSTRING]...";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Finds contacts that contain any of the specified tags in the displayed contact list.\n"
+            + ": Finds contacts that contain any of the specified tags substrings in the displayed contact list.\n"
             + MESSAGE_FORMAT + "\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_SEPARATOR + "classmates "
@@ -35,12 +35,12 @@ public class FindTagCommand extends Command {
             + PREFIX_SEPARATOR + "friends";
 
     public static final String MESSAGE_FIND_TAG_SUCCESS =
-            "Found all people in the current list with at least one of these tags (case-insensitive): %1$s"
+            "Found all people in the current list with at least one of these tag substrings (case-insensitive): %1$s"
             + "\n"
             + "%2$s persons listed!";
-    public static final String MESSAGE_NO_TAGS = "At least one tag must be provided." + "\n" + MESSAGE_FORMAT;
+    public static final String MESSAGE_NO_TAGS = "At least one tag substring must be provided." + "\n" + MESSAGE_FORMAT;
     public static final String MESSAGE_NO_VALID_TAG =
-            "Error: None of the tags given belong to any person in the list.";
+            "Error: None of the tag substrings given belong to any persons' tags in the list.";
 
     private final Set<Tag> tags;
 
@@ -67,20 +67,21 @@ public class FindTagCommand extends Command {
                 .map(tag -> tag.tagName)
                 .collect(Collectors.joining(", "));
 
-        Predicate<Person> hasAnyTag =
+        Predicate<Person> hasAnyTagSubstring =
                 person -> tags.stream()
                         .anyMatch(tag -> person.getTags().stream()
-                                .anyMatch(personTag -> personTag.tagName.equalsIgnoreCase(tag.tagName)));
+                                .anyMatch(personTag -> personTag.tagName.toLowerCase()
+                                        .contains(tag.tagName.toLowerCase())));
 
         boolean doesAnyTagMatch = model.getFilteredPersonList()
                 .stream()
-                .anyMatch(hasAnyTag);
+                .anyMatch(hasAnyTagSubstring);
 
         if (!doesAnyTagMatch) {
             throw new CommandException(MESSAGE_NO_VALID_TAG);
         }
 
-        model.updateFilteredPersonListStacked(hasAnyTag);
+        model.updateFilteredPersonListStacked(hasAnyTagSubstring);
 
         return new CommandResult(String.format(
                 MESSAGE_FIND_TAG_SUCCESS, tagList, model.getFilteredPersonList().size()));

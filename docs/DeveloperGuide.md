@@ -2,8 +2,47 @@
 layout: page
 title: Developer Guide
 ---
-* Table of Contents
-{:toc}
+
+<!-- TOC -->
+* [**Acknowledgements**](#acknowledgements)
+* [**Setting up, getting started**](#setting-up-getting-started)
+* [**Design**](#design)
+  * [Architecture](#architecture)
+  * [UI component](#ui-component)
+  * [Logic component](#logic-component)
+  * [Model component](#model-component)
+  * [Storage component](#storage-component)
+  * [Common classes](#common-classes)
+* [**Implementation**](#implementation)
+  * [Adding a person: `add`](#adding-a-person-add)
+  * [Editing a person: `edit`](#editing-a-person-edit)
+  * [Finding a person: `find`](#finding-a-person-find)
+  * [Adding a tag: `addtag`](#adding-a-tag-addtag)
+  * [Adding a meeting: `addmeeting`](#adding-a-meeting-addmeeting)
+* [**Documentation, logging, testing, configuration, dev-ops**](#documentation-logging-testing-configuration-dev-ops)
+* [**Appendix: Requirements**](#appendix-requirements)
+  * [Product scope](#product-scope)
+  * [User stories](#user-stories)
+  * [Use cases](#use-cases)
+  * [Non-functional requirements](#non-functional-requirements)
+  * [Glossary](#glossary)
+* [**Appendix: Effort**](#appendix-effort)
+  * [Overview](#overview)
+  * [Extending the Architecture](#extending-the-architecture)
+  * [Entity Relationships](#entity-relationships)
+  * [Understanding and Adapting AB3](#understanding-and-adapting-ab3)
+  * [Conclusion](#conclusion)
+* [**Appendix: Instructions for manual testing**](#appendix-instructions-for-manual-testing)
+  * [Launch and shutdown](#launch-and-shutdown)
+  * [Getting started](#getting-started)
+  * [Adding and managing contacts](#adding-and-managing-contacts)
+  * [Working with tags and favourites](#working-with-tags-and-favourites)
+  * [Searching and filtering contacts](#searching-and-filtering-contacts)
+  * [Managing meetings](#managing-meetings)
+  * [Cleaning up](#cleaning-up)
+  * [Saving data](#saving-data)
+    * [Missing file test](#missing-file-test)
+    * [Corrupted file test](#corrupted-file-test)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -23,7 +62,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 <div markdown="span" class="alert alert-primary">
 
-:bulb: **Tip:** The `.puml` files used to create diagrams are in this document `docs/diagrams` folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
+> 💡 **Tip:** The `.puml` files used to create diagrams are in this document `docs/diagrams` folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
 </div>
 
 ### Architecture
@@ -36,7 +75,7 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S2-CS2103T-T12-3/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2526S2-CS2103T-T12-3/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
@@ -68,7 +107,7 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+**API** : [`Ui.java`](https://github.com/AY2526S2-CS2103T-T12-3/tp/blob/master/src/main/java/seedu/address/ui/Ui.java)
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
@@ -77,7 +116,7 @@ The UI consists of a `MainWindow` that is made up of several parts such as `Comm
 All these components, including the `MainWindow`, inherit from the abstract `UiPart` class, which captures the common functionality shared by GUI components.
 
 The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder.
-For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
+For example, the layout of the [`MainWindow`](https://github.com/AY2526S2-CS2103T-T12-3/tp/blob/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2526S2-CS2103T-T12-3/tp/blob/master/src/main/resources/view/MainWindow.fxml).
 
 The `UI` component:
 
@@ -116,7 +155,7 @@ The `CommandHistory` component:
 
 ### Logic component
 
-**API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
+**API** : [`Logic.java`](http://github.com/AY2526S2-CS2103T-T12-3/tp/blob/master/src/main/java/seedu/address/logic/Logic.java)
 
 Here's a (partial) class diagram of the `Logic` component:
 
@@ -126,7 +165,10 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 ![Interactions Inside the Logic Component for the `delete 1` Command](images/DeleteSequenceDiagram.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+<div markdown="span" class="alert alert-info">:information_source: 
+
+>❗**Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+
 </div>
 
 How the `Logic` component works:
@@ -146,12 +188,12 @@ How the parsing works:
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
-**API** : [`Model.java`]([ModelClassDiagram.puml](diagrams/ModelClassDiagram.puml)https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2526S2-CS2103T-T12-3/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
 <img src="images/ModelClassDiagram.png" width="450" /> <img src="images/CloserModelClassDiagram.png" width="450" />
 
 
-The `Model` component,
+The `Model` component:
 
 * stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object)
 and all `Meeting` objects (which are contained in a `UniqueMeetingList` object).
@@ -167,14 +209,14 @@ and all `Meeting` objects (which are contained in a `UniqueMeetingList` object).
 
 ### Storage component
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2526S2-CS2103T-T12-3/tp/blob/master/src/main/java/seedu/address/storage/Storage.java)
 
 <img src="images/StorageClassDiagram.png" width="550" />
 
-The `Storage` component,
+The `Storage` component:
 * can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
 * inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
-* depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
+* depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`).
 
 ### Common classes
 
@@ -249,7 +291,7 @@ The following sequence diagram illustrates the flow of parsing and execution for
 ![Sequence diagram of edit](images/EditCommandSequenceDiagram.png)
 
 
-### Finding a Person: `find`
+### Finding a person: `find`
 The find command allows the user to search for persons whose fields match given keywords. In the implementation, there are two types of find operations that reuse the same predicate `find`.
 
 1. Global find
@@ -292,7 +334,7 @@ The following sequence diagram illustrates the flow of parsing and execution for
 ![Sequence diagram of find - model](images/FindCommandSequenceDiagramModel.png)
 
 
-### Adding a Tag: `addtag`
+### Adding a tag: `addtag`
 
 The `addtag` command is used to assign tags into one or more persons in the contacts list.
 The index(es) (`INDEX [,INDEX...]`) and tags (`/TAG [/TAG...]`) must always be provided.
@@ -320,7 +362,7 @@ The following sequence diagram illustrates the flow of parsing and execution for
 ![Sequence diagram of addtag](images/AddTagCommandSequenceDiagram.png)
 
 
-### Adding a Meeting: `addmeeting`
+### Adding a meeting: `addmeeting`
 
 The `addmeeting` command is used to add a meeting into the address book.
 The meeting description (`d/DESCRIPTION`) and date (`dt/DATE`) must always be provided. Participant indices (`[INDEX,...]`) are optional.
@@ -387,9 +429,9 @@ The following sequence diagram illustrates the flow of parsing and execution for
 * **Privacy:** Fully local application. No risk of data leakage or delays from network issues.
 
 **Not in our scope**:
-* InternLink does not send emails or messages to the contacts
-* InternLink cannot automatically sync with LinkedIn or other platforms
-* Internlink cannot manage the internship application
+* Internlink does not send emails or messages to the contacts.
+* Internlink cannot automatically sync with LinkedIn or other platforms.
+* Internlink cannot manage internship applications.
 
 
 ### User stories
@@ -424,16 +466,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ## Use Cases
 
-For all use cases below, the **System** is **Internlink** and the **Actor** is the **user**
+For all use cases below, the **System** is **Internlink** and the **Actor** is the **user**.
 
 **Use case: UC1 - Add a contact / meeting**
 
 **MSS:**
 
 1. User requests to add a new contact / meeting by providing details.
-2. InternLink checks whether the contact / meeting already exists.
-3. InternLink saves the contact / meeting.
-4. InternLink updates the contact / meeting list.
+2. Internlink checks whether the contact / meeting already exists.
+3. Internlink saves the contact / meeting.
+4. Internlink updates the contact / meeting list.
 5. Internlink reports the successful creation of contact / meeting.
 
 Use case ends.
@@ -441,7 +483,7 @@ Use case ends.
 **Extensions:**
 
 * 2a. The contact / meeting already exists.
-    * 2a1. InternLink notifies the user of the duplicate person / meeting error.
+    * 2a1. Internlink notifies the user of the duplicate person / meeting error.
 
         Use case resumes at step 1.
 
@@ -457,9 +499,9 @@ Use case ends.
 **MSS:**
 
 1. User requests to delete one or more contact(s) / meeting(s) by index.
-2. InternLink identifies the specified contact(s) / meeting(s) in the current displayed list.
-3. InternLink deletes the specified contact(s) / meeting(s).
-4. InternLink updates the contact / meeting list.
+2. Internlink identifies the specified contact(s) / meeting(s) in the current displayed list.
+3. Internlink deletes the specified contact(s) / meeting(s).
+4. Internlink updates the contact / meeting list.
 5. Internlink reports the successful deletion of contact / meeting.
 
 Use case ends.
@@ -467,7 +509,7 @@ Use case ends.
 **Extensions:**
 
 * 2a. One or more of the specified indices are invalid contact(s) / meeting(s).
-    * 2a1. InternLink notifies the user of the invalid index error.
+    * 2a1. Internlink notifies the user of the invalid index error.
 
         Use case resumes at step 1.
 
@@ -477,15 +519,15 @@ Use case ends.
 **MSS:**
 
 1. User requests to list contacts / meetings.
-2. InternLink retrieves all contacts / meetings.
-3. InternLink displays the contact / meeting list.
+2. Internlink retrieves all contacts / meetings.
+3. Internlink displays the contact / meeting list.
 
 Use case ends.
 
 **Extensions:**
 
 * 3a. There are no contacts / meetings stored.
-    * 3a1. InternLink displays an empty list.
+    * 3a1. Internlink displays an empty list.
 
         Use case ends.
 
@@ -495,9 +537,9 @@ Use case ends.
 **MSS:**
 
 1. User requests to edit a contact by index, providing the updated contact details.
-2. InternLink identifies the specified contact in the current displayed list.
-3. InternLink checks whether the updated contact would duplicate an existing contact.
-4. InternLink updates the contact.
+2. Internlink identifies the specified contact in the current displayed list.
+3. Internlink checks whether the updated contact would duplicate an existing contact.
+4. Internlink updates the contact.
 5. Internlink reports the successful editing of contact.
 
 Use case ends.
@@ -505,13 +547,13 @@ Use case ends.
 **Extensions:**
 
 * 2a. The specified index is invalid.
-    * 2a1. InternLink notifies the user of the invalid index error.
+    * 2a1. Internlink notifies the user of the invalid index error.
 
         Use case resumes at step 1.
 
 
 * 3a. The updated contact would duplicate an existing contact (same name, email and phone).
-    * 3a1. InternLink notifies the user of the duplicate person error.
+    * 3a1. Internlink notifies the user of the duplicate person error.
 
         Use case resumes at step 1.
 
@@ -520,10 +562,10 @@ Use case ends.
 **MSS:**
 
 1. User requests to edit a meeting by index, providing the updated meeting details.
-2. InternLink identifies the specified meeting in the current displayed meeting list.
+2. Internlink identifies the specified meeting in the current displayed meeting list.
 3. Internlink identifies the specified contacts in the current displayed contact list.
-4. InternLink checks whether the updated meeting would duplicate an existing meeting.
-5. InternLink updates the meeting.
+4. Internlink checks whether the updated meeting would duplicate an existing meeting.
+5. Internlink updates the meeting.
 6. Internlink reports the successful editing of meeting.
 
 Use case ends.
@@ -531,31 +573,31 @@ Use case ends.
 **Extensions:**
 
 * 2a. The specified meeting index is invalid.
-    * 2a1. InternLink notifies the user of the invalid meeting index error.
+    * 2a1. Internlink notifies the user of the invalid meeting index error.
 
         Use case resumes at step 1.
 
 
 * 3a. One or more specified participant indices are invalid.
-    * 3a1. InternLink notifies the user of the invalid contact index error.
+    * 3a1. Internlink notifies the user of the invalid contact index error.
 
         Use case resumes at step 1.
 
 
 * 3b. One or more specified contacts to remove are not participants in the meeting, and the contacts were specified as added in the same command (e.g., `add/1 del/1`).
-    * 3b1. InternLink proceeds without those contacts.
+    * 3b1. Internlink proceeds without those contacts.
 
         Use case resumes at step 4.
 
 
 * 3c. One or more specified contacts to remove are not participants in the meeting, and the contacts were not added in the same command.
-    * 3c1. InternLink notifies the user of the non-valid participant error.
+    * 3c1. Internlink notifies the user of the non-valid participant error.
 
         Use case resumes at step 1.
 
 
 * 4a. The updated meeting would duplicate an existing meeting (same description and date).
-    * 4a1. InternLink notifies the user of the duplicate meeting error.
+    * 4a1. Internlink notifies the user of the duplicate meeting error.
 
         Use case resumes at step 1.
 
@@ -571,9 +613,9 @@ Use case ends.
 **MSS:**
 
 1. User requests to find contacts and provides search input.
-2. InternLink evaluates the current displayed contact list for contacts that have the input as substrings.
-3. InternLink filters the displayed contact list to include only matching contacts.
-4. InternLink displays the filtered list of contacts.
+2. Internlink evaluates the current displayed contact list for contacts that have the input as substrings.
+3. Internlink filters the displayed contact list to include only matching contacts.
+4. Internlink displays the filtered list of contacts.
 5. Internlink reports how many contacts are found.
 
 Use case ends.
@@ -581,19 +623,19 @@ Use case ends.
 **Extensions:**
 
 * 1a. User provides prefix-based input (e.g. `n/NAME`, `e/EMAIL`).
-    * 1a1. InternLink restricts the search to the specified fields based on the provided prefixes.
+    * 1a1. Internlink restricts the search to the specified fields based on the provided prefixes.
 
         Use case resumes at step 2.
 
 
 * 1b. User provides keyword-based input (without prefixes).
-    * 1b1. InternLink treats the entire input as a single substring that is searched in contacts' name, phone, and email.
+    * 1b1. Internlink treats the entire input as a single substring that is searched in contacts' name, phone, and email.
 
         Use case resumes at step 2.
 
 
 * 4a. No contacts in the displayed contact list match the search criteria.
-    * 4a1. InternLink displays an empty contact list.
+    * 4a1. Internlink displays an empty contact list.
 
         Use case ends.
 
@@ -602,11 +644,11 @@ Use case ends.
 **MSS:**
 
 1. User requests to find meetings and provides search inputs (e.g. description, date, or participant indices).
-2. InternLink evaluates the current meeting list based on the provided inputs:
+2. Internlink evaluates the current meeting list based on the provided inputs:
     - If participant indices are provided, meetings containing all specified participants are considered matches.
     - If description or date prefixes are provided (e.g. `d/`, `dt/`), meetings whose specified fields contain the given substrings are considered matches.
-3. InternLink filters the meeting list to include meetings that match any of the specified prefixes.
-4. InternLink displays the filtered list of meetings.
+3. Internlink filters the meeting list to include meetings that match any of the specified prefixes.
+4. Internlink displays the filtered list of meetings.
 5. Internlink reports how many meetings are found.
 
 Use case ends.
@@ -614,19 +656,19 @@ Use case ends.
 **Extensions:**
 
 * 2a. One or more specified participant indices are invalid.
-    * 2a1. InternLink notifies the user of the invalid index error.
+    * 2a1. Internlink notifies the user of the invalid index error.
 
         Use case resumes at step 1.
 
 
 * 3a. A meeting does not satisfy any of the specified prefix conditions.
-    * 3a1. InternLink excludes the meeting from the filtered meeting list.
+    * 3a1. Internlink excludes the meeting from the filtered meeting list.
 
         Use case resumes at step 4.
 
 
 * 4a. No meetings in the displayed meeting list match the specified criteria.
-    * 4a1. InternLink displays an empty meeting list.
+    * 4a1. Internlink displays an empty meeting list.
 
         Use case ends.
 
@@ -635,23 +677,23 @@ Use case ends.
 **MSS:**
 
 1. User requests to assign one or more tags to one or more contacts by index.
-2. InternLink identifies the specified contact(s).
-3. InternLink adds the specified tag(s) to the selected contact(s).
-4. InternLink updates the contact list.
-5. InternLink reports the attempted deletion of all specified tags.
+2. Internlink identifies the specified contact(s).
+3. Internlink adds the specified tag(s) to the selected contact(s).
+4. Internlink updates the contact list.
+5. Internlink reports the attempted addition of all specified tags.
 
 Use case ends.
 
 **Extensions:**
 
 * 2a. One or more specified indices are invalid.
-    * 2a1. InternLink notifies the user of the invalid index error.
+    * 2a1. Internlink notifies the user of the invalid index error.
 
         Use case resumes at step 1.
 
 
 * 3a. One or more specified tags already exist on the selected contacts.
-    * 3a1. InternLink ignores the duplicate tags and adds only new tags, if any.
+    * 3a1. Internlink ignores the duplicate tags and adds only new tags, if any.
 
         Use case resumes at step 4.
 
@@ -660,9 +702,9 @@ Use case ends.
 **MSS:**
 
 1. User requests to find contacts using one or more tags.
-2. InternLink checks the current displayed contact list for contacts containing at least one of the specified tags.
-3. InternLink filters the contact list to show matching contacts.
-4. InternLink displays the matching contacts.
+2. Internlink checks the current displayed contact list for contacts containing at least one of the specified tags.
+3. Internlink filters the contact list to show matching contacts.
+4. Internlink displays the matching contacts.
 5. Internlink reports all results match at least one of the given tags.
 
 Use case ends.
@@ -670,13 +712,13 @@ Use case ends.
 **Extensions:**
 
 * 2a. None of the specified tags exist in the displayed contact list.
-    * 2a1. InternLink notifies the user that no matching tags were found.
+    * 2a1. Internlink notifies the user that no matching tags were found.
 
         Use case resumes at step 1.
 
 
 * 2b. Some specified tags are invalid.
-    * 2b1. InternLink ignores the invalid tags and proceeds searching for valid ones.
+    * 2b1. Internlink ignores the invalid tags and proceeds searching for valid ones.
 
         Use case resumes at step 3.
 
@@ -685,29 +727,29 @@ Use case ends.
 **MSS:**
 
 1. User requests to delete one or more tags from one or more contacts by index.
-2. InternLink identifies the specified contact(s).
-3. InternLink removes the specified tag(s) from the selected contact(s).
-4. InternLink updates the contact list.
-5. InternLink reports the attempted deletion of all specified tags.
+2. Internlink identifies the specified contact(s).
+3. Internlink removes the specified tag(s) from the selected contact(s).
+4. Internlink updates the contact list.
+5. Internlink reports the attempted deletion of all specified tags.
 
 Use case ends.
 
 **Extensions:**
 
 * 2a. One or more specified indices are invalid.
-    * 2a1. InternLink notifies the user of the invalid index error.
+    * 2a1. Internlink notifies the user of the invalid index error.
 
         Use case resumes at step 1.
 
 
 * 3a. None of the specified tags exist on any of the selected contacts.
-    * 3a1. InternLink notifies the user that the tags are not found.
+    * 3a1. Internlink notifies the user that the tags are not found.
 
         Use case resumes at step 1.
 
 
 * 3b. Some specified tags do not exist on the selected contacts.
-    * 3b1. InternLink ignores tags that are not present on the selected contacts and removes only applicable tags, if any.
+    * 3b1. Internlink ignores tags that are not present on the selected contacts and removes only applicable tags, if any.
 
         Use case resumes at step 4.
 
@@ -716,9 +758,9 @@ Use case ends.
 **MSS:**
 
 1. User requests to star or unstar a contact by contact indexes.
-2. InternLink identifies the specified contacts.
-3. InternLink updates the contact’s starred status (starred or unstarred).
-4. InternLink updates the contact list.
+2. Internlink identifies the specified contacts.
+3. Internlink updates the contact’s starred status (starred or unstarred).
+4. Internlink updates the contact list.
 5. Internlink reports attempt to star / unstar contacts.
 
 
@@ -727,19 +769,19 @@ Use case ends.
 **Extensions:**
 
 * 2a. The specified index is invalid.
-    * 2a1. InternLink notifies the user of the invalid index error.
+    * 2a1. Internlink notifies the user of the invalid index error.
 
         Use case resumes at step 1.
 
 
 * 2b. All specified contacts are already in the target state (starred / unstarred).
-    * 2b1. InternLink notifies the user that all selected contacts are already starred / unstarred.
+    * 2b1. Internlink notifies the user that all selected contacts are already starred / unstarred.
 
         Use case resumes at step 1.
 
 
 * 2c. Only some specified contacts are already in the target state.
-    * 2c1. InternLink ignores those contacts and updates only the valid ones.
+    * 2c1. Internlink ignores those contacts and updates only the valid ones.
 
         Use case resumes at step 3.
 
@@ -820,8 +862,9 @@ Overall, while AB3 provided a strong foundation, the effort required to extend i
 
 Given below are instructions to test the app manually.
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** These instructions only provide a starting point for testers to work on;
-testers are expected to do more *exploratory* testing.
+<div markdown="span" class="alert alert-info"> 
+
+> ❗ **Note:** These instructions only provide a starting point for testers to work on; testers are expected to do more *exploratory* testing.
 
 </div>
 
@@ -829,15 +872,16 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-   1. Download the jar file and copy into an empty folder
+   1. Download the jar file and copy into an empty folder.
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts and meetings. The window size may not be optimum.
+   2. Double-click the jar file. <br>
+       Expected: Shows the GUI with a set of sample contacts and meetings. The window size may not be optimum.
 
-1. Saving window preferences
+2. Saving window preferences
 
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
+   2. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
 ---
