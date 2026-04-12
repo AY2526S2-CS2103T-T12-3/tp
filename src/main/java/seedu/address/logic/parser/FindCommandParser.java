@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 
 import java.util.List;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.PersonMatchesKeywordsPredicate;
@@ -39,7 +40,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         List<String> phoneKeywords = argMultimap.getAllValues(PREFIX_PHONE);
         List<String> emailKeywords = argMultimap.getAllValues(PREFIX_EMAIL);
 
-        validatePrefixedSearch(args, preamble, nameKeywords, phoneKeywords, emailKeywords);
+        validatePrefixedSearch(preamble, nameKeywords, phoneKeywords, emailKeywords);
 
         return new FindCommand(createPredicate(preamble, nameKeywords, phoneKeywords, emailKeywords));
     }
@@ -49,7 +50,6 @@ public class FindCommandParser implements Parser<FindCommand> {
      * Prevents mixing global search and prefixed search.
      * Ensures that any prefix present is not followed only by blank values.
      *
-     * @param args          User input.
      * @param preamble      Global keywords.
      * @param nameKeywords  Name keywords.
      * @param phoneKeywords Phone keywords.
@@ -57,18 +57,18 @@ public class FindCommandParser implements Parser<FindCommand> {
      * @throws ParseException If the input mixes global and prefixed search,
      *                        or if a supplied prefixed field is blank.
      */
-    private void validatePrefixedSearch(String args, String preamble,
+    private void validatePrefixedSearch(String preamble,
             List<String> nameKeywords,
             List<String> phoneKeywords,
             List<String> emailKeywords) throws ParseException {
-        boolean hasNamePrefix = args.contains(PREFIX_NAME.getPrefix());
-        boolean hasPhonePrefix = args.contains(PREFIX_PHONE.getPrefix());
-        boolean hasEmailPrefix = args.contains(PREFIX_EMAIL.getPrefix());
+        boolean hasNamePrefix = !nameKeywords.isEmpty();
+        boolean hasPhonePrefix = !phoneKeywords.isEmpty();
+        boolean hasEmailPrefix = !emailKeywords.isEmpty();
 
         boolean hasAnyPrefixedSearch = hasNamePrefix || hasPhonePrefix || hasEmailPrefix;
 
         if (!preamble.isEmpty() && hasAnyPrefixedSearch) {
-            throw new ParseException("Cannot mix global search with prefixed search.");
+            throw new ParseException(Messages.MESSAGE_MIX_GLOBAL_AND_PREFIX_SEARCH);
         }
 
         validateFieldInput(hasNamePrefix, nameKeywords);
