@@ -163,7 +163,7 @@ public class EditTagCommand extends Command {
         Set<Tag> updatedTags = new HashSet<>();
 
         for (Tag tag : personToEdit.getTags()) {
-            if (tag.tagName.equals(oldTag.tagName)) {
+            if (tag.equals(oldTag)) {
                 updatedTags.add(new Tag(newTag.tagName));
             } else {
                 updatedTags.add(tag);
