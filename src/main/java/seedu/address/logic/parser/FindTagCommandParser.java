@@ -8,7 +8,6 @@ import static seedu.address.logic.parser.ParserUtil.isPrefixPresent;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.logic.commands.AddTagCommand;
 import seedu.address.logic.commands.FindTagCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
