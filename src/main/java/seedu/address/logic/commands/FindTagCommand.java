@@ -38,7 +38,8 @@ public class FindTagCommand extends Command {
             "Found all people in the current list with at least one of these tag substrings (case-insensitive): %1$s"
             + "\n"
             + "%2$s persons listed!";
-    public static final String MESSAGE_NO_TAGS = "At least one tag substring must be provided." + "\n" + MESSAGE_FORMAT;
+    public static final String MESSAGE_NO_TAGS = "At least one non-empty "
+            + "tag substring must be provided." + "\n" + MESSAGE_FORMAT;
     public static final String MESSAGE_NO_VALID_TAG =
             "Error: None of the tag substrings given belong to any persons' tags in the list.";
 

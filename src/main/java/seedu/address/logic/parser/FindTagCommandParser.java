@@ -41,7 +41,7 @@ public class FindTagCommandParser implements Parser<FindTagCommand> {
         ParserUtil.parseTagsOptional(argMultimap.getAllValues(PREFIX_SEPARATOR)).ifPresent(tags::addAll);
 
         if (tags.isEmpty()) {
-            throw new ParseException(AddTagCommand.MESSAGE_NO_TAGS);
+            throw new ParseException(FindTagCommand.MESSAGE_NO_TAGS);
         }
 
         return new FindTagCommand(tags);
