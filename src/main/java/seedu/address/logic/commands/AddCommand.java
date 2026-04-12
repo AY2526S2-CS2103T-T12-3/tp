@@ -34,8 +34,8 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON =
-            "A person with the same name (case-insensitive), phone number, "
-                    + "and email (case-insensitive) already exists.\n"
+            "A person with the same name (case-insensitive) "
+                    + "and matching phone number or email (case-insensitive) already exists.\n"
                     + "Note: For name, leading/trailing spaces are ignored, "
                     + "but internal spacing differences are considered distinct. "
                     + "(e.g \"John Doe\" and \"John  Doe\" are considered different.)";
