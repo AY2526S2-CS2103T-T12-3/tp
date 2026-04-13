@@ -386,7 +386,7 @@ Before the meeting is added, `Model#hasMeeting(Meeting)` will be called to ensur
 A meeting is considered a duplicate if it has the same description and date as another meeting.
 **Participants alone do not differentiate two meetings**.
 
-When `AddMeetingCommand` is executed, it gets the IDs of all persons referred by the indices, and adds them into the participant set.
+When `AddMeetingCommand` is executed, it gets the persons referred by the indices from the `Model`, and adds their IDs into the participant set.
 It then calls `Model#addMeeting(Meeting)` to add the meeting to the address book.
 
 The following sequence diagram illustrates the flow of parsing and execution for the `addmeet` command.

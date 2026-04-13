@@ -52,12 +52,14 @@ deactivate AddressBookParser
 LogicManager -> AddMeetingCommand : execute(m)
 activate AddMeetingCommand
 
-loop TRANSPARENT_COLOR for each person to be added to meeting
+loop TRANSPARENT_COLOR for each index to be added to meeting
 
-AddMeetingCommand -> AddMeetingCommand : Add person's id
-activate AddMeetingCommand
+AddMeetingCommand -> Model : getFilteredPersonList().getPerson(index)
+activate Model
 
-deactivate AddMeetingCommand
+Model --> AddMeetingCommand : person
+deactivate Model
+
 end
 
 create Meeting
