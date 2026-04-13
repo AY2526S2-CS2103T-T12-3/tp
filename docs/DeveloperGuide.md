@@ -914,7 +914,7 @@ Overall, while AB3 provided a strong foundation, the effort required to extend i
 
 
 6. **Improve feedback for success messages across all `find` commands**  
-   The current success message (e.g., “xxx persons/meetings listed!”) for `find`-related commands (e.g., `find`, `findtag`, `findmeeting`) does not indicate what filters are being applied on the list.
+   The current success message (e.g., “xxx persons/meetings listed!”) for `find`-related commands (e.g., `find`, `findtag`, `findmeet`) does not indicate what filters are being applied on the list.
 
    As a result, users may misinterpret the output, especially if they are unaware that consecutive filtering operations have been applied.
 
