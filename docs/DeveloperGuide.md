@@ -925,7 +925,7 @@ Given below are instructions to test the app manually.
 
 
 2. Attempt to use an invalid index: `addtag 0 / friends`
-   Expected: Error message indicating invalid contact index.
+   Expected: Error message indicating invalid index.
 
 
 3. Rename a tag: `edittag 1, 2 o/cs n/computer science`
@@ -933,7 +933,7 @@ Given below are instructions to test the app manually.
 
 
 4. Try editing a tag without specifying the old tag: `edittag 1, 2 n/computer science`
-   Expected: Error message due to missing old tag.
+   Expected: Error message indicating invalid command format.
 
 
 5. Remove a tag: `deletetag 1 / friends`
@@ -941,7 +941,7 @@ Given below are instructions to test the app manually.
 
 
 6. Try an incorrectly formatted delete tag command: `deletetag / friends 1`
-   Expected: Error message indicating invalid format.
+   Expected: Error message indicating invalid command format.
 
 
 7. Mark a contact as starred: `star 2`
@@ -968,7 +968,7 @@ Given below are instructions to test the app manually.
 
 
 3. Try searching without a keyword: `find`
-   Expected: Error message indicating invalid format.
+   Expected: Error message indicating invalid command format.
 
 
 4. Restore the original list with `list`.
@@ -1042,7 +1042,7 @@ Given below are instructions to test the app manually.
 
 
 3. Try deleting with an invalid index: `delete 999`
-   Expected: Error message indicating invalid index.
+   Expected: Error message indicating invalid person index.
 
 
 4. Clear all data: `clear`
