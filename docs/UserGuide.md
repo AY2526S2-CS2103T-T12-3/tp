@@ -3,12 +3,6 @@ layout: page
 title: User Guide
 ---
 
-//@@author darrenlhs and Raylong268 <br>
-// Our User Guide format was inspired by previous projects
-([LambdaLab UG](https://github.com/AY2526S1-CS2103T-T09-3/tp/blob/master/docs/UserGuide.md),
-[HealthNote UG](https://github.com/AY2526S1-CS2103T-F11-1/tp/blob/master/docs/UserGuide.md)),
-although our application and concept are entirely different.
-
 Hello fellow students, welcome to Internlink's User Guide!
 
 ### Table of Contents
