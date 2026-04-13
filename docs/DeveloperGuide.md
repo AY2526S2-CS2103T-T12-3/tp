@@ -4,45 +4,46 @@ title: Developer Guide
 ---
 
 <!-- TOC -->
-* [**Acknowledgements**](#acknowledgements)
-* [**Setting up, getting started**](#setting-up-getting-started)
-* [**Design**](#design)
-  * [Architecture](#architecture)
-  * [UI component](#ui-component)
-  * [Logic component](#logic-component)
-  * [Model component](#model-component)
-  * [Storage component](#storage-component)
-  * [Common classes](#common-classes)
-* [**Implementation**](#implementation)
-  * [Adding a person: `add`](#adding-a-person-add)
-  * [Editing a person: `edit`](#editing-a-person-edit)
-  * [Finding a person: `find`](#finding-a-person-find)
-  * [Adding a tag: `addtag`](#adding-a-tag-addtag)
-  * [Adding a meeting: `addmeeting`](#adding-a-meeting-addmeeting)
-* [**Documentation, logging, testing, configuration, dev-ops**](#documentation-logging-testing-configuration-dev-ops)
-* [**Appendix: Requirements**](#appendix-requirements)
-  * [Product scope](#product-scope)
-  * [User stories](#user-stories)
-  * [Use cases](#use-cases)
-  * [Non-functional requirements](#non-functional-requirements)
-  * [Glossary](#glossary)
-* [**Appendix: Effort**](#appendix-effort)
-  * [Overview](#overview)
-  * [Extending the Architecture](#extending-the-architecture)
-  * [Entity Relationships](#entity-relationships)
-  * [Understanding and Adapting AB3](#understanding-and-adapting-ab3)
-  * [Conclusion](#conclusion)
-* [**Appendix: Instructions for manual testing**](#appendix-instructions-for-manual-testing)
-  * [Launch and shutdown](#launch-and-shutdown)
-  * [Getting started](#getting-started)
-  * [Adding and managing contacts](#adding-and-managing-contacts)
-  * [Working with tags and favourites](#working-with-tags-and-favourites)
-  * [Searching and filtering contacts](#searching-and-filtering-contacts)
-  * [Managing meetings](#managing-meetings)
-  * [Cleaning up](#cleaning-up)
-  * [Saving data](#saving-data)
-    * [Missing file test](#missing-file-test)
-    * [Corrupted file test](#corrupted-file-test)
+- [**Acknowledgements**](#acknowledgements)
+- [**Setting up, getting started**](#setting-up-getting-started)
+- [**Design**](#design)
+  - [Architecture](#architecture)
+  - [UI component](#ui-component)
+  - [Logic component](#logic-component)
+  - [Model component](#model-component)
+  - [Storage component](#storage-component)
+  - [Common classes](#common-classes)
+- [**Implementation**](#implementation)
+  - [Adding a person: `add`](#adding-a-person-add)
+  - [Editing a person: `edit`](#editing-a-person-edit)
+  - [Finding a person: `find`](#finding-a-person-find)
+  - [Adding a tag: `addtag`](#adding-a-tag-addtag)
+  - [Adding a meeting: `addmeeting`](#adding-a-meeting-addmeeting)
+- [**Documentation, logging, testing, configuration, dev-ops**](#documentation-logging-testing-configuration-dev-ops)
+- [**Appendix: Requirements**](#appendix-requirements)
+  - [Product scope](#product-scope)
+  - [User stories](#user-stories)
+- [Use Cases](#use-cases)
+  - [Non-Functional Requirements](#non-functional-requirements)
+  - [Glossary](#glossary)
+- [Appendix: Effort](#appendix-effort)
+  - [Overview](#overview)
+  - [Extending the Architecture](#extending-the-architecture)
+  - [Entity Relationships](#entity-relationships)
+  - [Understanding and Adapting AB3](#understanding-and-adapting-ab3)
+  - [Conclusion](#conclusion)
+- [**Appendix: Instructions for manual testing**](#appendix-instructions-for-manual-testing)
+  - [Launch and shutdown](#launch-and-shutdown)
+  - [Getting started](#getting-started)
+  - [Adding and managing contacts](#adding-and-managing-contacts)
+  - [Working with tags and favourites](#working-with-tags-and-favourites)
+  - [Searching and filtering contacts](#searching-and-filtering-contacts)
+  - [Managing meetings](#managing-meetings)
+  - [Cleaning up](#cleaning-up)
+  - [Saving data](#saving-data)
+    - [Missing file test](#missing-file-test)
+    - [Corrupted file test](#corrupted-file-test)
+- [Planned Enhancements](#planned-enhancements)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -165,7 +166,7 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 ![Interactions Inside the Logic Component for the `delete 1` Command](images/DeleteSequenceDiagram.png)
 
-<div markdown="span" class="alert alert-info">:information_source: 
+<div markdown="span" class="alert alert-info">:information_source:
 
 >❗**Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 
@@ -490,7 +491,7 @@ Use case ends.
 
 * 5a. The meeting has a date that is before the device's time.
     * 5a1. Internlink reports the successful creation of contact / meeting, and notes the date has passed.
-        
+
         Use case ends.
 
 
@@ -862,7 +863,7 @@ Overall, while AB3 provided a strong foundation, the effort required to extend i
 
 Given below are instructions to test the app manually.
 
-<div markdown="span" class="alert alert-info"> 
+<div markdown="span" class="alert alert-info">
 
 > ❗ **Note:** These instructions only provide a starting point for testers to work on; testers are expected to do more *exploratory* testing.
 
@@ -1087,3 +1088,70 @@ Expected: The datafile will reappear at the same location with the sample data a
 Expected: The application detects the corrupted file, clears all data, and starts with an empty dataset,
 logging that the datafile cannot be read. The `data/InternlinkData.json` file should remain untouched until
 a command is inputted in the application.
+
+
+
+<br>
+<br>
+
+## Planned Enhancements
+
+1. **There is no way to remove a phone number or email once it has been added**:
+At present, the application does not support removing an existing phone number or email address from a
+contact once it has been added. For instance, if a contact is stored with the phone number `91234567` and the
+email address `johndoe@gmail.com`, there is currently no way to clear either field. Since the application only
+requires that at least one contact detail be present, this is a limitation of the current edit command. We
+propose enhancing the edit command to allow users to remove an optional phone number or email address,
+provided that the edited contact still retains at least one valid contact detail.
+2. **Phone number validation rejects valid Singaporean numbers written in common formats**:
+The current phone number validation is overly restrictive, as it only accepts consecutive 8-digit numbers and
+rejects common Singapore phone number formats such as `1234 5678`, `+65 1234 5678`, or `12345678(HP)`.
+Although these inputs are valid in real-world usage and do not affect the core functionality of the
+application, they are currently disallowed, which reduces usability and makes data entry less intuitive for
+users. We propose to make the parser more flexible by accepting all alphanumerical digits up to 16 characters
+in length. However, we will warn users if their phone number input does not contain at least an 8 digit
+numerical substring with the warning
+`Phone number detected contains more than 8 digits, or non-numeric characters.
+Please verify that it is correct`.
+3. **`edittag` command does not throw error when the old tag and the new tag is the exact same**:
+The current implementation of the edittag command does not treat replacing a tag with the same value as an
+invalid operation. As a result, if the old tag and new tag are identical, the command may proceed without
+making any actual change, which can be misleading to users and may create the impression that an update has
+occurred when the data remains unchanged. We propose to introduce validation logic that
+detects this no-operation case before executing the command and returns the error message
+`The new tag must be different from the existing one`.
+4. **Message does not wrap properly in case of long name**:
+The current UI does not handle exceptionally long names gracefully. When a contact name exceeds the available
+display width, the message and person card may truncate the name with an ellipsis (...) instead of wrapping
+it across multiple lines. This reduces readability and may prevent users from viewing the full contact name
+directly from the GUI. We propose to refine the UI layout so that long names wrap properly within the
+available space, while preserving the alignment and visual consistency of the person card and result message.
+We can also add further restrictions to the name, such as imposing a 256 character limit on names.
+5. **Lack of indication for stacked find**:
+The current success message for the find command does not clearly indicate when the displayed results are
+produced from stacked filtering rather than the full contact list. As a result, users may misinterpret the
+output, especially if they are unaware that consecutive find operations have been applied to obtain the
+currently filtered list. We propose to improve the command feedback so that it explicitly states when a find
+operation is being performed on an already filtered list. For example, the message could be
+`Note: You are currently working on a filtered list. The current filters applied are : <filter 1> <filter 2>.`
+6. **`addmeet` does not identify invalid indices when multiple indices are given**:
+The current implementation of the `addmeet` command returns only a generic error message
+(`Invalid contact index provided.`) when one or more invalid contact indices are supplied. When multiple
+indices are provided, this makes it unclear which specific index caused the failure, requiring the user to
+manually inspect and retry the command. We propose to improve validation feedback by identifying the invalid
+index or indices directly in the error message, and indicate the valid index range within the current
+displayed contact list. For example, the error message could be
+`Index 5 is out of bounds for current displayed contacts list. The valid indices are 1 - 3.`
+7. **`add` returns unspecific error message for missing name field**:
+The current `add` command returns a generic format-related error message when the name field is omitted, which
+does not clearly indicate that the missing input is specifically the contact name. As a result, users may
+have to infer the actual cause of the error from the command format, and may be distracted or confused by
+unrelated details included in the error message. We propose to introduce more targeted error reporting
+so that missing compulsory fields, such as name, are identified explicitly. For example, error message
+returned could be `Name field is missing. Please use n/ to input a contact name`.
+8. **Full screen space not utilised well**:
+The current contacts view does not make efficient use of horizontal screen space on larger window sizes.
+In fullscreen mode, a substantial portion of the right side of the contacts view remains unused, because the
+person list remains as a single column. We propose a more responsive layout for the contacts view, such as
+displaying contacts in multiple columns when sufficient horizontal space is available and reverting to a
+single-column layout on smaller windows.
