@@ -44,6 +44,8 @@ title: Developer Guide
     * [Missing file test](#missing-file-test)
     * [Corrupted file test](#corrupted-file-test)
 
+<div style="page-break-after: always;"></div>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Acknowledgements**
@@ -105,11 +107,15 @@ Each of the four main components (also shown in the diagram above),
 * defines its *API* in an `interface` with the same name as the Component.
 * implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding API `interface` mentioned in the previous point.
 
+<div style="page-break-after: always;"></div>
+
 For example, the `Logic` component defines its API in the `Logic.java` interface and implements its functionality using the `LogicManager.java` class which follows the `Logic` interface. Other components interact with a given component through its interface rather than the concrete class (reason: to prevent outside component's being coupled to the implementation of a component), as illustrated in the (partial) class diagram below.
 
 <img src="images/ComponentManagers.png" width="300" />
 
 The sections below give more details of each component.
+
+<div style="page-break-after: always;"></div>
 
 ### UI component
 
@@ -156,8 +162,10 @@ The `CommandHistory` component:
   userDraft = ch.nextCommand(userDraft); // userDraft becomes "second command".
   userDraft = ch.nextCommand(userDraft); // userDraft becomes "draft command".
   ```
-* `CommandHistory` sequence diagram:
+* `CommandHistory` sequence diagram:<br>
   <img src="images/CommandHistorySequenceDiagram.png" width="300" />
+
+<div style="page-break-after: always;"></div>
 
 ### Logic component
 
@@ -167,11 +175,13 @@ Here's a (partial) class diagram of the `Logic` component:
 
 <img src="images/LogicClassDiagram.png" width="550"/>
 
+<div style="page-break-after: always;"></div>
+
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
 
 ![Interactions Inside the Logic Component for the `delete 1` Command](images/DeleteSequenceDiagram.png)
 
-<div markdown="span" class="alert alert-info">:information_source: 
+<div markdown="span" class="alert alert-info">
 
 >❗**Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 
@@ -185,6 +195,8 @@ How the `Logic` component works:
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
+<div style="page-break-after: always;"></div>
+
 Here are the other classes in `Logic` (omitted from the class diagram above) that are used for parsing a user command:
 
 <img src="images/ParserClasses.png" width="600"/>
@@ -192,6 +204,8 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 How the parsing works:
 * When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
+
+<div style="page-break-after: always;"></div>
 
 ### Model component
 **API** : [`Model.java`](https://github.com/AY2526S2-CS2103T-T12-3/tp/blob/master/src/main/java/seedu/address/model/Model.java)
@@ -212,7 +226,6 @@ and all `Meeting` objects (which are contained in a `UniqueMeetingList` object).
 
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
-
 ### Storage component
 
 **API** : [`Storage.java`](https://github.com/AY2526S2-CS2103T-T12-3/tp/blob/master/src/main/java/seedu/address/storage/Storage.java)
@@ -227,6 +240,10 @@ The `Storage` component:
 ### Common classes
 
 Classes used by multiple components are in the `seedu.address.commons` package.
+
+--------------------------------------------------------------------------------------------------------------------
+
+<div style="page-break-after: always;"></div>
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -256,9 +273,14 @@ A duplicate is defined as a person with the same name, and either the same phone
 
 If the person is not a duplicate, the person is added via `Model#addPerson(Person)` and a `CommandResult` is returned.
 
+<div style="page-break-after: always;"></div>
+
 The following sequence diagram and activity diagram illustrate the flow of parsing and execution for the `add` command.
 ![Sequence diagram of add](images/AddSequenceDiagram.png)
+
 ![Activity diagram of add](images/AddCommandActivityDiagram.png)
+
+<div style="page-break-after: always;"></div>
 
 ### Editing a person: `edit`
 The `edit` command is used to edit an existing person in the contacts list. The user specifies the index of the person to edit, together with one or more fields to be updated.
@@ -362,6 +384,8 @@ The command checks the following conditions before continuing:
 When `AddTagCommand` is executed, for all the persons referred by the indices,
 it edits their tags, and calls `Model#setPerson(person, personWithAddedTags)` to edit the address book.
 
+<div style="page-break-after: always;"></div>
+
 The following sequence diagram illustrates the flow of parsing and execution for the `addtag` command.
 
 ![Sequence diagram of addtag](images/AddTagCommandSequenceDiagram.png)
@@ -389,9 +413,16 @@ A meeting is considered a duplicate if it has the same description and date as a
 When `AddMeetingCommand` is executed, it gets the persons referred by the indices from the `Model`, and adds their IDs into the participant set.
 It then calls `Model#addMeeting(Meeting)` to add the meeting to the address book.
 
+<div style="page-break-after: always;"></div>
+
 The following sequence diagram illustrates the flow of parsing and execution for the `addmeet` command.
 
 ![Sequence diagram of addmeet](images/AddMeetingCommandSequenceDiagram.png)
+
+--------------------------------------------------------------------------------------------------------------------
+
+<div style="page-break-after: always;"></div>
+
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -453,6 +484,8 @@ For all use cases below, the **System** is **Internlink** and the **Actor** is t
 
 Use case ends.
 
+<div style="page-break-after: always;"></div>
+
 **Extensions:**
 
 * 2a. The contact / meeting already exists.
@@ -504,6 +537,7 @@ Use case ends.
 
       Use case ends.
 
+<div style="page-break-after: always;"></div>
 
 **Use case: UC4 - Edit contact details**
 
@@ -606,6 +640,7 @@ Use case ends.
 
       Use case resumes at step 2.
 
+<div style="page-break-after: always;"></div>
 
 * 1b. User provides keyword-based input (without prefixes).
     * 1b1. Internlink treats the entire input as a single substring that is searched in contacts' name, phone, and email.
@@ -650,6 +685,8 @@ Use case ends.
     * 4a1. Internlink displays an empty meeting list.
 
       Use case ends.
+
+<div style="page-break-after: always;"></div>
 
 **Use case: UC8 - Assign tags to contacts**
 
@@ -701,6 +738,7 @@ Use case ends.
 
       Use case resumes at step 1.
 
+<div style="page-break-after: always;"></div>
 
 * 2b. Some specified tag substrings are invalid.
     * 2b1. InternLink ignores the invalid tags and proceeds searching for valid ones.
@@ -751,6 +789,8 @@ Use case ends.
 
 Use case ends.
 
+<div style="page-break-after: always;"></div>
+
 **Extensions:**
 
 * 2a. The specified index has no contact.
@@ -783,6 +823,8 @@ Use case ends.
 8. The application should prevent data corruption even if the program closes unexpectedly.
 9. The application should try to recover all non-corrupted lines in the event of a data corruption.
 
+<div style="page-break-after: always;"></div>
+
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS.
@@ -808,6 +850,11 @@ Use case ends.
 * **Prefix**: A marker used in commands to indicate a specific field (e.g., `n/`, `p/`, `e/`, `t/`, `d/`, `dt/`).
 
 --------------------------------------------------------------------------------------------------------------------
+
+<div style="page-break-after: always;"></div>
+
+--------------------------------------------------------------------------------------------------------------------
+
 ## **Appendix: Requirements**
 
 ### Product scope
@@ -833,7 +880,13 @@ Use case ends.
 * Internlink cannot automatically sync with LinkedIn or other platforms.
 * Internlink cannot manage internship applications.
 
-## Appendix: Effort
+--------------------------------------------------------------------------------------------------------------------
+
+<div style="page-break-after: always;"></div>
+
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Effort**
 
 ### Overview
 
@@ -869,16 +922,20 @@ Overall, while AB3 provided a strong foundation, the effort required to extend i
 
 ---
 
-## Appendix: Planned Enhancements
+<div style="page-break-after: always;"></div>
+
+---
+
+## **Appendix: Planned Enhancements**
 
 **Team size: 5**
 
 1. **Allow a user to remove a phone number or email**  
-   Currently, the application does not support removing an existing phone number or email address from a contact once it has been added.
+   Currently, the application does not support removing an existing phone number or email address from a contact once the phone number/email address has been added.
 
-   For instance, if a contact is stored with the phone number `91234567` and the email address `johndoe@gmail.com`, there is currently no way to clear either field. Since the application only requires that at least one contact detail be present, this is a limitation of the current edit command.
+   For instance, if a contact is stored with the phone number `91234567` and the email address `johndoe@gmail.com`, there is currently no way to clear either field. Since the application only requires that at least one contact detail be present, this is a limitation of the current `edit` command.
 
-   We propose enhancing the edit command to allow users to remove an optional phone number or email address, provided that the edited contact still retains at least one valid contact detail.
+   We propose enhancing the `edit` command to allow users to remove an optional phone number or email address, provided that the edited contact still retains at least one valid contact detail.
 
 
 2. **Relax phone number validation to accept common formats**  
@@ -904,6 +961,7 @@ Overall, while AB3 provided a strong foundation, the effort required to extend i
    We plan to introduce validation logic that detects this no-change case and returns the error message:  
    `The new tag cannot be the same as the existing tag.`
 
+<div style="page-break-after: always;"></div>
 
 5. **Make text displayed on the UI wrap properly for long text**  
    The current UI does not handle exceptionally long text such as names gracefully. When a contact name exceeds the available display width, it may be truncated with an ellipsis (`...`) instead of wrapping across multiple lines.
@@ -913,7 +971,7 @@ Overall, while AB3 provided a strong foundation, the effort required to extend i
    We propose refining the UI layout so that long text wraps properly within the available space while preserving alignment and visual consistency.
 
 
-6. **Improve feedback for success messages across all `find` commands**  
+6. **Improve feedback for success messages across all search commands**  
    The current success message (e.g., “xxx persons/meetings listed!”) for `find`-related commands (e.g., `find`, `findtag`, `findmeet`) does not indicate what filters are being applied on the list.
 
    As a result, users may misinterpret the output, especially if they are unaware that consecutive filtering operations have been applied.
@@ -924,9 +982,11 @@ Overall, while AB3 provided a strong foundation, the effort required to extend i
    As all predicates for filtering both meetings and contacts can be obtained from `ModelManager`, a shared method can be implemented to retrieve all current predicates and include them in the output message.
 
 
-7. **Make invalid contact/meeting index error messages more specific**  
-   Currently, when one or more indices are invalid, a generic error message is shown:  
-   `“Invalid contact/meeting index provided”.`
+7. **Make the `Invalid contact/meeting index` error messages state the indices that are invalid**  
+   Currently, when one or more indices are invalid, a generic error message, like the one below, is shown for contacts:  
+   `“The person index provided is invalid."` 
+   
+   A similar message is given for meetings.
 
    When multiple indices are provided, this does not indicate which specific index caused the failure, requiring users to manually identify the issue.
 
@@ -950,7 +1010,7 @@ Overall, while AB3 provided a strong foundation, the effort required to extend i
 9. **Improve responsiveness of contacts view layout**  
    The current contacts view does not make efficient use of horizontal screen space on larger window sizes. In fullscreen mode, a significant portion of the right side remains unused.
 
-   We plan to enhance the layout so that when sufficient horizontal space is available, the meetings view is displayed alongside the contacts list instead of requiring users to switch tabs. This removes the need to press the tab button to swap views and allows both to be viewed simultaneously.
+   We plan to enhance the layout so that when sufficient horizontal space is available, the meetings view is displayed alongside the contacts list instead of requiring users to switch tabs. This removes the need to click the "Go to Meetings" or "Go to Contacts" buttons to swap views and allows both to be viewed simultaneously.
 
 
 10. **Allow prefix patterns after a space within input values across all commands**  
@@ -958,11 +1018,15 @@ Overall, while AB3 provided a strong foundation, the effort required to extend i
 
     This restricts valid inputs such as `n/n/me n/me`, where the intended name is `n/me n/me`, but the second `n/` is parsed as a new prefix.
 
-    We plan to enhance the parser to support escaped prefix patterns within input values. For example: `n/n/me \n/me`
+    We plan to enhance the parser to support escaped prefix patterns within input values. <br>For example: `n/n/me \n/me`
 
     The parser will treat escaped prefixes as literal text while continuing to recognise regular prefixes.
 
     This will be implemented centrally within the parsing logic (e.g., `ArgumentMultimap`) to ensure consistent behaviour across all commands.
+--- 
+
+<div style="page-break-after: always;"></div>
+
 --- 
 
 ## **Appendix: Instructions for manual testing**
@@ -1023,6 +1087,10 @@ Given below are instructions to test the app manually.
 
 5. Try editing without specifying any fields: `edit 1`
    Expected: Error message indicating that at least one field must be provided.
+
+---
+
+<div style="page-break-after: always;"></div>
 
 ---
 
@@ -1102,6 +1170,10 @@ Given below are instructions to test the app manually.
 
 ---
 
+<div style="page-break-after: always;"></div>
+
+---
+
 ### Managing meetings
 
 1. Click the tab to switch from the Contacts view to the Meetings view.
@@ -1176,6 +1248,7 @@ Given below are instructions to test the app manually.
 
 Expected: The application starts with sample data and logs that the datafile is missing.
 
+<div style="page-break-after: always;"></div>
 
 4. Add a person: `add n/Alice Tan p/91234567`
 

@@ -2,7 +2,6 @@
 !include style.puml
 
 title Activity Diagram for Add Command
-scale 2
 start
 
 :Enter `add` command with parameters;
