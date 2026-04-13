@@ -32,7 +32,7 @@ public class FindCommandParserTest {
                 List.of()));
 
         assertParseSuccess(parser, "Alice Bob", expectedFindCommand);
-        assertParseSuccess(parser, "  Alice   Bob  ", expectedFindCommand);
+        assertParseSuccess(parser, "  Alice Bob  ", expectedFindCommand);
     }
 
     @Test
@@ -154,6 +154,21 @@ public class FindCommandParserTest {
     }
 
     @Test
+    public void parse_sameOneValidOneBlankPrefix_throwsParseException() {
+        assertParseFailure(parser, " n/Alice n/",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, " p/1234 p/   ",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, " e/example e/   ",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, " n/Alice p/1234 e/example n/   ",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
     public void parse_mixGlobalAndPrefix_throwsParseException() {
         assertParseFailure(parser, " Alice n/Alice", MESSAGE_MIX_GLOBAL_AND_PREFIX_SEARCH);
     }
@@ -161,8 +176,12 @@ public class FindCommandParserTest {
     @Test
     public void parse_prefixInPreamble_notCountedAsPrefixSearch() {
         FindCommand expected = new FindCommand(
-                new PersonMatchesKeywordsPredicate(List.of("Aaron/Tan"), List.of(), List.of(), List.of()));
-        // n/ part of the preamble, not considered a prefix.
+                new PersonMatchesKeywordsPredicate(
+                        List.of("Aaron/Tan"), // n/ is part of the preamble, not considered a prefix.
+                        List.of(),
+                        List.of(),
+                        List.of()));
+
         assertParseSuccess(parser, " Aaron/Tan", expected);
     }
 }

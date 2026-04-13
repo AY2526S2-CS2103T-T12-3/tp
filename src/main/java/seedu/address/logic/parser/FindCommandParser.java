@@ -26,15 +26,11 @@ public class FindCommandParser implements Parser<FindCommand> {
      *                        format.
      */
     public FindCommand parse(String args) throws ParseException {
-        String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-        }
+        validateNotBlank(args);
 
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL);
 
-        String preamble = normalizeWhitespace(argMultimap.getPreamble());
+        String preamble = argMultimap.getPreamble().trim();
 
         List<String> nameKeywords = argMultimap.getAllValues(PREFIX_NAME);
         List<String> phoneKeywords = argMultimap.getAllValues(PREFIX_PHONE);
@@ -43,6 +39,12 @@ public class FindCommandParser implements Parser<FindCommand> {
         validatePrefixedSearch(preamble, nameKeywords, phoneKeywords, emailKeywords);
 
         return new FindCommand(createPredicate(preamble, nameKeywords, phoneKeywords, emailKeywords));
+    }
+
+    private void validateNotBlank(String args) throws ParseException {
+        if (args.isBlank()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
     }
 
     /**
@@ -71,20 +73,19 @@ public class FindCommandParser implements Parser<FindCommand> {
             throw new ParseException(Messages.MESSAGE_MIX_GLOBAL_AND_PREFIX_SEARCH);
         }
 
-        validateFieldInput(hasNamePrefix, nameKeywords);
-        validateFieldInput(hasPhonePrefix, phoneKeywords);
-        validateFieldInput(hasEmailPrefix, emailKeywords);
+        validateFieldInput(nameKeywords);
+        validateFieldInput(phoneKeywords);
+        validateFieldInput(emailKeywords);
     }
 
     /**
-     * Validates that a supplied prefixed field contains at least one non-blank value.
+     * Validates that a supplied prefixed field contains only non-blank values.
      *
-     * @param hasPrefix True if have prefix, false if not.
      * @param keywords  Keywords parsed from user input.
      * @throws ParseException If the prefix was supplied but its values are blank.
      */
-    private void validateFieldInput(boolean hasPrefix, List<String> keywords) throws ParseException {
-        if (hasPrefix && containsOnlyBlankValues(keywords)) {
+    private void validateFieldInput(List<String> keywords) throws ParseException {
+        if (containsBlankValues(keywords)) {
             throw new ParseException(
                     String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindCommand.MESSAGE_USAGE));
         }
@@ -103,7 +104,7 @@ public class FindCommandParser implements Parser<FindCommand> {
             List<String> nameKeywords,
             List<String> phoneKeywords,
             List<String> emailKeywords) {
-        List<String> globalKeywords = preamble.isEmpty()
+        List<String> globalKeywords = preamble.isBlank()
                 ? List.of()
                 : List.of(preamble);
 
@@ -115,22 +116,9 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
     /**
-     * Trims the input and collapses consecutive whitespace into a single space.
-     *
-     * @param input User input for global search.
-     * @return The normalized string.
+     * Returns true if any value in the list is blank.
      */
-    private String normalizeWhitespace(String input) {
-        return input.trim().replaceAll("\\s+", " ");
-    }
-
-    /**
-     * Returns true if the list is empty, or if all values are blank after trimming.
-     *
-     * @param values Values in prefixed search.
-     * @return True if no meaningful values, false otherwise.
-     */
-    private boolean containsOnlyBlankValues(List<String> values) {
-        return values.isEmpty() || values.stream().allMatch(value -> value.trim().isEmpty());
+    private boolean containsBlankValues(List<String> values) {
+        return values.stream().anyMatch(String::isBlank);
     }
 }

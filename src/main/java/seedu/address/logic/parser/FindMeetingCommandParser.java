@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.CONTACT_TYPE;
+import static seedu.address.logic.Messages.MESSAGE_BLANK_FIND_FIELD_INPUT;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_INDICES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MEETING_DATE;
@@ -10,7 +11,6 @@ import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.FindMeetingCommand;
@@ -33,28 +33,56 @@ public class FindMeetingCommandParser implements Parser<FindMeetingCommand> {
 
         String preamble = argMultimap.getPreamble().trim();
 
-        List<String> descriptionKeywords = argMultimap.getAllValues(PREFIX_MEETING_DESCRIPTION).stream()
-                .filter(s -> !s.isEmpty())
-                .collect(Collectors.toList());
-        List<String> dateKeywords = argMultimap.getAllValues(PREFIX_MEETING_DATE).stream()
-                .filter(s -> !s.isEmpty())
-                .collect(Collectors.toList());
+        List<String> descriptionKeywords = argMultimap.getAllValues(PREFIX_MEETING_DESCRIPTION);
+        List<String> dateKeywords = argMultimap.getAllValues(PREFIX_MEETING_DATE);
         List<String> personIndicesList = argMultimap.getAllValues(PREFIX_CONTACT_INDICES);
+
+        validateFields(preamble, descriptionKeywords, dateKeywords, personIndicesList);
 
         List<Set<Index>> personIndexGroups = getPersonIndexGroups(personIndicesList);
 
-        if (descriptionKeywords.isEmpty() && dateKeywords.isEmpty() && personIndexGroups.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                            FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND));
-        }
+        return new FindMeetingCommand(descriptionKeywords, dateKeywords, personIndexGroups);
+    }
+
+    private static void validateFields(String preamble,
+            List<String> descriptionKeywords,
+            List<String> dateKeywords,
+            List<String> personIndicesList) throws ParseException {
 
         if (!preamble.isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindMeetingCommand.MESSAGE_USAGE));
         }
 
-        return new FindMeetingCommand(descriptionKeywords, dateKeywords, personIndexGroups);
+        if (descriptionKeywords.isEmpty() && dateKeywords.isEmpty() && personIndicesList.isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                            FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND));
+        }
+
+        validateFieldInput(descriptionKeywords);
+        validateFieldInput(dateKeywords);
+        validateFieldInput(personIndicesList);
+    }
+
+    /**
+     * Validates that a supplied prefixed field contains only non-blank values.
+     *
+     * @param keywords  Keywords parsed from user input.
+     * @throws ParseException If the prefix is not empty but its values are blank.
+     */
+    private static void validateFieldInput(List<String> keywords) throws ParseException {
+        if (containsBlankValues(keywords)) {
+            throw new ParseException(
+                    String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindMeetingCommand.MESSAGE_USAGE));
+        }
+    }
+
+    /**
+     * Returns true if any value in the list is blank.
+     */
+    private static boolean containsBlankValues(List<String> values) {
+        return values.stream().anyMatch(String::isBlank);
     }
 
     /**
