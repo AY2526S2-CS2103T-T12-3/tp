@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_BLANK_FIND_FIELD_INPUT;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DATE_20270325;
 import static seedu.address.logic.commands.AddMeetingCommandTest.VALID_DESCRIPTION_PROJECT;
@@ -44,8 +45,8 @@ public class FindMeetingCommandParserTest {
                 + " " + PREFIX_MEETING_DATE
                 + " " + PREFIX_CONTACT_INDICES;
         assertParseFailure(parser, userInput,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                        FindMeetingCommand.MESSAGE_NO_PARAMS_FOUND));
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT,
+                        FindMeetingCommand.MESSAGE_USAGE));
     }
 
     @Test
@@ -110,5 +111,32 @@ public class FindMeetingCommandParserTest {
         assertParseSuccess(parser, userInput2, expected);
         assertParseSuccess(parser, userInput3, expected);
         assertParseSuccess(parser, userInput4, expected);
+    }
+
+    @Test
+    public void parse_sameOneValidOneBlankPrefix_throwsParseException() {
+        assertParseFailure(parser, " i/1 i/",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindMeetingCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, " d/Coffee d/   ",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindMeetingCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, " dt/2026-02-05 dt/   ",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindMeetingCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, " i/1 d/Coffee dt/2026-02-05 d/   ",
+                String.format(MESSAGE_BLANK_FIND_FIELD_INPUT, FindMeetingCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_prefixInDescription_notCountedAsSeparatePrefix() {
+        FindMeetingCommand expected = new FindMeetingCommand(
+                List.of("d/dt/i/"),
+                List.of(),
+                List.of());
+
+        assertParseSuccess(parser,
+                " d/d/dt/i/ ",
+                expected);
     }
 }
