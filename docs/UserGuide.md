@@ -1,8 +1,9 @@
-//@@author darrenlhs and Raylong268
-* Our User Guide format was inspired by previous projects
+//@@author darrenlhs and Raylong268 <br>
+// Our User Guide format was inspired by previous projects
   ([LambdaLab UG](https://github.com/AY2526S1-CS2103T-T09-3/tp/blob/master/docs/UserGuide.md),
   [HealthNote UG](https://github.com/AY2526S1-CS2103T-F11-1/tp/blob/master/docs/UserGuide.md)),
   although our application and concept are entirely different.
+
 ---
 layout: page
 title: User Guide
@@ -744,7 +745,7 @@ Output: <br>
 
 > ❗ **Note:** Meetings including **all specified contact indices within a single `i/`** will be matched.
  
-> ❗ **Note:** If the meeting list is currently filtered by contact indices, editing a contact such that their contact index changes (e.g. renaming them changes their alphabetical position) will not affect the filtered results — the same meetings will remain displayed (running another `findmeet` command will refresh the filters accordingly, though). However, if a contact is *deleted*, meetings filtered based on that contact will be removed from the displayed meeting list, if any.
+> ❗ **Note:** If the meeting list is currently filtered by contact indices, editing a contact such that their contact index changes (e.g. renaming them changes their alphabetical position) will not affect the filtered results — the same meetings will remain displayed. However, if a contact is *deleted*, meetings filtered based on that contact will be removed from the displayed meeting list, if any.
 > 
 * Meetings are shown if they match **DESCRIPTION**, **DATE**, or  include **all specified indices within a single `i/`**.
 * Search parameters are case-insensitive.
