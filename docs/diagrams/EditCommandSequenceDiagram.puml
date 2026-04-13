@@ -1,6 +1,7 @@
 @startuml
 !include style.puml
 skinparam ArrowFontStyle plain
+scale 3
 
 title Edit Command
 
@@ -8,7 +9,6 @@ box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
 participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
 participant ":EditCommandParser" as EditCommandParser LOGIC_COLOR
-participant ":ArgumentTokenizer" as ArgumentTokenizer LOGIC_COLOR
 participant "e:EditCommand" as EditCommand LOGIC_COLOR
 participant ":EditPersonDescriptor" as EditPersonDescriptor LOGIC_COLOR
 participant "r:CommandResult" as CommandResult LOGIC_COLOR
@@ -18,21 +18,20 @@ box Model MODEL_COLOR_T1
 participant "m:Model" as Model MODEL_COLOR
 end box
 
-[-> LogicManager : execute( \n "edit 1 n/john p/99999999 \n e/johndoe@email.com")
+[-> LogicManager : execute( \n "edit 1 n/john p/99999999")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand(\n "edit 1 n/john p/99999999 \n e/johndoe@email.com")
+LogicManager -> AddressBookParser : parseCommand(\n "edit 1 n/john p/99999999")
 activate AddressBookParser
 
 create EditCommandParser
 AddressBookParser -> EditCommandParser
 activate EditCommandParser
 
-EditCommandParser -> ArgumentTokenizer : tokenize(args, ...)
-activate ArgumentTokenizer
-return ArgumentMultimap
+EditCommandParser -> AddressBookParser
+deactivate
 
-EditCommandParser -> EditCommandParser : setEditPersonDescriptor(ArgumentMultimap)
+AddressBookParser -> EditCommandParser: parse("1 n/john p/99999999")
 activate EditCommandParser
 
 create EditPersonDescriptor
@@ -46,14 +45,12 @@ EditCommandParser -> EditPersonDescriptor
 activate EditPersonDescriptor
 return
 
-EditCommandParser -> EditPersonDescriptor : setName, setPhone, ...
+EditCommandParser -> EditPersonDescriptor : Populate fields
 activate EditPersonDescriptor
 return
 
-return editPersonDescriptor
-
 create EditCommand
-EditCommandParser -> EditCommand : New EditCommand(index, editPersonDescriptor)
+EditCommandParser -> EditCommand
 activate EditCommand
 EditCommand --> EditCommandParser : e
 deactivate EditCommand
@@ -71,27 +68,12 @@ deactivate AddressBookParser
 LogicManager -> EditCommand : execute(m)
 activate EditCommand
 
-EditCommand -> Model : getFilteredPersonList()
-activate Model
-return List<Person>
-
-EditCommand -> EditCommand : createEditedPerson(personToEdit, editPersonDescriptor)
-activate EditCommand
-
-EditCommand -> EditPersonDescriptor
+EditCommand -> EditPersonDescriptor : Get fields to edit
 activate EditPersonDescriptor
 EditPersonDescriptor --> EditCommand
 deactivate EditPersonDescriptor
-return editedPerson
-
-
 
 EditCommand -> Model : editPerson(personToEdit, editedPerson)
-activate Model
-Model --> EditCommand
-deactivate Model
-
-EditCommand -> Model : updateFilteredPersonList
 activate Model
 Model --> EditCommand
 deactivate Model

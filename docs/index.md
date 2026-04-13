@@ -6,7 +6,7 @@ title: Internlink
 [![CI Status](https://github.com/AY2526S2-CS2103T-T12-3/tp/workflows/Java%20CI/badge.svg)](https://github.com/AY2526S2-CS2103T-T12-3/tp/actions)
 [![codecov](https://codecov.io/github/AY2526S2-CS2103T-T12-3/tp/graph/badge.svg?token=AXTCNUI01M)](https://codecov.io/github/AY2526S2-CS2103T-T12-3/tp)
 
-![Ui](images/Ui.png)
+![Ui](images/defaultuidisplay.png)
 ![Ui_Meetings](images/Ui_meeting.png)
 
 

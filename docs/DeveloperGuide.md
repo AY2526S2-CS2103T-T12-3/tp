@@ -49,7 +49,13 @@ title: Developer Guide
 ## **Acknowledgements**
 
 * This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
-
+* Our User Guide format was inspired by previous projects
+  ([LambdaLab UG](https://github.com/AY2526S1-CS2103T-T09-3/tp/blob/master/docs/UserGuide.md),
+  [HealthNote UG](https://github.com/AY2526S1-CS2103T-F11-1/tp/blob/master/docs/UserGuide.md)),
+  although our application and concept are entirely different.
+* Our team of five used AI tools such as ChatGPT and Claude to assist certain parts of the development process.
+These tools were used mainly for debugging, and auto-completing code for both the main files and test cases.
+All final code was reviewed, adapted and tested before inclusion in the project.
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Setting up, getting started**
@@ -229,7 +235,9 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 This section describes some noteworthy details on how certain features are implemented.
 
 ### Adding a person: `add`
-The `add` command is used to insert a new person into the contacts list. The name field (`n/NAME`) must always be provided, while at least one contact detail—either phone (`p/PHONE`) or email (`e/EMAIL`)—is required. Tags (`t/TAG`) are optional.
+
+The `add` command is used to insert a new person into the contacts list. The name field (`n/NAME`) must always be provided,
+while at least one contact detail — either phone (`p/PHONE`) or email (`e/EMAIL`)—is required. Tags (`t/TAG`) are optional.
 
 Input processing is performed by `AddCommandParser`, which tokenizes the user input and ensures that the following conditions are met:
 
@@ -243,14 +251,14 @@ If any of these checks fail, a `ParseException` is thrown.
 
 Once the input is successfully parsed, a `Person` object is instantiated. As part of its construction, a `PersonId` is generated automatically, ensuring that each person has a unique identifier.
 
-When the command is executed, `AddCommand` invokes `Model#hasPerson(Person)` to determine if the person already exists in the contacts list. A duplicate is defined as a person with the same name, phone, and email as an existing entry.
+When the command is executed, `AddCommand` invokes `Model#hasPerson(Person)` to determine if the person already exists in the contacts list.
+A duplicate is defined as a person with the same name, and either the same phone number or the same email as an existing entry.
 
-- If a duplicate is detected, a `CommandException` is raised
-- Otherwise, the person is added via `Model#addPerson(Person)` and a `CommandResult` is returned
+If the person is not a duplicate, the person is added via `Model#addPerson(Person)` and a `CommandResult` is returned.
 
-The following sequence diagram illustrates the flow of parsing and execution for the `add` command.
-
+The following sequence diagram and activity diagram illustrate the flow of parsing and execution for the `add` command.
 ![Sequence diagram of add](images/AddSequenceDiagram.png)
+![Activity diagram of add](images/AddCommandActivityDiagram.png)
 
 ### Editing a person: `edit`
 The `edit` command is used to edit an existing person in the contacts list. The user specifies the index of the person to edit, together with one or more fields to be updated.
@@ -277,10 +285,8 @@ After parsing, an `EditCommand` object is created with:
 * the target index
 * the descriptor containing the edited values
 
-During execution, `EditCommand` retrieves the person at the specified index from the currently displayed person list. It then creates a new edited `Person` object by combining:
-
-* the original person’s existing values
-* the new values from `EditPersonDescriptor` if they were specified
+During execution, EditCommand refers to the person at the specified index from the currently displayed person list.
+It then creates a new Person with the updated fields from `EditPersonDescriptor`.
 
 Fields not provided by the user remain unchanged.
 
@@ -329,7 +335,7 @@ After parsing, the command creates a `PersonMatchesKeywordsPredicate`. Although 
 
 This predicate is then passed into a `FindCommand`, which updates the model’s filtered person list.
 
-The following sequence diagram illustrates the flow of parsing and execution for the `find` command.
+The following sequence diagram illustrates the flow of parsing and execution for the global `find` command.
 ![Sequence diagram of find - logic](images/FindCommandSequenceDiagramLogic.png)
 ![Sequence diagram of find - model](images/FindCommandSequenceDiagramModel.png)
 
@@ -345,17 +351,16 @@ Input processing is performed by `AddTagCommandParser`, which tokenizes the user
 - At least 1 tag is included in the command
 - All field values are valid
 
-If any of these checks fail, a `ParseException` is thrown.
-
 Once the input is successfully parsed, an `AddTagCommand` instance is created with the set of tags to add and the indices of persons to add to.
 
-The command checks the following conditions:
+The command checks the following conditions before continuing:
 
-- If any of the indices are invalid, a `CommandException` is raised
-- If no tags are provided, a `CommandException` is raised
+- If any of the indices are invalid
+- If no tags are provided
+- If all the tags specified (case-insensitive) already exist on all the people. 
 
-When `AddTagCommand` is executed, it gets all the persons referred by the indices,
-edits their tags, and calls `Model#setPerson(person, personWithAddedTags)` to edit the address book.
+When `AddTagCommand` is executed, for all the persons referred by the indices,
+it edits their tags, and calls `Model#setPerson(person, personWithAddedTags)` to edit the address book.
 
 The following sequence diagram illustrates the flow of parsing and execution for the `addtag` command.
 
@@ -375,21 +380,13 @@ Input processing is performed by `AddMeetingCommandParser`, which tokenizes the 
 - Date field exists
 - All field values are valid
 
-If any of these checks fail, a `ParseException` is thrown.
-
 Once the input is successfully parsed, an `AddMeetingCommand` instance is created with the set of participant's indices.
-
-The command checks the following conditions:
-
-- If any of the indices are invalid, a `CommandException` is raised
-- If no description is provided, a `CommandException` is raised
-- If no date is provided, a `CommandException` is raised
 
 Before the meeting is added, `Model#hasMeeting(Meeting)` will be called to ensure that the meeting has not already existed in the address book.
 A meeting is considered a duplicate if it has the same description and date as another meeting.
 **Participants alone do not differentiate two meetings**.
 
-When `AddMeetingCommand` is executed, it gets all the persons referred by the indices, gets their IDs, and adds them into the participant set.
+When `AddMeetingCommand` is executed, it gets the IDs of all persons referred by the indices, and adds them into the participant set.
 It then calls `Model#addMeeting(Meeting)` to add the meeting to the address book.
 
 The following sequence diagram illustrates the flow of parsing and execution for the `addmeeting` command.
@@ -466,7 +463,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ## Use Cases
 
-For all use cases below, the **System** is **Internlink** and the **Actor** is the **user**.
+For all use cases below, the **System** is **Internlink** and the **Actor** is the **User**.
+
+---
 
 **Use case: UC1 - Add a contact / meeting**
 
@@ -485,13 +484,13 @@ Use case ends.
 * 2a. The contact / meeting already exists.
     * 2a1. Internlink notifies the user of the duplicate person / meeting error.
 
-        Use case resumes at step 1.
+      Use case resumes at step 1.
 
 
 * 5a. The meeting has a date that is before the device's time.
     * 5a1. Internlink reports the successful creation of contact / meeting, and notes the date has passed.
-        
-        Use case ends.
+
+      Use case ends.
 
 
 **Use case: UC2 - Delete contact(s) / meeting(s)**
@@ -511,7 +510,7 @@ Use case ends.
 * 2a. One or more of the specified indices are invalid contact(s) / meeting(s).
     * 2a1. Internlink notifies the user of the invalid index error.
 
-        Use case resumes at step 1.
+      Use case resumes at step 1.
 
 
 **Use case: UC3 - List contacts / meetings**
@@ -529,7 +528,7 @@ Use case ends.
 * 3a. There are no contacts / meetings stored.
     * 3a1. Internlink displays an empty list.
 
-        Use case ends.
+      Use case ends.
 
 
 **Use case: UC4 - Edit contact details**
@@ -549,13 +548,17 @@ Use case ends.
 * 2a. The specified index is invalid.
     * 2a1. Internlink notifies the user of the invalid index error.
 
-        Use case resumes at step 1.
+      Use case resumes at step 1.
 
+* 3a. The updated contact would duplicate an existing contact (same name, and same email or phone).
+    * 3a1. InternLink notifies the user of the duplicate person error.
 
-* 3a. The updated contact would duplicate an existing contact (same name, email and phone).
-    * 3a1. Internlink notifies the user of the duplicate person error.
+      Use case resumes at step 1.
 
-        Use case resumes at step 1.
+* 4a. The edited contact does not match the current filters in place from `find` commands for the displayed contact list.
+    * 4a1. The contact disappears from the displayed contact list.
+
+      Use case resumes at step 5.
 
 **Use case: UC5 - Edit a meeting**
 
@@ -575,35 +578,34 @@ Use case ends.
 * 2a. The specified meeting index is invalid.
     * 2a1. Internlink notifies the user of the invalid meeting index error.
 
-        Use case resumes at step 1.
+      Use case resumes at step 1.
 
 
 * 3a. One or more specified participant indices are invalid.
     * 3a1. Internlink notifies the user of the invalid contact index error.
 
-        Use case resumes at step 1.
+      Use case resumes at step 1.
 
 
-* 3b. One or more specified contacts to remove are not participants in the meeting, and the contacts were specified as added in the same command (e.g., `add/1 del/1`).
-    * 3b1. Internlink proceeds without those contacts.
+* 3b. One or more specified contacts are specified as added and deleted in the same command (e.g., `add/1 del/1`).
+    * 3b1. InternLink specifies these contact indices, and reports them as illegal inputs for the command.
 
-        Use case resumes at step 4.
-
-
-* 3c. One or more specified contacts to remove are not participants in the meeting, and the contacts were not added in the same command.
-    * 3c1. Internlink notifies the user of the non-valid participant error.
-
-        Use case resumes at step 1.
+      Use case resumes at step 1.
 
 
 * 4a. The updated meeting would duplicate an existing meeting (same description and date).
     * 4a1. Internlink notifies the user of the duplicate meeting error.
 
-        Use case resumes at step 1.
+      Use case resumes at step 1.
 
+
+* 5b. The edited meeting does not match the current filters in place from `find` commands for the displayed meeting list.
+    * 5a1. The meeting disappears from the displayed meeting list.
+
+      Use case resumes at step 6.
 
 * 6a. The edited meeting has a date that is before the device's time.
-   * 6a1. Internlink reports the successful editing of contact / meeting, and notes the date has passed.
+    * 6a1. Internlink reports the successful editing of contact / meeting, and notes the date has passed.
 
       Use case ends.
 
@@ -625,19 +627,19 @@ Use case ends.
 * 1a. User provides prefix-based input (e.g. `n/NAME`, `e/EMAIL`).
     * 1a1. Internlink restricts the search to the specified fields based on the provided prefixes.
 
-        Use case resumes at step 2.
+      Use case resumes at step 2.
 
 
 * 1b. User provides keyword-based input (without prefixes).
     * 1b1. Internlink treats the entire input as a single substring that is searched in contacts' name, phone, and email.
 
-        Use case resumes at step 2.
+      Use case resumes at step 2.
 
 
 * 4a. No contacts in the displayed contact list match the search criteria.
     * 4a1. Internlink displays an empty contact list.
 
-        Use case ends.
+      Use case ends.
 
 **Use case: UC7 - Find meetings**
 
@@ -658,19 +660,19 @@ Use case ends.
 * 2a. One or more specified participant indices are invalid.
     * 2a1. Internlink notifies the user of the invalid index error.
 
-        Use case resumes at step 1.
+      Use case resumes at step 1.
 
 
 * 3a. A meeting does not satisfy any of the specified prefix conditions.
     * 3a1. Internlink excludes the meeting from the filtered meeting list.
 
-        Use case resumes at step 4.
+      Use case resumes at step 4.
 
 
 * 4a. No meetings in the displayed meeting list match the specified criteria.
     * 4a1. Internlink displays an empty meeting list.
 
-        Use case ends.
+      Use case ends.
 
 **Use case: UC8 - Assign tags to contacts**
 
@@ -689,38 +691,43 @@ Use case ends.
 * 2a. One or more specified indices are invalid.
     * 2a1. Internlink notifies the user of the invalid index error.
 
-        Use case resumes at step 1.
+      Use case resumes at step 1.
 
 
-* 3a. One or more specified tags already exist on the selected contacts.
-    * 3a1. Internlink ignores the duplicate tags and adds only new tags, if any.
+* 3a. One or more, but not all specified tags (case-insensitive) already exist on the selected contacts.
+    * 3a1. InternLink ignores the duplicate tags and adds only new tags, if any.
 
-        Use case resumes at step 4.
+      Use case resumes at step 4.
+
+* 3b. All specified tags (case-insensitive) already exist on the selected contacts.
+    * 3b1. InternLink notifies the user that all specified tags already exist on all contacts.
+
+      Use case resumes at step 1.
 
 **Use case: UC9 - Find contacts by tag**
 
 **MSS:**
 
-1. User requests to find contacts using one or more tags.
-2. Internlink checks the current displayed contact list for contacts containing at least one of the specified tags.
-3. Internlink filters the contact list to show matching contacts.
-4. Internlink displays the matching contacts.
-5. Internlink reports all results match at least one of the given tags.
+1. User requests to find contacts using one or more tag substrings.
+2. InternLink checks the current displayed contact list for contacts containing at least one of the specified tag substrings.
+3. InternLink filters the contact list to show matching contacts.
+4. InternLink displays the matching contacts.
+5. Internlink reports all results match at least one of the given tag substrings.
 
 Use case ends.
 
 **Extensions:**
 
-* 2a. None of the specified tags exist in the displayed contact list.
-    * 2a1. Internlink notifies the user that no matching tags were found.
+* 2a. None of the specified tags substrings exist in the displayed contact list.
+    * 2a1. InternLink notifies the user that no matching tags were found.
 
-        Use case resumes at step 1.
+      Use case resumes at step 1.
 
 
-* 2b. Some specified tags are invalid.
-    * 2b1. Internlink ignores the invalid tags and proceeds searching for valid ones.
+* 2b. Some specified tag substrings are invalid.
+    * 2b1. InternLink ignores the invalid tags and proceeds searching for valid ones.
 
-        Use case resumes at step 3.
+      Use case resumes at step 3.
 
 **Use case: UC10 - Delete tags from contacts**
 
@@ -739,19 +746,19 @@ Use case ends.
 * 2a. One or more specified indices are invalid.
     * 2a1. Internlink notifies the user of the invalid index error.
 
-        Use case resumes at step 1.
+      Use case resumes at step 1.
 
 
 * 3a. None of the specified tags exist on any of the selected contacts.
     * 3a1. Internlink notifies the user that the tags are not found.
 
-        Use case resumes at step 1.
+      Use case resumes at step 1.
 
 
 * 3b. Some specified tags do not exist on the selected contacts.
     * 3b1. Internlink ignores tags that are not present on the selected contacts and removes only applicable tags, if any.
 
-        Use case resumes at step 4.
+      Use case resumes at step 4.
 
 **Use case: UC11 - Star or unstar a contact**
 
@@ -771,21 +778,30 @@ Use case ends.
 * 2a. The specified index is invalid.
     * 2a1. Internlink notifies the user of the invalid index error.
 
-        Use case resumes at step 1.
+      Use case resumes at step 1.
 
 
 * 2b. All specified contacts are already in the target state (starred / unstarred).
     * 2b1. Internlink notifies the user that all selected contacts are already starred / unstarred.
 
-        Use case resumes at step 1.
+      Use case resumes at step 1.
 
 
 * 2c. Only some specified contacts are already in the target state.
     * 2c1. Internlink ignores those contacts and updates only the valid ones.
 
-        Use case resumes at step 3.
+      Use case resumes at step 3.
 
 
+### Extensions:
+
+* **2b.** All contacts already in state.
+    * **2b1.** Internlink notifies user.  
+      <br>Use case resumes at step 1.
+
+* **2c.** Some contacts already in state.
+    * **2c1.** Internlink updates valid ones only.  
+      <br>Use case resumes at step 3.
 ### Non-Functional Requirements
 
 1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -854,7 +870,7 @@ We had to replicate and adapt these mechanisms for the new Meeting entity, inclu
 
 ### Conclusion
 
-Overall, while AB3 provided a strong foundation, the effort required to extend it into a multi-entity system with additional UI functionality was considerable. As a team of four, we worked collaboratively to design, implement, and refine the application to the best of our abilities.
+Overall, while AB3 provided a strong foundation, the effort required to extend it into a multi-entity system with additional UI functionality was considerable. As a team of five, we worked collaboratively to design, implement, and refine the application to the best of our abilities.
 
 ---
 
@@ -926,7 +942,7 @@ Given below are instructions to test the app manually.
 
 
 2. Attempt to use an invalid index: `addtag 0 / friends`
-   Expected: Error message indicating invalid contact index.
+   Expected: Error message indicating invalid index.
 
 
 3. Rename a tag: `edittag 1, 2 o/cs n/computer science`
@@ -934,7 +950,7 @@ Given below are instructions to test the app manually.
 
 
 4. Try editing a tag without specifying the old tag: `edittag 1, 2 n/computer science`
-   Expected: Error message due to missing old tag.
+   Expected: Error message indicating invalid command format.
 
 
 5. Remove a tag: `deletetag 1 / friends`
@@ -942,7 +958,7 @@ Given below are instructions to test the app manually.
 
 
 6. Try an incorrectly formatted delete tag command: `deletetag / friends 1`
-   Expected: Error message indicating invalid format.
+   Expected: Error message indicating invalid command format.
 
 
 7. Mark a contact as starred: `star 2`
@@ -969,7 +985,7 @@ Given below are instructions to test the app manually.
 
 
 3. Try searching without a keyword: `find`
-   Expected: Error message indicating invalid format.
+   Expected: Error message indicating invalid command format.
 
 
 4. Restore the original list with `list`.
@@ -1043,7 +1059,7 @@ Given below are instructions to test the app manually.
 
 
 3. Try deleting with an invalid index: `delete 999`
-   Expected: Error message indicating invalid index.
+   Expected: Error message indicating invalid person index.
 
 
 4. Clear all data: `clear`

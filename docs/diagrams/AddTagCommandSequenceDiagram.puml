@@ -1,6 +1,7 @@
 @startuml
 !include style.puml
 skinparam ArrowFontStyle plain
+scale 2
 
 box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
@@ -12,7 +13,6 @@ end box
 
 box Model MODEL_COLOR_T1
 participant "m:Model" as Model MODEL_COLOR
-participant "list:List<Person>" as List MODEL_COLOR
 end box
 
 [-> LogicManager : execute("addtag 1,2\n/Friend /Close")
@@ -47,22 +47,10 @@ destroy AddTagCommandParser
 AddressBookParser --> LogicManager : a
 deactivate AddressBookParser
 
-LogicManager -> AddTagCommand : execute()
+LogicManager -> AddTagCommand : execute(m)
 activate AddTagCommand
 
-AddTagCommand -> Model : getFilteredPersonList()
-activate Model
-
-Model --> AddTagCommand : list
-deactivate Model
-
-loop TRANSPARENT_COLOR for each Index i of persons to add tags to
-
-AddTagCommand -> List : get(i)
-activate List
-
-List --> AddTagCommand : person
-deactivate List
+loop TRANSPARENT_COLOR for each person to add tags to
 
 AddTagCommand -> AddTagCommand : createPersonWithAddedTags(person, tags);
 activate AddTagCommand

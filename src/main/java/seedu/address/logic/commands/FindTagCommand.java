@@ -27,7 +27,7 @@ public class FindTagCommand extends Command {
                     + PREFIX_SEPARATOR + "TAG_SUBSTRING]...";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Finds contacts that contain any of the specified tags substrings in the displayed contact list.\n"
+            + ": Finds contacts that contain any of the specified tag substrings in the displayed contact list.\n"
             + MESSAGE_FORMAT + "\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_SEPARATOR + "classmates "

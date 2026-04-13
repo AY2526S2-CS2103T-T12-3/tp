@@ -1,6 +1,7 @@
 @startuml
 !include style.puml
 skinparam ArrowFontStyle plain
+scale 2
 
 box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
@@ -13,14 +14,13 @@ end box
 box Model MODEL_COLOR_T1
 participant "meeting:Meeting" as Meeting MODEL_COLOR
 participant "m:Model" as Model MODEL_COLOR
-participant "list:List<Person>" as List MODEL_COLOR
-participant "p:Person" as Person MODEL_COLOR
+
 end box
 
-[-> LogicManager : execute("addmeeting 1,2\nd/Coffee Meeting\ndt/2026-04-08")
+[-> LogicManager : execute("addmeet 1,2 d/Meeting\ndt/2026-04-08")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("addmeeting 1,2\nd/Coffee Meeting\ndt/2026-04-08")
+LogicManager -> AddressBookParser : parseCommand("addmeet 1,2 d/Meeting\ndt/2026-04-08")
 activate AddressBookParser
 
 create AddMeetingCommandParser
@@ -30,7 +30,7 @@ activate AddMeetingCommandParser
 AddMeetingCommandParser --> AddressBookParser
 deactivate AddMeetingCommandParser
 
-AddressBookParser -> AddMeetingCommandParser : parse("1,2\nd/Coffee Meeting\ndt/2026-04-08")
+AddressBookParser -> AddMeetingCommandParser : parse("1,2 d/Meeting\ndt/2026-04-08")
 activate AddMeetingCommandParser
 
 create AddMeetingCommand
@@ -49,30 +49,14 @@ destroy AddMeetingCommandParser
 AddressBookParser --> LogicManager : a
 deactivate AddressBookParser
 
-LogicManager -> AddMeetingCommand : execute()
+LogicManager -> AddMeetingCommand : execute(m)
 activate AddMeetingCommand
 
-AddMeetingCommand -> Model : getFilteredPersonList()
-activate Model
+loop TRANSPARENT_COLOR for each person to be added to meeting
 
-Model --> AddMeetingCommand : list
-deactivate Model
-
-loop TRANSPARENT_COLOR for each Index i to be added to meeting
-
-AddMeetingCommand -> List : get(i)
-activate List
-
-List --> AddMeetingCommand : p
-deactivate List
-
-AddMeetingCommand -> Person : getId()
-activate Person
-Person --> AddMeetingCommand : id
-deactivate Person
-
-AddMeetingCommand -> AddMeetingCommand : addParticipant(id)
+AddMeetingCommand -> AddMeetingCommand : Add person's id
 activate AddMeetingCommand
+
 deactivate AddMeetingCommand
 end
 
