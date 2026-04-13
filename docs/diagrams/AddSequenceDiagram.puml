@@ -16,34 +16,20 @@ participant "p:Person" as Person MODEL_COLOR
 participant "pid:PersonId" as PersonId MODEL_COLOR
 end box
 
--> LogicManager : execute(input)
+-> LogicManager : execute("add \nn/me p/99999999")
 activate LogicManager
 
-LogicManager --> AddressBookParser : parseCommand(input)
+LogicManager --> AddressBookParser : parseCommand("add \nn/me p/99999999")
 activate AddressBookParser
 create AddCommandParser
 
 AddressBookParser -> AddCommandParser
-note right of AddCommandParser
-Parsing Requirements
-Required:
-- Name present
-- At least one of phone or email
-
-Constraints:
-- Prefixes must be valid
-- Preamble must be empty
-- Field values must be valid
-
-Optional:
-- Tags
-end note
 activate AddCommandParser
 
 AddCommandParser -> AddressBookParser
 deactivate AddCommandParser
 
-AddressBookParser -> AddCommandParser : parse(input)
+AddressBookParser -> AddCommandParser : parse(n/me p/99999999)
 activate AddCommandParser
 
 create Person
@@ -73,18 +59,18 @@ deactivate AddressBookParser
 destroy AddCommandParser
 
 
-LogicManager -> AddCommand : execute(m)
+LogicManager -> AddCommand : execute(a)
 activate AddCommand
 
 AddCommand -> Model : hasPerson(p)
 activate Model
-Model --> AddCommand : boolean
+Model --> AddCommand : false
 deactivate Model
 
 note right of Model
-hasPerson(Person person) returns true
-if there exists a person with the same
-name, and same phone or email in the model's list of persons.
+hasPerson(p) returns true
+if there already exists a person with the same
+name, and same phone or email.
 end note
 
     AddCommand -> Model : addPerson(p)

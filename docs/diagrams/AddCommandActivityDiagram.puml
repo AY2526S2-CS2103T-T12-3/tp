@@ -2,13 +2,13 @@
 !include style.puml
 
 title Activity Diagram for Add Command
-
+scale 2
 start
 
 :Enter `add` command with parameters;
 :Parse command using AddressBookParser;
 :Delegate parsing to AddCommandParser;
-:AddCommandParser parses the input;
+:Parse input using AddCommandParser;
 
 if () then ([Parsed input is valid])
   :Create Person object;
@@ -28,6 +28,6 @@ if () then ([Parsed input is valid])
 else (else)
   :Throw ParseException;
 endif
-:Display result on the app UI;
+:Display result in the command result box;
 stop
 @enduml

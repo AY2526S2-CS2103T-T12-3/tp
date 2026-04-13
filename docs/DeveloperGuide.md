@@ -229,7 +229,9 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 This section describes some noteworthy details on how certain features are implemented.
 
 ### Adding a person: `add`
-The `add` command is used to insert a new person into the contacts list. The name field (`n/NAME`) must always be provided, while at least one contact detail—either phone (`p/PHONE`) or email (`e/EMAIL`)—is required. Tags (`t/TAG`) are optional.
+
+The `add` command is used to insert a new person into the contacts list. The name field (`n/NAME`) must always be provided,
+while at least one contact detail — either phone (`p/PHONE`) or email (`e/EMAIL`)—is required. Tags (`t/TAG`) are optional.
 
 Input processing is performed by `AddCommandParser`, which tokenizes the user input and ensures that the following conditions are met:
 
@@ -243,14 +245,14 @@ If any of these checks fail, a `ParseException` is thrown.
 
 Once the input is successfully parsed, a `Person` object is instantiated. As part of its construction, a `PersonId` is generated automatically, ensuring that each person has a unique identifier.
 
-When the command is executed, `AddCommand` invokes `Model#hasPerson(Person)` to determine if the person already exists in the contacts list. A duplicate is defined as a person with the same name, phone, and email as an existing entry.
+When the command is executed, `AddCommand` invokes `Model#hasPerson(Person)` to determine if the person already exists in the contacts list.
+A duplicate is defined as a person with the same name, and either the same phone number or the same email as an existing entry.
 
-- If a duplicate is detected, a `CommandException` is raised
-- Otherwise, the person is added via `Model#addPerson(Person)` and a `CommandResult` is returned
+If the person is not a duplicate, the person is added via `Model#addPerson(Person)` and a `CommandResult` is returned.
 
-The following sequence diagram illustrates the flow of parsing and execution for the `add` command.
-
+The following sequence diagram and activity diagram illustrate the flow of parsing and execution for the `add` command.
 ![Sequence diagram of add](images/AddSequenceDiagram.png)
+![Activity diagram of add](images/AddCommandActivityDiagram.png)
 
 ### Editing a person: `edit`
 The `edit` command is used to edit an existing person in the contacts list. The user specifies the index of the person to edit, together with one or more fields to be updated.
@@ -277,10 +279,8 @@ After parsing, an `EditCommand` object is created with:
 * the target index
 * the descriptor containing the edited values
 
-During execution, `EditCommand` retrieves the person at the specified index from the currently displayed person list. It then creates a new edited `Person` object by combining:
-
-* the original person’s existing values
-* the new values from `EditPersonDescriptor` if they were specified
+During execution, EditCommand refers to the person at the specified index from the currently displayed person list.
+It then creates a new Person with the updated fields from `EditPersonDescriptor`.
 
 Fields not provided by the user remain unchanged.
 
@@ -329,7 +329,7 @@ After parsing, the command creates a `PersonMatchesKeywordsPredicate`. Although 
 
 This predicate is then passed into a `FindCommand`, which updates the model’s filtered person list.
 
-The following sequence diagram illustrates the flow of parsing and execution for the `find` command.
+The following sequence diagram illustrates the flow of parsing and execution for the global `find` command.
 ![Sequence diagram of find - logic](images/FindCommandSequenceDiagramLogic.png)
 ![Sequence diagram of find - model](images/FindCommandSequenceDiagramModel.png)
 
@@ -345,17 +345,16 @@ Input processing is performed by `AddTagCommandParser`, which tokenizes the user
 - At least 1 tag is included in the command
 - All field values are valid
 
-If any of these checks fail, a `ParseException` is thrown.
-
 Once the input is successfully parsed, an `AddTagCommand` instance is created with the set of tags to add and the indices of persons to add to.
 
-The command checks the following conditions:
+The command checks the following conditions before continuing:
 
-- If any of the indices are invalid, a `CommandException` is raised
-- If no tags are provided, a `CommandException` is raised
+- If any of the indices are invalid
+- If no tags are provided
+- If all the tags specified (case-insensitive) already exist on all the people. 
 
-When `AddTagCommand` is executed, it gets all the persons referred by the indices,
-edits their tags, and calls `Model#setPerson(person, personWithAddedTags)` to edit the address book.
+When `AddTagCommand` is executed, for all the persons referred by the indices,
+it edits their tags, and calls `Model#setPerson(person, personWithAddedTags)` to edit the address book.
 
 The following sequence diagram illustrates the flow of parsing and execution for the `addtag` command.
 
@@ -375,21 +374,13 @@ Input processing is performed by `AddMeetingCommandParser`, which tokenizes the 
 - Date field exists
 - All field values are valid
 
-If any of these checks fail, a `ParseException` is thrown.
-
 Once the input is successfully parsed, an `AddMeetingCommand` instance is created with the set of participant's indices.
-
-The command checks the following conditions:
-
-- If any of the indices are invalid, a `CommandException` is raised
-- If no description is provided, a `CommandException` is raised
-- If no date is provided, a `CommandException` is raised
 
 Before the meeting is added, `Model#hasMeeting(Meeting)` will be called to ensure that the meeting has not already existed in the address book.
 A meeting is considered a duplicate if it has the same description and date as another meeting.
 **Participants alone do not differentiate two meetings**.
 
-When `AddMeetingCommand` is executed, it gets all the persons referred by the indices, gets their IDs, and adds them into the participant set.
+When `AddMeetingCommand` is executed, it gets the IDs of all persons referred by the indices, and adds them into the participant set.
 It then calls `Model#addMeeting(Meeting)` to add the meeting to the address book.
 
 The following sequence diagram illustrates the flow of parsing and execution for the `addmeeting` command.
@@ -551,11 +542,15 @@ Use case ends.
 
         Use case resumes at step 1.
 
-
-* 3a. The updated contact would duplicate an existing contact (same name, email and phone).
-    * 3a1. Internlink notifies the user of the duplicate person error.
+* 3a. The updated contact would duplicate an existing contact (same name, and same email or phone).
+    * 3a1. InternLink notifies the user of the duplicate person error.
 
         Use case resumes at step 1.
+
+* 4a. The edited contact does not match the current filters in place from `find` commands for the displayed contact list.
+    * 4a1. The contact disappears from the displayed contact list.
+        
+        Use case resumes at step 5.
 
 **Use case: UC5 - Edit a meeting**
 
@@ -584,14 +579,8 @@ Use case ends.
         Use case resumes at step 1.
 
 
-* 3b. One or more specified contacts to remove are not participants in the meeting, and the contacts were specified as added in the same command (e.g., `add/1 del/1`).
-    * 3b1. Internlink proceeds without those contacts.
-
-        Use case resumes at step 4.
-
-
-* 3c. One or more specified contacts to remove are not participants in the meeting, and the contacts were not added in the same command.
-    * 3c1. Internlink notifies the user of the non-valid participant error.
+* 3b. One or more specified contacts are specified as added and deleted in the same command (e.g., `add/1 del/1`).
+    * 3b1. InternLink specifies these contact indices, and reports them as illegal inputs for the command.
 
         Use case resumes at step 1.
 
@@ -602,10 +591,15 @@ Use case ends.
         Use case resumes at step 1.
 
 
-* 6a. The edited meeting has a date that is before the device's time.
-   * 6a1. Internlink reports the successful editing of contact / meeting, and notes the date has passed.
+* 5b. The edited meeting does not match the current filters in place from `find` commands for the displayed meeting list.
+    * 5a1. The meeting disappears from the displayed meeting list.
+        
+        Use case resumes at step 6.
 
-      Use case ends.
+* 6a. The edited meeting has a date that is before the device's time.
+    * 6a1. Internlink reports the successful editing of contact / meeting, and notes the date has passed.
+
+        Use case ends.
 
 
 **Use case: UC6 - Find contacts**
@@ -692,33 +686,38 @@ Use case ends.
         Use case resumes at step 1.
 
 
-* 3a. One or more specified tags already exist on the selected contacts.
-    * 3a1. Internlink ignores the duplicate tags and adds only new tags, if any.
+* 3a. One or more, but not all specified tags (case-insensitive) already exist on the selected contacts.
+    * 3a1. InternLink ignores the duplicate tags and adds only new tags, if any.
 
         Use case resumes at step 4.
+
+* 3b. All specified tags (case-insensitive) already exist on the selected contacts.
+    * 3b1. InternLink notifies the user that all specified tags already exist on all contacts.
+
+        Use case resumes at step 1.
 
 **Use case: UC9 - Find contacts by tag**
 
 **MSS:**
 
-1. User requests to find contacts using one or more tags.
-2. Internlink checks the current displayed contact list for contacts containing at least one of the specified tags.
-3. Internlink filters the contact list to show matching contacts.
-4. Internlink displays the matching contacts.
-5. Internlink reports all results match at least one of the given tags.
+1. User requests to find contacts using one or more tag substrings.
+2. InternLink checks the current displayed contact list for contacts containing at least one of the specified tag substrings.
+3. InternLink filters the contact list to show matching contacts.
+4. InternLink displays the matching contacts.
+5. Internlink reports all results match at least one of the given tag substrings.
 
 Use case ends.
 
 **Extensions:**
 
-* 2a. None of the specified tags exist in the displayed contact list.
-    * 2a1. Internlink notifies the user that no matching tags were found.
+* 2a. None of the specified tags substrings exist in the displayed contact list.
+    * 2a1. InternLink notifies the user that no matching tags were found.
 
         Use case resumes at step 1.
 
 
-* 2b. Some specified tags are invalid.
-    * 2b1. Internlink ignores the invalid tags and proceeds searching for valid ones.
+* 2b. Some specified tag substrings are invalid.
+    * 2b1. InternLink ignores the invalid tags and proceeds searching for valid ones.
 
         Use case resumes at step 3.
 
@@ -854,7 +853,7 @@ We had to replicate and adapt these mechanisms for the new Meeting entity, inclu
 
 ### Conclusion
 
-Overall, while AB3 provided a strong foundation, the effort required to extend it into a multi-entity system with additional UI functionality was considerable. As a team of four, we worked collaboratively to design, implement, and refine the application to the best of our abilities.
+Overall, while AB3 provided a strong foundation, the effort required to extend it into a multi-entity system with additional UI functionality was considerable. As a team of five, we worked collaboratively to design, implement, and refine the application to the best of our abilities.
 
 ---
 
