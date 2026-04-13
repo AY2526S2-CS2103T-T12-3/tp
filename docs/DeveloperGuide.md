@@ -481,8 +481,8 @@ Use case ends.
 
 **Extensions:**
 
-* 2a. One or more of the specified indices are invalid contact(s) / meeting(s).
-    * 2a1. Internlink notifies the user of the invalid index error.
+* 2a. One or more of the specified indices has no contact / meeting.
+    * 2a1. Internlink notifies the user of the invalid person / meeting index error.
 
       Use case resumes at step 1.
 
@@ -519,8 +519,8 @@ Use case ends.
 
 **Extensions:**
 
-* 2a. The specified index is invalid.
-    * 2a1. Internlink notifies the user of the invalid index error.
+* 2a. The specified index has no contact.
+    * 2a1. Internlink notifies the user of the invalid person index error.
 
       Use case resumes at step 1.
 
@@ -551,14 +551,14 @@ Use case ends.
 
 **Extensions:**
 
-* 2a. The specified meeting index is invalid.
+* 2a. The specified index has no meeting.
     * 2a1. Internlink notifies the user of the invalid meeting index error.
 
       Use case resumes at step 1.
 
 
-* 3a. One or more specified participant indices are invalid.
-    * 3a1. Internlink notifies the user of the invalid contact index error.
+* 3a. One or more specified participant indices has no contact.
+    * 3a1. Internlink notifies the user of the invalid person index error.
 
       Use case resumes at step 1.
 
@@ -575,7 +575,7 @@ Use case ends.
       Use case resumes at step 1.
 
 
-* 5b. The edited meeting does not match the current filters in place from `find` commands for the displayed meeting list.
+* 5a. The edited meeting does not match the current filters in place from `find` commands for the displayed meeting list.
     * 5a1. The meeting disappears from the displayed meeting list.
 
       Use case resumes at step 6.
@@ -634,8 +634,8 @@ Use case ends.
 
 **Extensions:**
 
-* 2a. One or more specified participant indices are invalid.
-    * 2a1. Internlink notifies the user of the invalid index error.
+* 2a. One or more specified participant indices has no contact.
+    * 2a1. Internlink notifies the user of the invalid person index error.
 
       Use case resumes at step 1.
 
@@ -665,8 +665,8 @@ Use case ends.
 
 **Extensions:**
 
-* 2a. One or more specified indices are invalid.
-    * 2a1. Internlink notifies the user of the invalid index error.
+* 2a. One or more specified indices has no contact.
+    * 2a1. Internlink notifies the user of the invalid person index error.
 
       Use case resumes at step 1.
 
@@ -686,7 +686,7 @@ Use case ends.
 
 **MSS:**
 
-1. User requests to find contacts using one or more tag substrings.
+1. User requests to find contacts using one or more tag substrings (case-insensitive).
 2. InternLink checks the current displayed contact list for contacts containing at least one of the specified tag substrings.
 3. InternLink filters the contact list to show matching contacts.
 4. InternLink displays the matching contacts.
@@ -711,7 +711,7 @@ Use case ends.
 
 **MSS:**
 
-1. User requests to delete one or more tags from one or more contacts by index.
+1. User requests to delete one or more tags (case-insensitive) from one or more contacts by index.
 2. Internlink identifies the specified contact(s).
 3. Internlink removes the specified tag(s) from the selected contact(s).
 4. Internlink updates the contact list.
@@ -721,8 +721,8 @@ Use case ends.
 
 **Extensions:**
 
-* 2a. One or more specified indices are invalid.
-    * 2a1. Internlink notifies the user of the invalid index error.
+* 2a. One or more specified indices has no contact.
+    * 2a1. Internlink notifies the user of the invalid person index error.
 
       Use case resumes at step 1.
 
@@ -753,8 +753,8 @@ Use case ends.
 
 **Extensions:**
 
-* 2a. The specified index is invalid.
-    * 2a1. Internlink notifies the user of the invalid index error.
+* 2a. The specified index has no contact.
+    * 2a1. Internlink notifies the user of the invalid person index error.
 
       Use case resumes at step 1.
 
