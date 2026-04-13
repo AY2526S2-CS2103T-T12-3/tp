@@ -55,7 +55,7 @@ title: Developer Guide
   although our application and concept are entirely different.
 * Our team of five used AI tools such as ChatGPT and Claude to assist certain parts of the development process.
 These tools were used mainly for debugging, and auto-completing code for both the main files and test cases.
-All final code was reviewed and adapted before inclusion in the project.
+All final code was reviewed, adapted and tested before inclusion in the project.
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Setting up, getting started**
@@ -467,6 +467,12 @@ For all use cases below, the **System** is **Internlink** and the **Actor** is t
 
 ---
 
+## Use Cases
+
+For all use cases below, the **System** is **Internlink** and the **Actor** is the **User**.
+
+---
+
 ## Use case: UC1 - Add a contact / meeting
 
 ### MSS:
@@ -494,7 +500,53 @@ Use case ends.
       <br>Use case resumes at step 1.
 
 * **5a.** The meeting date is earlier than the current system time.
-    * **5a1.** Internlink reports the successful creation and indicates that the meeting date has already passed.  
+    * **5a1.** Internlink reports the successful creation of the contact / meeting and indicates that the meeting date has already passed.  
+      <br>Use case ends.
+
+---
+
+## Use case: UC2 - Delete contact(s) / meeting(s)
+
+### MSS:
+
+1. User requests to delete one or more contact(s) / meeting(s) by index.
+2. Internlink identifies the specified contact(s) / meeting(s) in the current displayed list.
+3. Internlink deletes the specified contact(s) / meeting(s).
+4. Internlink updates the contact / meeting list.
+5. Internlink reports the successful deletion of contact(s) / meeting(s).
+
+Use case ends.
+
+### Extensions:
+
+* **1a.** The index is not provided.
+    * **1a1.** Internlink notifies the user of the invalid command format.  
+      <br>Use case resumes at step 1.
+
+* **2a.** One or more of the specified indices are invalid.
+    * **2a1.** Internlink notifies the user of the invalid index error.  
+      <br>Use case resumes at step 1.
+
+* **2b.** One or more of the specified indices do not correspond to valid contact(s) / meeting(s).
+    * **2b1.** Internlink notifies the user of the invalid contact / meeting index error.  
+      <br>Use case resumes at step 1.
+
+---
+
+## Use case: UC3 - List contacts / meetings
+
+### MSS:
+
+1. User requests to list contacts / meetings.
+2. Internlink retrieves all contacts / meetings.
+3. Internlink displays the contact / meeting list.
+
+Use case ends.
+
+### Extensions:
+
+* **3a.** There are no contacts / meetings stored.
+    * **3a1.** Internlink displays an empty list.  
       <br>Use case ends.
 
 ---
@@ -503,11 +555,11 @@ Use case ends.
 
 ### MSS:
 
-1. User requests to edit a contact by index, providing updated details.
+1. User requests to edit a contact by index, providing updated contact details.
 2. Internlink identifies the specified contact in the current displayed list.
 3. Internlink checks whether the updated contact would duplicate an existing contact.
 4. Internlink updates the contact.
-5. Internlink reports the successful edit.
+5. Internlink reports the successful editing of the contact.
 
 Use case ends.
 
@@ -525,17 +577,142 @@ Use case ends.
     * **1c1.** Internlink notifies the user that the input is invalid and specifies what constitutes a valid input for the parameter.  
       <br>Use case resumes at step 1.
 
-* **2a.** One or more specified indices are invalid.
+* **2a.** One or more of the specified indices are invalid contacts.
     * **2a1.** Internlink notifies the user of the invalid contact index error.  
       <br>Use case resumes at step 1.
 
-* **3a.** The updated contact would duplicate an existing contact (same name and same email or phone).
+* **3a.** The updated contact would duplicate an existing contact (same name, and same email or phone).
     * **3a1.** Internlink notifies the user of the duplicate contact error.  
       <br>Use case resumes at step 1.
 
-* **4a.** The edited contact does not match the current filters from `find`.
-    * **4a1.** The contact is removed from the displayed contact list.  
+* **4a.** The edited contact does not match the current filters in place from `find` commands for the displayed contact list.
+    * **4a1.** The contact disappears from the displayed contact list.  
       <br>Use case resumes at step 5.
+
+---
+
+## Use case: UC5 - Edit a meeting
+
+### MSS:
+
+1. User requests to edit a meeting by index, providing updated meeting details.
+2. Internlink identifies the specified meeting in the current displayed meeting list.
+3. Internlink identifies the specified contacts in the current displayed contact list.
+4. Internlink checks whether the updated meeting would duplicate an existing meeting.
+5. Internlink updates the meeting.
+6. Internlink reports the successful editing of the meeting.
+
+Use case ends.
+
+### Extensions:
+
+* **1a.** The specified meeting index is invalid.
+    * **1a1.** Internlink notifies the user of the invalid index error.  
+      <br>Use case resumes at step 1.
+
+* **1b.** The prefixes or meeting index are not provided.
+    * **1b1.** Internlink notifies the user of the invalid command format.  
+      <br>Use case resumes at step 1.
+
+* **1c.** The prefix is provided, but the parameter is invalid.
+    * **1c1.** Internlink notifies the user that the input is invalid and specifies what constitutes a valid input for the parameter.  
+      <br>Use case resumes at step 1.
+
+* **2a.** The specified meeting index is invalid.
+    * **2a1.** Internlink notifies the user of the invalid meeting index error.  
+      <br>Use case resumes at step 1.
+
+* **3a.** One or more specified participant indices are invalid.
+    * **3a1.** Internlink notifies the user of the invalid contact index error.  
+      <br>Use case resumes at step 1.
+
+* **3b.** One or more specified contacts are specified as added and deleted in the same command (e.g., `add/1 del/1`).
+    * **3b1.** Internlink specifies these contact indices and reports them as illegal inputs for the command.  
+      <br>Use case resumes at step 1.
+
+* **4a.** The updated meeting would duplicate an existing meeting (same description and date).
+    * **4a1.** Internlink notifies the user of the duplicate meeting error.  
+      <br>Use case resumes at step 1.
+
+* **5a.** The edited meeting does not match the current filters in place from `find` commands for the displayed meeting list.
+    * **5a1.** The meeting disappears from the displayed meeting list.  
+      <br>Use case resumes at step 6.
+
+* **6a.** The edited meeting has a date that is earlier than the current system time.
+    * **6a1.** Internlink reports the successful editing of the meeting and indicates that the meeting date has already passed.  
+      <br>Use case ends.
+
+---
+
+## Use case: UC6 - Find contacts
+
+### MSS:
+
+1. User requests to find contacts and provides search input.
+2. Internlink evaluates the current displayed contact list for contacts that contain the input as substrings.
+3. Internlink filters the displayed contact list to include only matching contacts.
+4. Internlink displays the filtered list of contacts.
+5. Internlink reports how many contacts are found.
+
+Use case ends.
+
+### Extensions:
+
+* **1a.** User provides prefix-based input (e.g. `n/NAME`, `e/EMAIL`).
+    * **1a1.** Internlink restricts the search to the specified fields based on the provided prefixes.  
+      <br>Use case resumes at step 2.
+
+* **1b.** User does not provide any input after the command (e.g. `find`).
+    * **1b1.** Internlink warns the user of the invalid command format.  
+      <br>Use case resumes at step 1.
+
+* **1c.** User provides only a prefix with no input (e.g. `find n/`).
+    * **1c1.** Internlink warns that the input for the specified field cannot be empty.  
+      <br>Use case resumes at step 1.
+
+* **1d.** User provides keyword-based input without prefixes.
+    * **1d1.** Internlink treats the entire input as a substring and searches across name, phone, and email fields.  
+      <br>Use case resumes at step 2.
+
+* **4a.** No contacts match the search criteria.
+    * **4a1.** Internlink displays an empty contact list.  
+      <br>Use case ends.
+
+---
+
+## Use case: UC7 - Find meetings
+
+### MSS:
+
+1. User requests to find meetings and provides search inputs.
+2. Internlink evaluates the meeting list based on the inputs.
+3. Internlink filters the meeting list.
+4. Internlink displays the filtered list.
+5. Internlink reports how many meetings are found.
+
+Use case ends.
+
+### Extensions:
+
+* **1b.** No prefixes provided.
+    * **1b1.** Internlink warns of invalid command format.  
+      <br>Use case resumes at step 1.
+
+* **1c.** Prefix provided without input.
+    * **1c1.** Internlink warns that input details are missing.  
+      <br>Use case resumes at step 1.
+
+* **2a.** Invalid participant indices.
+    * **2a1.** Internlink notifies the user.  
+      <br>Use case resumes at step 1.
+
+* **3a.** Meeting does not satisfy conditions.
+    * **3a1.** Internlink excludes it.  
+      <br>Use case resumes at step 4.
+
+* **4a.** No meetings match.
+    * **4a1.** Internlink displays an empty list.  
+      <br>Use case ends.
 
 ---
 
@@ -543,23 +720,48 @@ Use case ends.
 
 ### MSS:
 
-1. User requests to assign one or more tags to one or more contacts by index.
-2. Internlink identifies the specified contact(s).
-3. Internlink adds the specified tag(s) to the selected contact(s).
-4. Internlink updates the contact list.
-5. Internlink reports the attempted addition of all specified tags.
+1. User requests to assign tags to contacts.
+2. Internlink identifies contacts.
+3. Internlink adds tags.
+4. Internlink updates list.
+5. Internlink reports the attempted addition.
 
 Use case ends.
 
 ### Extensions:
 
-* **3a.** Some (but not all) specified tags (case-insensitive) already exist on the selected contacts.
-    * **3a1.** Internlink ignores duplicate tags and adds only new tags, if any.  
+* **3a.** Some tags already exist.
+    * **3a1.** Internlink ignores duplicates and adds new ones.  
       <br>Use case resumes at step 4.
 
-* **3b.** All specified tags (case-insensitive) already exist on the selected contacts.
-    * **3b1.** Internlink notifies the user that no new tags were added because all specified tags already exist.  
+* **3b.** All tags already exist.
+    * **3b1.** Internlink notifies the user that no new tags were added.  
       <br>Use case resumes at step 4.
+
+---
+
+## Use case: UC9 - Find contacts by tag
+
+### MSS:
+
+1. User requests to find contacts by tag.
+2. Internlink checks contacts.
+3. Internlink filters list.
+4. Internlink displays results.
+5. Internlink reports results.
+
+Use case ends.
+
+### Extensions:
+
+* **2a.** No matching tags.
+    * **2a1.** Internlink notifies the user.  
+      <br>Use case resumes at step 1.
+
+
+* **2b.** Some tags are invalid.
+    * **2b1.** Internlink ignores invalid tags.  
+      <br>Use case resumes at step 3.
 
 ---
 
@@ -567,75 +769,47 @@ Use case ends.
 
 ### MSS:
 
-1. User requests to delete one or more tags from one or more contacts by index.
-2. Internlink identifies the specified contact(s).
-3. Internlink removes the specified tag(s) from the selected contact(s).
-4. Internlink updates the contact list.
-5. Internlink reports the attempted deletion of all specified tags.
+1. User requests to delete tags.
+2. Internlink identifies contacts.
+3. Internlink removes tags.
+4. Internlink updates list.
+5. Internlink reports deletion.
 
 Use case ends.
 
 ### Extensions:
 
-* **1a.** The prefixes or index are not provided.
-    * **1a1.** Internlink notifies the user of the invalid command format.  
+* **3a.** No tags exist.
+    * **3a1.** Internlink notifies user.  
       <br>Use case resumes at step 1.
 
-* **1b.** The specified index is invalid.
-    * **1b1.** Internlink notifies the user of the invalid index error.  
-      <br>Use case resumes at step 1.
-
-* **2a.** No contact corresponds to the specified index.
-    * **2a1.** Internlink notifies the user of the invalid contact index error.  
-      <br>Use case resumes at step 1.
-
-* **3a.** None of the specified tags exist on any selected contacts.
-    * **3a1.** Internlink notifies the user that the tags were not found.  
-      <br>Use case resumes at step 1.
-
-* **3b.** Some specified tags do not exist on the selected contacts.
-    * **3b1.** Internlink ignores tags that are not present and removes only applicable tags, if any.  
+* **3b.** Some tags invalid.
+    * **3b1.** Internlink ignores invalid tags.  
       <br>Use case resumes at step 4.
 
-**Use case: UC11 - Star or unstar a contact**
+---
 
-**MSS:**
+## Use case: UC11 - Star / unstar contact
 
-1. User requests to star or unstar a contact by contact indexes.
-2. Internlink identifies the specified contacts.
-3. Internlink updates the contact’s starred status (starred or unstarred).
-4. Internlink updates the contact list.
-5. Internlink reports attempt to star / unstar contacts.
+### MSS:
 
+1. User requests to star or unstar contacts.
+2. Internlink identifies contacts.
+3. Internlink updates status.
+4. Internlink updates list.
+5. Internlink reports action.
 
 Use case ends.
 
-**Extensions:**
+### Extensions:
 
-* 1a. The specified index is invalid.
-    * 2a1. Internlink notifies the user of the invalid index error.
+* **2b.** All contacts already in state.
+    * **2b1.** Internlink notifies user.  
+      <br>Use case resumes at step 1.
 
-        Use case resumes at step 1.
-
-
-* 2a. No contact corresponds to the specified index.
-    * 2a1. Internlink notifies the user of the invalid person index error.
-
-      Use case resumes at step 1.
-
-
-* 2b. All specified contacts are already in the target state (starred / unstarred).
-    * 2b1. Internlink notifies the user that all selected contacts are already starred / unstarred.
-
-        Use case resumes at step 1.
-
-
-* 2c. Only some specified contacts are already in the target state.
-    * 2c1. Internlink ignores those contacts and updates only the valid ones.
-
-        Use case resumes at step 3.
-
-
+* **2c.** Some contacts already in state.
+    * **2c1.** Internlink updates valid ones only.  
+      <br>Use case resumes at step 3.
 ### Non-Functional Requirements
 
 1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
