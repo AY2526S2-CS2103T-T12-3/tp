@@ -18,7 +18,7 @@ title: Developer Guide
   * [Editing a person: `edit`](#editing-a-person-edit)
   * [Finding a person: `find`](#finding-a-person-find)
   * [Adding a tag: `addtag`](#adding-a-tag-addtag)
-  * [Adding a meeting: `addmeeting`](#adding-a-meeting-addmeeting)
+  * [Adding a meeting: `addmeet`](#adding-a-meeting-addmeet)
 * [**Documentation, logging, testing, configuration, dev-ops**](#documentation-logging-testing-configuration-dev-ops)
 * [**Appendix: Requirements**](#appendix-requirements)
   * [Product scope](#product-scope)
@@ -367,11 +367,11 @@ The following sequence diagram illustrates the flow of parsing and execution for
 ![Sequence diagram of addtag](images/AddTagCommandSequenceDiagram.png)
 
 
-### Adding a meeting: `addmeeting`
+### Adding a meeting: `addmeet`
 
-The `addmeeting` command is used to add a meeting into the address book.
+The `addmeet` command is used to add a meeting into the address book.
 The meeting description (`d/DESCRIPTION`) and date (`dt/DATE`) must always be provided. Participant indices (`[INDEX,...]`) are optional.
-The meeting can initially have no participants and edited later using `editmeeting`.
+The meeting can initially have no participants and edited later using `editmeet`.
 For the purpose of a `Meeting`, a "participant" is defined as a `Person` whose ID is included in the `Meeting`.
 
 Input processing is performed by `AddMeetingCommandParser`, which tokenizes the user input and ensures that the following conditions are met:
@@ -389,9 +389,9 @@ A meeting is considered a duplicate if it has the same description and date as a
 When `AddMeetingCommand` is executed, it gets the IDs of all persons referred by the indices, and adds them into the participant set.
 It then calls `Model#addMeeting(Meeting)` to add the meeting to the address book.
 
-The following sequence diagram illustrates the flow of parsing and execution for the `addmeeting` command.
+The following sequence diagram illustrates the flow of parsing and execution for the `addmeet` command.
 
-![Sequence diagram of addmeeting](images/AddMeetingCommandSequenceDiagram.png)
+![Sequence diagram of addmeet](images/AddMeetingCommandSequenceDiagram.png)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -832,7 +832,7 @@ Use case ends.
 
 * **Meeting List**: The collection of all meetings stored in the application.
 
-* **Displayed Meeting List**: The current filtered view of meetings shown to the user (e.g., after using `findmeeting`).
+* **Displayed Meeting List**: The current filtered view of meetings shown to the user (e.g., after using `findmeet`).
 
 * **Index**: A number assigned to each item in a displayed list (contacts or meetings), used to reference that item in commands.
 
@@ -1016,19 +1016,19 @@ Given below are instructions to test the app manually.
 1. Click the tab to switch from the Contacts view to the Meetings view.
 
 
-2. Create a meeting with contacts: `addmeeting 1, 2 d/Project meeting dt/2026-05-26`
+2. Create a meeting with contacts: `addmeet 1, 2 d/Project meeting dt/2026-05-26`
    Expected: Meeting is added with the given details.
 
 
-3. Try using an invalid date format: `addmeeting d/Project meeting dt/26-05-2026`
+3. Try using an invalid date format: `addmeet d/Project meeting dt/26-05-2026`
    Expected: Error message indicating invalid date format.
 
 
-4. Edit the meeting: `editmeeting 1 d/Updated meeting dt/2026-06-01`
+4. Edit the meeting: `editmeet 1 d/Updated meeting dt/2026-06-01`
    Expected: Meeting details are updated.
 
 
-5. Try editing with an invalid date: `editmeeting 1 dt/01-06-2026`
+5. Try editing with an invalid date: `editmeet 1 dt/01-06-2026`
    Expected: Error message indicating invalid date format.
 
 
@@ -1036,15 +1036,15 @@ Given below are instructions to test the app manually.
    Expected: All meetings are displayed.
 
 
-7. Search for meetings: `findmeeting d/updated`
+7. Search for meetings: `findmeet d/updated`
    Expected: Matching meetings are shown.
 
 
-8. Delete a meeting: `deletemeeting 1`
+8. Delete a meeting: `deletemeet 1`
    Expected: Meeting at index 1 is deleted.
 
 
-9. Try deleting with an invalid index: `deletemeeting 999`
+9. Try deleting with an invalid index: `deletemeet 999`
     Expected: Error message indicating invalid meeting index.
 
 ---
