@@ -881,14 +881,12 @@ Overall, while AB3 provided a strong foundation, the effort required to extend i
    We propose enhancing the edit command to allow users to remove an optional phone number or email address, provided that the edited contact still retains at least one valid contact detail.
 
 
-
 2. **Relax phone number validation to accept common formats**  
    The current phone number validation is overly restrictive, as it only accepts exactly 8-digit numbers and rejects common formats such as `1234 5678`, `+65 1234 5678`, or `12345678 (HP)`.
 
    Although these inputs are valid in real-world usage and do not affect the core functionality of the application, they are currently disallowed, which reduces usability and makes data entry less intuitive.
 
    We plan to make the parser more flexible by accepting phone numbers containing alphanumeric characters with lengths ranging from 3 to 16 characters.
-
 
 
 3. **Warn users when phone number is not exactly 8 digits**  
@@ -898,7 +896,6 @@ Overall, while AB3 provided a strong foundation, the effort required to extend i
    `Phone number is not exactly 8 digits. Please verify that it is correct.`
 
    This ensures flexibility in input while still guiding users towards expected formats.
-
 
 
 4. **Make `edittag` command throw an error when the old and new tags are identical**  
@@ -914,7 +911,6 @@ Overall, while AB3 provided a strong foundation, the effort required to extend i
    This reduces readability and may prevent users from viewing the full contact name directly from the GUI.
 
    We propose refining the UI layout so that long text wraps properly within the available space while preserving alignment and visual consistency.
-
 
 
 6. **Improve feedback for success messages across all `find` commands**  
