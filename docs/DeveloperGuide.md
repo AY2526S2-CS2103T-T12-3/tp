@@ -653,7 +653,7 @@ Use case ends.
 * 4a. No contacts in the displayed contact list match the search criteria.
     * 4a1. Internlink displays an empty contact list.
 
-      Use case ends.
+      Use case resumes at step 5.
 
 **Use case: UC7 - Find meetings**
 
@@ -686,7 +686,7 @@ Use case ends.
 * 4a. No meetings in the displayed meeting list match the specified criteria.
     * 4a1. Internlink displays an empty meeting list.
 
-      Use case ends.
+      Use case resumes at step 5.
 
 <div style="page-break-after: always;"></div>
 
@@ -1076,65 +1076,76 @@ Given below are instructions to test the app manually.
 ### Adding and managing contacts
 
 1. Add a new contact with minimal required fields: `add n/Alice Tan p/91234567`
+
    Expected: A new contact named Alice Tan is added with the phone number shown.
 
 
 2. Try adding a contact without a name: `add p/91234567`
+
    Expected: Error message indicating invalid command format.
 
 
 3. Add another contact with tags: `add n/Bob Lee e/bob@example.com t/friend t/cs`
+
    Expected: Contact is added with email and tags.
 
 
 4. Edit an existing contact: `edit 1 p/98765432 e/alice@new.com`
+
    Expected: Contact 1’s phone and email are updated.
 
+<div style="page-break-after: always;"></div>
 
 5. Try editing without specifying any fields: `edit 1`
+
    Expected: Error message indicating invalid command format.
-
----
-
-<div style="page-break-after: always;"></div>
 
 ---
 
 ### Working with tags and favourites
 
 1. Add tags to multiple contacts: `addtag 1, 2 / friends / cs`
+
    Expected: Tags are added to both contacts.
 
 
 2. Attempt to use an invalid index: `addtag 0 / friends`
+
    Expected: Error message indicating invalid index.
 
 
 3. Rename a tag: `edittag 1, 2 o/cs n/computer science`
+
    Expected: Tag is updated for the specified contacts.
 
 
 4. Try editing a tag without specifying the old tag: `edittag 1, 2 n/computer science`
+
    Expected: Error message indicating invalid command format.
 
 
 5. Remove a tag: `deletetag 1 / friends`
+
    Expected: Tag is removed from contact 1.
 
 
 6. Try an incorrectly formatted delete tag command: `deletetag / friends 1`
+
    Expected: Error message indicating invalid command format.
 
 
 7. Mark a contact as starred: `star 2`
+
    Expected: Contact 2 is marked as starred.
 
 
 8. Try starring with an invalid index: `star 0`
+
    Expected: Error message indicating invalid index.
 
 
 9. Remove starred marking: `unstar 2`
+
    Expected: Contact 2 is no longer marked as starred.
 
 ---
@@ -1142,14 +1153,18 @@ Given below are instructions to test the app manually.
 ### Searching and filtering contacts
 
 1. List all contacts: `list`
+
    Expected: Full contact list is displayed.
 
 
 2. Search for contacts globally: `find Alice`
+
    Expected: Contacts matching "Alice" are shown.
 
+<div style="page-break-after: always;"></div>
 
 3. Try searching without a keyword: `find`
+
    Expected: Error message indicating invalid command format.
 
 
@@ -1157,10 +1172,12 @@ Given below are instructions to test the app manually.
 
 
 5. Search using specific fields: `find n/Alice p/9876`
+
    Expected: Contacts matching the name or phone are shown.
 
 
 6. Try mixing global and field search: `find Alice n/Bob`
+
    Expected: Error message due to mixing types of searches.
 
 
@@ -1168,15 +1185,13 @@ Given below are instructions to test the app manually.
 
 
 8. Search by tags: `findtag / friends`
+
    Expected: Contacts with the tag are displayed.
 
 
 9. Try searching without specifying tags: `findtag`
+
    Expected: Error message indicating invalid command format.
-
----
-
-<div style="page-break-after: always;"></div>
 
 ---
 
@@ -1186,34 +1201,43 @@ Given below are instructions to test the app manually.
 
 
 2. Create a meeting with contacts: `addmeet 1, 2 d/Project meeting dt/2026-05-26`
+
    Expected: Meeting is added with the given details.
 
 
 3. Try using an invalid date format: `addmeet d/Project meeting dt/26-05-2026`
+
    Expected: Error message indicating invalid date format.
 
 
 4. Edit the meeting: `editmeet 1 d/Updated meeting dt/2026-06-01`
+
    Expected: Meeting details are updated.
 
 
 5. Try editing with an invalid date: `editmeet 1 dt/01-06-2026`
+
    Expected: Error message indicating invalid date format.
 
 
 6. List all meetings: `listmeeting`
+
    Expected: All meetings are displayed.
 
 
 7. Search for meetings: `findmeet d/updated`
+
    Expected: Matching meetings are shown.
 
+<div style="page-break-after: always;"></div>
 
 8. Delete a meeting: `deletemeet 1`
+
    Expected: Meeting at index 1 is deleted.
 
 
 9. Try deleting with an invalid index: `deletemeet 999`
+
     Expected: Error message indicating invalid meeting index.
 
 ---
@@ -1224,18 +1248,22 @@ Given below are instructions to test the app manually.
 
 
 2. Delete a contact: `delete 1`
+
    Expected: Contact at index 1 is removed.
 
 
 3. Try deleting with an invalid index: `delete 999`
+
    Expected: Error message indicating invalid person index.
 
 
 4. Clear all data: `clear`
+
    Expected: All contacts and meetings are removed.
 
 
 5. Exit the application: `exit`
+
    Expected: Application closes successfully.
 
 ---
@@ -1252,13 +1280,11 @@ Given below are instructions to test the app manually.
 
 3. Re-launch the application.
 
-Expected: The application starts with sample data and logs that the datafile is missing.
-
-<div style="page-break-after: always;"></div>
+   Expected: The application starts with sample data and logs that the datafile is missing.
 
 4. Add a person: `add n/Alice Tan p/91234567`
 
-Expected: The datafile will reappear at the same location with the sample data and the added person inside.
+   Expected: The datafile will reappear at the same location with the sample data and the added person inside.
 
 #### Corrupted file test
 
@@ -1267,9 +1293,10 @@ Expected: The datafile will reappear at the same location with the sample data a
 
 2. Open `data/InternlinkData.json` and introduce invalid JSON (e.g. remove a closing bracket).
 
+<div style="page-break-after: always;"></div>
 
 3. Re-launch the application.
 
-Expected: The application detects the corrupted file, clears all data, and starts with an empty dataset,
-logging that the datafile cannot be read. The `data/InternlinkData.json` file should remain untouched until
-a command is inputted in the application.
+   Expected: The application detects the corrupted file, clears all data, and starts with an empty dataset,
+   logging that the datafile cannot be read. The `data/InternlinkData.json` file should remain untouched until
+   a command is inputted in the application.
