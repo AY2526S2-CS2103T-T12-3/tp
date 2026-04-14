@@ -673,6 +673,8 @@ Output: <br>
 * As long as one of the given tag substrings exist in the displayed contact list, `findtag` will successfully execute. Invalid tag substrings will be ignored.
 * `findtag` is case-insensitive.
 
+<div style="page-break-after: always;"></div>
+
 **Examples:**
 * `findtag /classmate` filters all contacts that contain the `classmates` tag, since `classmates` contains the word `classmate` in it.
 * `findtag /schoolB /schoolC` filters all contacts that contain at least one of the `schoolB` or `schoolC` tags, or any other relevant tags that contain `schoolB` or `schoolC`.
