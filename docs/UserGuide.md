@@ -254,7 +254,7 @@ For example, `find n/George Best` is a valid command formed using these three co
   e.g. `[t/TAG]…` can be ignored entirely, or used as `t/friend`, `t/friend t/family`, etc.
 
 * Parameters **that come with prefixes** can be inputted in any order.<br>
-  e.g. `n/NAME p/PHONE_NUMBER` and `p/PHONE_NUMBER n/NAME` are the same.<br> In the case of `deletetag`, as the indices do not have prefixes, the positions of indices and tags cannot be swapped.
+  e.g. `n/NAME p/PHONE_NUMBER` and `p/PHONE_NUMBER n/NAME` are the same.<br> In the case of commands like `deletetag`, as the indices do not have prefixes, the positions of indices and tags cannot be swapped.
 
 * Commands without parameters (e.g. `help`, `list`, `exit`, `clear`) ignore any additional text after the command word.
   e.g. `help 123` is treated as `help`.
@@ -334,10 +334,10 @@ Usage:
 
 ## Managing contact information
 
-> ❗ **Note:** Internlink does not allow duplicate contacts. A contact is considered a duplicate only if the *name and (phone number OR email)* match an existing entry.<br><br> 
+> ❗ **Note:** Internlink does not allow duplicate contacts. A contact is considered a duplicate only if the *name and (phone number or email)* match an existing entry.<br><br> 
 > Additionally, checks for name and email are *case-insensitive* (e.g. `John Doe` and `john doe` are considered the same name).<br><br>
 > If you try to create a duplicate contact, the following error message will be shown in the command result box:<br>
-> `A person with the same name (case-insensitive) and matching phone number OR email (case-insensitive) already exists.`<br>
+> `A person with the same name (case-insensitive) and matching phone number or email (case-insensitive) already exists.`<br>
 `Note: For name, leading/trailing spaces are ignored, but internal spacing differences are considered distinct. (e.g "John Doe" [with one space between John and Doe] and "John  Doe" [with two spaces instead of one] are considered different.)`
 
 > ❗ **Note:** If a command requires an INDEX, but is given one that does not correspond to an existing contact’s index in the list, the following error message will be shown in the command result box:
@@ -454,7 +454,7 @@ Output: <br>
 * `addtag 5 /classmates` adds the `classmates` tag to contact index 5.
 * `addtag 1,2,3 /friends /cs` adds the `friends` and `cs` tags to contact indices 1, 2 and 3.
 
-> ❗ **Note:** Tag matching is case-insensitive. If a contact already has a tag identical to the one being added (regardless of capitalization), the addition will fail. e.g. adding `FRIENDS` to a contact that already has `friends` will fail.
+> ❗ **Note:** Tag matching is case-insensitive. If a contact already has a tag identical to the one being added (regardless of capitalization), the addition will fail (e.g. adding `FRIENDS` to a contact that already has `friends` will fail).
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -497,7 +497,7 @@ edittag INDEX [,INDEX]... o/OLD_TAG n/NEW_TAG
 edittag all o/OLD_TAG n/NEW_TAG
 ```
 
-**Description:** You can use this command to edit the specified existing/old tag for the specified contacts at the specified `INDEX` numbers in the **displayed contact list** to the given new tag, or for all contacts in the displayed list in the case of `all`.
+**Description:** You can use this command to edit the specified existing/old tag (case-insensitive) for the specified contacts at the specified `INDEX` numbers in the **displayed contact list** to the given new tag (case-sensitive), or for all contacts in the displayed list in the case of `all`.
 
 >💡 **Tip:** Made a typo in a tag? Use `all` in this command to rename it for every contact it's added to.
 
@@ -815,7 +815,7 @@ Output: <br>
 
 > ❗ **Note:** If the meeting list is currently filtered by contact indices, editing a contact such that their contact index changes (e.g. renaming them changes their alphabetical position) will not affect the filtered results — the same meetings will remain displayed. However, if a contact is *deleted*, meetings filtered based on that contact will be removed from the displayed meeting list, if any.
 
-* meetings are shown if they match any provided `DESCRIPTION` or `DATE` substrings, or include all participants specified in any of the `i/` prefixes.
+* Meetings are shown if they match any provided `DESCRIPTION` or `DATE` substrings, or include all participants specified in any of the `i/` prefixes.
 * Search parameters are case-insensitive.
 * The contact indices refer to indices from the **displayed contact list**.
 * Within EACH 'i/', it is an `AND` search between the specified indices (e.g. `findmeet i/1,2,3` will filter any meetings that contain ALL of the contact indices 1, 2 and 3).
