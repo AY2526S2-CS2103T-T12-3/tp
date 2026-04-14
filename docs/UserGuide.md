@@ -254,7 +254,7 @@ For example, `find n/George Best` is a valid command formed using these three co
   e.g. `[t/TAG]…` can be ignored entirely, or used as `t/friend`, `t/friend t/family`, etc.
 
 * Parameters **that come with prefixes** can be inputted in any order.<br>
-  e.g. `n/NAME p/PHONE_NUMBER` and `p/PHONE_NUMBER n/NAME` are the same.<br> However, in the case of `deletetag`, the positions of indices and tags cannot be swapped.
+  e.g. `n/NAME p/PHONE_NUMBER` and `p/PHONE_NUMBER n/NAME` are the same.<br> In the case of `deletetag`, as the indices do not have prefixes, the positions of indices and tags cannot be swapped.
 
 * Commands without parameters (e.g. `help`, `list`, `exit`, `clear`) ignore any additional text after the command word.
   e.g. `help 123` is treated as `help`.
@@ -337,8 +337,8 @@ Usage:
 > ❗ **Note:** Internlink does not allow duplicate contacts. A contact is considered a duplicate only if the *name and (phone number OR email)* match an existing entry.<br><br> 
 > Additionally, checks for name and email are *case-insensitive* (e.g. `John Doe` and `john doe` are considered the same name).<br><br>
 > If you try to create a duplicate contact, the following error message will be shown in the command result box:<br>
-> `A person with the same name (case-insensitive), phone number, and email (case-insensitive) already exists.`<br>
-`Note: For name, leading/trailing spaces are ignored, but internal spacing differences are considered distinct. (e.g "John Doe" and "John  Doe" are considered different.)`
+> `A person with the same name (case-insensitive) and matching phone number OR email (case-insensitive) already exists.`<br>
+`Note: For name, leading/trailing spaces are ignored, but internal spacing differences are considered distinct. (e.g "John Doe" [with one space between John and Doe] and "John  Doe" [with two spaces instead of one] are considered different.)`
 
 > ❗ **Note:** If a command requires an INDEX, but is given one that does not correspond to an existing contact’s index in the list, the following error message will be shown in the command result box:
 > `The person index provided is invalid`.
@@ -444,7 +444,7 @@ Internlink introduces 3 new tag-related functions that all allow operation on on
 addtag INDEX [,INDEX]... /TAG [/TAG]...
 ```
 
-**Description:** You can use this command to add the specified `TAG`s to the contacts at the specified `INDEX` numbers in the displayed contact list. It supports multi-index and multi-tag input, letting you add multiple tags to multiple people in a single command.
+**Description:** You can use this command to add the specified `TAG`s (case-insensitive) to the contacts at the specified `INDEX` numbers in the displayed contact list. It supports multi-index and multi-tag input, letting you add multiple tags to multiple people in a single command.
 
 Try `addtag 1 /cs /friends` <br>
 Output: <br>
@@ -467,7 +467,7 @@ Output: <br>
 deletetag INDEX [,INDEX]...  /TAG [/TAG]...
 ```
 
-**Description:** You can use this command to delete the specified `TAG`s from the contacts at the specified `INDEX` numbers in the **displayed contact list**.  It supports multi-index and multi-tag input, letting you delete multiple tags from multiple people in a single command.
+**Description:** You can use this command to delete the specified `TAG`s (case-insensitive) from the contacts at the specified `INDEX` numbers in the **displayed contact list**.  It supports multi-index and multi-tag input, letting you delete multiple tags from multiple people in a single command.
 
 Try `deletetag 1 /cs /friends` <br>
 Output: <br>
@@ -532,7 +532,7 @@ This is especially useful for keeping track of frequently contacted people or hi
 
 > 💡 **Tip:** In the examples, `star` and `unstar` are used together with the [`find` command](#locating-contacts-globally-global-find) to make looking for specific contacts to star easier.
 
-> 💡 **Tip:** The `STAR` (case-sensitive) label used in `star` and `unstar` is actually a tag with the name `STAR`. As such, contacts can also be starred/unstarred using [tagging features](#mass-tagging-features) such as `addtag` and `deletetag`!
+> 💡 **Tip:** The `STAR` label used in `star` and `unstar` is actually a tag with the name `STAR`. As such, contacts can also be starred/unstarred using [tagging features](#mass-tagging-features) such as `addtag` and `deletetag`!
 
 ### Starring contacts : `star`
 
@@ -607,7 +607,7 @@ list
 
 **Format:**
 ```
-find SEARCH SUBSTRING
+find <SEARCH_SUBSTRING>
 ```
 
 > 💡 **Tip:** Unsure of what `SUBSTRING` means? Check out its definition in the [glossary](#glossary)!
@@ -657,7 +657,7 @@ Output: <br>
 
 **Format:**
 ```
-findtag /TAG SUBSTRING [/TAG SUBSTRING]...
+findtag /TAG_SUBSTRING [/TAG_SUBSTRING]...
 ```
 
 > 💡 **Tip:** Unsure of what `SUBSTRING` means? Check out its definition in the [glossary](#glossary)!
@@ -798,7 +798,7 @@ listmeet
 
 **Format:**
 ```
-findmeet (d/DESCRIPTION) (dt/DATE) (i/CONTACT_INDEX [,CONTACT_INDEX]...)
+findmeet (d/DESCRIPTION)... (dt/DATE)... (i/CONTACT_INDEX [,CONTACT_INDEX]...)...
 ```
 
 **Description:** You can use this command to find meetings that match the given substrings in their fields. The displayed meeting list will be filtered to show only meetings that match the given criteria.
@@ -815,7 +815,7 @@ Output: <br>
 
 > ❗ **Note:** If the meeting list is currently filtered by contact indices, editing a contact such that their contact index changes (e.g. renaming them changes their alphabetical position) will not affect the filtered results — the same meetings will remain displayed. However, if a contact is *deleted*, meetings filtered based on that contact will be removed from the displayed meeting list, if any.
 
-* Meetings are shown if they match **DESCRIPTION**, **DATE**, or  include **all specified indices within a single `i/`**.
+* meetings are shown if they match any provided `DESCRIPTION` or `DATE` substrings, or include all participants specified in any of the `i/` prefixes.
 * Search parameters are case-insensitive.
 * The contact indices refer to indices from the **displayed contact list**.
 * Within EACH 'i/', it is an `AND` search between the specified indices (e.g. `findmeet i/1,2,3` will filter any meetings that contain ALL of the contact indices 1, 2 and 3).
@@ -888,29 +888,29 @@ the data of your previous Internlink home folder (the location of `InternlinkDat
 
 ## Command summary
 
-| Action                 | Format, Examples                                                                                                                                                                                    |
-|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Help**               | `help`                                                                                                                                                                                              |
-| **Add contact**        | `add n/NAME (p/PHONE_NUMBER) (e/EMAIL) [t/TAG]…​` <br> e.g. `add n/James Ho p/22224444 e/jamesho@example.com t/friend t/colleague`                                                                  |
-| **Delete contact**     | `delete INDEX [,INDEX]...`<br> e.g. `delete 3`                                                                                                                                                      |
-| **Edit contact**       | `edit INDEX (n/NAME) (p/PHONE_NUMBER) (e/EMAIL) (t/TAG)…​`<br> e.g.`edit 2 n/James Lee e/jameslee@example.com`                                                                                      |
-| **List contacts**      | `list`                                                                                                                                                                                              |
-| **Global Find**        | `find <SEARCH SUBSTRING>`<br> e.g. `find alex david`                                                                                                                                                |
-| **Field Find**         | `find (n/NAME) (p/PHONE) (e/EMAIL)...`<br> e.g. `find n/david p/9927 e/charlotte`                                                                                                                   |
-| **Add tags**           | `addtag INDEX [,INDEX...] /TAG [/TAG]`<br> e.g. `addtag 1,2 /friends /cs`                                                                                                                           |
-| **Delete tags**        | `deletetag INDEX [,INDEX...] /TAG [/TAG]`<br> e.g. `deletetag 1,2 /friends /cs`                                                                                                                     |
-| **Edit tag (indices)** | `edittag INDEX [,INDEX]... o/OLD_TAG n/NEW_TAG`<br>e.g. `edittag 1,2,3 o/cs n/computer science`                                                                                                     |
-| **Edit tag (global)**  | `edittag all o/OLD_TAG n/NEW_TAG`<br>e.g. `edittag all o/cs n/computer science`                                                                                                                     |
-| **Find tags**          | `findtag /TAG SUBSTRING [/TAG SUBSTRING]...`<br> e.g. `findtag /schoolB /schoolC`                                                                                                                   |
-| **Star**               | `star INDEX [,INDEX]...`<br> e.g. `star 2`                                                                                                                                                          |
-| **Unstar**             | `unstar INDEX [,INDEX]...`<br> e.g. `unstar 2`                                                                                                                                                      |
-| **Add meetings**       | `addmeet [CONTACT_INDEX] [,CONTACT_INDEX]... d/DESCRIPTION dt/DATE `<br> e.g. `addmeet 1,2 d/Casual icebreaker dt/2026-03-26`                                                                       |
-| **Delete meetings**    | `deletemeet INDEX [,INDEX]...`<br> e.g. `deletemeet 1`                                                                                                                                              |
+| Action                 | Format, Examples                                                                                                                                                                                       |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Help**               | `help`                                                                                                                                                                                                 |
+| **Add contact**        | `add n/NAME (p/PHONE_NUMBER) (e/EMAIL) [t/TAG]…​` <br> e.g. `add n/James Ho p/22224444 e/jamesho@example.com t/friend t/colleague`                                                                     |
+| **Delete contact**     | `delete INDEX [,INDEX]...`<br> e.g. `delete 3`                                                                                                                                                         |
+| **Edit contact**       | `edit INDEX (n/NAME) (p/PHONE_NUMBER) (e/EMAIL) (t/TAG)…​`<br> e.g.`edit 2 n/James Lee e/jameslee@example.com`                                                                                         |
+| **List contacts**      | `list`                                                                                                                                                                                                 |
+| **Global Find**        | `find <SEARCH_SUBSTRING>`<br> e.g. `find alex david`                                                                                                                                                   |
+| **Field Find**         | `find (n/NAME)... (p/PHONE)... (e/EMAIL)...`<br> e.g. `find n/david p/9927 e/charlotte`                                                                                                                |
+| **Add tags**           | `addtag INDEX [,INDEX...] /TAG [/TAG]`<br> e.g. `addtag 1,2 /friends /cs`                                                                                                                              |
+| **Delete tags**        | `deletetag INDEX [,INDEX...] /TAG [/TAG]`<br> e.g. `deletetag 1,2 /friends /cs`                                                                                                                        |
+| **Edit tag (indices)** | `edittag INDEX [,INDEX]... o/OLD_TAG n/NEW_TAG`<br>e.g. `edittag 1,2,3 o/cs n/computer science`                                                                                                        |
+| **Edit tag (global)**  | `edittag all o/OLD_TAG n/NEW_TAG`<br>e.g. `edittag all o/cs n/computer science`                                                                                                                        |
+| **Find tags**          | `findtag /TAG_SUBSTRING [/TAG_SUBSTRING]...`<br> e.g. `findtag /schoolB /schoolC`                                                                                                                      |
+| **Star**               | `star INDEX [,INDEX]...`<br> e.g. `star 2`                                                                                                                                                             |
+| **Unstar**             | `unstar INDEX [,INDEX]...`<br> e.g. `unstar 2`                                                                                                                                                         |
+| **Add meetings**       | `addmeet [CONTACT_INDEX] [,CONTACT_INDEX]... d/DESCRIPTION dt/DATE `<br> e.g. `addmeet 1,2 d/Casual icebreaker dt/2026-03-26`                                                                          |
+| **Delete meetings**    | `deletemeet INDEX [,INDEX]...`<br> e.g. `deletemeet 1`                                                                                                                                                 |
 | **Edit meetings**      | `editmeet MEETING_INDEX (d/DESCRIPTION) (dt/DATE) (add/CONTACT_INDEX [,CONTACT_INDEX]...) (del/CONTACT_INDEX [,CONTACT_INDEX]...)`<br> e.g. `editmeet 1 d/Casual icebreaker dt/2026-05-01 add/5 del/1` |
-| **List meetings**      | `listmeet`                                                                                                                                                                                          |
-| **Find meetings**      | `findmeet (d/DESCRIPTION) (dt/DATE) (i/CONTACT_INDEX [,CONTACT_INDEX]...)`<br> e.g. `findmeet d/meeting dt/2026 i/1,2,3`                                                                            |
-| **Clear**              | `clear`                                                                                                                                                                                             |
-| **Exit**               | `exit`                                                                                                                                                                                              |
+| **List meetings**      | `listmeet`                                                                                                                                                                                             |
+| **Find meetings**      | `findmeet (d/DESCRIPTION)... (dt/DATE)... (i/CONTACT_INDEX [,CONTACT_INDEX]...)...`<br> e.g. `findmeet d/meeting dt/2026 i/1,2,3`                                                                      |
+| **Clear**              | `clear`                                                                                                                                                                                                |
+| **Exit**               | `exit`                                                                                                                                                                                                 |
 
 [Back to Table of Contents](#table-of-contents)
 
