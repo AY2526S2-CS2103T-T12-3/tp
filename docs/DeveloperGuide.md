@@ -163,7 +163,7 @@ The `CommandHistory` component:
   userDraft = ch.nextCommand(userDraft); // userDraft becomes "draft command".
   ```
 * `CommandHistory` sequence diagram:<br>
-  <img src="images/CommandHistorySequenceDiagram.png" width="300" />
+  <img src="images/CommandHistorySequenceDiagram.png" width="500" />
 
 <div style="page-break-after: always;"></div>
 
@@ -272,6 +272,8 @@ When the command is executed, `AddCommand` invokes `Model#hasPerson(Person)` to 
 A duplicate is defined as a person with the same name, and either the same phone number or the same email as an existing entry.
 
 If the person is not a duplicate, the person is added via `Model#addPerson(Person)` and a `CommandResult` is returned.
+
+Otherwise, a `CommandException` is thrown.
 
 <div style="page-break-after: always;"></div>
 
@@ -938,30 +940,34 @@ Overall, while AB3 provided a strong foundation, the effort required to extend i
    We propose enhancing the `edit` command to allow users to remove an optional phone number or email address, provided that the edited contact still retains at least one valid contact detail.
 
 
-2. **Relax phone number validation to accept common formats**  
-   The current phone number validation is overly restrictive, as it only accepts exactly 8-digit numbers and rejects common formats such as `1234 5678`, `+65 1234 5678`, or `12345678 (HP)`.
+2. **Accept 3-16 digits phone numbers, but provide a warning if it is not exactly 8 digits**<br>
+   The current phone number validation is overly restrictive, as it only accepts exactly 8-digit numbers and rejects common Singapore phone number formats such as `1234 5678`, `+65 1234 5678`, or `12345678(HP)`.
 
-   Although these inputs are valid in real-world usage and do not affect the core functionality of the application, they are currently disallowed, which reduces usability and makes data entry less intuitive.
+   Although these inputs are valid in real-world usage and do not affect the core functionality of the application, they are currently disallowed, which reduces usability and makes data entry less intuitive for users.
 
-   We plan to make the parser more flexible by accepting phone numbers containing alphanumeric characters with lengths ranging from 3 to 16 characters.
+   We propose to make the parser more flexible by accepting all alphanumerical digits from 3 up to 16 characters in length. However, we will warn users if their phone number input does not contain an exact 8 digit number with the following warning:<br>
+   `Phone number detected contains is not exactly 8 digits. Please verify that it is correct.`
 
 
-3. **Warn users when phone number is not exactly 8 digits**  
-   Currently, the application enforces exactly 8-digit phone numbers but does not provide flexibility for valid variations. Even with relaxed validation, users may unintentionally input incorrect numbers without being aware.
+3. **Allow flexible digit lengths for `YY-MM-DD` date input**  
+   The current system only accepts dates strictly in the `YY-MM-DD` format, which can be inconvenient for users who may omit leading zeros. We plan to relax the input constraints to accept variants of this format while preserving the same year-month-day ordering to avoid ambiguity.
 
-   We plan to introduce a warning when the provided phone number does not contain exactly 8 digits. For example:  
-   `Phone number is not exactly 8 digits. Please verify that it is correct.`
+   The following formats will be supported:
+   - `YY-M-D` (e.g., `26-4-5`)
+   - `YY-M-DD` (e.g., `26-4-14`)
+   - `YY-MM-D` (e.g., `26-04-5`)
 
-   This ensures flexibility in input while still guiding users towards expected formats.
+   All accepted formats will be internally normalized and stored as `YY-MM-DD`.
 
+   This enhancement will be implemented using regex-based validation and parsing logic within the `Date` class.
+
+<div style="page-break-after: always;"></div>
 
 4. **Make `edittag` command throw an error when the old and new tags are identical**  
    The current implementation of the `edittag` command does not treat replacing a tag with the same value as an invalid operation. As a result, if the old and new tags are identical (case-sensitive), the command may proceed without making any actual change, which can be misleading to users.
 
-   We plan to introduce validation logic that detects this no-change case and returns the error message:  
+   We plan to introduce validation logic that detects this no-change case and returns the following error message:  
    `The new tag cannot be the same as the existing tag.`
-
-<div style="page-break-after: always;"></div>
 
 5. **Make text displayed on the UI wrap properly for long text**  
    The current UI does not handle exceptionally long text such as names gracefully. When a contact name exceeds the available display width, it may be truncated with an ellipsis (`...`) instead of wrapping across multiple lines.
