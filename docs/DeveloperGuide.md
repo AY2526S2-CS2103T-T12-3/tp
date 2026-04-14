@@ -163,7 +163,7 @@ The `CommandHistory` component:
   userDraft = ch.nextCommand(userDraft); // userDraft becomes "draft command".
   ```
 * `CommandHistory` sequence diagram:<br>
-  <img src="images/CommandHistorySequenceDiagram.png" width="300" />
+  <img src="images/CommandHistorySequenceDiagram.png" width="500" />
 
 <div style="page-break-after: always;"></div>
 
@@ -272,6 +272,8 @@ When the command is executed, `AddCommand` invokes `Model#hasPerson(Person)` to 
 A duplicate is defined as a person with the same name, and either the same phone number or the same email as an existing entry.
 
 If the person is not a duplicate, the person is added via `Model#addPerson(Person)` and a `CommandResult` is returned.
+
+Otherwise, a `CommandException` is thrown.
 
 <div style="page-break-after: always;"></div>
 
