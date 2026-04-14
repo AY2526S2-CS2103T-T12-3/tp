@@ -1092,7 +1092,7 @@ Given below are instructions to test the app manually.
 
 
 5. Try editing without specifying any fields: `edit 1`
-   Expected: Error message indicating that at least one field must be provided.
+   Expected: Error message indicating invalid command format.
 
 ---
 
@@ -1172,7 +1172,7 @@ Given below are instructions to test the app manually.
 
 
 9. Try searching without specifying tags: `findtag`
-   Expected: Error message indicating invalid format.
+   Expected: Error message indicating invalid command format.
 
 ---
 
